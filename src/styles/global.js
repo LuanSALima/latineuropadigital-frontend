@@ -15,6 +15,9 @@ text-decoration: none;
 
 button {
 cursor: pointer;
+border: 0;
+background: none;
+outline: 0 !important;
 }
 html, body, #root {
 min-height: 100%;
@@ -23,7 +26,7 @@ width: 100%;
 body{
     font:14px 'Roboto', sans-serif;
     -webkit-font-font-smoothing: antialiased !important;
-    background:#ecf1f8;
+    background:#fcffff;
     color:#333;
 }
 

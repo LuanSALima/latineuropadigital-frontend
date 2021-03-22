@@ -1,11 +1,15 @@
 import React from 'react';
- import { Container } from './styles';
+import Header from '../../components/Header';
+import { Page, ScreenView } from '../../styles/default';
 
 function Notices() {
   return (
-      <Container>
+      <Page>
+        <Header/>
+        <ScreenView width={"90%"}>
           <h1>Hello Notices</h1>
-      </Container>
+        </ScreenView>
+      </Page>
   );
 }
 
