@@ -12,7 +12,8 @@ export const Page = styled.div`
 `;
 
 const myView = css`
-  width: ${props=>props.width? props.width:"70%"};
+  width: ${props=>props.width? props.width:"75%"};
+  justify-content:${(props)=>props.center?"center":"0"};
   height:auto;
   min-height: 80vh;
   display: flex;
