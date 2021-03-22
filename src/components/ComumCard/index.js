@@ -2,7 +2,7 @@ import React from 'react';
 
  import { Container ,Description} from './styles';
 
-function Card(props) {
+function ComumCard(props) {
   return(
         <Container>
          {props.title?<label>{props.title}</label>:null}
@@ -14,4 +14,4 @@ function Card(props) {
         </Container>
   )
           }
-export default Card;
+export default ComumCard;

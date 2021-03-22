@@ -13,22 +13,22 @@ function Header() {
       <Navbar.Toggle aria-controls="responsive-navbar-nav" />
       <Navbar.Collapse id="responsive-navbar-nav">
         <Nav className="mr-auto">
-          <Link to="/products">
+          <Link to="/noticias">
             <div className="headerLinks">
               <span className="texts">Notícias</span>
             </div>
           </Link>
-          <Link to="/products">
+          <Link to="/celebridades">
             <div className="headerLinks">
               <span className="texts">Celebridades</span>
             </div>
           </Link>
-          <Link to="/products">
+          <Link to="/eventos">
             <div className="headerLinks">
               <span className="texts">Eventos</span>
             </div>
           </Link>
-          <Link to="/products">
+          <Link to="/oportunidades">
             <div className="headerLinks">
               <span className="texts">Oportunidades</span>
             </div>
@@ -41,7 +41,7 @@ function Header() {
               <span className="texts">Login</span>
             </div>
           </Link>
-          <Link to="/register">
+          <Link to="/cadastro">
             <div className="headerLinks">
               <span className="texts">Cadastro</span>
             </div>
