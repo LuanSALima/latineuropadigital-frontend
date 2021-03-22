@@ -8,7 +8,7 @@ function Login() {
   return (
   <Page>
     <Header/>
-    <Form width={"85%"} center>
+    <Form width={"45%"} center>
         <ContentLogin>
           <label>Faça Login na Nossa Plataforma!</label>
           <input placeholder="Insira seu E-mail" type="email"/>

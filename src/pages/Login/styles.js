@@ -10,6 +10,10 @@ export const ContentLogin = styled.div`
      font-size:25px; 
      text-align:center
      }
+     >input{
+         margin-top:2rem !important;
+         width:65% !important;
+     }
      >a{
         color:var(--color-high-blue) !important;
         cursor:pointer;
@@ -19,5 +23,7 @@ export const ContentLogin = styled.div`
      }
      >button{
          margin-top:2rem !important;
+         width:80%;
+         font-size:20px !important;
      }
   `;
