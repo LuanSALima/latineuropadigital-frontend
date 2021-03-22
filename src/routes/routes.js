@@ -1,6 +1,7 @@
 import React from 'react';
 import { Route, Router, Switch } from 'react-router';
 import Notices from '../pages/Notices';
+import NotFound from '../pages/NotFound';
 import history from '../services/history/history';
 
 // import { Container } from './styles';
@@ -8,7 +9,8 @@ import history from '../services/history/history';
 function Routes() {
   return <Router history={history}>
       <Switch>
-            <Route path={"/"} component={Notices}></Route>
+            <Route path="/" exact component={Notices} />
+            <Route path="*" component={NotFound}/>
       </Switch>
   </Router>;
 }
