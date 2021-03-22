@@ -1,44 +1,32 @@
 import { createGlobalStyle } from "styled-components";
 
 export const GlobalStyles = createGlobalStyle`
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
 * {
-margin: 0;
-padding: 0;
-box-sizing: border-box;
-font-size:var(--font-size-text);
-font-weight:var(--font-weigth-text);
-  background-color:black;
+margin:0;
+padding:0;
+outline:0;
+box-sizing:border-box;
 
 }
 a {
 text-decoration: none;
 }
-input {
-border: 1.5px solid var(--color-blackPurple) !important;
-transition:border 0.3s ease;
-    transition:box-shadow 0.2s ease;
-    :focus{
-      border:1.5px solid var(--color-soft-blue) !important;
-      box-shadow: 0px 0px 2.5px 0.7px  var(--color-high-green);
-}
-}
+
 button {
 cursor: pointer;
 }
 html, body, #root {
-font-size: 14px;
 min-height: 100%;
 width: 100%;
--webkit-font-font-smoothing: antialiased !important;
-font-family: -apple-system, system-ui, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Ubuntu, Arial, sans-serif;
+}
+body{
+    font:14px 'Roboto', sans-serif;
+    -webkit-font-font-smoothing: antialiased !important;
+    background:#ecf1f8;
+    color:#333;
+}
 
-}
-*, button, input {
-border: 0;
-background: none;
-outline: 0 !important;
-font-family: -apple-system, system-ui, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Ubuntu, Arial, sans-serif;
-}
 :root {
     --color-input: #ccc;
     --color-primary: #fff;
@@ -52,8 +40,6 @@ font-family: -apple-system, system-ui, BlinkMacSystemFont, 'Segoe UI', Roboto, '
     --bg-btn: #204f96;
     --bg-btn-hover: #0b50b8;
     --color-bestBlue:#4287f5;
-
-
 
   --color-background: #121214;
   --color-soft-green: #3dad66;
