@@ -91,4 +91,11 @@ body{
   --font-size-between:21px;
   --font-weight-title: 700;
   --font-size-title: 28px;
+
+
+  //Freelance color wireframe
+
+  --color-freela-pink:#eb0069;
+  --color-freela-white:#eeeeee;
+  --color-freela-text:#1b1b1b;
 }`;
