@@ -52,7 +52,7 @@ function Register() {
     <Header/>
     <Form width={"45%"} center>
 		<ContentView>
-        <label>Register page!</label>
+        <label>Cadastre-se na Nossa Plataforma!</label>
 
         <h5 style={{color: 'red'}}>{errors.message}</h5>
         

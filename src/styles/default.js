@@ -60,7 +60,7 @@ const myView = css`
   display: flex;
   margin: 0 auto;
   flex-direction: column;
-  margin-top:85px;
+  margin-top:45px;
   padding: 1rem 1rem 3rem 1rem;
   
   background-color:#fff;
