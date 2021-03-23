@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const Container = styled.div`
-background-color:#2e2e2e;
+background-color:var(--color-freela-white);
 text-align:center;
 display:flex;
 flex-direction:column;
@@ -9,7 +9,7 @@ height:auto;
 padding:1rem;
 >label{
   padding:1rem;
-  color:white;
+  color:var(--color-freela-text);
   font-size:25px;
 
 }
@@ -28,7 +28,7 @@ export const Description = styled.div`
     >span{
         font-size:18px;
         width:95% ;
-        color:white;
+        color:var(--color-freela-text);
         padding:1rem;
         overflow-wrap:break-word;
         margin:0 auto;

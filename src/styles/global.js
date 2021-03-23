@@ -8,7 +8,6 @@ padding:0;
 outline:0;
 box-sizing:border-box;
 
-
 }
 a {
 text-decoration: none;
@@ -91,4 +90,13 @@ body{
   --font-size-between:21px;
   --font-weight-title: 700;
   --font-size-title: 28px;
+
+
+  //Freelance color wireframe
+
+  --color-freela-pink:#eb0069;
+  --color-freela-white:#eeeeee;
+  --color-freela-hover:#e3e1e1;
+  --color-freela-highPink:#c40259;
+  --color-freela-text:#1b1b1b;
 }`;

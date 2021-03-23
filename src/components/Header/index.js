@@ -1,7 +1,7 @@
 import React from 'react';
 import { Nav, Navbar, NavDropdown } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-
+import icon from '../../assets/icon.svg'
 import './styles.css';
 
 import { isAuthenticated, getUser } from "../../services/auth";
@@ -10,29 +10,29 @@ function Header() {
   return (
     <Navbar collapseOnSelect className="headerStyles" expand="lg">
       <Link to="/">
-      <Navbar.Brand className="headerTitle texts">LatineuroPadigital</Navbar.Brand>
+      <Navbar.Brand className="headerTitle "><img src={icon}/></Navbar.Brand>
       </Link>
       <Navbar.Toggle aria-controls="responsive-navbar-nav" />
       <Navbar.Collapse id="responsive-navbar-nav">
         <Nav className="mr-auto">
           <Link to="/noticias">
             <div className="headerLinks">
-              <span className="texts">Notícias</span>
+              <span className="texts">NOTICIAS</span>
             </div>
           </Link>
           <Link to="/celebridades">
             <div className="headerLinks">
-              <span className="texts">Celebridades</span>
+              <span className="texts">EVENTOS</span>
             </div>
           </Link>
           <Link to="/eventos">
             <div className="headerLinks">
-              <span className="texts">Eventos</span>
+              <span className="texts">AGENDA</span>
             </div>
           </Link>
           <Link to="/oportunidades">
             <div className="headerLinks">
-              <span className="texts">Oportunidades</span>
+              <span className="texts">OPORTUNIDADE</span>
             </div>
           </Link>
           
@@ -55,12 +55,12 @@ function Header() {
         <Nav>
           <Link to="/login">
             <div className="headerLinks">
-              <span className="texts">Login</span>
+              <span className="texts">LOGIN</span>
             </div>
           </Link>
           <Link to="/cadastro">
             <div className="headerLinks">
-              <span className="texts">Cadastro</span>
+              <span className="texts">CADASTRO</span>
             </div>
           </Link>
         </Nav>
