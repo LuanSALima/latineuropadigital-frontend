@@ -1,8 +1,10 @@
 import React from 'react';
-import { Nav, Navbar } from 'react-bootstrap';
+import { Nav, Navbar, NavDropdown } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
 import './styles.css';
+
+import { isAuthenticated, getUser } from "../../services/auth";
 
 function Header() {
   return (
@@ -35,6 +37,21 @@ function Header() {
           </Link>
           
         </Nav>
+        {isAuthenticated()
+        ?
+        <Nav>
+          <NavDropdown className="headerLinks texts" title={getUser() ? getUser().username : "Missing Username"} id="collasible-nav-dropdown">
+            <Link to="/cadastrar-job" className="dropdown-item">Cadastrar Job</Link>
+            <Link to="/alterar-senha" className="dropdown-item">Alterar Senha</Link>
+          </NavDropdown>
+
+          <Link to="/logout">
+            <div className="headerLinks">
+              <span className="texts">Logout</span>
+            </div>
+          </Link>
+        </Nav>
+        :
         <Nav>
           <Link to="/login">
             <div className="headerLinks">
@@ -47,6 +64,8 @@ function Header() {
             </div>
           </Link>
         </Nav>
+        }
+        
       </Navbar.Collapse>
     </Navbar>
   );
