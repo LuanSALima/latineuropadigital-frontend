@@ -42,7 +42,7 @@ function Header() {
         <Nav>
           <NavDropdown className="headerLinks texts" title={getUser() ? getUser().username : "Missing Username"} id="collasible-nav-dropdown">
             <Link to="/cadastrar-job" className="dropdown-item">Cadastrar Job</Link>
-            <Link to="/alterar-senha" className="dropdown-item">Alterar Senha</Link>
+            <Link to="/teste" className="dropdown-item">Outro Link</Link>
           </NavDropdown>
 
           <Link to="/logout">

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 import Header from '../../components/Header';
-import { AppButton, Form, Page } from '../../styles/default';
+import { AppButton, ContentView, Form, Page } from '../../styles/default';
 
 import api from '../../services/api';
 
@@ -43,31 +43,33 @@ function RegisterJob() {
   <Page>
     <Header/>
     <Form width={"45%"} center>
-      <label>Cadastre seu Serviço Freelancer !</label>
+      <ContentView>
+        <label>Cadastre seu Serviço Freelancer !</label>
 
-      <label style={{color: 'red'}}>{errors.message}</label>
+        <label style={{color: 'red'}}>{errors.message}</label>
 
-      <input
-        placeholder="Insira o Título"
-        type="text"
-        onChange={(e) => {
-          setTitle(e.target.value);
-        }}
-        value={title}
-      />
-      <span style={{color: 'red'}}>{errors.title}</span>
+        <input
+          placeholder="Insira o Título"
+          type="text"
+          onChange={(e) => {
+            setTitle(e.target.value);
+          }}
+          value={title}
+        />
+        <span style={{color: 'red'}}>{errors.title}</span>
 
-      <input
-        placeholder="Insira a Descrição"
-        type="texta"
-         onChange={(e) => {
-          setDescription(e.target.value);
-        }}
-        value={description}
-      />
-      <span style={{color: 'red'}}>{errors.description}</span>
-      <br></br>
-      <AppButton onClick={handleJobRegister}>{buttonText}</AppButton>
+        <input
+          placeholder="Insira a Descrição"
+          type="texta"
+           onChange={(e) => {
+            setDescription(e.target.value);
+          }}
+          value={description}
+        />
+        <span style={{color: 'red'}}>{errors.description}</span>
+        <br></br>
+        <AppButton onClick={handleJobRegister}>{buttonText}</AppButton>
+      </ContentView>
     </Form>
   </Page>);
 }
