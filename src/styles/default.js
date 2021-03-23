@@ -10,7 +10,19 @@ export const Page = styled.div`
   background-size: cover; /* Resize the background image to cover the entire container */
   background-color: #edf4f5;
 `;
+  export const FeatureContent = styled.div`
+  width:fit-content;
+  margin-top:1rem;
+  font-size:23px;
+  text-transform:uppercase;
+  font-style:bold;
+  color:var(--color-freela-white);
+  text-align:left;
+  background-color:var(--color-freela-pink);
+  display:flex;
+  padding:0.5rem 6rem 0.5rem 1rem !important;
 
+`;
 const myView = css`
   width: ${props=>props.width? props.width:"75%"};
   justify-content:${(props)=>props.center?"center":"0"};
@@ -19,7 +31,7 @@ const myView = css`
   display: flex;
   margin: 0 auto;
   flex-direction: column;
-  margin-top:100px;
+  margin-top:85px;
   padding: 1rem 1rem 3rem 1rem;
   
   background-color:#fff;
