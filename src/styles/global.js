@@ -97,5 +97,7 @@ body{
 
   --color-freela-pink:#eb0069;
   --color-freela-white:#eeeeee;
+  --color-freela-hover:#e3e1e1;
+  --color-freela-highPink:#c40259;
   --color-freela-text:#1b1b1b;
 }`;

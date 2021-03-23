@@ -47,7 +47,7 @@
   border-radius: 0.3rem;
 }
 .headerLinks:hover {
-  background-color: #333333;
+  background-color: var(--color-freela-hover);
 }
 @media (max-width: 995px) {
   .headerStyles {

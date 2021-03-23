@@ -19,11 +19,11 @@ const myView = css`
   display: flex;
   margin: 0 auto;
   flex-direction: column;
-  margin-top:1rem;
+  margin-top:100px;
   padding: 1rem 1rem 3rem 1rem;
   
-  background-color: var(--color-primary);
-  border-radius: 0.5rem;
+  background-color:#fff;
+  border-radius: 0.3rem;
   min-height: 80vh;
   > label {
     padding: 1rem;
@@ -52,6 +52,19 @@ const myView = css`
       color: black;
       margin-top: 1rem;
       border: 1px solid black;
+    }
+  }
+  @media (max-width: 995px) {
+    width:95% !important;
+    margin-top :10px;
+    >div{
+      >label{
+      font-size:22px !important;
+    }
+      >input{
+        width:90% !important;
+        height: 45px !important;
+      }
     }
   }
 `;
@@ -116,7 +129,7 @@ export const AppButton = styled.button`
       ? "var(--color-soft-red)"
       : props.type === "warning"
       ? "var(--color-soft-yellow)"
-      : "var(--color-soft-blue)"};
+      : "var(--color-freela-pink)"};
   border-color: transparent !important;
   color: var(--color-white) !important;
   cursor: pointer;
@@ -130,7 +143,7 @@ export const AppButton = styled.button`
         ? "var(--color-high-red)"
         : props.type === "warning"
         ? "var(--color-high-yellow)"
-        : "var(--color-high-blue)"};
+        : "var(--color-freela-highPink)"};
   }
 `;
 export const Outline_Button = styled.button`
