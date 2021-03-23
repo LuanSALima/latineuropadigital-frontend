@@ -2,8 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import Header from '../../components/Header';
-import { AppButton, Form, Page } from '../../styles/default';
-import { ContentLogin } from './styles';
+import { AppButton, ContentView, Form, Page } from '../../styles/default';
 
 import api from '../../services/api';
 import { login } from '../../services/auth';
@@ -47,7 +46,7 @@ function Login() {
   <Page>
     <Header/>
     <Form width={"45%"} center>
-        <ContentLogin>
+        <ContentView>
           
           <label>Faça Login na Nossa Plataforma!</label>
 
@@ -78,7 +77,7 @@ function Login() {
           </Link>
           <br></br>
           <AppButton onClick={handleLoginSubmit}>{buttonText}</AppButton>
-        </ContentLogin>
+        </ContentView>
     </Form>
   </Page>);
 }

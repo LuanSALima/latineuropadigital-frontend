@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
-// import { Container } from './styles';
 import Header from '../../components/Header';
-import { AppButton, Form, Page } from '../../styles/default';
+import { AppButton, ContentView, Form, Page } from '../../styles/default';
 
 import api from '../../services/api';
 
@@ -52,7 +51,8 @@ function Register() {
   return(  <Page>
     <Header/>
     <Form width={"45%"} center>
-        <h1>Register page!</h1>
+		<ContentView>
+        <label>Register page!</label>
 
         <h5 style={{color: 'red'}}>{errors.message}</h5>
         
@@ -110,7 +110,9 @@ function Register() {
 		</Link>
 		<br></br>
 		<AppButton onClick={handleRegisterSubmit}>{buttonText}</AppButton>
-    </Form>
+		</ContentView>
+    
+	</Form>
   </Page>);
 }
 

@@ -10,6 +10,35 @@ export const Page = styled.div`
   background-size: cover; /* Resize the background image to cover the entire container */
   background-color: #edf4f5;
 `;
+
+export const ContentView = styled.div`
+  margin: 0 auto;
+      display:flex;
+      flex-direction:column;
+      width: 100%;
+
+    >label{
+     font-size:25px; 
+     text-align:center
+     }
+     >input{
+         margin-top:1rem !important;
+         width:65% !important;
+         height:45px !important;
+     }
+     >a{
+        color:var(--color-high-blue) !important;
+        cursor:pointer;
+        text-align:center;
+        margin-top:1rem;
+        padding:1rem 0rem 1rem 0rem;
+     }
+     >button{
+         margin-top:2rem !important;
+         width:80%;
+         font-size:20px !important;
+     }`
+
   export const FeatureContent = styled.div`
   width:fit-content;
   margin-top:1rem;
