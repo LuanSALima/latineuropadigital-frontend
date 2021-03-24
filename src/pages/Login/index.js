@@ -47,7 +47,6 @@ function Login() {
     <Header/>
     <Form width={"45%"} center>
         <ContentView>
-          
           <label>Faça Login na Nossa Plataforma!</label>
 
           <label style={{color: 'red'}}>{errors.message}</label>
