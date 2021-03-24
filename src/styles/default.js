@@ -52,6 +52,18 @@ export const ContentView = styled.div`
   padding:0.5rem 6rem 0.5rem 1rem !important;
 
 `;
+  export const LittleFeatureContent = styled.div`
+  width:fit-content;
+  font-size:17px;
+  display:flex;
+  margin-top:5px !important;
+  font-style:bold;
+  color:var(--color-freela-white);
+  background-color:var(--color-freela-text);
+  display:flex;
+  padding:0.3rem 8rem 0.3rem 4rem !important;
+  justify-content:center;
+`;
 const myView = css`
   width: ${props=>props.width? props.width:"75%"};
   justify-content:${(props)=>props.center?"center":"0"};

@@ -1,7 +1,7 @@
 import React, {  useState } from 'react';
 import Header from '../../components/Header';
 import NoticesCard from '../../components/NoticesCard';
-import { FeatureContent, Page, ScreenView } from '../../styles/default';
+import { FeatureContent, LittleFeatureContent, Page, ScreenView } from '../../styles/default';
 import imgTest from '../../assets/icon.svg';
 import { Banner, MyView,GetContent } from './styles';
 import Footer from '../../components/Footer';
@@ -28,6 +28,12 @@ function Notices() {
             <FeatureContent>
         <b>TU Oportunidad!</b>
          </FeatureContent>
+         <LittleFeatureContent>
+           <span>Conectamos Latinos na Europa</span>
+         </LittleFeatureContent>
+         <LittleFeatureContent>
+           <span>Com Toda a America Latina</span>
+         </LittleFeatureContent>
           </Banner>
          
          </MyView>
