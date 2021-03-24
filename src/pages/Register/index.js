@@ -15,15 +15,16 @@ function Register() {
 	const [phone, setPhone] = useState("");
 	const [password, setPassword] = useState("");
 	const [confirmPassword, setConfirmPassword] = useState("");
+	const [professional, setProfessional] = useState(false);
 	const [errors, setErrors] = useState({});
 
 	const handleRegisterSubmit = async (e) => {
 		e.preventDefault();
 		setButtonText("Enviando Dados ...");
-
+		
 		if(password === confirmPassword) {
 			try {
-				const response = await api.post("/auth/signup", {username, email, password, phone});
+				const response = await api.post("/auth/signup", {username, email, password, phone, professional});
 
 				console.log(response.data);
 				setButtonText("Cadastrado com Sucesso");
@@ -46,6 +47,7 @@ function Register() {
 		} else {
 			setErrors({confirmPassword: "As senhas não coincidem"});
 		}
+		
 	};
 
   return(  <Page>
@@ -104,6 +106,14 @@ function Register() {
 			value={confirmPassword}
 		/>
 		<span style={{color: 'red'}}>{errors.confirmPassword}</span>
+
+		<input
+			type="checkbox"
+			onChange={(e) => {
+				setProfessional(!professional);
+			}}
+		/>
+		<label>Conta Profissional ?</label>
 
 		<Link to="/login">
 			Já possui uma Conta? Faça Login Clicando Aqui!!

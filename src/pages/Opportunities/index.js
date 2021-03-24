@@ -42,8 +42,6 @@ function Opportunities(props) {
         setErrors({message: "Não foi possível encontrar este Job"});
         console.log(error.response.data);
       }
-
-      console.log(jobs);
     }
     listJobs();
 

@@ -60,7 +60,7 @@ function RegisterJob() {
 
         <input
           placeholder="Insira a Descrição"
-          type="texta"
+          type="text"
            onChange={(e) => {
             setDescription(e.target.value);
           }}

@@ -1,6 +1,20 @@
 export const TOKEN_KEY = "@nodePortifolio-Token";
 export const USER_KEY = "@nodePortifolio-User";
 export const isAuthenticated = () => localStorage.getItem(TOKEN_KEY) !== null;
+export const isAdmin = () => {
+	if(getUser()) {
+		if(getUser().role === "Admin") {
+			return true;
+		}
+	}
+}
+export const isProfessional = () => {
+	if(getUser()) {
+		if(getUser().role === "User" && getUser().isProfessional === "true") {
+			return true;	
+		}
+	}
+}
 export const getToken = () => localStorage.getItem(TOKEN_KEY);
 export const getUser = () => JSON.parse(localStorage.getItem(USER_KEY));
 

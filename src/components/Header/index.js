@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import icon from '../../assets/icon.svg'
 import './styles.css';
 
-import { isAuthenticated, getUser } from "../../services/auth";
+import { isAuthenticated, isAdmin, getUser } from "../../services/auth";
 
 function Header() {
   return (
@@ -15,11 +15,20 @@ function Header() {
       <Navbar.Toggle aria-controls="responsive-navbar-nav" />
       <Navbar.Collapse id="responsive-navbar-nav">
         <Nav className="mr-auto">
-          <Link to="/noticias">
+        {isAdmin()
+        ?
+        <NavDropdown className="headerLinks texts" title="NOTICIAS" id="collasible-nav-dropdown">
+          <Link to="/noticias" className="dropdown-item">Listar Noticias</Link>
+          <Link to="/criar-post" className="dropdown-item">Criar Post</Link>
+        </NavDropdown>
+        :
+        <Link to="/noticias">
             <div className="headerLinks">
               <span className="texts">NOTICIAS</span>
             </div>
           </Link>
+        }
+          
           <Link to="/celebridades">
             <div className="headerLinks">
               <span className="texts">EVENTOS</span>

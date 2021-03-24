@@ -5,7 +5,6 @@ export const Container = styled.div`
   width:325px;
   padding:0 !important;
   cursor:pointer;
-
 `;
 export const Image = styled.div`
     width:100%;
