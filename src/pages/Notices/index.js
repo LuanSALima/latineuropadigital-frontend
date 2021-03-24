@@ -5,9 +5,35 @@ import { FeatureContent, LittleFeatureContent, Page, ScreenView } from '../../st
 import imgTest from '../../assets/icon.svg';
 import { Banner, MyView,GetContent } from './styles';
 import Footer from '../../components/Footer';
+import HorizonScrollView from "../../components/HorizonScrollView"
 function Notices() {
   //Card content
   const [myCard,setMyCard] = useState([{
+    title:"LatiN Europa Digital Vem com Tudo!".substr(0,18),
+    text:"Latin Europa Digital vem fazendo Juz ao Nome! com seu Criador Oficcial, Alexandre, Conectou Continentes!".substr(0,75),
+    image:imgTest,
+    icon:imgTest,
+  },{
+    title:"LatiN Europa Digital Vem com Tudo!".substr(0,18),
+    text:"Latin Europa Digital vem fazendo Juz ao Nome! com seu Criador Oficcial, Alexandre, Conectou Continentes!".substr(0,75),
+    image:imgTest,
+    icon:imgTest,
+  },{
+    title:"LatiN Europa Digital Vem com Tudo!".substr(0,18),
+    text:"Latin Europa Digital vem fazendo Juz ao Nome! com seu Criador Oficcial, Alexandre, Conectou Continentes!".substr(0,75),
+    image:imgTest,
+    icon:imgTest,
+  },{
+    title:"LatiN Europa Digital Vem com Tudo!".substr(0,18),
+    text:"Latin Europa Digital vem fazendo Juz ao Nome! com seu Criador Oficcial, Alexandre, Conectou Continentes!".substr(0,75),
+    image:imgTest,
+    icon:imgTest,
+  },{
+    title:"LatiN Europa Digital Vem com Tudo!".substr(0,18),
+    text:"Latin Europa Digital vem fazendo Juz ao Nome! com seu Criador Oficcial, Alexandre, Conectou Continentes!".substr(0,75),
+    image:imgTest,
+    icon:imgTest,
+  },{
     title:"LatiN Europa Digital Vem com Tudo!".substr(0,18),
     text:"Latin Europa Digital vem fazendo Juz ao Nome! com seu Criador Oficcial, Alexandre, Conectou Continentes!".substr(0,75),
     image:imgTest,
@@ -38,10 +64,12 @@ function Notices() {
          
          </MyView>
         <br></br>
-         <ScreenView>
+         <ScreenView width="95%">
+        <HorizonScrollView>
         {myCard.map((content)=>(
           <NoticesCard icon={content.icon} image={content.image} title={content.title.length >= 18?content.title+"..":content.title}text={content.text.length >= 75 ? content.text+"..":content.text} />
         ))}
+        </HorizonScrollView>
          </ScreenView>
           <Footer/>
       </Page>
