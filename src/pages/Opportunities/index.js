@@ -40,7 +40,13 @@ function Opportunities(props) {
         }
       } catch (error) {
         setErrors({message: "Não foi possível carregar as Oportunidades"});
-        console.log(error.response.data);
+        if(error.response) {
+          if(error.response.data) {
+            if(error.response.data.message) {
+              setErrors({message: error.response.data.message});
+            }
+          }
+        }
       }
     }
     listJobs();

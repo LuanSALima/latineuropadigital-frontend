@@ -10,6 +10,7 @@ import RegisterJob from '../pages/RegisterJob';
 import EditJob from '../pages/EditJob';
 import NoticeRegister from '../pages/NoticeRegister';
 import NoticesList from '../pages/NoticesList';
+import NoticesDetails from '../pages/NoticesDetails';
 
 // import { Container } from './styles';
 
@@ -61,6 +62,7 @@ function Routes() {
             <Route path="/cadastro"  component={Register} />
             <Route path="/oportunidades" exact component={Opportunities} />
             <Route path="/noticias" exact component={NoticesList} />
+            <Route path="/noticia/:id" exact component={NoticesDetails} />
             <Route path="/" exact component={Notices} />
             
             <PrivateRoute path="/dashboard" component={() => <h1>Página protegida por Token</h1>} />

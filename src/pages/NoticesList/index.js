@@ -37,7 +37,7 @@ function NoticesList() {
             var postsDb = [];
             for(let index in response.data.posts) {
               const post = response.data.posts[index];
-              postsDb.push({title: post.title, description: post.description, image: `${process.env.REACT_APP_API_URL}`+post.imagePath, icon: imgTest});
+              postsDb.push({id: post._id, title: post.title, description: post.description, image: `${process.env.REACT_APP_API_URL}`+post.imagePath, icon: imgTest});
             }
             setPosts(postsDb);
           }
@@ -66,7 +66,7 @@ function NoticesList() {
         <h2 style={{color: 'red'}}>{errors.message}</h2>
 
         {posts.map((content)=>(
-          <NoticesCard icon={content.icon} image={content.image} title={content.title.length >= 18?content.title+"..":content.title}text={content.description.length >= 75 ? content.description+"..":content.description} />
+          <NoticesCard id={content.id} icon={content.icon} image={content.image} title={content.title.length >= 18?content.title+"..":content.title}text={content.description.length >= 75 ? content.description+"..":content.description} />
         ))}
         
         </ScreenView>
