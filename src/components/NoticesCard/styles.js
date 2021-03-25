@@ -35,6 +35,7 @@ margin-top:5px;
     text-transform:uppercase;
     font-weight:650;
     padding:0.2rem;
+    color: var(--color-freela-text);
     overflow-wrap:break-word;
 
 }
@@ -45,6 +46,7 @@ export const Description = styled.div`
     font-size:18px;
     padding:0.2rem;
     overflow-wrap:break-word;
+    color: var(--color-freela-text);
 
     }
 `;
