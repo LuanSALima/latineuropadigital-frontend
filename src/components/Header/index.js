@@ -15,19 +15,13 @@ function Header() {
       <Navbar.Toggle aria-controls="responsive-navbar-nav" />
       <Navbar.Collapse id="responsive-navbar-nav">
         <Nav className="mr-auto">
-        {isAdmin()
-        ?
-        <NavDropdown className="headerLinks texts" title="NOTICIAS" id="collasible-nav-dropdown">
-          <Link to="/noticias" className="dropdown-item">Listar Noticias</Link>
-          <Link to="/criar-post" className="dropdown-item">Criar Post</Link>
-        </NavDropdown>
-        :
+      
         <Link to="/noticias">
             <div className="headerLinks">
               <span className="texts">ACTUALIDAD</span>
             </div>
           </Link>
-        }
+      
           
           <Link to="/diretorio">
             <div className="headerLinks">
@@ -51,13 +45,32 @@ function Header() {
           </Link>
           
         </Nav>
-        {isAuthenticated()
-        ?
+
+      
+       
+
+        {isAuthenticated() ?
         <Nav>
+
+          <NavDropdown className="headerLinks texts" title={"Anunciar/Editar"}>
+            <Link to="/criar-post" className="dropdown-item"> Anunciar Noticias</Link>
+            <Link to="/teste" className="dropdown-item">Anunciar Directorio</Link>
+            <Link to="/teste" className="dropdown-item"> Anunciar Evento</Link>
+            <Link to="/teste" className="dropdown-item">Anunciar Educación</Link>
+            <Link to="/cadastrar-job" className="dropdown-item">Anunciar Oportunidad</Link>
+            <hr></hr>
+            <Link to="/teste" className="dropdown-item">Para Editar Noticias</Link>
+            <Link to="/teste" className="dropdown-item">Para Editar Directorio</Link>
+            <Link to="/teste" className="dropdown-item">Para Editar Evento</Link>
+            <Link to="/teste" className="dropdown-item">Para Editar Educación</Link>
+            <Link to="/teste" className="dropdown-item">Para Editar Oportunidad</Link>
+          </NavDropdown>
+
           <NavDropdown className="headerLinks texts" title={getUser() ? getUser().username : "Missing Username"} id="collasible-nav-dropdown">
             <Link to="/cadastrar-job" className="dropdown-item">Cadastrar Job</Link>
             <Link to="/teste" className="dropdown-item">Outro Link</Link>
           </NavDropdown>
+
 
           <Link to="/logout">
             <div className="headerLinks">
@@ -65,21 +78,17 @@ function Header() {
             </div>
           </Link>
         </Nav>
-        :
+        : 
         <Nav>
-          <Link to="/login">
-            <div className="headerLinks">
-              <span className="texts">INICIAR SECCÍON</span>
-            </div>
-          </Link>
-          <Link to="/cadastro">
-            <div className="headerLinks">
-              <span className="texts">ANUNCIAR</span>
-            </div>
-          </Link>
-        </Nav>
+        <Link to="/cadastro">
+          <div className="headerLinks">
+            <span className="texts">ANUNCIAR</span>
+          </div>
+        </Link>
+      </Nav>
+  
         }
-        
+          
       </Navbar.Collapse>
     </Navbar>
   );
