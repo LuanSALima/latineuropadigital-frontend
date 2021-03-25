@@ -55,10 +55,10 @@ function Notices() {
         <b>TU Oportunidad!</b>
          </FeatureContent>
          <LittleFeatureContent>
-           <span>Conectamos Latinos na Europa</span>
+           <span>Conectamos a Latinos en Europa</span>
          </LittleFeatureContent>
          <LittleFeatureContent>
-           <span>Com Toda a America Latina</span>
+           <span>Con Toda a America Latina</span>
          </LittleFeatureContent>
           </Banner>
          

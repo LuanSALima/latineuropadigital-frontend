@@ -24,24 +24,29 @@ function Header() {
         :
         <Link to="/noticias">
             <div className="headerLinks">
-              <span className="texts">NOTICIAS</span>
+              <span className="texts">ACTUALIDAD</span>
             </div>
           </Link>
         }
           
-          <Link to="/celebridades">
+          <Link to="/diretorio">
             <div className="headerLinks">
-              <span className="texts">EVENTOS</span>
+              <span className="texts">DIRECTORIO</span>
             </div>
           </Link>
-          <Link to="/eventos">
+          <Link to="/agenda">
             <div className="headerLinks">
               <span className="texts">AGENDA</span>
             </div>
           </Link>
+          <Link to="/educacao">
+            <div className="headerLinks">
+              <span className="texts">EDUCACIÓN</span>
+            </div>
+          </Link>
           <Link to="/oportunidades">
             <div className="headerLinks">
-              <span className="texts">OPORTUNIDADE</span>
+              <span className="texts">OPORTUNIDADES</span>
             </div>
           </Link>
           
@@ -64,12 +69,12 @@ function Header() {
         <Nav>
           <Link to="/login">
             <div className="headerLinks">
-              <span className="texts">LOGIN</span>
+              <span className="texts">INICIAR SECCÍON</span>
             </div>
           </Link>
           <Link to="/cadastro">
             <div className="headerLinks">
-              <span className="texts">CADASTRO</span>
+              <span className="texts">ANUNCIAR</span>
             </div>
           </Link>
         </Nav>
