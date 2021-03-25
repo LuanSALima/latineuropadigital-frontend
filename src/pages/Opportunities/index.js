@@ -39,7 +39,7 @@ function Opportunities(props) {
           }
         }
       } catch (error) {
-        setErrors({message: "Não foi possível encontrar este Job"});
+        setErrors({message: "Não foi possível carregar as Oportunidades"});
         console.log(error.response.data);
       }
     }

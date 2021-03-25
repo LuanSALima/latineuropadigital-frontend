@@ -37,14 +37,19 @@ function NoticesList() {
             var postsDb = [];
             for(let index in response.data.posts) {
               const post = response.data.posts[index];
-              postsDb.push({title: post.title, description: post.description, image: imgTest, icon: imgTest});
+              postsDb.push({title: post.title, description: post.description, image: `${process.env.REACT_APP_API_URL}`+post.imagePath, icon: imgTest});
             }
             setPosts(postsDb);
           }
         }
       } catch (error) {
-        setErrors({message: "Não foi carregar os Posts"});
-        console.log(error.response.data);
+        if(error.response) {
+          if(error.response.data) {
+            if(error.response.data.message) {
+              setErrors({message: error.response.data.message});
+            }
+          }
+        }
       }
     }
     listPosts();

@@ -17,10 +17,12 @@ function NoticeRegister() {
 
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
+  const [image, setImage] = useState('');
   const [tag, setTag] = useState("");
   const [tags, setTags] = useState([]);
   const [dbTags, setDbTags] = useState([]);
   const [errors, setErrors] = useState({});
+  const [progress, setProgess] = useState(0); // progess bar
 
   const addTag = (e) => {
     e.preventDefault();
@@ -45,8 +47,13 @@ function NoticeRegister() {
           }
         }
       } catch (error) {
-        setErrors({message: "Não foi possível encontrar as Tags"});
-        console.log(error.response.data);
+        if(error.response) {
+          if(error.response.data) {
+            if(error.response.data.message) {
+              setErrors({dbTags: error.response.data.message});
+            }
+          }
+        }
       }
     }
     listTags();
@@ -56,27 +63,46 @@ function NoticeRegister() {
   const handleNoticeRegister = async (e) => {
     e.preventDefault();
     setButtonText("Enviando Dados ...");
-
+    
+    const formData = new FormData();
+    formData.append('title', title);
+    formData.append('description', description);
+    formData.append('image', image);
+    tags.map((tag) => {
+      formData.append('tags', tag);
+    })
+    
     try {
-      const response = await api.post("/post/create", {title, description, tags});
+      
+      const response = await api.post("/post/create", formData, {
+        onUploadProgress: (ProgressEvent) => {
+          let progress = Math.round(ProgressEvent.loaded / ProgressEvent.total * 100) + '%';
+          setProgess(progress);
+        }
+      });
+      
+      //const response = await api.post("/post/create", {title, description, tags});
       console.log(response.data);
       setButtonText("Cadastrado com Sucesso");
     } catch (error) {
       setButtonText("Tente Novamente");
-
-      if(error.response.data) {
-        //Dados retornados do backend
-        if(error.response.data.errors) {
-          setErrors(error.response.data.errors);
+      if(error.response) {
+        if(error.response.data) {
+          //Dados retornados do backend
+          if(error.response.data.errors) {
+            setErrors(error.response.data.errors);
+          }
+          if(error.response.data.message) {
+            setErrors({message: error.response.data.message});
+          }
+        } else {
+          //Não houve dados retornados do backend
+          alert("Erro Inesperado!");
         }
-        if(error.response.data.message) {
-          setErrors({message: error.response.data.message});
-        }
-      } else {
-        //Não houve dados retornados do backend
-        alert("Erro Inesperado!");
+        console.log(errors);
       }
     }
+
   };
 
   return (
@@ -108,6 +134,14 @@ function NoticeRegister() {
         />
         <span style={{color: 'red'}}>{errors.description}</span>
 
+        <input
+          type="file"
+          onChange={(e) => {
+            setImage(e.target.files[0]);
+          }}
+        />
+        <span style={{color: 'red'}}>{errors.imagePath}</span>
+
         <h6 style={{margin: '10px auto'}}>Tags:</h6>
         {tags.map((currentTag)=>(
           <Tag tag={currentTag} />
@@ -118,6 +152,7 @@ function NoticeRegister() {
           <option>{currentTag}</option>
         ))}
         </select>
+        <span style={{color: 'red'}}>{errors.dbTags}</span>
 
         <input
           placeholder="Insira as Tags"
@@ -130,6 +165,9 @@ function NoticeRegister() {
         <button onClick={addTag}>Adicionar Tag</button>
         <span style={{color: 'red'}}>{errors.tags}</span>
 
+        <div style={{ width: progress, backgroundColor: 'blue', color: 'white' }}>
+           {progress}
+        </div>
         <br></br>
         <AppButton onClick={handleNoticeRegister}>{buttonText}</AppButton>
       </ContentView>
