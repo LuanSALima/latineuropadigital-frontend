@@ -9,6 +9,8 @@ function RegisterJob() {
 
   const [buttonText, setButtonText] = useState("Cadastrar");
 
+  const [professionalName, setProfessionalName] = useState("");
+  const [professionalContact, setProfessionalContact] = useState("");
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [errors, setErrors] = useState({});
@@ -18,7 +20,7 @@ function RegisterJob() {
     setButtonText("Enviando Dados ...");
 
     try {
-      const response = await api.post("/job/create", {title, description});
+      const response = await api.post("/job/create", {professionalName, professionalContact, title, description});
       console.log(response.data);
       setButtonText("Cadastrado com Sucesso");
     } catch (error) {
@@ -47,6 +49,26 @@ function RegisterJob() {
         <label>Cadastre seu Serviço Freelancer !</label>
 
         <label style={{color: 'red'}}>{errors.message}</label>
+
+        <input
+          placeholder="Insira o Nome do Profissional"
+          type="text"
+          onChange={(e) => {
+            setProfessionalName(e.target.value);
+          }}
+          value={professionalName}
+        />
+        <span style={{color: 'red'}}>{errors.professionalName}</span>
+
+        <input
+          placeholder="Insira o Contato do Profissional"
+          type="text"
+          onChange={(e) => {
+            setProfessionalContact(e.target.value);
+          }}
+          value={professionalContact}
+        />
+        <span style={{color: 'red'}}>{errors.professionalContact}</span>
 
         <input
           placeholder="Insira o Título"

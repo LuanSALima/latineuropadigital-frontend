@@ -11,6 +11,7 @@ import EditJob from '../pages/EditJob';
 import NoticeRegister from '../pages/NoticeRegister';
 import NoticesList from '../pages/NoticesList';
 import NoticesDetails from '../pages/NoticesDetails';
+import Dashboard from '../pages/Dashboard';
 
 // import { Container } from './styles';
 
@@ -65,9 +66,9 @@ function Routes() {
             <Route path="/noticia/:id" exact component={NoticesDetails} />
             <Route path="/" exact component={Notices} />
             
-            <PrivateRoute path="/dashboard" component={() => <h1>Página protegida por Token</h1>} />
-            <UserProfessionalRoute path="/cadastrar-job" component={RegisterJob} />
-            <PrivateRoute path="/editar-job/:id" component={EditJob} />
+            <PrivateRoute path="/dashboard" component={Dashboard} />
+            <PrivateRoute path="/cadastrar-job" component={RegisterJob} />
+            <PrivateRoute path="/job/editar/:id" component={EditJob} />
 
             <AdminRoute path="/criar-post" component={NoticeRegister} />
 

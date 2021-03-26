@@ -14,10 +14,10 @@ function Job(props) {
       <span style={{fontSize: '18px'}}>Descrição: </span>
       <span>{props.job.description}</span>
       <br />
-      <span style={{fontSize: '18px'}}>Nome Usuário:</span>
-      <span>{props.job.owner.username}</span>
-      <span style={{fontSize: '18px', marginLeft: '10px'}}>ID Usuário:</span>
-      <span>{props.job.owner.id}</span>
+      <span style={{fontSize: '18px'}}>Nome:</span>
+      <span>{props.job.professionalName}</span>
+      <span style={{fontSize: '18px', marginLeft: '10px'}}>Contato:</span>
+      <span>{props.job.professionalContact}</span>
     </div>
   );
 }

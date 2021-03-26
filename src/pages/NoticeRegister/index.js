@@ -35,7 +35,7 @@ function NoticeRegister() {
 
     async function listTags() {
       try {
-        const response = await api.get("/tags/list");
+        const response = await api.get("/tag/list");
 
         if(response.data.success) {
           if(response.data.tags) {
