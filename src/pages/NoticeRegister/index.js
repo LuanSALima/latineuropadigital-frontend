@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 
 import Header from '../../components/Header';
 import { AppButton, ContentView, Form, Page } from '../../styles/default';
-
+import Footer from '../../components/Footer';
 import api from '../../services/api';
 
 function Tag(props) {
@@ -172,6 +172,7 @@ function NoticeRegister() {
         <AppButton onClick={handleNoticeRegister}>{buttonText}</AppButton>
       </ContentView>
     </Form>
+    <Footer/>
   </Page>);
 }
 

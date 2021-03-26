@@ -4,7 +4,7 @@ import { Page } from '../../styles/default';
 
 import Table from 'react-bootstrap/Table';
 import { Link } from 'react-router-dom';
-
+import Footer from '../../components/Footer';
 import api from '../../services/api';
 
 function Dashboard() {
@@ -266,6 +266,7 @@ function Dashboard() {
 			</div>
 		</div>
 	</div>
+	<Footer/>
   </Page>)
 }
 

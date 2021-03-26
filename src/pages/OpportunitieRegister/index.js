@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 import Header from '../../components/Header';
 import { AppButton, ContentView, Form, Page } from '../../styles/default';
-
+import Footer from '../../components/Footer';
 import api from '../../services/api';
 
 function OpportunitieRegister() {
@@ -93,6 +93,7 @@ function OpportunitieRegister() {
         <AppButton onClick={handleJobRegister}>{buttonText}</AppButton>
       </ContentView>
     </Form>
+    <Footer/>
   </Page>);
 }
 

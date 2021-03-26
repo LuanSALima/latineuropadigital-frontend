@@ -4,7 +4,7 @@ import Header from '../../components/Header';
 import { Page } from '../../styles/default';
 
 import api from '../../services/api';
-
+import Footer from '../../components/Footer';
 function Job(props) {
   return (
     <div style={{marginBottom: '15px'}}>
@@ -61,6 +61,7 @@ function OpportunitieList(props) {
      {jobs.map((currentjob)=>(
         <Job job={currentjob} />
       ))}
+      <Footer/>
   </Page>);
 }
 

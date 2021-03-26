@@ -7,6 +7,7 @@ import imgTest from '../../assets/icon.svg';
 import api from '../../services/api';
 
 import { isAdmin } from '../../services/auth';
+import Footer from '../../components/Footer';
 
 function NoticesDetails(props) {
 
@@ -92,6 +93,7 @@ function NoticesDetails(props) {
         }
 
         </ScreenView>
+        <Footer/>
       </Page>
   );
 }

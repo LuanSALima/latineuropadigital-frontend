@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 import Header from '../../components/Header';
 import { AppButton, ContentView, Form, Page } from '../../styles/default';
-
+import Footer from '../../components/Footer';
 import api from '../../services/api';
 import { login } from '../../services/auth';
 
@@ -78,6 +78,7 @@ function Login() {
           <AppButton onClick={handleLoginSubmit}>{buttonText}</AppButton>
         </ContentView>
     </Form>
+    <Footer/>
   </Page>);
 }
 

@@ -3,7 +3,7 @@ import Header from '../../components/Header';
 import NoticesCard from '../../components/NoticesCard';
 import { Page, ScreenView } from '../../styles/default';
 import imgTest from '../../assets/icon.svg';
-
+import Footer from '../../components/Footer';
 import api from '../../services/api';
 
 function NoticesList() {
@@ -70,6 +70,7 @@ function NoticesList() {
         ))}
         
         </ScreenView>
+          <Footer/>
       </Page>
   );
 }
