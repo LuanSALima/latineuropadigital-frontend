@@ -17,7 +17,9 @@ function Dashboard() {
   		'__v',
   		'_id',
   		'createdAt',
-  		'updatedAt'
+  		'updatedAt',
+  		'owner',
+  		'imagePath'
   	]);
 
   	useEffect(() => {
