@@ -1,6 +1,6 @@
 import React from 'react';
 import { Route, Router, Switch, Redirect } from 'react-router';
-import Notices from '../pages/Notices';
+import Home from '../pages/Home';
 import NotFound from '../pages/NotFound';
 import history from '../services/history/history';
 import Login from '../pages/Login';
@@ -48,29 +48,29 @@ const AdminRoute = ({ component: Component, ...rest }) => (
 function Routes() {
   return <Router history={history}>
       <Switch>
-            <Route path="/login"  component={Login} />
-            <Route path="/cadastro"  component={Register} />
-            <Route path="/oportunidades" exact component={OpportunitieList} />
-            <Route path="/noticias" exact component={NoticesList} />
-            <Route path="/noticia/:id" exact component={NoticesDetails} />
-            <Route path="/" exact component={Notices} />
-            
-            <AdminRoute path="/dashboard" component={Dashboard} />
-            <AdminRoute path="/cadastrar-job" component={OpportunitieRegister} />
-            <AdminRoute path="/job/editar/:id" component={OpportunitieEdit} />
-            <AdminRoute path="/tag/editar/:id" component={TagEdit} />
-            <AdminRoute path="/user/editar/:id" component={UserEdit} />
+        <Route path="/login"  component={Login} />
+        <Route path="/cadastro"  component={Register} />
+        <Route path="/oportunidades" exact component={OpportunitieList} />
+        <Route path="/noticias" exact component={NoticesList} />
+        <Route path="/noticia/:id" exact component={NoticesDetails} />
+        <Route path="/" exact component={Home} />
+        
+        <AdminRoute path="/dashboard" component={Dashboard} />
+        <AdminRoute path="/cadastrar-job" component={OpportunitieRegister} />
+        <AdminRoute path="/job/editar/:id" component={OpportunitieEdit} />
+        <AdminRoute path="/tag/editar/:id" component={TagEdit} />
+        <AdminRoute path="/user/editar/:id" component={UserEdit} />
 
-            <AdminRoute path="/criar-post" component={NoticeRegister} />
+        <AdminRoute path="/criar-post" component={NoticeRegister} />
 
-            <Route path="/logout" exact render={props => {
-    	          logout(); 
-    	          return <Redirect to={{ pathname: "/", state: { from: props.location } }} />
-    	        }}
-  	        />
+        <Route path="/logout" exact render={props => {
+	          logout(); 
+	          return <Redirect to={{ pathname: "/", state: { from: props.location } }} />
+	        }}
+        />
 
-            <Route path="/unauthorized" component={() => <h1>Você não tem permissão para acessar</h1>}/>
-            <Route path="*" component={NotFound}/>
+        <Route path="/unauthorized" component={() => <h1>Você não tem permissão para acessar</h1>}/>
+        <Route path="*" component={NotFound}/>
       </Switch>
   </Router>;
 }
