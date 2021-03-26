@@ -1,33 +1,28 @@
 import React, { useState, useEffect } from 'react';
 import Header from '../../components/Header';
 import NoticesCard from '../../components/NoticesCard';
-import { AppButton, Page, ScreenView } from '../../styles/default';
+import {  Page, ScreenView } from '../../styles/default';
 import imgTest from '../../assets/icon.svg';
 
 import api from '../../services/api';
 import HorizonScrollView from '../../components/HorizonScrollView';
+import Footer from '../../components/Footer';
 
 function NoticesList() {
 
   const [posts, setPosts] = useState([]);
   const [tags, setTags] = useState([]);
-  const [errors, setErrors] = useState({});
-  const [loading,setLoading] = useState(false);
- 
+  const [errors,setErrors] = useState({})
  
   const listTags = async () =>{
     try {
-      setLoading(true);
       const response = await api.get("/tag/list");
       setTags(response.data.tags)
-      setLoading(false);
     } catch (error) {
-      setLoading(false);
     }
   }
    const listPosts = async () => {
     try {
-      setLoading(true);
 
       const response = await api.get("/post/list");
 
@@ -41,19 +36,11 @@ function NoticesList() {
           setPosts(postsDb);
         }
       }
-      setLoading(false);
 
     } catch (error) {
-      setLoading(false);
-
-      if(error.response) {
-        if(error.response.data) {
-          if(error.response.data.message) {
+      
             setErrors({message: error.response.data.message});
           }
-        }
-      }
-    }
   }
 
   useEffect(() => {
@@ -67,16 +54,7 @@ function NoticesList() {
       <Page>
         <Header/>
         <ScreenView width={"90%"}>
-          <AppButton type="button" onClick={()=>{
-            console.log(posts);
-            console.log(tags);
-          }}>list</AppButton>
-          {loading &&<h1>Loading..</h1>}
-         {/* <FeatureContent>
-        <b>Acesse Nossa PÁGINA!!!</b>
-         </FeatureContent> */}
-        <br></br>
-        <h2 style={{color: 'red'}}>{errors.message}</h2>
+    
 {tags.map((tags)=>(
   <HorizonScrollView title={tags.title} subtitle="Espetáculos, entretenimento e mucho más">
   {posts.map((content)=>(
@@ -88,9 +66,10 @@ function NoticesList() {
  
   ))}
   </HorizonScrollView>
-  ))}
-        
+  ))
+  }
         </ScreenView>
+        <Footer/>
       </Page>
   );
 }
