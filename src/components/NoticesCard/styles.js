@@ -10,8 +10,8 @@ export const Image = styled.div`
     width:100%;
     padding:0 !important;
     img{
-     height:380px;
-     width:325px;   
+     height:350px;
+     width:295px;   
      border-radius:0.2rem;
     }
     `;
@@ -21,7 +21,7 @@ border-top:2px solid var(--color-blackPurple);
 display:flex;
 flex-direction:row;
 align-items:center;
-width:325px;   
+width:295px;   
 >img{
 margin-top:5px;
         width:40px;

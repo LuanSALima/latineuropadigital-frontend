@@ -65,7 +65,7 @@ function Notices() {
          </MyView>
         <br></br>
          <ScreenView width="95%">
-        <HorizonScrollView>
+        <HorizonScrollView title="destaques" subtitle="Espetáculos, entretenimento e mucho más">
         {myCard.map((content)=>(
           <NoticesCard icon={content.icon} image={content.image} title={content.title.length >= 18?content.title+"..":content.title}text={content.text.length >= 75 ? content.text+"..":content.text} />
         ))}
