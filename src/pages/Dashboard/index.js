@@ -106,9 +106,6 @@ function Dashboard() {
 							const response = await api.delete(dataType+"/"+data);
 
 							if(response.data.success) {
-							  alert('Deletou');
-
-
 							  	let array = dbData;
 
 		  						array.map((content, contentIndex) => {

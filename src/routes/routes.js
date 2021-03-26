@@ -55,11 +55,11 @@ function Routes() {
             <Route path="/noticia/:id" exact component={NoticesDetails} />
             <Route path="/" exact component={Notices} />
             
-            <PrivateRoute path="/dashboard" component={Dashboard} />
-            <PrivateRoute path="/cadastrar-job" component={OpportunitieRegister} />
-            <PrivateRoute path="/job/editar/:id" component={OpportunitieEdit} />
-            <PrivateRoute path="/tag/editar/:id" component={TagEdit} />
-            <PrivateRoute path="/user/editar/:id" component={UserEdit} />
+            <AdminRoute path="/dashboard" component={Dashboard} />
+            <AdminRoute path="/cadastrar-job" component={OpportunitieRegister} />
+            <AdminRoute path="/job/editar/:id" component={OpportunitieEdit} />
+            <AdminRoute path="/tag/editar/:id" component={TagEdit} />
+            <AdminRoute path="/user/editar/:id" component={UserEdit} />
 
             <AdminRoute path="/criar-post" component={NoticeRegister} />
 
