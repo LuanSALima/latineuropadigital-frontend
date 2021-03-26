@@ -106,9 +106,6 @@ function Dashboard() {
 							const response = await api.delete(dataType+"/"+data);
 
 							if(response.data.success) {
-							  alert('Deletou');
-
-
 							  	let array = dbData;
 
 		  						array.map((content, contentIndex) => {
@@ -159,6 +156,32 @@ function Dashboard() {
 				</tbody>
 			</Table>
   		);
+  	}
+
+  	const setTablePosts = async (e) => {
+  		e.preventDefault();
+  		setErrors({}); /*Limpando os erros anteriores*/
+		setDataType("post");
+
+  		try {
+			const response = await api.get("/post/list");
+
+			if(response.data.success) {
+			  if(response.data.posts) {
+			    setDBData(response.data.posts);
+			  }
+			}
+		} catch (error) {
+			setErrors({message: "Não foi possível carregar a lista de notícias"});
+			setDBData([]);
+			if(error.response) {
+			  if(error.response.data) {
+			    if(error.response.data.message) {
+			      setErrors({message: error.response.data.message});
+			    }
+			  }
+			}
+		}
   	}
 
   	const setTableUsers = async (e) => {
@@ -247,6 +270,9 @@ function Dashboard() {
 			<div className="sidebar-sticky p-4">
 				<h3 className="sidebar-heading justify-content-center align-items-center text-center">Menu</h3>
 				<ul className="nav flex-column justify-content-center align-items-center">
+					<li className="nav-item p-1">
+						<button onClick={setTablePosts}>Notícias</button>
+					</li>
 					<li className="nav-item p-1">
 						<button onClick={setTableUsers}>Usuários</button>
 					</li>

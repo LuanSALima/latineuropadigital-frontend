@@ -5,6 +5,8 @@ import { AppButton, ContentView, Form, Page } from '../../styles/default';
 
 import api from '../../services/api';
 
+import { getUser, updateUser } from "../../services/auth";
+
 function UserEdit(props) {
 
   const [buttonText, setButtonText] = useState("Editar");
@@ -22,6 +24,12 @@ function UserEdit(props) {
 
     try {
       const response = await api.put("/user/"+idUser, {username, email, phone, password});
+
+      if(response.data.success) {
+        if(getUser()._id === idUser) {
+          updateUser(username, email, phone);
+        }
+      }
 
       console.log(response.data);
       setButtonText("Editado com Sucesso");
