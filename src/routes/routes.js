@@ -5,17 +5,19 @@ import NotFound from '../pages/NotFound';
 import history from '../services/history/history';
 import Login from '../pages/Login';
 import Register from '../pages/Register';
-import Opportunities from '../pages/Opportunities';
-import RegisterJob from '../pages/RegisterJob';
-import EditJob from '../pages/EditJob';
+import OpportunitieList from '../pages/OpportunitieList';
+import OpportunitieRegister from '../pages/OpportunitieRegister';
+import OpportunitieEdit from '../pages/OpportunitieEdit';
 import NoticeRegister from '../pages/NoticeRegister';
 import NoticesList from '../pages/NoticesList';
 import NoticesDetails from '../pages/NoticesDetails';
 import Dashboard from '../pages/Dashboard';
+import TagEdit from '../pages/TagEdit';
+import UserEdit from '../pages/UserEdit';
 
 // import { Container } from './styles';
 
-import { isAuthenticated, isAdmin, isProfessional, logout } from "../services/auth";
+import { isAuthenticated, isAdmin, logout } from "../services/auth";
 
 const PrivateRoute = ({ component: Component, ...rest }) => (
   <Route
@@ -25,19 +27,6 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
         <Component {...props} />
       ) : (
         <Redirect to={{ pathname: "/login", state: { from: props.location } }} />
-      )
-    }
-  />
-);
-
-const UserProfessionalRoute = ({ component: Component, ...rest }) => (
-  <Route
-    {... rest}
-    render={props =>
-      isProfessional() ? (
-        <Component {...props} />
-      ) : (
-        <Redirect to={{ pathname: "/unprofessional", state: { from: props.location } }} />
       )
     }
   />
@@ -61,14 +50,16 @@ function Routes() {
       <Switch>
             <Route path="/login"  component={Login} />
             <Route path="/cadastro"  component={Register} />
-            <Route path="/oportunidades" exact component={Opportunities} />
+            <Route path="/oportunidades" exact component={OpportunitieList} />
             <Route path="/noticias" exact component={NoticesList} />
             <Route path="/noticia/:id" exact component={NoticesDetails} />
             <Route path="/" exact component={Notices} />
             
             <PrivateRoute path="/dashboard" component={Dashboard} />
-            <PrivateRoute path="/cadastrar-job" component={RegisterJob} />
-            <PrivateRoute path="/job/editar/:id" component={EditJob} />
+            <PrivateRoute path="/cadastrar-job" component={OpportunitieRegister} />
+            <PrivateRoute path="/job/editar/:id" component={OpportunitieEdit} />
+            <PrivateRoute path="/tag/editar/:id" component={TagEdit} />
+            <PrivateRoute path="/user/editar/:id" component={UserEdit} />
 
             <AdminRoute path="/criar-post" component={NoticeRegister} />
 
@@ -79,7 +70,6 @@ function Routes() {
   	        />
 
             <Route path="/unauthorized" component={() => <h1>Você não tem permissão para acessar</h1>}/>
-            <Route path="/unprofessional" component={() => <h1>Sua conta não é profissional!</h1>}/>
             <Route path="*" component={NotFound}/>
       </Switch>
   </Router>;

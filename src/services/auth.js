@@ -8,13 +8,6 @@ export const isAdmin = () => {
 		}
 	}
 }
-export const isProfessional = () => {
-	if(getUser()) {
-		if(getUser().role === "User" && getUser().isProfessional === "true") {
-			return true;	
-		}
-	}
-}
 export const getToken = () => localStorage.getItem(TOKEN_KEY);
 export const getUser = () => JSON.parse(localStorage.getItem(USER_KEY));
 

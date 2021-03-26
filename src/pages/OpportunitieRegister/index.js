@@ -5,7 +5,7 @@ import { AppButton, ContentView, Form, Page } from '../../styles/default';
 
 import api from '../../services/api';
 
-function RegisterJob() {
+function OpportunitieRegister() {
 
   const [buttonText, setButtonText] = useState("Cadastrar");
 
@@ -96,4 +96,4 @@ function RegisterJob() {
   </Page>);
 }
 
-export default RegisterJob;
+export default OpportunitieRegister;

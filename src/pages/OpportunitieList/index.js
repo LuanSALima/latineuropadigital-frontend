@@ -22,7 +22,7 @@ function Job(props) {
   );
 }
 
-function Opportunities(props) {
+function OpportunitieList(props) {
 
   const [jobs, setJobs] = useState([]);
   const [errors, setErrors] = useState({});
@@ -64,4 +64,4 @@ function Opportunities(props) {
   </Page>);
 }
 
-export default Opportunities;
+export default OpportunitieList;
