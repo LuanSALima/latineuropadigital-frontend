@@ -5,6 +5,7 @@ import { Page, ScreenView } from '../../styles/default';
 import imgTest from '../../assets/icon.svg';
 import Footer from '../../components/Footer';
 import api from '../../services/api';
+import HorizonScrollView from '../../components/HorizonScrollView';
 
 function NoticesList() {
   //Card content
@@ -64,11 +65,13 @@ function NoticesList() {
          </FeatureContent> */}
         <br></br>
         <h2 style={{color: 'red'}}>{errors.message}</h2>
-
+        
+        
+        <HorizonScrollView title="destaques" subtitle="Espetáculos, entretenimento e mucho más">
         {posts.map((content)=>(
           <NoticesCard id={content.id} icon={content.icon} image={content.image} title={content.title.length >= 18?content.title+"..":content.title}text={content.description.length >= 75 ? content.description+"..":content.description} />
         ))}
-        
+        </HorizonScrollView>
         </ScreenView>
           <Footer/>
       </Page>
