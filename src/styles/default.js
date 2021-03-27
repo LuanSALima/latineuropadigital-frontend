@@ -74,6 +74,7 @@ const myView = css`
   flex-direction: column;
   margin-top:45px;
   padding: 1rem 1rem 3rem 1rem;
+  margin-bottom:4rem !important;
   
   background-color:#fff;
   border-radius: 0.3rem;
