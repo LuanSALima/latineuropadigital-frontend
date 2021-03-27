@@ -4,7 +4,7 @@ import Home from '../pages/Home';
 import NotFound from '../pages/NotFound';
 import history from '../services/history/history';
 import Login from '../pages/Login';
-import Register from '../pages/Register';
+import AnunciarServico from '../pages/AnunciarServico';
 import OpportunitieList from '../pages/OpportunitieList';
 import OpportunitieRegister from '../pages/OpportunitieRegister';
 import OpportunitieEdit from '../pages/OpportunitieEdit';
@@ -49,7 +49,7 @@ function Routes() {
   return <Router history={history}>
       <Switch>
         <Route path="/login"  component={Login} />
-        <Route path="/cadastro"  component={Register} />
+        <Route path="/cadastro"  component={AnunciarServico} />
         <Route path="/oportunidades" exact component={OpportunitieList} />
         <Route path="/noticias" exact component={NoticesList} />
         <Route path="/noticia/:id" exact component={NoticesDetails} />

@@ -12,7 +12,6 @@ function NoticesList() {
 
   const [posts, setPosts] = useState([]);
   const [tags, setTags] = useState([]);
-  const [errors,setErrors] = useState({})
  
   const listTags = async () =>{
     try {
@@ -39,8 +38,8 @@ function NoticesList() {
 
     } catch (error) {
       
-            setErrors({message: error.response.data.message});
-          }
+          
+    }
   }
 
   useEffect(() => {
