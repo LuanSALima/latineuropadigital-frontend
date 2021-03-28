@@ -46,7 +46,7 @@ function OpportunitieRegister() {
     <Header/>
     <Form width={"45%"} center>
       <ContentView>
-        <label>Cadastre seu Serviço Freelancer !</label>
+        <label>¡Anuncie sus servicios!</label>
 
         <label style={{color: 'red'}}>{errors.message}</label>
 

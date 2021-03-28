@@ -14,6 +14,7 @@ function OpportunitieEdit(props) {
   const [professionalContact, setProfessionalContact] = useState("Carregando Contato do Profissional...");
   const [title, setTitle] = useState("Carregando Título...");
   const [description, setDescription] = useState("Carregando Descrição...");
+  const [status, setStatus] = useState("");
   const [errors, setErrors] = useState({});
 
   const handleJobEdit = async (e) => {
@@ -21,7 +22,7 @@ function OpportunitieEdit(props) {
     setButtonText("Enviando Dados ...");
 
     try {
-      const response = await api.put("/job/"+idJob, {professionalName, professionalContact, title, description});
+      const response = await api.put("/job/"+idJob, {professionalName, professionalContact, title, description, status});
 
       console.log(response.data);
       setButtonText("Editado com Sucesso");
@@ -54,6 +55,7 @@ function OpportunitieEdit(props) {
             setProfessionalContact(response.data.job.professionalContact);
             setTitle(response.data.job.title);
             setDescription(response.data.job.description);
+            setStatus(response.data.job.status);
           }
         }
       } catch (error) {
@@ -115,6 +117,12 @@ function OpportunitieEdit(props) {
           value={description}
         />
         <span style={{color: 'red'}}>{errors.description}</span>
+
+        <p>Selecione o status da Oportunidade</p>
+        <select value={status} onChange={(e) => {setStatus(e.target.value)}}>
+          <option value="pendent">Pendente</option>
+          <option value="accepted">Aceita</option>
+        </select>
         <br></br>
         <AppButton onClick={handleJobEdit}>{buttonText}</AppButton>
       </ContentView>

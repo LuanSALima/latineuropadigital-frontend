@@ -244,7 +244,7 @@ function Dashboard() {
 		setDataType("job");
 
   		try {
-			const response = await api.get("/job/list");
+			const response = await api.get("/jobs/all");
 
 			if(response.data.success) {
 			  if(response.data.jobs) {

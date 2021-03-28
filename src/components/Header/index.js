@@ -38,18 +38,26 @@ function Header() {
               <span className="texts">EDUCACIÓN</span>
             </div>
           </Link>
+          {isAdmin() ?
+          <NavDropdown className="headerLinks texts" title="OPORTUNIDADES">
+            <Link to="/oportunidades" className="dropdown-item">Listar Aceitas</Link>
+            <Link to="/oportunidades-pendentes" className="dropdown-item">Listar Pendentes</Link>
+          </NavDropdown>
+          :
           <Link to="/oportunidades">
             <div className="headerLinks">
               <span className="texts">OPORTUNIDADES</span>
             </div>
           </Link>
+          }
+          
           
         </Nav>
 
       
        
 
-        {isAuthenticated() ?
+        {isAdmin() ?
         <Nav>
 
           <NavDropdown className="headerLinks texts" title={"Anunciar/Editar"}>
@@ -79,7 +87,7 @@ function Header() {
         </Nav>
         : 
         <Nav>
-        <Link to="/cadastro">
+        <Link to="/cadastrar-job">
           <div className="headerLinks">
             <span className="texts">ANUNCIAR</span>
           </div>

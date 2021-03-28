@@ -8,6 +8,7 @@ import AnunciarServico from '../pages/AnunciarServico';
 import OpportunitieList from '../pages/OpportunitieList';
 import OpportunitieRegister from '../pages/OpportunitieRegister';
 import OpportunitieEdit from '../pages/OpportunitieEdit';
+import OpportunitiePendents from '../pages/OpportunitiePendents';
 import NoticeRegister from '../pages/NoticeRegister';
 import NoticesList from '../pages/NoticesList';
 import NoticesDetails from '../pages/NoticesDetails';
@@ -53,10 +54,11 @@ function Routes() {
         <Route path="/oportunidades" exact component={OpportunitieList} />
         <Route path="/noticias" exact component={NoticesList} />
         <Route path="/noticia/:id" exact component={NoticesDetails} />
+        <Route path="/cadastrar-job" component={OpportunitieRegister} />
         <Route path="/" exact component={Home} />
         
         <AdminRoute path="/dashboard" component={Dashboard} />
-        <AdminRoute path="/cadastrar-job" component={OpportunitieRegister} />
+        <AdminRoute path="/oportunidades-pendentes" component={OpportunitiePendents} />
         <AdminRoute path="/job/editar/:id" component={OpportunitieEdit} />
         <AdminRoute path="/tag/editar/:id" component={TagEdit} />
         <AdminRoute path="/user/editar/:id" component={UserEdit} />
