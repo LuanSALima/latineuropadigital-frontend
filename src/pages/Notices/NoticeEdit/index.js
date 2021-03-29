@@ -11,9 +11,11 @@ function Tag(props) {
   );
 }
 
-function NoticeRegister() {
+function NoticeEdit(props) {
 
-  const [buttonText, setButtonText] = useState("Cadastrar");
+  const [buttonText, setButtonText] = useState("Editar");
+
+  const [idNotice] = useState(props.match.params.id);
 
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -31,36 +33,61 @@ function NoticeRegister() {
     setTag("");
   }
 
-  useEffect(() => {
+  async function listTags() {
+    try {
+      const response = await api.get("/tag/list");
 
-    async function listTags() {
-      try {
-        const response = await api.get("/tag/list");
-
-        if(response.data.success) {
-          if(response.data.tags) {
-            let dbTags = [];
-            for(let index in response.data.tags) {
-              dbTags.push(response.data.tags[index].title);
-            }
-            setDbTags(dbTags);
+      if(response.data.success) {
+        if(response.data.tags) {
+          let dbTags = [];
+          for(let index in response.data.tags) {
+            dbTags.push(response.data.tags[index].title);
           }
+          setDbTags(dbTags);
         }
-      } catch (error) {
-        if(error.response) {
-          if(error.response.data) {
-            if(error.response.data.message) {
-              setErrors({dbTags: error.response.data.message});
-            }
+      }
+    } catch (error) {
+      if(error.response) {
+        if(error.response.data) {
+          if(error.response.data.message) {
+            setErrors({dbTags: error.response.data.message});
           }
         }
       }
     }
+  }
+
+  async function getNotice() {
+    try {
+      const response = await api.get("/notice/"+idNotice);
+
+      if(response.data.success) {
+        if(response.data.notice) {
+          setTitle(response.data.notice.title);
+          setDescription(response.data.notice.description);
+          setTags(response.data.notice.tags);
+        }
+      }
+    } catch (error) {
+      setErrors({message: "Não foi possível carregar as Notícia"});
+      if(error.response) {
+        if(error.response.data) {
+          if(error.response.data.message) {
+            setErrors({message: error.response.data.message});
+          }
+        }
+      }
+    }
+  }
+
+  useEffect(() => {
+
+    getNotice();
     listTags();
 
   }, []);
 
-  const handleNoticeRegister = async (e) => {
+  const handleNoticeEdit = async (e) => {
     e.preventDefault();
     setButtonText("Enviando Dados ...");
     
@@ -74,14 +101,14 @@ function NoticeRegister() {
     
     try {
       
-      const response = await api.post("/notice/create", formData, {
+      const response = await api.put("/notice/"+idNotice, formData, {
         onUploadProgress: (ProgressEvent) => {
           let progress = Math.round(ProgressEvent.loaded / ProgressEvent.total * 100) + '%';
           setProgess(progress);
         }
       });
 
-      setButtonText("Cadastrado com Sucesso");
+      setButtonText("Editado com Sucesso");
     } catch (error) {
       setButtonText("Tente Novamente");
       if(error.response) {
@@ -108,7 +135,7 @@ function NoticeRegister() {
     <Header/>
     <Form width={"45%"} center>
       <ContentView>
-        <label>Crie uma Publicação !</label>
+        <label>Edite a Notícia !</label>
 
         <label style={{color: 'red'}}>{errors.message}</label>
 
@@ -167,11 +194,11 @@ function NoticeRegister() {
            {progress}
         </div>
         <br></br>
-        <AppButton onClick={handleNoticeRegister}>{buttonText}</AppButton>
+        <AppButton onClick={handleNoticeEdit}>{buttonText}</AppButton>
       </ContentView>
     </Form>
     <Footer/>
   </Page>);
 }
 
-export default NoticeRegister;
+export default NoticeEdit;

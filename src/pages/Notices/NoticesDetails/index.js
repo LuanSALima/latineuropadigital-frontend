@@ -12,23 +12,23 @@ function NoticesDetails(props) {
 
   const [removeButtonText, setRemoveButtonText] = useState("Remover");
 
-  const [idPost] = useState(props.match.params.id);
-  const [post, setPost] = useState([]);
+  const [idNotice] = useState(props.match.params.id);
+  const [notice, setNotice] = useState([]);
   const [errors, setErrors] = useState({});
 
   useEffect(() => {
 
-    async function findPost() {
+    async function findNotice() {
       try {
-        const response = await api.get("/post/"+idPost);
+        const response = await api.get("/notice/"+idNotice);
 
         if(response.data.success) {
-          if(response.data.post) {
-            setPost(response.data.post);
+          if(response.data.notice) {
+            setNotice(response.data.notice);
           }
         }
       } catch (error) {
-        setErrors({message: "Não foi possível encontrar este Post"});
+        setErrors({message: "Não foi possível encontrar este Notice"});
         if(error.response) {
           if(error.response.data) {
             if(error.response.data.message) {
@@ -38,7 +38,7 @@ function NoticesDetails(props) {
         }
       }
     }
-    findPost();
+    findNotice();
   }, []);
 
   const handleRemoveNotice = async (e) => {
@@ -46,7 +46,7 @@ function NoticesDetails(props) {
     setRemoveButtonText("Removendo ...");
 
     try {
-      const response = await api.delete("/post/"+idPost);
+      const response = await api.delete("/notice/"+idNotice);
 
       if(response.data.success) {
         setRemoveButtonText("Removido com sucesso!");
@@ -74,13 +74,13 @@ function NoticesDetails(props) {
         <br></br>
         <h2 style={{color: 'red'}}>{errors.message}</h2>
 
-        <img src={process.env.REACT_APP_API_URL+post.imagePath} />
+        <img src={process.env.REACT_APP_API_URL+notice.imagePath} />
 
         <h1>Titulo</h1>
-        <h3>{post.title}</h3>
+        <h3>{notice.title}</h3>
 
         <h1>Descrição</h1>
-        <h3>{post.description}</h3>
+        <h3>{notice.description}</h3>
         
         {
         isAdmin() ?

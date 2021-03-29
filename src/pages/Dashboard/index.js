@@ -7,13 +7,14 @@ import { Link } from 'react-router-dom';
 import Footer from '../../components/Footer';
 import api from '../../services/api';
 import Sidebar from './sidebar';
-
+import { Content } from './styles';
 function Dashboard() {
 
 	const [dbData, setDBData] = useState([]);
 	const [dataType, setDataType] = useState("");
 	const [columns, setColumns] = useState([]);
-  	const [errors, setErrors] = useState({});
+	const [error,setError] = useState(false);
+
   	const [ignoreColumns, setIgnoreColumns] = useState([
   		'__v',
   		'_id',
@@ -26,19 +27,20 @@ function Dashboard() {
 	function mapDinamicColumns(){
 		let individualColumn = [];
 
+		Object.keys(dbData).forEach((key) => {
+		  Object.keys(dbData[key]).forEach((chave) => {
+			  if(individualColumn.indexOf(chave) === -1 && ignoreColumns.indexOf(chave) === -1) {
+				  individualColumn.push(chave);
+			  }
+		  });
+		});
+
 		if(dbData.length) {
 			individualColumn.push("Editar");
-			individualColumn.push("Remover");
+			individualColumn.push("Eliminar");
 		}
 
-		  Object.keys(dbData).forEach((key) => {
-			  Object.keys(dbData[key]).forEach((chave) => {
-				  if(individualColumn.indexOf(chave) === -1 && ignoreColumns.indexOf(chave) === -1) {
-					  individualColumn.push(chave);
-				  }
-			  });
-		  });
-		  setColumns(individualColumn);
+		setColumns(individualColumn);
 	}
 	
   	useEffect(() => {
@@ -49,7 +51,7 @@ function Dashboard() {
   		return (
   			columns.map((column) => {
   				return (
-  					<th>{column}</th>
+  					<th style={{textTransform:"uppercase"}}>{column}</th>
   				);
   			})
   		)
@@ -57,11 +59,6 @@ function Dashboard() {
 
   	const createTableRow = (row) => {
   		let rowData = [];
-
-  		if(dbData.length) {
-  			rowData.push(row._id);
-  			rowData.push(row._id);
-  		}
 
   		/*
 			Para cada coluna procura para cada key da linha
@@ -77,29 +74,41 @@ function Dashboard() {
 			que seria usado no lugar do comentario abaixo
   		*/
   		columns.map((column) => {
+  			let pushed = false;
 			Object.keys(row).map((item) => {
 				if(column == item) {
 					rowData.push(row[item]);
+					pushed = true;
 					//break; Pois no lugar que está apontando esta coluna ja foi encontrado o valor desta linha com mesmo key que o nome da coluna
 				} else {
 					//Remova este comentário abaixo para entender o que este problema
 					//console.log(column+" != "+item);
+					return;
 				}
 			});
+
+			if(!pushed && (column !== "Editar" && column !== "Eliminar")) {
+				rowData.push("");
+			}
 		});
+
+		if(dbData.length) {
+  			rowData.push(row._id);
+  			rowData.push(row._id);
+  		}
 	  		
   		return (
   			rowData.map((data, index) => {
 
   				//Se o index for igual a 0, Ou seja a primeira coluna da tabela, no qual ja colocamos no cabecalho como Editar
-  				if(index === 0) {
+  				if(index === columns.length-2) {
   					return (
-  						<td><Link to={dataType+"/editar/"+data}>Editar</Link></td>
+  						<td><Link to={dataType+"/editar/"+data} style={{color:"green"}}>Editar</Link></td>
   					);
   				}
 
   				//Se o index for igual a 1, Ou seja a segunda coluna da tabela, no qual ja colocamos no cabecalho como Remover
-  				if(index === 1) {
+  				if(index === columns.length-1) {
   					const removeItem = async (e) => {
   						e.preventDefault();
 
@@ -119,21 +128,12 @@ function Dashboard() {
 		  						});
 							}
 						} catch (error) {
-							setErrors({message: "Não foi possível deletar o item"});
-
-							if(error.response) {
-							  if(error.response.data) {
-							    if(error.response.data.message) {
-							      setErrors({message: error.response.data.message});
-							    }
-							  }
-							}
 						}
 						
   					}
 
   					return (
-  						<td><button onClick={removeItem}>Remover</button></td>
+  						<td><button onClick={removeItem} style={{color:"red"}}>Eliminar</button></td>
   					);
   				}
 
@@ -146,7 +146,7 @@ function Dashboard() {
 
   	const createTable = (data) => {
   		return (
-  			<Table striped bordered hover>
+  			<Table striped bordered hover className="tabela">
 				<thead>
 					<tr>{createTableHead(data)}</tr>
 				</thead>
@@ -161,7 +161,6 @@ function Dashboard() {
 
   	const setTablePosts = async (e) => {
   		e.preventDefault();
-  		setErrors({}); /*Limpando os erros anteriores*/
 		setDataType("post");
 
   		try {
@@ -170,24 +169,18 @@ function Dashboard() {
 			if(response.data.success) {
 			  if(response.data.posts) {
 			    setDBData(response.data.posts);
+				setError(false)
 			  }
 			}
 		} catch (error) {
-			setErrors({message: "Não foi possível carregar a lista de notícias"});
 			setDBData([]);
-			if(error.response) {
-			  if(error.response.data) {
-			    if(error.response.data.message) {
-			      setErrors({message: error.response.data.message});
-			    }
-			  }
-			}
+			setError(true)
+			
 		}
   	}
 
   	const setTableUsers = async (e) => {
   		e.preventDefault();
-  		setErrors({}); /*Limpando os erros anteriores*/
   		setDataType("user");
 
   		try {
@@ -196,24 +189,19 @@ function Dashboard() {
 			if(response.data.success) {
 			  if(response.data.users) {
 			    setDBData(response.data.users);
+				setError(false)
+
 			  }
 			}
 		} catch (error) {
-			setErrors({message: "Não foi possível carregar a lista de usuários"});
 			setDBData([]);
-			if(error.response) {
-			  if(error.response.data) {
-			    if(error.response.data.message) {
-			      setErrors({message: error.response.data.message});
-			    }
-			  }
-			}
+			setError(true)
+			
 		}
   	}
 
   	const setTableTags = async (e) => {
   		e.preventDefault();
-		setErrors({}); /*Limpando os erros anteriores*/
 		setDataType("tag");
 
   		try {
@@ -222,24 +210,18 @@ function Dashboard() {
 			if(response.data.success) {
 			  if(response.data.tags) {
 			    setDBData(response.data.tags);
+				setError(false)
 			  }
 			}
 		} catch (error) {
-			setErrors({message: "Não foi possível carregar a lista de tags"});
 			setDBData([]);
-			if(error.response) {
-			  if(error.response.data) {
-			    if(error.response.data.message) {
-			      setErrors({message: error.response.data.message});
-			    }
-			  }
-			}
+			setError(true)
+		
 		}
   	}
 
   	const setTableOpportunities = async (e) => {
   		e.preventDefault();
-  		setErrors({}); /*Limpando os erros anteriores*/
 		setDataType("job");
 
   		try {
@@ -248,36 +230,53 @@ function Dashboard() {
 			if(response.data.success) {
 			  if(response.data.jobs) {
 			    setDBData(response.data.jobs);
+				setError(false)
 			  }
 			}
 		} catch (error) {
-			setErrors({message: "Não foi possível carregar a lista de oportunidades"});
 			setDBData([]);
-			if(error.response) {
-			  if(error.response.data) {
-			    if(error.response.data.message) {
-			      setErrors({message: error.response.data.message});
-			    }
-			  }
+			setError(true)
+
+		
+		}
+  	}
+
+  	const setTableNotices = async (e) => {
+  		e.preventDefault();
+		setDataType("notice");
+
+  		try {
+			const response = await api.get("/notice/list");
+
+			if(response.data.success) {
+			  if(response.data.notices) {
+			    setDBData(response.data.notices);
+				setError(false);
 			}
+			}
+		} catch (error) {
+			setDBData([]);
+			setError(true);
 		}
   	}
 
   return (
     <Page>
     <Header/>
+
 	<ScreenView>
 	<Sidebar 
-	noticia={setTablePosts} 
+	post={setTablePosts} 
+	noticia={setTableNotices} 
 	usuario={setTableUsers} 
 	oportunidade={setTableOpportunities}
 	tag={setTableTags}
 	/>
 	{/* Content of page (TABLE below) */}
-			<div className="container">
+			<Content>
 				<h1>Dashboard</h1>
-				{createTable(dbData)}
-			</div>
+				{error && !dbData.length ||error ? <h1>Não há Conteúdo disponível!</h1>: createTable(dbData)}
+			</Content>
 	</ScreenView>
 	<Footer/>
   </Page>)

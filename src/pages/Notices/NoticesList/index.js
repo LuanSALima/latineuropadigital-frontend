@@ -11,29 +11,29 @@ import { MyScreenView } from './styles';
 
 function NoticesList() {
 
-  const [posts, setPosts] = useState([]);
+  const [notices, setNotices] = useState([]);
   const [tags, setTags] = useState([]);
  
-  const listTags = async () =>{
+  const listTags = async () => {
     try {
-      const response = await api.get("/tags/used");
-      setTags(response.data.tags)
+      const response = await api.get("notices/tags");
+      setTags(response.data.tags);
     } catch (error) {
     }
   }
-   const listPosts = async () => {
+   const listNotices = async () => {
     try {
 
-      const response = await api.get("/post/list");
+      const response = await api.get("/notice/list");
 
       if(response.data.success) {
-        if(response.data.posts) {
-          let postsDb = [];
-          for(let index in response.data.posts) {
-            const post = response.data.posts[index];
-            postsDb.push({ tag : post.tags,id: post._id, title: post.title, description: post.description, image: `${process.env.REACT_APP_API_URL}`+post.imagePath, icon: imgTest});
+        if(response.data.notices) {
+          let noticesDb = [];
+          for(let index in response.data.notices) {
+            const notice = response.data.notices[index];
+            noticesDb.push({ tag : notice.tags,id: notice._id, title: notice.title, description: notice.description, image: `${process.env.REACT_APP_API_URL}`+notice.imagePath, icon: imgTest});
           }
-          setPosts(postsDb);
+          setNotices(noticesDb);
         }
       }
 
@@ -44,7 +44,7 @@ function NoticesList() {
   }
 
   useEffect(() => {
-    listPosts();
+    listNotices();
   }, []);
   useEffect(() => {
     listTags();
@@ -57,7 +57,7 @@ function NoticesList() {
     <h1> Noticias y actualidad:</h1>
 {tags.map((tags)=>(
   <HorizonScrollView title={tags.title} subtitle="Espetáculos, entretenimento e mucho más">
-  {posts.map((content)=>(
+  {notices.map((content)=>(
     content.tag.map((tagFiltered)=>{
       if(tagFiltered === tags.title){
         return  <NoticesCard id={content.id} icon={content.icon} image={content.image} title={content.title.length >= 18?content.title+"..":content.title}text={content.description.length >= 75 ? content.description+"..":content.description} />
