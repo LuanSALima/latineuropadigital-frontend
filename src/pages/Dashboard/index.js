@@ -7,13 +7,14 @@ import { Link } from 'react-router-dom';
 import Footer from '../../components/Footer';
 import api from '../../services/api';
 import Sidebar from './sidebar';
-
+import { Content } from './styles';
 function Dashboard() {
 
 	const [dbData, setDBData] = useState([]);
 	const [dataType, setDataType] = useState("");
 	const [columns, setColumns] = useState([]);
-  	const [errors, setErrors] = useState({});
+	const [error,setError] = useState(false);
+
   	const [ignoreColumns, setIgnoreColumns] = useState([
   		'__v',
   		'_id',
@@ -28,7 +29,7 @@ function Dashboard() {
 
 		if(dbData.length) {
 			individualColumn.push("Editar");
-			individualColumn.push("Remover");
+			individualColumn.push("Eliminar");
 		}
 
 		  Object.keys(dbData).forEach((key) => {
@@ -49,7 +50,7 @@ function Dashboard() {
   		return (
   			columns.map((column) => {
   				return (
-  					<th>{column}</th>
+  					<th style={{textTransform:"uppercase"}}>{column}</th>
   				);
   			})
   		)
@@ -62,7 +63,6 @@ function Dashboard() {
   			rowData.push(row._id);
   			rowData.push(row._id);
   		}
-
   		/*
 			Para cada coluna procura para cada key da linha
 			Se a key da linha for igual da coluna
@@ -94,7 +94,7 @@ function Dashboard() {
   				//Se o index for igual a 0, Ou seja a primeira coluna da tabela, no qual ja colocamos no cabecalho como Editar
   				if(index === 0) {
   					return (
-  						<td><Link to={dataType+"/editar/"+data}>Editar</Link></td>
+  						<td><Link to={dataType+"/editar/"+data} style={{color:"green"}}>Editar</Link></td>
   					);
   				}
 
@@ -119,21 +119,12 @@ function Dashboard() {
 		  						});
 							}
 						} catch (error) {
-							setErrors({message: "Não foi possível deletar o item"});
-
-							if(error.response) {
-							  if(error.response.data) {
-							    if(error.response.data.message) {
-							      setErrors({message: error.response.data.message});
-							    }
-							  }
-							}
 						}
 						
   					}
 
   					return (
-  						<td><button onClick={removeItem}>Remover</button></td>
+  						<td><button onClick={removeItem} style={{color:"red"}}>Eliminar</button></td>
   					);
   				}
 
@@ -146,7 +137,7 @@ function Dashboard() {
 
   	const createTable = (data) => {
   		return (
-  			<Table striped bordered hover>
+  			<Table striped bordered hover className="tabela">
 				<thead>
 					<tr>{createTableHead(data)}</tr>
 				</thead>
@@ -161,7 +152,6 @@ function Dashboard() {
 
   	const setTablePosts = async (e) => {
   		e.preventDefault();
-  		setErrors({}); /*Limpando os erros anteriores*/
 		setDataType("post");
 
   		try {
@@ -170,24 +160,18 @@ function Dashboard() {
 			if(response.data.success) {
 			  if(response.data.posts) {
 			    setDBData(response.data.posts);
+				setError(false)
 			  }
 			}
 		} catch (error) {
-			setErrors({message: "Não foi possível carregar a lista de notícias"});
 			setDBData([]);
-			if(error.response) {
-			  if(error.response.data) {
-			    if(error.response.data.message) {
-			      setErrors({message: error.response.data.message});
-			    }
-			  }
-			}
+			setError(true)
+			
 		}
   	}
 
   	const setTableUsers = async (e) => {
   		e.preventDefault();
-  		setErrors({}); /*Limpando os erros anteriores*/
   		setDataType("user");
 
   		try {
@@ -196,24 +180,19 @@ function Dashboard() {
 			if(response.data.success) {
 			  if(response.data.users) {
 			    setDBData(response.data.users);
+				setError(false)
+
 			  }
 			}
 		} catch (error) {
-			setErrors({message: "Não foi possível carregar a lista de usuários"});
 			setDBData([]);
-			if(error.response) {
-			  if(error.response.data) {
-			    if(error.response.data.message) {
-			      setErrors({message: error.response.data.message});
-			    }
-			  }
-			}
+			setError(true)
+			
 		}
   	}
 
   	const setTableTags = async (e) => {
   		e.preventDefault();
-		setErrors({}); /*Limpando os erros anteriores*/
 		setDataType("tag");
 
   		try {
@@ -222,24 +201,18 @@ function Dashboard() {
 			if(response.data.success) {
 			  if(response.data.tags) {
 			    setDBData(response.data.tags);
+				setError(false)
 			  }
 			}
 		} catch (error) {
-			setErrors({message: "Não foi possível carregar a lista de tags"});
 			setDBData([]);
-			if(error.response) {
-			  if(error.response.data) {
-			    if(error.response.data.message) {
-			      setErrors({message: error.response.data.message});
-			    }
-			  }
-			}
+			setError(true)
+		
 		}
   	}
 
   	const setTableOpportunities = async (e) => {
   		e.preventDefault();
-  		setErrors({}); /*Limpando os erros anteriores*/
 		setDataType("job");
 
   		try {
@@ -248,24 +221,19 @@ function Dashboard() {
 			if(response.data.success) {
 			  if(response.data.jobs) {
 			    setDBData(response.data.jobs);
+				setError(false)
 			  }
 			}
 		} catch (error) {
-			setErrors({message: "Não foi possível carregar a lista de oportunidades"});
 			setDBData([]);
-			if(error.response) {
-			  if(error.response.data) {
-			    if(error.response.data.message) {
-			      setErrors({message: error.response.data.message});
-			    }
-			  }
-			}
+			setError(true)
+
+		
 		}
   	}
 
   	const setTableNotices = async (e) => {
   		e.preventDefault();
-  		setErrors({}); /*Limpando os erros anteriores*/
 		setDataType("notice");
 
   		try {
@@ -274,18 +242,12 @@ function Dashboard() {
 			if(response.data.success) {
 			  if(response.data.notices) {
 			    setDBData(response.data.notices);
-			  }
+				setError(false);
+			}
 			}
 		} catch (error) {
-			setErrors({message: "Não foi possível carregar a lista de oportunidades"});
 			setDBData([]);
-			if(error.response) {
-			  if(error.response.data) {
-			    if(error.response.data.message) {
-			      setErrors({message: error.response.data.message});
-			    }
-			  }
-			}
+			setError(true);
 		}
   	}
 
@@ -302,10 +264,10 @@ function Dashboard() {
 	tag={setTableTags}
 	/>
 	{/* Content of page (TABLE below) */}
-	<div className="container">
-		<h1>Dashboard</h1>
-		{createTable(dbData)}
-	</div>
+			<Content>
+				<h1>Dashboard</h1>
+				{error && !dbData.length ||error ? <h1>Não há Conteúdo disponível!</h1>: createTable(dbData)}
+			</Content>
 	</ScreenView>
 	<Footer/>
   </Page>)

@@ -10,7 +10,7 @@ export const Container = styled.div`
 
 
 export const SidebarStyled = styled.div`
-min-width:13vw;
+min-width:18vw !important;
 width:auto;
 background-color:var(--color-freela-white);
 border-radius:0.3rem;
@@ -42,5 +42,23 @@ height:80%;
         font-size:22px;
         font-weight:560;
     }
+}
+`;
+
+export const Content = styled.div`
+display:flex;
+width:83%;
+height:auto;
+margin:0 auto;
+padding:1rem!important;
+position:absolute;
+right:0;
+>h1{
+    margin:0 auto;
+    padding:1rem;
+}
+>table{
+    margin-top:2rem;
+    width:100% !important;
 }
 `;
