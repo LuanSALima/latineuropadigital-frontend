@@ -1,25 +1,20 @@
 import React, { useState, useEffect } from 'react';
 
-import Header from '../../components/Header';
-import { Page } from '../../styles/default';
+import Header from '../../../components/Header';
+import { Page } from '../../../styles/default';
 
-import api from '../../services/api';
-import Footer from '../../components/Footer';
+import api from '../../../services/api';
+import Footer from '../../../components/Footer';
+import { MyScreenView, OportunityCard } from '../OpportunitieList/styles';
 
 function Job(props) {
   return (
-    <div style={{marginBottom: '15px'}}>
-      <span style={{fontSize: '18px'}}>Título: </span>
-      <span>{props.job.title}</span>
-      <br />
-      <span style={{fontSize: '18px'}}>Descrição: </span>
-      <span>{props.job.description}</span>
-      <br />
-      <span style={{fontSize: '18px'}}>Nome:</span>
-      <span>{props.job.professionalName}</span>
-      <span style={{fontSize: '18px', marginLeft: '10px'}}>Contato:</span>
-      <span>{props.job.professionalContact}</span>
-    </div>
+    <OportunityCard>
+    <label >{props.job.title}</label>
+      <span >Nome: <b>{props.job.professionalName}</b></span>
+      <span >Descrição: <b>{props.job.description}</b></span>
+      <span >Contato: <b>{props.job.professionalContact}</b></span>
+  </OportunityCard>
   );
 }
 
@@ -57,11 +52,14 @@ function OpportunitiePendents(props) {
   return (
   <Page>
     <Header/>
-    <h1>Oportunidades</h1>
+    <MyScreenView>
+    <h1>OPORTUNIDADES PENDIENTES</h1>
     <h2 style={{color: 'red'}}>{errors.message}</h2>
      {jobs.map((currentjob)=>(
         <Job job={currentjob} />
       ))}
+    </MyScreenView>
+  
       <Footer/>
   </Page>);
 }
