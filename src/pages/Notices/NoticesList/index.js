@@ -16,7 +16,7 @@ function NoticesList() {
  
   const listTags = async () =>{
     try {
-      const response = await api.get("/tag/list");
+      const response = await api.get("/tags/used");
       setTags(response.data.tags)
     } catch (error) {
     }

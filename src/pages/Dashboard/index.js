@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import Header from '../../components/Header';
-import { Page } from '../../styles/default';
+import { Page, ScreenView } from '../../styles/default';
 
 import Table from 'react-bootstrap/Table';
 import { Link } from 'react-router-dom';
 import Footer from '../../components/Footer';
 import api from '../../services/api';
+import Sidebar from './sidebar';
 
 function Dashboard() {
 
@@ -267,33 +268,20 @@ function Dashboard() {
   return (
     <Page>
     <Header/>
-    <div className="container-fluid mt-5">
-		<div className="row mt-3">
-			<div className="sidebar-sticky p-4">
-				<h3 className="sidebar-heading justify-content-center align-items-center text-center">Menu</h3>
-				<ul className="nav flex-column justify-content-center align-items-center">
-					<li className="nav-item p-1">
-						<button onClick={setTablePosts}>Notícias</button>
-					</li>
-					<li className="nav-item p-1">
-						<button onClick={setTableUsers}>Usuários</button>
-					</li>
-					<li className="nav-item p-1">
-						<button onClick={setTableOpportunities}>Oportunidades</button>
-					</li>
-					<li className="nav-item p-1">
-						<button onClick={setTableTags}>Tags</button>
-					</li>
-				</ul>
-			</div>
+	<ScreenView>
+	<Sidebar 
+	noticia={setTablePosts} 
+	usuario={setTableUsers} 
+	oportunidade={setTableOpportunities}
+	tag={setTableTags}
+	/>
+	{/* Content of page (TABLE below) */}
 			<div className="container">
 				<h1>Dashboard</h1>
-				<h2 style={{color: 'red'}}>{errors.message}</h2>
 				{(!dbData.length)?<h3>Acesse as funcionalidades clicando nos items do menu à esquerda</h3>:<span></span>}
 				{createTable(dbData)}
 			</div>
-		</div>
-	</div>
+	</ScreenView>
 	<Footer/>
   </Page>)
 }
