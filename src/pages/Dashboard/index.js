@@ -264,6 +264,32 @@ function Dashboard() {
 		}
   	}
 
+  	const setTableNotices = async (e) => {
+  		e.preventDefault();
+  		setErrors({}); /*Limpando os erros anteriores*/
+		setDataType("notice");
+
+  		try {
+			const response = await api.get("/notice/list");
+
+			if(response.data.success) {
+			  if(response.data.notices) {
+			    setDBData(response.data.notices);
+			  }
+			}
+		} catch (error) {
+			setErrors({message: "Não foi possível carregar a lista de oportunidades"});
+			setDBData([]);
+			if(error.response) {
+			  if(error.response.data) {
+			    if(error.response.data.message) {
+			      setErrors({message: error.response.data.message});
+			    }
+			  }
+			}
+		}
+  	}
+
   return (
     <Page>
     <Header/>
@@ -273,7 +299,10 @@ function Dashboard() {
 				<h3 className="sidebar-heading justify-content-center align-items-center text-center">Menu</h3>
 				<ul className="nav flex-column justify-content-center align-items-center">
 					<li className="nav-item p-1">
-						<button onClick={setTablePosts}>Notícias</button>
+						<button onClick={setTablePosts}>Posts</button>
+					</li>
+					<li className="nav-item p-1">
+						<button onClick={setTableNotices}>Notícias</button>
 					</li>
 					<li className="nav-item p-1">
 						<button onClick={setTableUsers}>Usuários</button>

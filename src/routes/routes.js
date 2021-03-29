@@ -12,6 +12,7 @@ import OpportunitiePendents from '../pages/Oportunities/OpportunitiePendents';
 import NoticeRegister from '../pages/Notices/NoticeRegister';
 import NoticesList from '../pages/Notices/NoticesList';
 import NoticesDetails from '../pages/Notices/NoticesDetails';
+import NoticeEdit from '../pages/Notices/NoticeEdit';
 import Dashboard from '../pages/Dashboard';
 import TagEdit from '../pages/TagEdit';
 import UserEdit from '../pages/UserEdit';
@@ -61,6 +62,7 @@ function Routes() {
         <AdminRoute path="/oportunidades-pendentes" component={OpportunitiePendents} />
         <AdminRoute path="/job/editar/:id" component={OpportunitieEdit} />
         <AdminRoute path="/tag/editar/:id" component={TagEdit} />
+        <AdminRoute path="/notice/editar/:id" component={NoticeEdit} />
         <AdminRoute path="/user/editar/:id" component={UserEdit} />
 
         <AdminRoute path="/criar-post" component={NoticeRegister} />
