@@ -14,7 +14,7 @@ function NoticesList() {
   const [notices, setNotices] = useState([]);
   const [tags, setTags] = useState([]);
  
-  const listTags = async () =>{
+  const listTags = async () => {
     try {
       const response = await api.get("notices/tags");
       setTags(response.data.tags);

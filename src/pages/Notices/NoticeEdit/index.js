@@ -135,7 +135,7 @@ function NoticeEdit(props) {
     <Header/>
     <Form width={"45%"} center>
       <ContentView>
-        <label>Crie uma Notícia !</label>
+        <label>Edite a Notícia !</label>
 
         <label style={{color: 'red'}}>{errors.message}</label>
 
