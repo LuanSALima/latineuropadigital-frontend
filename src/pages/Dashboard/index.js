@@ -23,27 +23,25 @@ function Dashboard() {
   		'imagePath'
   	]);
 
+	function mapDinamicColumns(){
+		let individualColumn = [];
+
+		if(dbData.length) {
+			individualColumn.push("Editar");
+			individualColumn.push("Remover");
+		}
+
+		  Object.keys(dbData).forEach((key) => {
+			  Object.keys(dbData[key]).forEach((chave) => {
+				  if(individualColumn.indexOf(chave) === -1 && ignoreColumns.indexOf(chave) === -1) {
+					  individualColumn.push(chave);
+				  }
+			  });
+		  });
+		  setColumns(individualColumn);
+	}
+	
   	useEffect(() => {
-	}, []);
-
-  	useEffect(() => {
-	    function mapDinamicColumns(){
-	    	let individualColumn = [];
-
-	    	if(dbData.length) {
-	    		individualColumn.push("Editar");
-	    		individualColumn.push("Remover");
-	    	}
-
-	  		Object.keys(dbData).forEach((key) => {
-	  			Object.keys(dbData[key]).forEach((chave) => {
-	  				if(individualColumn.indexOf(chave) === -1 && ignoreColumns.indexOf(chave) === -1) {
-	  					individualColumn.push(chave);
-	  				}
-	  			});
-	  		});
-	  		setColumns(individualColumn);
-	    }
 	    mapDinamicColumns();
 	}, [dbData]);
 
@@ -278,7 +276,6 @@ function Dashboard() {
 	{/* Content of page (TABLE below) */}
 			<div className="container">
 				<h1>Dashboard</h1>
-				{(!dbData.length)?<h3>Acesse as funcionalidades clicando nos items do menu à esquerda</h3>:<span></span>}
 				{createTable(dbData)}
 			</div>
 	</ScreenView>
