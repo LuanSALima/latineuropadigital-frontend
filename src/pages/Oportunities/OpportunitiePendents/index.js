@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 
-import Header from '../../components/Header';
-import { Page } from '../../styles/default';
+import Header from '../../../components/Header';
+import { Page } from '../../../styles/default';
 
-import api from '../../services/api';
-import Footer from '../../components/Footer';
+import api from '../../../services/api';
+import Footer from '../../../components/Footer';
 
 function Job(props) {
   return (

@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { ScreenView } from '../../styles/default';
+import { ScreenView } from '../../../styles/default';
 
 export const MyScreenView = styled(ScreenView)`
 background-color:white !important;

@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 
-import Header from '../../components/Header';
-import { AppButton, ContentView, Form, Page } from '../../styles/default';
+import Header from '../../../components/Header';
+import { AppButton, ContentView, Form, Page } from '../../../styles/default';
 
-import api from '../../services/api';
+import api from '../../../services/api';
 
 function OpportunitieEdit(props) {
 

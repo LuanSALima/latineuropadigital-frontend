@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import Header from '../../components/Header';
-import NoticesCard from '../../components/NoticesCard';
-import {  Page, ScreenView } from '../../styles/default';
-import imgTest from '../../assets/icon.svg';
+import Header from '../../../components/Header';
+import NoticesCard from '../../../components/NoticesCard';
+import {  Page, ScreenView } from '../../../styles/default';
+import imgTest from '../../../assets/icon.svg';
 
-import api from '../../services/api';
-import HorizonScrollView from '../../components/HorizonScrollView';
-import Footer from '../../components/Footer';
+import api from '../../../services/api';
+import HorizonScrollView from '../../../components/HorizonScrollView';
+import Footer from '../../../components/Footer';
 import { MyScreenView } from './styles';
 
 function NoticesList() {
