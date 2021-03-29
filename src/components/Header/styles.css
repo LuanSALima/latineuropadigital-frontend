@@ -5,6 +5,7 @@
 .headerStyles {
   height: 86px;
   background-color: var(--color-freela-white);
+  max-width: 98vw !important;
 
   /* background-image: linear-gradient(#1e1e1e, #2e2e2e); */
 }
@@ -15,7 +16,7 @@
 }
 .headerTitle img {
   height: auto;
-  width: 150px;
+  width: 135px;
   cursor: pointer;
   margin-top: 50px;
   border-radius: 5px;
@@ -28,13 +29,13 @@
 
 .texts {
   color: var(--color-freela-text) !important;
-  font-size: 17px;
+  font-size: 16px;
   font-weight: 500;
 }
 
 .headerLinks {
   height: 86px !important;
-  padding: 0rem 1rem !important;
+  padding: 0rem 0.5rem !important;
   display: flex;
   text-align: center;
   align-items: center;
