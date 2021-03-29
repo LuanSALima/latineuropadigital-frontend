@@ -7,6 +7,7 @@ import imgTest from '../../assets/icon.svg';
 import api from '../../services/api';
 import HorizonScrollView from '../../components/HorizonScrollView';
 import Footer from '../../components/Footer';
+import { MyScreenView } from './styles';
 
 function NoticesList() {
 
@@ -52,8 +53,8 @@ function NoticesList() {
   return (
       <Page>
         <Header/>
-        <ScreenView width={"90%"}>
-    
+        <MyScreenView >
+    <h1> Noticias y actualidad:</h1>
 {tags.map((tags)=>(
   <HorizonScrollView title={tags.title} subtitle="Espetáculos, entretenimento e mucho más">
   {posts.map((content)=>(
@@ -67,7 +68,7 @@ function NoticesList() {
   </HorizonScrollView>
   ))
   }
-        </ScreenView>
+        </MyScreenView>
         <Footer/>
       </Page>
   );

@@ -3,6 +3,7 @@ import styled from 'styled-components';
 export const TitleView = styled.label`
 margin:0 !important;
 margin-left:1.5rem !important;
+margin-top:3rem !important;
 text-transform:uppercase;
 font-size:22px;
 font-weight:750;

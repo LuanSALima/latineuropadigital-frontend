@@ -131,7 +131,7 @@ box-shadow: 2px 2px 6px 2px #2e2e2e;
 
 export const ScreenView = styled.div`
 ${myView};
-  background-color:transparent !important;
+  background-color:transparent;
 `;
 
 export const TwoDivided = styled.div`
