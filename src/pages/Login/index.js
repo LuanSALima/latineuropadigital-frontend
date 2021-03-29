@@ -7,6 +7,8 @@ import Footer from '../../components/Footer';
 import api from '../../services/api';
 import { login } from '../../services/auth';
 import history from '../../services/history/history'
+import Toastifying, { TOASTIFY_OPTIONS } from '../../components/Toastifying';
+import { toast } from 'react-toastify';
 function Login() {
 
 
@@ -19,12 +21,14 @@ function Login() {
 
     try {
       const response = await api.post("/auth/authenticate", {email, password});
-
       login(response.data.token, response.data.user);
-      history.push('/')
+      toast.success("Inicio de sesión exitoso! Hola adm.",TOASTIFY_OPTIONS)
+      setTimeout(() => {
+        history.push('/dashboard')
+      }, 2500);
     } catch (error) {
       //Toastify over here
-
+      toast.error("Inicio de sesión incorrecto, vuelva a intentarlo",TOASTIFY_OPTIONS)
     }
   };
 
@@ -33,6 +37,7 @@ function Login() {
     <Header/>
     <Form width={"45%"} center>
         <ContentView>
+          <Toastifying/>
           <label>Hola adm! inicia sesión en nuestra plataforma</label>
 
     <br></br>
