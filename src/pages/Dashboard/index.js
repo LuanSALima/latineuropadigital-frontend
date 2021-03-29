@@ -27,19 +27,20 @@ function Dashboard() {
 	function mapDinamicColumns(){
 		let individualColumn = [];
 
+		Object.keys(dbData).forEach((key) => {
+		  Object.keys(dbData[key]).forEach((chave) => {
+			  if(individualColumn.indexOf(chave) === -1 && ignoreColumns.indexOf(chave) === -1) {
+				  individualColumn.push(chave);
+			  }
+		  });
+		});
+
 		if(dbData.length) {
 			individualColumn.push("Editar");
 			individualColumn.push("Eliminar");
 		}
 
-		  Object.keys(dbData).forEach((key) => {
-			  Object.keys(dbData[key]).forEach((chave) => {
-				  if(individualColumn.indexOf(chave) === -1 && ignoreColumns.indexOf(chave) === -1) {
-					  individualColumn.push(chave);
-				  }
-			  });
-		  });
-		  setColumns(individualColumn);
+		setColumns(individualColumn);
 	}
 	
   	useEffect(() => {
@@ -59,10 +60,6 @@ function Dashboard() {
   	const createTableRow = (row) => {
   		let rowData = [];
 
-  		if(dbData.length) {
-  			rowData.push(row._id);
-  			rowData.push(row._id);
-  		}
   		/*
 			Para cada coluna procura para cada key da linha
 			Se a key da linha for igual da coluna
@@ -77,29 +74,41 @@ function Dashboard() {
 			que seria usado no lugar do comentario abaixo
   		*/
   		columns.map((column) => {
+  			let pushed = false;
 			Object.keys(row).map((item) => {
 				if(column == item) {
 					rowData.push(row[item]);
+					pushed = true;
 					//break; Pois no lugar que está apontando esta coluna ja foi encontrado o valor desta linha com mesmo key que o nome da coluna
 				} else {
 					//Remova este comentário abaixo para entender o que este problema
 					//console.log(column+" != "+item);
+					return;
 				}
 			});
+
+			if(!pushed && (column !== "Editar" && column !== "Eliminar")) {
+				rowData.push("");
+			}
 		});
+
+		if(dbData.length) {
+  			rowData.push(row._id);
+  			rowData.push(row._id);
+  		}
 	  		
   		return (
   			rowData.map((data, index) => {
 
   				//Se o index for igual a 0, Ou seja a primeira coluna da tabela, no qual ja colocamos no cabecalho como Editar
-  				if(index === 0) {
+  				if(index === columns.length-2) {
   					return (
   						<td><Link to={dataType+"/editar/"+data} style={{color:"green"}}>Editar</Link></td>
   					);
   				}
 
   				//Se o index for igual a 1, Ou seja a segunda coluna da tabela, no qual ja colocamos no cabecalho como Remover
-  				if(index === 1) {
+  				if(index === columns.length-1) {
   					const removeItem = async (e) => {
   						e.preventDefault();
 
