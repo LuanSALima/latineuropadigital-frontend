@@ -159,26 +159,6 @@ function Dashboard() {
   		);
   	}
 
-  	const setTablePosts = async (e) => {
-  		e.preventDefault();
-		setDataType("post");
-
-  		try {
-			const response = await api.get("/post/list");
-
-			if(response.data.success) {
-			  if(response.data.posts) {
-			    setDBData(response.data.posts);
-				setError(false)
-			  }
-			}
-		} catch (error) {
-			setDBData([]);
-			setError(true)
-			
-		}
-  	}
-
   	const setTableUsers = async (e) => {
   		e.preventDefault();
   		setDataType("user");
@@ -266,17 +246,27 @@ function Dashboard() {
 
 	<ScreenView>
 	<Sidebar 
-	post={setTablePosts} 
 	noticia={setTableNotices} 
 	usuario={setTableUsers} 
 	oportunidade={setTableOpportunities}
 	tag={setTableTags}
 	/>
 	{/* Content of page (TABLE below) */}
-			<Content>
-				<h1>Dashboard</h1>
-				{error && !dbData.length ||error ? <h1>Não há Conteúdo disponível!</h1>: createTable(dbData)}
-			</Content>
+		<Content>
+			<h1>Dashboard</h1>
+			{dataType ?
+			<div>
+				<Link to={"/"+dataType+"/cadastrar"}>
+				<h3>Cadastrar Novo</h3>
+				</Link>
+			</div>
+			:
+			<div>
+
+			</div>
+			}
+			{error && !dbData.length ||error ? <h1>Não há Conteúdo disponível!</h1>: createTable(dbData)}
+		</Content>
 	</ScreenView>
 	<Footer/>
   </Page>)

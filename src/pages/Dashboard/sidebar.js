@@ -5,9 +5,6 @@ import { SidebarStyled } from "./styles";
 function Sidebar(props) {
   return (
     <SidebarStyled>
-      <div onClick={props.post}>
-        <span>Posts</span>
-      </div>
       <div onClick={props.noticia}>
         <span>Notícias</span>
       </div>

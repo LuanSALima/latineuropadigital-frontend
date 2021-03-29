@@ -50,7 +50,7 @@ function Header() {
 
         </Nav>
         <Nav>
-        <Link to="/cadastrar-job">
+        <Link to="/job/cadastrar">
           <div className="headerLinks">
             <span className="texts">ANUNCIAR</span>
           </div>
@@ -58,20 +58,13 @@ function Header() {
       </Nav>
         </>
         ):null}
-
-       
-          
-
-      
-       
-
       
        { isAdmin()? (
 <>       
        <Nav className="mr-auto">
           <NavDropdown className="headerLinks texts" title="ACTUALIDAD">
-            <Link to="/oportunidades" className="dropdown-item">Listar Actualidad</Link>
-            <Link to="/oportunidades-pendentes" className="dropdown-item">Anunciar Actualidad</Link>
+            <Link to="/noticias" className="dropdown-item">Listar Actualidad</Link>
+            <Link to="/notice/cadastrar" className="dropdown-item">Anunciar Actualidad</Link>
           </NavDropdown>
       
           <NavDropdown className="headerLinks texts" title="DIRECTORIO">

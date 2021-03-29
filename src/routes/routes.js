@@ -14,7 +14,8 @@ import NoticesList from '../pages/Notices/NoticesList';
 import NoticesDetails from '../pages/Notices/NoticesDetails';
 import NoticeEdit from '../pages/Notices/NoticeEdit';
 import Dashboard from '../pages/Dashboard';
-import TagEdit from '../pages/TagEdit';
+import TagRegister from '../pages/Tags/TagRegister';
+import TagEdit from '../pages/Tags/TagEdit';
 import UserEdit from '../pages/UserEdit';
 
 // import { Container } from './styles';
@@ -51,21 +52,22 @@ function Routes() {
   return <Router history={history}>
       <Switch>
         <Route path="/login"  component={Login} />
-        <Route path="/cadastro"  component={AnunciarServico} />
+        <Route path="/user/cadastrar"  component={AnunciarServico} />
         <Route path="/oportunidades" exact component={OpportunitieList} />
         <Route path="/noticias" exact component={NoticesList} />
         <Route path="/noticia/:id" exact component={NoticesDetails} />
-        <Route path="/cadastrar-job" component={OpportunitieRegister} />
+        <Route path="/job/cadastrar" component={OpportunitieRegister} />
         <Route path="/" exact component={Home} />
         
         <AdminRoute path="/dashboard" component={Dashboard} />
         <AdminRoute path="/oportunidades-pendentes" component={OpportunitiePendents} />
         <AdminRoute path="/job/editar/:id" component={OpportunitieEdit} />
+        <AdminRoute path="/tag/cadastrar" component={TagRegister} />
         <AdminRoute path="/tag/editar/:id" component={TagEdit} />
         <AdminRoute path="/notice/editar/:id" component={NoticeEdit} />
         <AdminRoute path="/user/editar/:id" component={UserEdit} />
 
-        <AdminRoute path="/criar-post" component={NoticeRegister} />
+        <AdminRoute path="/notice/cadastrar" component={NoticeRegister} />
 
         <Route path="/logout" exact render={props => {
 	          logout(); 
