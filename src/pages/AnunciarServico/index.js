@@ -40,7 +40,7 @@ function Register() {
 		<Header />
 		<Form width={"45%"} center>
 			<ContentView>
-				<label>¡Anuncie sus servicios!</label>
+				<label>¡Cadastrar Usuário!</label>
 
 
 				<input

@@ -8,25 +8,25 @@ import api from '../../../services/api';
 import { isAdmin } from '../../../services/auth';
 import Footer from '../../../components/Footer';
 
-function NoticesDetails(props) {
+function CourseDetails(props) {
 
   const [removeButtonText, setRemoveButtonText] = useState("Remover");
 
-  const [idNotice] = useState(props.match.params.id);
-  const [notice, setNotice] = useState([]);
+  const [idCourse] = useState(props.match.params.id);
+  const [course, setCourse] = useState([]);
   const [errors, setErrors] = useState({});
 
-  async function findNotice() {
+  async function findCourse() {
     try {
-      const response = await api.get("/notice/"+idNotice);
+      const response = await api.get("/course/"+idCourse);
 
       if(response.data.success) {
-        if(response.data.notice) {
-          setNotice(response.data.notice);
+        if(response.data.course) {
+          setCourse(response.data.course);
         }
       }
     } catch (error) {
-      setErrors({message: "Não foi possível encontrar este Notice"});
+      setErrors({message: "Não foi possível encontrar este Courseo"});
       if(error.response) {
         if(error.response.data) {
           if(error.response.data.message) {
@@ -38,15 +38,15 @@ function NoticesDetails(props) {
   }
 
   useEffect(() => {
-    findNotice();
+    findCourse();
   }, []);
 
-  const handleRemoveNotice = async (e) => {
+  const handleRemoveCourse = async (e) => {
     e.preventDefault();
     setRemoveButtonText("Removendo ...");
 
     try {
-      const response = await api.delete("/notice/"+idNotice);
+      const response = await api.delete("/course/"+idCourse);
 
       if(response.data.success) {
         setRemoveButtonText("Removido com sucesso!");
@@ -74,18 +74,18 @@ function NoticesDetails(props) {
         <br></br>
         <h2 style={{color: 'red'}}>{errors.message}</h2>
 
-        <img src={process.env.REACT_APP_API_URL+notice.imagePath} />
+        <img src={process.env.REACT_APP_API_URL+course.imagePath} />
 
         <h1>Titulo</h1>
-        <h3>{notice.title}</h3>
+        <h3>{course.title}</h3>
 
         <h1>Descrição</h1>
-        <h3>{notice.description}</h3>
+        <h3>{course.description}</h3>
         
         {
         isAdmin() ?
         <div>
-          <button onClick={handleRemoveNotice}>{removeButtonText}</button>
+          <button onClick={handleRemoveCourse}>{removeButtonText}</button>
         </div>
         :
         <br />
@@ -97,4 +97,4 @@ function NoticesDetails(props) {
   );
 }
 
-export default NoticesDetails;
+export default CourseDetails;

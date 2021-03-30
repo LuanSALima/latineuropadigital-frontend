@@ -27,17 +27,17 @@ function Header() {
           </Link>
       
           
-          <Link to="/diretorio">
+          <Link to="/diretorios">
             <div className="headerLinks">
               <span className="texts">DIRECTORIO</span>
             </div>
           </Link>
-          <Link to="/agenda">
+          <Link to="/eventos">
             <div className="headerLinks">
               <span className="texts">AGENDA</span>
             </div>
           </Link>
-          <Link to="/educacao">
+          <Link to="/cursos">
             <div className="headerLinks">
               <span className="texts">EDUCACIÓN</span>
             </div>
@@ -50,7 +50,7 @@ function Header() {
 
         </Nav>
         <Nav>
-        <Link to="/cadastrar-job">
+        <Link to="/job/cadastrar">
           <div className="headerLinks">
             <span className="texts">ANUNCIAR</span>
           </div>
@@ -58,35 +58,28 @@ function Header() {
       </Nav>
         </>
         ):null}
-
-       
-          
-
-      
-       
-
       
        { isAdmin()? (
 <>       
        <Nav className="mr-auto">
           <NavDropdown className="headerLinks texts" title="ACTUALIDAD">
-            <Link to="/oportunidades" className="dropdown-item">Listar Actualidad</Link>
-            <Link to="/oportunidades-pendentes" className="dropdown-item">Anunciar Actualidad</Link>
+            <Link to="/noticias" className="dropdown-item">Listar Actualidad</Link>
+            <Link to="/notice/cadastrar" className="dropdown-item">Anunciar Actualidad</Link>
           </NavDropdown>
       
           <NavDropdown className="headerLinks texts" title="DIRECTORIO">
-            <Link to="/oportunidades" className="dropdown-item">Listar Directorio</Link>
-            <Link to="/oportunidades-pendentes" className="dropdown-item">Anunciar Directorio</Link>
+            <Link to="/diretorios" className="dropdown-item">Listar Directorio</Link>
+            <Link to="/directory/cadastrar" className="dropdown-item">Anunciar Directorio</Link>
           </NavDropdown>
 
           <NavDropdown className="headerLinks texts" title="AGENDA">
-            <Link to="/oportunidades" className="dropdown-item">Listar Eventos</Link>
-            <Link to="/oportunidades-pendentes" className="dropdown-item">Anunciar Eventos</Link>
+            <Link to="/eventos" className="dropdown-item">Listar Eventos</Link>
+            <Link to="/event/cadastrar" className="dropdown-item">Anunciar Eventos</Link>
           </NavDropdown>
 
           <NavDropdown className="headerLinks texts" title="EDUCACIÓN">
-            <Link to="/oportunidades" className="dropdown-item">Listar Cursos</Link>
-            <Link to="/oportunidades-pendentes" className="dropdown-item">Anunciar Cursos</Link>
+            <Link to="/cursos" className="dropdown-item">Listar Cursos</Link>
+            <Link to="/course/cadastrar" className="dropdown-item">Anunciar Cursos</Link>
           </NavDropdown>
           <NavDropdown className="headerLinks texts" title="OPORTUNIDADES">
             <Link to="/oportunidades" className="dropdown-item">Listar Aceitas</Link>

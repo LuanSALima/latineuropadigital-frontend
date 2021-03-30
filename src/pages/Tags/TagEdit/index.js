@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 
-import Header from '../../components/Header';
-import { AppButton, ContentView, Form, Page } from '../../styles/default';
+import Header from '../../../components/Header';
+import { AppButton, ContentView, Form, Page } from '../../../styles/default';
 
-import api from '../../services/api';
+import api from '../../../services/api';
 
 function TagEdit(props) {
 
@@ -11,6 +11,7 @@ function TagEdit(props) {
 
   const [idTag] = useState(props.match.params.id);
   const [title, setTitle] = useState("Carregando Título...");
+  const [description, setDescription] = useState("Carregando Descrição...");
   const [errors, setErrors] = useState({});
 
   const handleTagEdit = async (e) => {
@@ -18,7 +19,7 @@ function TagEdit(props) {
     setButtonText("Enviando Dados ...");
 
     try {
-      const response = await api.put("/tag/"+idTag, {title});
+      const response = await api.put("/tag/"+idTag, {title, description});
 
       console.log(response.data);
       setButtonText("Editado com Sucesso");
@@ -40,21 +41,25 @@ function TagEdit(props) {
     }
   };
 
-  useEffect(() => {
-    async function getTag() {
-      try {
-        const response = await api.get("/tag/"+idTag);
+  async function getTag() {
+    try {
+      const response = await api.get("/tag/"+idTag);
 
-        if(response.data.success) {
-          if(response.data.tag) {
-            setTitle(response.data.tag.title);
-          }
+      if(response.data.success) {
+        setTitle("");
+        setDescription("");
+        if(response.data.tag) {
+          setTitle(response.data.tag.title);
+          setDescription(response.data.tag.description);
         }
-      } catch (error) {
-        setErrors({message: "Não foi possível encontrar esta Tag"});
-        setTitle("Problema ao carregar o título");
       }
+    } catch (error) {
+      setErrors({message: "Não foi possível encontrar esta Tag"});
+      setTitle("Problema ao carregar o título");
+      setDescription("Problema ao carregar a descrição");
     }
+  }
+  useEffect(() => {
     getTag();
   }, [idTag]);
 
@@ -76,6 +81,16 @@ function TagEdit(props) {
           value={title}
         />
         <span style={{color: 'red'}}>{errors.title}</span>
+
+        <input
+          placeholder="Insira a Descrição"
+          type="text"
+          onChange={(e) => {
+            setDescription(e.target.value);
+          }}
+          value={description}
+        />
+        <span style={{color: 'red'}}>{errors.description}</span>
 
         <br></br>
         <AppButton onClick={handleTagEdit}>{buttonText}</AppButton>

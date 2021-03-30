@@ -11,31 +11,31 @@ import { MyScreenView } from './styles';
 
 import { Link } from 'react-router-dom';
 
-function NoticesList() {
+function DirectoryList() {
 
-  const [notices, setNotices] = useState([]);
+  const [directories, setDirectories] = useState([]);
   const [tags, setTags] = useState([]);
  
   const listTags = async () => {
     try {
-      const response = await api.get("notices/tags");
+      const response = await api.get("directories/tags");
       setTags(response.data.tags);
     } catch (error) {
     }
   }
-   const listNotices = async () => {
+   const listDirectories = async () => {
     try {
 
-      const response = await api.get("/notice/list");
+      const response = await api.get("/directory/list");
 
       if(response.data.success) {
-        if(response.data.notices) {
-          let noticesDb = [];
-          for(let index in response.data.notices) {
-            const notice = response.data.notices[index];
-            noticesDb.push({ tag : notice.tags,id: notice._id, title: notice.title, description: notice.description, image: `${process.env.REACT_APP_API_URL}`+notice.imagePath, icon: imgTest});
+        if(response.data.directories) {
+          let directoriesDb = [];
+          for(let index in response.data.directories) {
+            const directory = response.data.directories[index];
+            directoriesDb.push({ tag : directory.tags,id: directory._id, title: directory.title, description: directory.description, image: `${process.env.REACT_APP_API_URL}`+directory.imagePath, icon: imgTest});
           }
-          setNotices(noticesDb);
+          setDirectories(directoriesDb);
         }
       }
 
@@ -46,7 +46,7 @@ function NoticesList() {
   }
 
   useEffect(() => {
-    listNotices();
+    listDirectories();
   }, []);
   useEffect(() => {
     listTags();
@@ -56,13 +56,13 @@ function NoticesList() {
       <Page>
         <Header/>
         <MyScreenView >
-    <h1> Noticias y actualidad:</h1>
+    <h1> Diretorios :</h1>
 {tags.map((tags)=>(
   <HorizonScrollView title={tags.title} subtitle={tags.description}>
-  {notices.map((content)=>(
+  {directories.map((content)=>(
     content.tag.map((tagFiltered)=>{
       if(tagFiltered === tags.title){
-        return  <Link to={"/noticia/"+content.id}><NoticesCard id={content.id} icon={content.icon} image={content.image} title={content.title.length >= 18?content.title+"..":content.title}text={content.description.length >= 75 ? content.description+"..":content.description} /></Link>
+        return  <Link to={"/diretorio/"+content.id}><NoticesCard id={content.id} icon={content.icon} image={content.image} title={content.title.length >= 18?content.title+"..":content.title}text={content.description.length >= 75 ? content.description+"..":content.description} /></Link>
        }
     })
  
@@ -76,4 +76,4 @@ function NoticesList() {
   );
 }
 
-export default NoticesList;
+export default DirectoryList;

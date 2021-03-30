@@ -5,11 +5,17 @@ import { SidebarStyled } from "./styles";
 function Sidebar(props) {
   return (
     <SidebarStyled>
-      <div onClick={props.post}>
-        <span>Posts</span>
-      </div>
       <div onClick={props.noticia}>
         <span>Notícias</span>
+      </div>
+      <div onClick={props.diretorio}>
+        <span>Diretórios</span>
+      </div>
+      <div onClick={props.evento}>
+        <span>Agendas</span>
+      </div>
+      <div onClick={props.curso}>
+        <span>Cursos</span>
       </div>
       <div onClick={props.usuario}>
         <span>Usuários</span>

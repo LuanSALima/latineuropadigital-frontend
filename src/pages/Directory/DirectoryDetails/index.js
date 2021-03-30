@@ -8,25 +8,25 @@ import api from '../../../services/api';
 import { isAdmin } from '../../../services/auth';
 import Footer from '../../../components/Footer';
 
-function NoticesDetails(props) {
+function DirectoryDetails(props) {
 
   const [removeButtonText, setRemoveButtonText] = useState("Remover");
 
-  const [idNotice] = useState(props.match.params.id);
-  const [notice, setNotice] = useState([]);
+  const [idDirectory] = useState(props.match.params.id);
+  const [directory, setDirectory] = useState([]);
   const [errors, setErrors] = useState({});
 
-  async function findNotice() {
+  async function findDirectory() {
     try {
-      const response = await api.get("/notice/"+idNotice);
+      const response = await api.get("/directory/"+idDirectory);
 
       if(response.data.success) {
-        if(response.data.notice) {
-          setNotice(response.data.notice);
+        if(response.data.directory) {
+          setDirectory(response.data.directory);
         }
       }
     } catch (error) {
-      setErrors({message: "Não foi possível encontrar este Notice"});
+      setErrors({message: "Não foi possível encontrar este Directory"});
       if(error.response) {
         if(error.response.data) {
           if(error.response.data.message) {
@@ -38,15 +38,15 @@ function NoticesDetails(props) {
   }
 
   useEffect(() => {
-    findNotice();
+    findDirectory();
   }, []);
 
-  const handleRemoveNotice = async (e) => {
+  const handleRemoveDirectory = async (e) => {
     e.preventDefault();
     setRemoveButtonText("Removendo ...");
 
     try {
-      const response = await api.delete("/notice/"+idNotice);
+      const response = await api.delete("/directory/"+idDirectory);
 
       if(response.data.success) {
         setRemoveButtonText("Removido com sucesso!");
@@ -74,18 +74,18 @@ function NoticesDetails(props) {
         <br></br>
         <h2 style={{color: 'red'}}>{errors.message}</h2>
 
-        <img src={process.env.REACT_APP_API_URL+notice.imagePath} />
+        <img src={process.env.REACT_APP_API_URL+directory.imagePath} />
 
         <h1>Titulo</h1>
-        <h3>{notice.title}</h3>
+        <h3>{directory.title}</h3>
 
         <h1>Descrição</h1>
-        <h3>{notice.description}</h3>
+        <h3>{directory.description}</h3>
         
         {
         isAdmin() ?
         <div>
-          <button onClick={handleRemoveNotice}>{removeButtonText}</button>
+          <button onClick={handleRemoveDirectory}>{removeButtonText}</button>
         </div>
         :
         <br />
@@ -97,4 +97,4 @@ function NoticesDetails(props) {
   );
 }
 
-export default NoticesDetails;
+export default DirectoryDetails;

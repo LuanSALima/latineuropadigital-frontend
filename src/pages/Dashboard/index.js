@@ -159,26 +159,6 @@ function Dashboard() {
   		);
   	}
 
-  	const setTablePosts = async (e) => {
-  		e.preventDefault();
-		setDataType("post");
-
-  		try {
-			const response = await api.get("/post/list");
-
-			if(response.data.success) {
-			  if(response.data.posts) {
-			    setDBData(response.data.posts);
-				setError(false)
-			  }
-			}
-		} catch (error) {
-			setDBData([]);
-			setError(true)
-			
-		}
-  	}
-
   	const setTableUsers = async (e) => {
   		e.preventDefault();
   		setDataType("user");
@@ -260,23 +240,93 @@ function Dashboard() {
 		}
   	}
 
+  	const setTableDirectories = async (e) => {
+  		e.preventDefault();
+		setDataType("directory");
+
+  		try {
+			const response = await api.get("/directory/list");
+
+			if(response.data.success) {
+			  	if(response.data.directories) {
+			    	setDBData(response.data.directories);
+					setError(false);
+				}
+			}
+		} catch (error) {
+			setDBData([]);
+			setError(true);
+		}
+  	}
+
+  	const setTableEvent = async (e) => {
+  		e.preventDefault();
+		setDataType("event");
+
+  		try {
+			const response = await api.get("/event/list");
+
+			if(response.data.success) {
+			  	if(response.data.events) {
+			    	setDBData(response.data.events);
+					setError(false);
+				}
+			}
+		} catch (error) {
+			setDBData([]);
+			setError(true);
+		}
+  	}
+
+  	const setTableCourse = async (e) => {
+  		e.preventDefault();
+		setDataType("course");
+
+  		try {
+			const response = await api.get("/course/list");
+
+			if(response.data.success) {
+			  	if(response.data.courses) {
+			    	setDBData(response.data.courses);
+					setError(false);
+				}
+			}
+		} catch (error) {
+			setDBData([]);
+			setError(true);
+		}
+  	}
+
   return (
     <Page>
     <Header/>
 
 	<ScreenView>
 	<Sidebar 
-	post={setTablePosts} 
 	noticia={setTableNotices} 
-	usuario={setTableUsers} 
+	diretorio={setTableDirectories} 
+	evento={setTableEvent}
+	curso={setTableCourse}
 	oportunidade={setTableOpportunities}
+	usuario={setTableUsers} 
 	tag={setTableTags}
 	/>
 	{/* Content of page (TABLE below) */}
-			<Content>
-				<h1>Dashboard</h1>
-				{error && !dbData.length ||error ? <h1>Não há Conteúdo disponível!</h1>: createTable(dbData)}
-			</Content>
+		<Content>
+			<h1>Dashboard</h1>
+			{dataType ?
+			<div>
+				<Link to={"/"+dataType+"/cadastrar"}>
+				<h3>Cadastrar Novo</h3>
+				</Link>
+			</div>
+			:
+			<div>
+
+			</div>
+			}
+			{error && !dbData.length ||error ? <h1>Não há Conteúdo disponível!</h1>: createTable(dbData)}
+		</Content>
 	</ScreenView>
 	<Footer/>
   </Page>)
