@@ -8,8 +8,9 @@ import api from '../../../services/api';
 import HorizonScrollView from '../../../components/HorizonScrollView';
 import Footer from '../../../components/Footer';
 import { MyScreenView } from './styles';
-
+import {Select} from 'react-select'
 import { Link } from 'react-router-dom';
+      
 
 function NoticesList() {
 
@@ -40,8 +41,6 @@ function NoticesList() {
       }
 
     } catch (error) {
-      
-          
     }
   }
 

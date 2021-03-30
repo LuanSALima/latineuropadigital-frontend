@@ -4,6 +4,7 @@ import Header from '../../../components/Header';
 import { AppButton, ContentView, Form, Page } from '../../../styles/default';
 import Footer from '../../../components/Footer';
 import api from '../../../services/api';
+import Select from 'react-select'
 
 function Tag(props) {
   return (
@@ -144,12 +145,15 @@ function NoticeRegister() {
         {tags.map((currentTag)=>(
           <Tag tag={currentTag} />
         ))}
-
-        <select>
-        {dbTags.map((currentTag)=>(
-          <option>{currentTag}</option>
-        ))}
-        </select>
+   
+        <Select
+         options={dbTags.map((currentTag)=>(
+          {label:currentTag,value:currentTag}))}
+          isClearable
+          isMulti
+          closeMenuOnSelect={false}
+        />
+       
         <span style={{color: 'red'}}>{errors.dbTags}</span>
 
         <input
