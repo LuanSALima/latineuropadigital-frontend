@@ -9,15 +9,12 @@ function Footer() {
           <label>Dirección : Lisboa, Edíficio Vera Cruz, 20</label>
           <label>Sitio :<a> www.soluçõesonline.com</a></label>
           <label>Contacto : (+351)217 854-999</label>
-      </div>
-      <Link to="/login">
-      <div>  
-        <label>
+
+          <Link to="/login">
         Adm Platform
-        </label>
-     
-        </div>      
         </Link>
+      </div>
+     
   </FooterStyles> );
 }
 
