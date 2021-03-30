@@ -11,6 +11,10 @@ function TagRegister() {
 
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
+  const [types, setTypes] = useState([]);
+
+  const [typeEscrita, setTypeEscrita] = useState("");
+
   const [errors, setErrors] = useState({});
 
   const handleTagRegister = async (e) => {
@@ -18,7 +22,7 @@ function TagRegister() {
     setButtonText("Enviando Dados ...");
 
     try {
-      const response = await api.post("/tag/create", {title, description});
+      const response = await api.post("/tag/create", {title, description, types});
 
       console.log(response.data);
       setButtonText("Cadastrado com Sucesso");
@@ -40,6 +44,13 @@ function TagRegister() {
       }
     }
   };
+
+  const addType = (e) => {
+    e.preventDefault();
+
+    setTypes([...types, typeEscrita]);
+    setTypeEscrita("");
+  }
 
   return (
   <Page>
@@ -69,6 +80,32 @@ function TagRegister() {
           value={description}
         />
         <span style={{color: 'red'}}>{errors.description}</span>
+
+        <p>Selecione o Tipo de Publicação que está tag pertence</p>
+        <select>
+          <option value="Notice">Notícia</option>
+          <option value="Directory">Directorio</option>
+          <option value="Event">Evento</option>
+          <option value="Course">Curso</option>
+        </select>
+        <span style={{color: 'red'}}>{errors.type}</span>
+
+        <input
+          placeholder="Insira o Tipo"
+          type="text"
+           onChange={(e) => {
+            setTypeEscrita(e.target.value);
+          }}
+          value={typeEscrita}
+        />
+        <button onClick={addType}>Adicionar Tipo</button>
+        <span style={{color: 'red'}}>{errors.tags}</span>
+
+
+        <p>Tags Selecionadas</p>
+        {types.map((currentType)=>(
+          <p>{currentType}</p>
+        ))}
 
         <br></br>
         <AppButton onClick={handleTagRegister}>{buttonText}</AppButton>

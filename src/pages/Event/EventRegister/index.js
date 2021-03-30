@@ -35,7 +35,7 @@ function EventRegister() {
 
     async function listTags() {
       try {
-        const response = await api.get("/tag/list");
+        const response = await api.get("/tags/event");
 
         if(response.data.success) {
           if(response.data.tags) {

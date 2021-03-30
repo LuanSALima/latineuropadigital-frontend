@@ -35,7 +35,7 @@ function DirectoryRegister() {
 
     async function listTags() {
       try {
-        const response = await api.get("/tag/list");
+        const response = await api.get("/tags/directory");
 
         if(response.data.success) {
           if(response.data.tags) {
