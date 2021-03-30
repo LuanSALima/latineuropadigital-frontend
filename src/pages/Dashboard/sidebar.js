@@ -12,7 +12,10 @@ function Sidebar(props) {
         <span>Diretórios</span>
       </div>
       <div onClick={props.evento}>
-        <span>Agenda</span>
+        <span>Agendas</span>
+      </div>
+      <div onClick={props.curso}>
+        <span>Cursos</span>
       </div>
       <div onClick={props.usuario}>
         <span>Usuários</span>

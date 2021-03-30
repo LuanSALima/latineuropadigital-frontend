@@ -26,6 +26,11 @@ import EventList from '../pages/Event/EventList';
 import EventDetails from '../pages/Event/EventDetails';
 import EventEdit from '../pages/Event/EventEdit';
 
+import CourseRegister from '../pages/Course/CourseRegister';
+import CourseList from '../pages/Course/CourseList';
+import CourseDetails from '../pages/Course/CourseDetails';
+import CourseEdit from '../pages/Course/CourseEdit';
+
 import TagRegister from '../pages/Tags/TagRegister';
 import TagEdit from '../pages/Tags/TagEdit';
 
@@ -80,6 +85,9 @@ function Routes() {
         <Route path="/eventos" exact component={EventList} />
         <Route path="/evento/:id" exact component={EventDetails} />
 
+        <Route path="/cursos" exact component={CourseList} />
+        <Route path="/curso/:id" exact component={CourseDetails} />
+
         <Route path="/oportunidades" exact component={OpportunitieList} />
         <Route path="/job/cadastrar" component={OpportunitieRegister} />
         
@@ -99,6 +107,9 @@ function Routes() {
 
         <AdminRoute path="/event/cadastrar" component={EventRegister} />
         <AdminRoute path="/event/editar/:id" component={EventEdit} />
+
+        <AdminRoute path="/course/cadastrar" component={CourseRegister} />
+        <AdminRoute path="/course/editar/:id" component={CourseEdit} />
 
         <AdminRoute path="/user/editar/:id" component={UserEdit} />
 

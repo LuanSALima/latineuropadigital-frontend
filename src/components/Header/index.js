@@ -37,7 +37,7 @@ function Header() {
               <span className="texts">AGENDA</span>
             </div>
           </Link>
-          <Link to="/educacao">
+          <Link to="/cursos">
             <div className="headerLinks">
               <span className="texts">EDUCACIÓN</span>
             </div>
@@ -78,8 +78,8 @@ function Header() {
           </NavDropdown>
 
           <NavDropdown className="headerLinks texts" title="EDUCACIÓN">
-            <Link to="/oportunidades" className="dropdown-item">Listar Cursos</Link>
-            <Link to="/oportunidades-pendentes" className="dropdown-item">Anunciar Cursos</Link>
+            <Link to="/cursos" className="dropdown-item">Listar Cursos</Link>
+            <Link to="/course/cadastrar" className="dropdown-item">Anunciar Cursos</Link>
           </NavDropdown>
           <NavDropdown className="headerLinks texts" title="OPORTUNIDADES">
             <Link to="/oportunidades" className="dropdown-item">Listar Aceitas</Link>

@@ -278,6 +278,25 @@ function Dashboard() {
 		}
   	}
 
+  	const setTableCourse = async (e) => {
+  		e.preventDefault();
+		setDataType("course");
+
+  		try {
+			const response = await api.get("/course/list");
+
+			if(response.data.success) {
+			  	if(response.data.courses) {
+			    	setDBData(response.data.courses);
+					setError(false);
+				}
+			}
+		} catch (error) {
+			setDBData([]);
+			setError(true);
+		}
+  	}
+
   return (
     <Page>
     <Header/>
@@ -287,6 +306,7 @@ function Dashboard() {
 	noticia={setTableNotices} 
 	diretorio={setTableDirectories} 
 	evento={setTableEvent}
+	curso={setTableCourse}
 	oportunidade={setTableOpportunities}
 	usuario={setTableUsers} 
 	tag={setTableTags}
