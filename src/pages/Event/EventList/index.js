@@ -11,31 +11,31 @@ import { MyScreenView } from './styles';
 
 import { Link } from 'react-router-dom';
 
-function DirectoryList() {
+function EventList() {
 
-  const [directories, setDirectories] = useState([]);
+  const [events, setEvents] = useState([]);
   const [tags, setTags] = useState([]);
  
   const listTags = async () => {
     try {
-      const response = await api.get("directories/tags");
+      const response = await api.get("events/tags");
       setTags(response.data.tags);
     } catch (error) {
     }
   }
-   const listDirectories = async () => {
+   const listEvents = async () => {
     try {
 
-      const response = await api.get("/directory/list");
+      const response = await api.get("/event/list");
 
       if(response.data.success) {
-        if(response.data.directories) {
-          let directoriesDb = [];
-          for(let index in response.data.directories) {
-            const directory = response.data.directories[index];
-            directoriesDb.push({ tag : directory.tags,id: directory._id, title: directory.title, description: directory.description, image: `${process.env.REACT_APP_API_URL}`+directory.imagePath, icon: imgTest});
+        if(response.data.events) {
+          let eventsDb = [];
+          for(let index in response.data.events) {
+            const event = response.data.events[index];
+            eventsDb.push({ tag : event.tags,id: event._id, title: event.title, description: event.description, image: `${process.env.REACT_APP_API_URL}`+event.imagePath, icon: imgTest});
           }
-          setDirectories(directoriesDb);
+          setEvents(eventsDb);
         }
       }
 
@@ -46,7 +46,7 @@ function DirectoryList() {
   }
 
   useEffect(() => {
-    listDirectories();
+    listEvents();
   }, []);
   useEffect(() => {
     listTags();
@@ -56,13 +56,13 @@ function DirectoryList() {
       <Page>
         <Header/>
         <MyScreenView >
-    <h1> Diretorios :</h1>
+    <h1> Eventos :</h1>
 {tags.map((tags)=>(
   <HorizonScrollView title={tags.title} subtitle={tags.description}>
-  {directories.map((content)=>(
+  {events.map((content)=>(
     content.tag.map((tagFiltered)=>{
       if(tagFiltered === tags.title){
-        return  <Link to={"/diretorio/"+content.id}><NoticesCard id={content.id} icon={content.icon} image={content.image} title={content.title.length >= 18?content.title+"..":content.title}text={content.description.length >= 75 ? content.description+"..":content.description} /></Link>
+        return  <Link to={"/evento/"+content.id}><NoticesCard id={content.id} icon={content.icon} image={content.image} title={content.title.length >= 18?content.title+"..":content.title}text={content.description.length >= 75 ? content.description+"..":content.description} /></Link>
        }
     })
  
@@ -76,4 +76,4 @@ function DirectoryList() {
   );
 }
 
-export default DirectoryList;
+export default EventList;

@@ -11,11 +11,9 @@ function Tag(props) {
   );
 }
 
-function DirectoryEdit(props) {
+function EventRegister() {
 
-  const [buttonText, setButtonText] = useState("Editar");
-
-  const [idDirectory] = useState(props.match.params.id);
+  const [buttonText, setButtonText] = useState("Cadastrar");
 
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -33,61 +31,36 @@ function DirectoryEdit(props) {
     setTag("");
   }
 
-  async function listTags() {
-    try {
-      const response = await api.get("/tag/list");
-
-      if(response.data.success) {
-        if(response.data.tags) {
-          let dbTags = [];
-          for(let index in response.data.tags) {
-            dbTags.push(response.data.tags[index].title);
-          }
-          setDbTags(dbTags);
-        }
-      }
-    } catch (error) {
-      if(error.response) {
-        if(error.response.data) {
-          if(error.response.data.message) {
-            setErrors({dbTags: error.response.data.message});
-          }
-        }
-      }
-    }
-  }
-
-  async function getDirectory() {
-    try {
-      const response = await api.get("/directory/"+idDirectory);
-
-      if(response.data.success) {
-        if(response.data.directory) {
-          setTitle(response.data.directory.title);
-          setDescription(response.data.directory.description);
-          setTags(response.data.directory.tags);
-        }
-      }
-    } catch (error) {
-      setErrors({message: "Não foi possível carregar o Diretório"});
-      if(error.response) {
-        if(error.response.data) {
-          if(error.response.data.message) {
-            setErrors({message: error.response.data.message});
-          }
-        }
-      }
-    }
-  }
-
   useEffect(() => {
 
-    getDirectory();
+    async function listTags() {
+      try {
+        const response = await api.get("/tag/list");
+
+        if(response.data.success) {
+          if(response.data.tags) {
+            let dbTags = [];
+            for(let index in response.data.tags) {
+              dbTags.push(response.data.tags[index].title);
+            }
+            setDbTags(dbTags);
+          }
+        }
+      } catch (error) {
+        if(error.response) {
+          if(error.response.data) {
+            if(error.response.data.message) {
+              setErrors({dbTags: error.response.data.message});
+            }
+          }
+        }
+      }
+    }
     listTags();
 
   }, []);
 
-  const handleDirectoryEdit = async (e) => {
+  const handleEventRegister = async (e) => {
     e.preventDefault();
     setButtonText("Enviando Dados ...");
     
@@ -101,14 +74,14 @@ function DirectoryEdit(props) {
     
     try {
       
-      const response = await api.put("/directory/"+idDirectory, formData, {
+      const response = await api.post("/event/create", formData, {
         onUploadProgress: (ProgressEvent) => {
           let progress = Math.round(ProgressEvent.loaded / ProgressEvent.total * 100) + '%';
           setProgess(progress);
         }
       });
 
-      setButtonText("Editado com Sucesso");
+      setButtonText("Cadastrado com Sucesso");
     } catch (error) {
       setButtonText("Tente Novamente");
       if(error.response) {
@@ -135,7 +108,7 @@ function DirectoryEdit(props) {
     <Header/>
     <Form width={"45%"} center>
       <ContentView>
-        <label>Edite o Diretório !</label>
+        <label>Crie um Evento !</label>
 
         <label style={{color: 'red'}}>{errors.message}</label>
 
@@ -194,11 +167,11 @@ function DirectoryEdit(props) {
            {progress}
         </div>
         <br></br>
-        <AppButton onClick={handleDirectoryEdit}>{buttonText}</AppButton>
+        <AppButton onClick={handleEventRegister}>{buttonText}</AppButton>
       </ContentView>
     </Form>
     <Footer/>
   </Page>);
 }
 
-export default DirectoryEdit;
+export default EventRegister;

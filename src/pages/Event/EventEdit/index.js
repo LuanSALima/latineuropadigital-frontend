@@ -11,11 +11,11 @@ function Tag(props) {
   );
 }
 
-function DirectoryEdit(props) {
+function EventEdit(props) {
 
   const [buttonText, setButtonText] = useState("Editar");
 
-  const [idDirectory] = useState(props.match.params.id);
+  const [idEvent] = useState(props.match.params.id);
 
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -57,19 +57,19 @@ function DirectoryEdit(props) {
     }
   }
 
-  async function getDirectory() {
+  async function getEvent() {
     try {
-      const response = await api.get("/directory/"+idDirectory);
+      const response = await api.get("/event/"+idEvent);
 
       if(response.data.success) {
-        if(response.data.directory) {
-          setTitle(response.data.directory.title);
-          setDescription(response.data.directory.description);
-          setTags(response.data.directory.tags);
+        if(response.data.event) {
+          setTitle(response.data.event.title);
+          setDescription(response.data.event.description);
+          setTags(response.data.event.tags);
         }
       }
     } catch (error) {
-      setErrors({message: "Não foi possível carregar o Diretório"});
+      setErrors({message: "Não foi possível carregar o Evento"});
       if(error.response) {
         if(error.response.data) {
           if(error.response.data.message) {
@@ -82,12 +82,12 @@ function DirectoryEdit(props) {
 
   useEffect(() => {
 
-    getDirectory();
+    getEvent();
     listTags();
 
   }, []);
 
-  const handleDirectoryEdit = async (e) => {
+  const handleEventEdit = async (e) => {
     e.preventDefault();
     setButtonText("Enviando Dados ...");
     
@@ -101,7 +101,7 @@ function DirectoryEdit(props) {
     
     try {
       
-      const response = await api.put("/directory/"+idDirectory, formData, {
+      const response = await api.put("/event/"+idEvent, formData, {
         onUploadProgress: (ProgressEvent) => {
           let progress = Math.round(ProgressEvent.loaded / ProgressEvent.total * 100) + '%';
           setProgess(progress);
@@ -135,7 +135,7 @@ function DirectoryEdit(props) {
     <Header/>
     <Form width={"45%"} center>
       <ContentView>
-        <label>Edite o Diretório !</label>
+        <label>Edite o Evento !</label>
 
         <label style={{color: 'red'}}>{errors.message}</label>
 
@@ -194,11 +194,11 @@ function DirectoryEdit(props) {
            {progress}
         </div>
         <br></br>
-        <AppButton onClick={handleDirectoryEdit}>{buttonText}</AppButton>
+        <AppButton onClick={handleEventEdit}>{buttonText}</AppButton>
       </ContentView>
     </Form>
     <Footer/>
   </Page>);
 }
 
-export default DirectoryEdit;
+export default EventEdit;

@@ -21,10 +21,17 @@ import DirectoryList from '../pages/Directory/DirectoryList';
 import DirectoryDetails from '../pages/Directory/DirectoryDetails';
 import DirectoryEdit from '../pages/Directory/DirectoryEdit';
 
-import Dashboard from '../pages/Dashboard';
+import EventRegister from '../pages/Event/EventRegister';
+import EventList from '../pages/Event/EventList';
+import EventDetails from '../pages/Event/EventDetails';
+import EventEdit from '../pages/Event/EventEdit';
+
 import TagRegister from '../pages/Tags/TagRegister';
 import TagEdit from '../pages/Tags/TagEdit';
+
 import UserEdit from '../pages/UserEdit';
+
+import Dashboard from '../pages/Dashboard';
 
 // import { Container } from './styles';
 
@@ -59,22 +66,28 @@ const AdminRoute = ({ component: Component, ...rest }) => (
 function Routes() {
   return <Router history={history}>
       <Switch>
+        <Route path="/" exact component={Home} />
+
         <Route path="/login"  component={Login} />
         <Route path="/user/cadastrar"  component={AnunciarServico} />
-        <Route path="/oportunidades" exact component={OpportunitieList} />
-
+        
         <Route path="/noticias" exact component={NoticesList} />
         <Route path="/noticia/:id" exact component={NoticesDetails} />
 
-        <Route path="/diretorio" exact component={DirectoryList} />
+        <Route path="/diretorios" exact component={DirectoryList} />
         <Route path="/diretorio/:id" exact component={DirectoryDetails} />
 
+        <Route path="/eventos" exact component={EventList} />
+        <Route path="/evento/:id" exact component={EventDetails} />
+
+        <Route path="/oportunidades" exact component={OpportunitieList} />
         <Route path="/job/cadastrar" component={OpportunitieRegister} />
-        <Route path="/" exact component={Home} />
         
         <AdminRoute path="/dashboard" component={Dashboard} />
+
         <AdminRoute path="/oportunidades-pendentes" component={OpportunitiePendents} />
         <AdminRoute path="/job/editar/:id" component={OpportunitieEdit} />
+        
         <AdminRoute path="/tag/cadastrar" component={TagRegister} />
         <AdminRoute path="/tag/editar/:id" component={TagEdit} />
 
@@ -83,6 +96,9 @@ function Routes() {
 
         <AdminRoute path="/directory/cadastrar" component={DirectoryRegister} />
         <AdminRoute path="/directory/editar/:id" component={DirectoryEdit} />
+
+        <AdminRoute path="/event/cadastrar" component={EventRegister} />
+        <AdminRoute path="/event/editar/:id" component={EventEdit} />
 
         <AdminRoute path="/user/editar/:id" component={UserEdit} />
 

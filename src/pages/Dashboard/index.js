@@ -259,16 +259,36 @@ function Dashboard() {
 		}
   	}
 
+  	const setTableEvent = async (e) => {
+  		e.preventDefault();
+		setDataType("event");
+
+  		try {
+			const response = await api.get("/event/list");
+
+			if(response.data.success) {
+			  	if(response.data.events) {
+			    	setDBData(response.data.events);
+					setError(false);
+				}
+			}
+		} catch (error) {
+			setDBData([]);
+			setError(true);
+		}
+  	}
+
   return (
     <Page>
     <Header/>
 
 	<ScreenView>
 	<Sidebar 
-	diretorio={setTableDirectories} 
 	noticia={setTableNotices} 
-	usuario={setTableUsers} 
+	diretorio={setTableDirectories} 
+	evento={setTableEvent}
 	oportunidade={setTableOpportunities}
+	usuario={setTableUsers} 
 	tag={setTableTags}
 	/>
 	{/* Content of page (TABLE below) */}
