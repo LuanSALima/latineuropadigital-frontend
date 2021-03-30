@@ -324,8 +324,8 @@ function Dashboard() {
   return (
     <Page>
     <Header/>
-
-	<ScreenView>
+	<ScreenView width={"80%"}>
+	{/* Content of page (TABLE below) */}
 	<Sidebar 
 	noticia={setTableNotices} 
 	diretorio={setTableDirectories} 
@@ -336,7 +336,6 @@ function Dashboard() {
 	tag={setTableTags}
 	jobType={setTableJobType}
 	/>
-	{/* Content of page (TABLE below) */}
 		<Content>
 			<h1>Dashboard</h1>
 			{dataType ?

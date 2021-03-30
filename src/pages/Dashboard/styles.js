@@ -47,7 +47,7 @@ height:80%;
 
 export const Content = styled.div`
 display:flex;
-width:83%;
+width:75%;
 height:auto;
 margin:0 auto;
 padding:1rem!important;

@@ -30,6 +30,7 @@ outline: 0 !important;
 html, body, #root {
 min-height: 100%;
 width: 100%;
+overflow-x:hidden;
 /* overflow-x:hidden; */
 }
 
