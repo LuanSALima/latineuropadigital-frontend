@@ -36,7 +36,7 @@ function OpportunitieRegister() {
   return (
   <Page>
     <Header/>
-    <Form width={"45%"} center>
+    <Form width={"45%"} height={"80vh"} center>
       <Toastifying/>
       <ContentView>
         <label>¡Anuncie sus servicios!</label>

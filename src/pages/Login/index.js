@@ -22,10 +22,10 @@ function Login() {
     try {
       const response = await api.post("/auth/authenticate", {email, password});
       login(response.data.token, response.data.user);
-      toast.success("Inicio de sesión exitoso! Hola adm.",TOASTIFY_OPTIONS)
+      toast.success("Inicio de Sesión Exitoso! Hola adm.",TOASTIFY_OPTIONS)
       setTimeout(() => {
         history.push('/dashboard')
-      }, 2500);
+      }, 1500);
     } catch (error) {
       //Toastify over here
       toast.error("Inicio de sesión incorrecto, vuelva a intentarlo",TOASTIFY_OPTIONS)
@@ -35,7 +35,7 @@ function Login() {
   return (
   <Page>
     <Header/>
-    <Form width={"45%"} center>
+    <Form width={"45%"} height={"80vh"} center>
         <ContentView>
           <Toastifying/>
           <label>Hola adm! inicia sesión en nuestra plataforma</label>

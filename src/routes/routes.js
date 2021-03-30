@@ -5,7 +5,6 @@ import NotFound from '../pages/NotFound';
 import history from '../services/history/history';
 import Login from '../pages/Login';
 
-import AnunciarServico from '../pages/AnunciarServico';
 import OpportunitieList from '../pages/Oportunities/OpportunitieList';
 import OpportunitieRegister from '../pages/Oportunities/OpportunitieRegister';
 import OpportunitieEdit from '../pages/Oportunities/OpportunitieEdit';
@@ -74,7 +73,6 @@ function Routes() {
         <Route path="/" exact component={Home} />
 
         <Route path="/login"  component={Login} />
-        <Route path="/user/cadastrar"  component={AnunciarServico} />
         
         <Route path="/noticias" exact component={NoticesList} />
         <Route path="/noticia/:id" exact component={NoticesDetails} />

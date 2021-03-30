@@ -33,7 +33,7 @@ display: flex;
         justify-content:center;
         text-align:center;
         border:1px solid var(--color-freela-white);
-          
+        margin-bottom:1rem !important;
     }
    
     }

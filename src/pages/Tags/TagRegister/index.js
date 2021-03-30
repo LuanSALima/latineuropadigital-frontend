@@ -44,7 +44,7 @@ function TagRegister() {
   return (
   <Page>
     <Header/>
-    <Form width={"45%"} center>
+    <Form width={"45%"} height={"80vh"} center>
       <ContentView>
         <label>Cadastrar a Tag !</label>
 
