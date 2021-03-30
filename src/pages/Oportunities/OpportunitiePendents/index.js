@@ -14,7 +14,7 @@ function Job(props) {
       <span >Nome: <b>{props.job.professionalName}</b></span>
       <span >Descrição: <b>{props.job.description}</b></span>
       <span >Contato: <b>{props.job.professionalContact}</b></span>
-  </OportunityCard>
+    </OportunityCard>
   );
 }
 

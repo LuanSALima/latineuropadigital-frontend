@@ -240,12 +240,32 @@ function Dashboard() {
 		}
   	}
 
+  	const setTableDirectories = async (e) => {
+  		e.preventDefault();
+		setDataType("directory");
+
+  		try {
+			const response = await api.get("/directory/list");
+
+			if(response.data.success) {
+			  	if(response.data.directories) {
+			    	setDBData(response.data.directories);
+					setError(false);
+				}
+			}
+		} catch (error) {
+			setDBData([]);
+			setError(true);
+		}
+  	}
+
   return (
     <Page>
     <Header/>
 
 	<ScreenView>
 	<Sidebar 
+	diretorio={setTableDirectories} 
 	noticia={setTableNotices} 
 	usuario={setTableUsers} 
 	oportunidade={setTableOpportunities}
