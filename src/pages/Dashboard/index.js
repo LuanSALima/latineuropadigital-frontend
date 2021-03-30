@@ -8,6 +8,7 @@ import Footer from '../../components/Footer';
 import api from '../../services/api';
 import Sidebar from './sidebar';
 import { Content } from './styles';
+import HorizonScrollView from '../../components/HorizonScrollView'
 function Dashboard() {
 
 	const [dbData, setDBData] = useState([]);
@@ -349,7 +350,9 @@ function Dashboard() {
 
 			</div>
 			}
+			<HorizonScrollView>
 			{error && !dbData.length ||error ? <h1>Não há Conteúdo disponível!</h1>: createTable(dbData)}
+			</HorizonScrollView>
 		</Content>
 	</ScreenView>
 	<Footer/>
