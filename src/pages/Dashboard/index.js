@@ -76,8 +76,13 @@ function Dashboard() {
   		columns.map((column) => {
   			let pushed = false;
 			Object.keys(row).map((item) => {
+
 				if(column == item) {
-					rowData.push(row[item]);
+					if(typeof(row[item]) === "object") {
+						rowData.push(row[item].join(' / '));
+					} else {
+						rowData.push(row[item].toString());	
+					}
 					pushed = true;
 					//break; Pois no lugar que está apontando esta coluna ja foi encontrado o valor desta linha com mesmo key que o nome da coluna
 				} else {
@@ -297,6 +302,25 @@ function Dashboard() {
 		}
   	}
 
+  	const setTableJobType = async (e) => {
+  		e.preventDefault();
+		setDataType("jobtype");
+
+  		try {
+			const response = await api.get("/jobtype/list");
+
+			if(response.data.success) {
+			  	if(response.data.jobTypes) {
+			    	setDBData(response.data.jobTypes);
+					setError(false);
+				}
+			}
+		} catch (error) {
+			setDBData([]);
+			setError(true);
+		}
+  	}
+
   return (
     <Page>
     <Header/>
@@ -310,6 +334,7 @@ function Dashboard() {
 	oportunidade={setTableOpportunities}
 	usuario={setTableUsers} 
 	tag={setTableTags}
+	jobType={setTableJobType}
 	/>
 	{/* Content of page (TABLE below) */}
 		<Content>
