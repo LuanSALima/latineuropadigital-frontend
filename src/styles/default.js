@@ -68,17 +68,15 @@ const myView = css`
   width: ${props=>props.width? props.width:"75%"};
   justify-content:${(props)=>props.center?"center":"0"};
   height:auto;
-  min-height: 80vh;
+  min-height: ${(props)=>props.height?props.height:"100vh" };
   display: flex;
   margin: 0 auto;
   flex-direction: column;
-  margin-top:45px;
   padding: 1rem 1rem 3rem 1rem;
-  margin-bottom:4rem !important;
-  
+  margin-top:1.5rem !important;
+  margin-bottom:1.5rem !important;
   background-color:#fff;
-  border-radius: 0.3rem;
-  min-height: 80vh;
+  border-radius: 0.1rem;
   > label {
     padding: 1rem;
     font-size: var(--font-size-title);

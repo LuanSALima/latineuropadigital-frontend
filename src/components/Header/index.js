@@ -84,6 +84,7 @@ function Header() {
           <NavDropdown className="headerLinks texts" title="OPORTUNIDADES">
             <Link to="/oportunidades" className="dropdown-item">Listar Aceitas</Link>
             <Link to="/oportunidades-pendentes" className="dropdown-item">Listar Pendentes</Link>
+            <Link to="/job/cadastrar" className="dropdown-item">Anunciar</Link>
           </NavDropdown>
           </Nav>
           <Nav>

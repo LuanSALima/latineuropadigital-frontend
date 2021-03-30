@@ -26,6 +26,9 @@ function Sidebar(props) {
       <div onClick={props.tag}>
         <span>Tags</span>
       </div>
+      <div onClick={props.jobType}>
+        <span>Tipos de Oportunidades</span>
+      </div>
     </SidebarStyled>
   );
 }

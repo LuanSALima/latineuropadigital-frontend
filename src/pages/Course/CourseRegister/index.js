@@ -106,7 +106,7 @@ function CourseRegister() {
   return (
   <Page>
     <Header/>
-    <Form width={"45%"} center>
+    <Form width={"45%"} height={"80vh"} center>
       <ContentView>
         <label>Crie um Curso !</label>
 

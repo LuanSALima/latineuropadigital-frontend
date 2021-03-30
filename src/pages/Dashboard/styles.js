@@ -1,14 +1,5 @@
 import styled from 'styled-components';
 
-export const Container = styled.div`
-  
-`;
-
-
-
-//for sidebar
-
-
 export const SidebarStyled = styled.div`
 min-width:18vw !important;
 width:auto;
@@ -43,11 +34,48 @@ height:80%;
         font-weight:560;
     }
 }
+
+@media (max-width: 995px) {
+max-width:25vw;
+width:auto;
+background-color:var(--color-freela-white);
+border-radius:0.3rem;
+display:flex;
+flex-direction:column !important;
+position:absolute;
+padding:0 !important;
+margin-top:0.5rem;
+z-index:999;
+overflow-x:scroll;
+>div{
+    display:flex;
+    height:100%;
+    width:100%;
+    padding:0.3rem !important;
+    cursor:pointer;
+    justify-content:center;
+    text-align:center;
+    align-items:center;
+    padding:0.5rem;
+    transition: background-color 0.3s ease;
+    border-radius:0.3rem;
+    
+    
+    :hover{
+        background-color:var(--color-freela-hover);
+    }
+
+    >span{
+        font-size:13px;
+        font-weight:560;
+    }
+}
+}
 `;
 
 export const Content = styled.div`
 display:flex;
-width:83%;
+width:75%;
 height:auto;
 margin:0 auto;
 padding:1rem!important;

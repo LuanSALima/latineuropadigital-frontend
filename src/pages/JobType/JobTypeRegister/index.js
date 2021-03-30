@@ -5,7 +5,7 @@ import { AppButton, ContentView, Form, Page } from '../../../styles/default';
 
 import api from '../../../services/api';
 
-function TagRegister() {
+function JobTypeRegister() {
 
   const [buttonText, setButtonText] = useState("Cadastrar");
 
@@ -13,12 +13,12 @@ function TagRegister() {
   const [description, setDescription] = useState("");
   const [errors, setErrors] = useState({});
 
-  const handleTagRegister = async (e) => {
+  const handleJobTypeRegister = async (e) => {
     e.preventDefault();
     setButtonText("Enviando Dados ...");
 
     try {
-      const response = await api.post("/tag/create", {title, description});
+      const response = await api.post("/jobtype/create", {title, description});
 
       console.log(response.data);
       setButtonText("Cadastrado com Sucesso");
@@ -44,9 +44,9 @@ function TagRegister() {
   return (
   <Page>
     <Header/>
-    <Form width={"45%"} height={"80vh"} center>
+    <Form width={"45%"} center>
       <ContentView>
-        <label>Cadastrar a Tag !</label>
+        <label>Cadastrar Tipo de Trabalho !</label>
 
         <label style={{color: 'red'}}>{errors.message}</label>
 
@@ -71,10 +71,10 @@ function TagRegister() {
         <span style={{color: 'red'}}>{errors.description}</span>
 
         <br></br>
-        <AppButton onClick={handleTagRegister}>{buttonText}</AppButton>
+        <AppButton onClick={handleJobTypeRegister}>{buttonText}</AppButton>
       </ContentView>
     </Form>
   </Page>);
 }
 
-export default TagRegister;
+export default JobTypeRegister;

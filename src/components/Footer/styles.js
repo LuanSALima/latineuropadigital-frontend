@@ -9,7 +9,9 @@ display: flex;
   background-color: var(--color-freela-pink);
   padding: 0px 1rem 0px 1rem;
   justify-content:space-between;
+  width:100%;
     >div{
+        width:100%;
         padding:1rem;
         display:flex;
         flex-direction:column;
@@ -21,24 +23,45 @@ display: flex;
         color: var(--color-freela-white);
     
         }
+        >a{
+        padding:0.3rem;
+        margin-top:1rem;
+        margin-bottom:0.5rem;
+        width:30%;
+        margin:0 auto !important;
+        color:white !important;
+        justify-content:center;
+        text-align:center;
+        border:1px solid var(--color-freela-white);
+        margin-bottom:1rem !important;
     }
-    >a{
-       >div{
-        padding:1rem;
-        display:flex;
-        flex-direction:column;
-        padding:1.3rem 0rem 0rem 1rem;
-            margin-right:3rem;
-            justify-content:center;
-            text-align:center;
-            border:1px solid var(--color-freela-white);
-            >label{
-            font-size:18px;
-            margin-right:1rem;
-            cursor:pointer;
+   
+    }
+@media(max-width:995px){
+  padding:1rem 1rem 0.5rem 1rem;
+  justify-content:baseline;
+  >div{
+      width:100%;
+        padding:0.5rem 0.5rem 0rem 0.5rem;
+        >label{
+        font-size:15px;
         color: var(--color-freela-white);
-      
-          
         }
+
+        >a{
+        padding:0.3rem;
+        margin-top:1rem;
+        margin-bottom:0.5rem;
+        width:100%;
+        color:white !important;
+        justify-content:center;
+        text-align:center;
+        border:1px solid var(--color-freela-white);
+          
     }
-`
+
+    }
+  
+}
+
+`;

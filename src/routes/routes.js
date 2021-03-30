@@ -5,7 +5,6 @@ import NotFound from '../pages/NotFound';
 import history from '../services/history/history';
 import Login from '../pages/Login';
 
-import AnunciarServico from '../pages/AnunciarServico';
 import OpportunitieList from '../pages/Oportunities/OpportunitieList';
 import OpportunitieRegister from '../pages/Oportunities/OpportunitieRegister';
 import OpportunitieEdit from '../pages/Oportunities/OpportunitieEdit';
@@ -33,6 +32,9 @@ import CourseEdit from '../pages/Course/CourseEdit';
 
 import TagRegister from '../pages/Tags/TagRegister';
 import TagEdit from '../pages/Tags/TagEdit';
+
+import JobTypeRegister from '../pages/JobType/JobTypeRegister';
+import JobTypeEdit from '../pages/JobType/JobTypeEdit';
 
 import UserEdit from '../pages/UserEdit';
 
@@ -74,7 +76,6 @@ function Routes() {
         <Route path="/" exact component={Home} />
 
         <Route path="/login"  component={Login} />
-        <Route path="/user/cadastrar"  component={AnunciarServico} />
         
         <Route path="/noticias" exact component={NoticesList} />
         <Route path="/noticia/:id" exact component={NoticesDetails} />
@@ -110,6 +111,9 @@ function Routes() {
 
         <AdminRoute path="/course/cadastrar" component={CourseRegister} />
         <AdminRoute path="/course/editar/:id" component={CourseEdit} />
+
+        <AdminRoute path="/jobtype/cadastrar" component={JobTypeRegister} />
+        <AdminRoute path="/jobtype/editar/:id" component={JobTypeEdit} />
 
         <AdminRoute path="/user/editar/:id" component={UserEdit} />
 

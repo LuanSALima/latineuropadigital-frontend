@@ -8,6 +8,7 @@ import Footer from '../../components/Footer';
 import api from '../../services/api';
 import Sidebar from './sidebar';
 import { Content } from './styles';
+import HorizonScrollView from '../../components/HorizonScrollView'
 function Dashboard() {
 
 	const [dbData, setDBData] = useState([]);
@@ -76,8 +77,13 @@ function Dashboard() {
   		columns.map((column) => {
   			let pushed = false;
 			Object.keys(row).map((item) => {
+
 				if(column == item) {
-					rowData.push(row[item]);
+					if(typeof(row[item]) === "object") {
+						rowData.push(row[item].join(' / '));
+					} else {
+						rowData.push(row[item].toString());	
+					}
 					pushed = true;
 					//break; Pois no lugar que está apontando esta coluna ja foi encontrado o valor desta linha com mesmo key que o nome da coluna
 				} else {
@@ -297,11 +303,30 @@ function Dashboard() {
 		}
   	}
 
+  	const setTableJobType = async (e) => {
+  		e.preventDefault();
+		setDataType("jobtype");
+
+  		try {
+			const response = await api.get("/jobtype/list");
+
+			if(response.data.success) {
+			  	if(response.data.jobTypes) {
+			    	setDBData(response.data.jobTypes);
+					setError(false);
+				}
+			}
+		} catch (error) {
+			setDBData([]);
+			setError(true);
+		}
+  	}
+
   return (
     <Page>
     <Header/>
-
-	<ScreenView>
+	<ScreenView width={"80%"}>
+	{/* Content of page (TABLE below) */}
 	<Sidebar 
 	noticia={setTableNotices} 
 	diretorio={setTableDirectories} 
@@ -310,8 +335,8 @@ function Dashboard() {
 	oportunidade={setTableOpportunities}
 	usuario={setTableUsers} 
 	tag={setTableTags}
+	jobType={setTableJobType}
 	/>
-	{/* Content of page (TABLE below) */}
 		<Content>
 			<h1>Dashboard</h1>
 			{dataType ?
@@ -325,7 +350,9 @@ function Dashboard() {
 
 			</div>
 			}
+			<HorizonScrollView>
 			{error && !dbData.length ||error ? <h1>Não há Conteúdo disponível!</h1>: createTable(dbData)}
+			</HorizonScrollView>
 		</Content>
 	</ScreenView>
 	<Footer/>
