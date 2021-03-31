@@ -4,13 +4,8 @@ import Header from '../../../components/Header';
 import { AppButton, ContentView, Form, Page } from '../../../styles/default';
 import Footer from '../../../components/Footer';
 import api from '../../../services/api';
-import Select from 'react-select'
 
-function Tag(props) {
-  return (
-    <div style={{margin: '0 auto'}}><span style={{fontSize: '18px'}}>{props.tag}</span><button style={{backgroundColor: 'red', marginLeft: '5px'}}>X</button></div>
-  );
-}
+import Select from 'react-select';
 
 function NoticeRegister() {
 
@@ -25,40 +20,32 @@ function NoticeRegister() {
   const [errors, setErrors] = useState({});
   const [progress, setProgess] = useState(0); // progess bar
 
-  const addTag = (e) => {
-    e.preventDefault();
+  async function listTags() {
+    try {
+      const response = await api.get("/tags/notice");
 
-    setTags([...tags, tag]);
-    setTag("");
-  }
-
-  useEffect(() => {
-
-    async function listTags() {
-      try {
-        const response = await api.get("/tags/notice");
-
-        if(response.data.success) {
-          if(response.data.tags) {
-            let dbTags = [];
-            for(let index in response.data.tags) {
-              dbTags.push(response.data.tags[index].title);
-            }
-            setDbTags(dbTags);
+      if(response.data.success) {
+        if(response.data.tags) {
+          let dbTags = [];
+          for(let index in response.data.tags) {
+            dbTags.push(response.data.tags[index].title);
           }
+          setDbTags(dbTags);
         }
-      } catch (error) {
-        if(error.response) {
-          if(error.response.data) {
-            if(error.response.data.message) {
-              setErrors({dbTags: error.response.data.message});
-            }
+      }
+    } catch (error) {
+      if(error.response) {
+        if(error.response.data) {
+          if(error.response.data.message) {
+            setErrors({dbTags: error.response.data.message});
           }
         }
       }
     }
-    listTags();
+  }
 
+  useEffect(() => {
+    listTags();
   }, []);
 
   const handleNoticeRegister = async (e) => {
@@ -104,6 +91,14 @@ function NoticeRegister() {
 
   };
 
+  const onChangeSelectTags = (tagsSelected) => {
+    let tags = [];
+    for(const tag of tagsSelected) {
+      tags.push(tag.value);
+    }
+    setTags(tags);
+  }
+
   return (
   <Page>
     <Header/>
@@ -140,11 +135,6 @@ function NoticeRegister() {
           }}
         />
         <span style={{color: 'red'}}>{errors.imagePath}</span>
-
-        <h6 style={{margin: '10px auto'}}>Tags:</h6>
-        {tags.map((currentTag)=>(
-          <Tag tag={currentTag} />
-        ))}
    
         <Select
          options={dbTags.map((currentTag)=>(
@@ -152,19 +142,13 @@ function NoticeRegister() {
           isClearable
           isMulti
           closeMenuOnSelect={false}
+          onChange={onChangeSelectTags}
+          placeholder={"Selecione as tags"}
         />
        
         <span style={{color: 'red'}}>{errors.dbTags}</span>
 
-        <input
-          placeholder="Insira as Tags"
-          type="text"
-           onChange={(e) => {
-            setTag(e.target.value);
-          }}
-          value={tag}
-        />
-        <button onClick={addTag}>Adicionar Tag</button>
+        <button>Adicionar Tag</button>
         <span style={{color: 'red'}}>{errors.tags}</span>
 
         <div style={{ width: progress, backgroundColor: 'blue', color: 'white' }}>

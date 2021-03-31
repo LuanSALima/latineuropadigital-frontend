@@ -5,6 +5,8 @@ import { AppButton, ContentView, Form, Page } from '../../../styles/default';
 
 import api from '../../../services/api';
 
+import Select from 'react-select';
+
 function TagRegister() {
 
   const [buttonText, setButtonText] = useState("Cadastrar");
@@ -12,8 +14,24 @@ function TagRegister() {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [types, setTypes] = useState([]);
-
-  const [typeEscrita, setTypeEscrita] = useState("");
+  const [typesOptions] = useState([
+    {
+      label: 'Notícia',
+      value: 'Notice'
+    }, 
+    {
+      label: 'Directorio',
+      value: 'Directory'
+    }, 
+    {
+      label: 'Evento',
+      value: 'Event'
+    }, 
+    {
+      label: 'Curso',
+      value: 'Course'
+    }
+  ])
 
   const [errors, setErrors] = useState({});
 
@@ -45,11 +63,12 @@ function TagRegister() {
     }
   };
 
-  const addType = (e) => {
-    e.preventDefault();
-
-    setTypes([...types, typeEscrita]);
-    setTypeEscrita("");
+  const onChangeSelectTags = (typesSelected) => {
+    let types = [];
+    for(const type of typesSelected) {
+      types.push(type.value);
+    }
+    setTypes(types);
   }
 
   return (
@@ -81,31 +100,15 @@ function TagRegister() {
         />
         <span style={{color: 'red'}}>{errors.description}</span>
 
-        <p>Selecione o Tipo de Publicação que está tag pertence</p>
-        <select>
-          <option value="Notice">Notícia</option>
-          <option value="Directory">Directorio</option>
-          <option value="Event">Evento</option>
-          <option value="Course">Curso</option>
-        </select>
-        <span style={{color: 'red'}}>{errors.type}</span>
-
-        <input
-          placeholder="Insira o Tipo"
-          type="text"
-           onChange={(e) => {
-            setTypeEscrita(e.target.value);
-          }}
-          value={typeEscrita}
+        <Select
+         options={typesOptions}
+          isClearable
+          isMulti
+          closeMenuOnSelect={false}
+          onChange={onChangeSelectTags}
+          placeholder={"Selecioneo Tipo de Publicação que está tag pertence"}
         />
-        <button onClick={addType}>Adicionar Tipo</button>
-        <span style={{color: 'red'}}>{errors.tags}</span>
-
-
-        <p>Tags Selecionadas</p>
-        {types.map((currentType)=>(
-          <p>{currentType}</p>
-        ))}
+        <span style={{color: 'red'}}>{errors.type}</span>
 
         <br></br>
         <AppButton onClick={handleTagRegister}>{buttonText}</AppButton>

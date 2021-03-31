@@ -5,11 +5,7 @@ import { AppButton, ContentView, Form, Page } from '../../../styles/default';
 import Footer from '../../../components/Footer';
 import api from '../../../services/api';
 
-function Tag(props) {
-  return (
-    <div style={{margin: '0 auto'}}><span style={{fontSize: '18px'}}>{props.tag}</span><button style={{backgroundColor: 'red', marginLeft: '5px'}}>X</button></div>
-  );
-}
+import Select from 'react-select';
 
 function EventRegister() {
 
@@ -23,13 +19,6 @@ function EventRegister() {
   const [dbTags, setDbTags] = useState([]);
   const [errors, setErrors] = useState({});
   const [progress, setProgess] = useState(0); // progess bar
-
-  const addTag = (e) => {
-    e.preventDefault();
-
-    setTags([...tags, tag]);
-    setTag("");
-  }
 
   useEffect(() => {
 
@@ -103,6 +92,14 @@ function EventRegister() {
 
   };
 
+   const onChangeSelectTags = (tagsSelected) => {
+    let tags = [];
+    for(const tag of tagsSelected) {
+      tags.push(tag.value);
+    }
+    setTags(tags);
+  }
+
   return (
   <Page>
     <Header/>
@@ -140,27 +137,19 @@ function EventRegister() {
         />
         <span style={{color: 'red'}}>{errors.imagePath}</span>
 
-        <h6 style={{margin: '10px auto'}}>Tags:</h6>
-        {tags.map((currentTag)=>(
-          <Tag tag={currentTag} />
-        ))}
+        <Select
+         options={dbTags.map((currentTag)=>(
+          {label:currentTag,value:currentTag}))}
+          isClearable
+          isMulti
+          closeMenuOnSelect={false}
+          onChange={onChangeSelectTags}
+          placeholder={"Selecione as tags"}
+        />
 
-        <select>
-        {dbTags.map((currentTag)=>(
-          <option>{currentTag}</option>
-        ))}
-        </select>
         <span style={{color: 'red'}}>{errors.dbTags}</span>
 
-        <input
-          placeholder="Insira as Tags"
-          type="text"
-           onChange={(e) => {
-            setTag(e.target.value);
-          }}
-          value={tag}
-        />
-        <button onClick={addTag}>Adicionar Tag</button>
+        <button>Adicionar Tag</button>
         <span style={{color: 'red'}}>{errors.tags}</span>
 
         <div style={{ width: progress, backgroundColor: 'blue', color: 'white' }}>
