@@ -85,7 +85,7 @@ function EventList() {
       <Page>
         <Header/>
         <MyScreenView >
-    <h1> Eventos :</h1>
+    <h1>Eventos</h1>
 
     <h2>Mais Visualizados</h2>
           

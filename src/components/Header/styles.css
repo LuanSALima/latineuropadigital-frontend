@@ -50,6 +50,27 @@
 .headerLinks:hover {
   background-color: var(--color-freela-hover);
 }
+.headerSuperLink {
+  height: 86px !important;
+  padding: 0rem 0.5rem !important;
+  display: flex;
+  text-align: center;
+  align-items: center;
+  background-color: var(--color-freela-pink);
+  justify-content: center;
+  cursor: pointer;
+  position: sticky;
+  top: 0;
+  color: white !important;
+  transition: background-color 0.2s ease-in-out;
+  border-radius: 0.2rem;
+}
+.headerSuperLink span {
+  color: var(--color-freela-white) !important;
+}
+.headerSuperLink:hover {
+  background-color: var(--color-freela-highPink);
+}
 @media (max-width: 995px) {
   .headerStyles {
     height: auto;

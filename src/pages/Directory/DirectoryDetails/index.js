@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import Header from '../../../components/Header';
-import NoticesCard from '../../../components/NoticesCard';
-import { Page, ScreenView } from '../../../styles/default';
+import { Details, Outline_Button, Page } from '../../../styles/default';
+import imgAux from '../../../assets/icon.svg';
+import Toastifying, {TOASTIFY_OPTIONS} from '../../../components/Toastifying'
 
 import api from '../../../services/api';
 
 import { isAdmin } from '../../../services/auth';
 import Footer from '../../../components/Footer';
+import history from '../../../services/history/history'
+import { toast } from 'react-toastify';
 
 function DirectoryDetails(props) {
 
@@ -43,57 +46,48 @@ function DirectoryDetails(props) {
 
   const handleRemoveDirectory = async (e) => {
     e.preventDefault();
-    setRemoveButtonText("Removendo ...");
 
     try {
-      const response = await api.delete("/directory/"+idDirectory);
-
-      if(response.data.success) {
-        setRemoveButtonText("Removido com sucesso!");
-      }
+      await api.delete("/directory/"+idDirectory);
+      toast.success("Removido com Sucesso!",TOASTIFY_OPTIONS)
+      setTimeout(() => {
+        history.push('/dashboard')
+      }, 1500);
+    
     } catch (error) {
-      setRemoveButtonText("Ocorreu um erro ao remover");
-      
-      if(error.response) {
-        if(error.response.data) {
-          if(error.response.data.message) {
-            setErrors({message: error.response.data.message});
-          }
-        }
-      }
+        toast.error("Não foi possível remover" , TOASTIFY_OPTIONS)
+     
     }
   }
-
+  const handleEditeDirectory = ()=>{
+    history.push("/directory/editar/"+idDirectory);
+  }
+  const handleImageError = (image)=>{
+    image.target.src = imgAux;
+  }
   return (
-      <Page>
-        <Header/>
-        <ScreenView width={"90%"}>
-         {/* <FeatureContent>
-        <b>Acesse Nossa PÁGINA!!!</b>
-         </FeatureContent> */}
-        <br></br>
-        <h2 style={{color: 'red'}}>{errors.message}</h2>
+    <Page>
+    <Header/>
+    <Details width={"90%"}>
+    <Toastifying/>
 
-        <img src={process.env.REACT_APP_API_URL+directory.imagePath} />
+    <label>{directory.title}</label>
+    <h3>{directory.subtitle}</h3>
+    <img onError={handleImageError} src={process.env.REACT_APP_API_URL+directory.imagePath} />
+    <h4> Contenido </h4>
+    <span>{directory.content}</span>
+    
+    {
+    isAdmin() &&
+    <div>
+      <Outline_Button type="danger" onClick={handleRemoveDirectory}>{"Eliminar"}</Outline_Button>
+      <Outline_Button type="warning" onClick={handleEditeDirectory}>{"Editar"}</Outline_Button>
+    </div>
+    }
 
-        <h1>Titulo</h1>
-        <h3>{directory.title}</h3>
-
-        <h1>Descrição</h1>
-        <h3>{directory.description}</h3>
-        
-        {
-        isAdmin() ?
-        <div>
-          <button onClick={handleRemoveDirectory}>{removeButtonText}</button>
-        </div>
-        :
-        <br />
-        }
-
-        </ScreenView>
-        <Footer/>
-      </Page>
+    </Details>
+    <Footer/>
+  </Page>
   );
 }
 

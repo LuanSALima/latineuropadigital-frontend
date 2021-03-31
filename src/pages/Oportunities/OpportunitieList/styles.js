@@ -8,6 +8,10 @@ margin-top:5rem;
 >h1{
     margin:0 auto;
     border-bottom:1px solid var(--color-freela-white);
+    @media(max-width:975px){
+      font-size:35px;
+      padding:1rem;
+    }
 }
 `;
 
@@ -16,7 +20,9 @@ background-color:var(--color-freela-pink);
 color:var(--color-freela-white);
 font-size:18px;
 width:350px;
-height:250px;
+min-height:250px;
+max-height:100vh;
+height:auto;
 margin-top:1rem;
 border-radius:0.5rem;
 padding:0 !important;
@@ -24,7 +30,7 @@ cursor:pointer;
 transition:height 0.3s, width 0.3s ease;
 :hover{
     width:355px;
-    height:255px;
+
 cursor:pointer;
 }
 

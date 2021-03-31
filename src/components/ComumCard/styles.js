@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import imgAux from '../../assets/icon.svg'
 
 export const Container = styled.div`
 text-align:center;
@@ -38,6 +39,7 @@ export const Description = styled.div`
         margin:0 auto;
         margin-top:1rem;
         padding:3rem;
+        background-image:url(${imgAux}) !important;
         @media(min-width:1060px){
         width:50% !important;
 }
