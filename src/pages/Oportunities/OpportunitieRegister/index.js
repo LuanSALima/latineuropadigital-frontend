@@ -7,11 +7,7 @@ import Toastifying, { TOASTIFY_OPTIONS } from '../../../components/Toastifying';
 import api from '../../../services/api';
 import { toast } from "react-toastify";
 
-function JobType(props) {
-  return (
-    <div style={{margin: '0 auto'}}><span style={{fontSize: '18px'}}>{props.jobtype}</span><button style={{backgroundColor: 'red', marginLeft: '5px'}}>X</button></div>
-  );
-}
+import Select from 'react-select';
 
 function OpportunitieRegister() {
 
@@ -25,13 +21,6 @@ function OpportunitieRegister() {
   const [jobTypes, setJobTypes] = useState([]);
   const [dbJobTypes, setDbJobTypes] = useState([]);
   const [errors, setErrors] = useState({});
-
-  const addJobType = (e) => {
-    e.preventDefault();
-
-    setJobTypes([...jobTypes, jobType]);
-    setJobType("");
-  }
 
   useEffect(() => {
 
@@ -94,6 +83,14 @@ function OpportunitieRegister() {
     }
   };
 
+  const onChangeSelectTags = (typesSelected) => {
+    let types = [];
+    for(const type of typesSelected) {
+      types.push(type.value);
+    }
+    setJobTypes(types);
+  }
+
   return (
   <Page>
     <Header/>
@@ -143,28 +140,21 @@ function OpportunitieRegister() {
         />
         <span style={{color: 'red'}}>{errors.description}</span>
 
-        <h6 style={{margin: '10px auto'}}>Tags:</h6>
-        {jobTypes.map((currentJobType)=>(
-          <JobType jobtype={currentJobType} />
-        ))}
-
-        <select>
-        {dbJobTypes.map((currentJobType)=>(
-          <option>{currentJobType}</option>
-        ))}
-        </select>
+        <Select
+         options={dbJobTypes.map((currentJobType)=>(
+          {label:currentJobType,value:currentJobType}))}
+          isClearable
+          isMulti
+          closeMenuOnSelect={false}
+          onChange={onChangeSelectTags}
+          placeholder={"Selecione as tags"}
+        />
+       
         <span style={{color: 'red'}}>{errors.dbJobTypes}</span>
 
-        <input
-          placeholder="Insira as Tags"
-          type="text"
-           onChange={(e) => {
-            setJobType(e.target.value);
-          }}
-          value={jobType}
-        />
-        <button onClick={addJobType}>Adicionar Tipo de Oportunidade</button>
+        <button>Adicionar Tag</button>
         <span style={{color: 'red'}}>{errors.tags}</span>
+
         <br></br>
         <AppButton onClick={handleJobRegister}>Registrar</AppButton>
       </ContentView>

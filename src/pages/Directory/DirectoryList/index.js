@@ -13,6 +13,11 @@ import { Link } from 'react-router-dom';
 
 function DirectoryList() {
 
+  const [directoriesFeatured, setDirectoriesFeatured] = useState([]);
+
+  const [mostViewedAt, setMostViewedAt] = useState("daily");
+  const [directoriesMostViewed, setDirectoriesMostViewed] = useState([]);
+
   const [directories, setDirectories] = useState([]);
   const [tags, setTags] = useState([]);
  
@@ -45,6 +50,30 @@ function DirectoryList() {
     }
   }
 
+  const listDirectoriesMostViewed = async () => {
+    try {
+
+      const response = await api.get("/directory/list?views="+mostViewedAt);
+
+      if(response.data.success) {
+        if(response.data.directories) {
+          let directoriesMostViewedDb = [];
+          for(let index in response.data.directories) {
+            const directory = response.data.directories[index];
+            directoriesMostViewedDb.push({ tag : directory.tags,id: directory._id, title: directory.title, description: directory.description, image: `${process.env.REACT_APP_API_URL}`+directory.imagePath, icon: imgTest, views: directory.views});
+          }
+          setDirectoriesMostViewed(directoriesMostViewedDb);
+        }
+      }
+
+    } catch (error) {
+    }
+  }
+
+  useEffect(() => {
+    listDirectoriesMostViewed();
+  }, [mostViewedAt]);
+
   useEffect(() => {
     listDirectories();
   }, []);
@@ -57,19 +86,46 @@ function DirectoryList() {
         <Header/>
         <MyScreenView >
     <h1> Diretorios :</h1>
-{tags.map((tags)=>(
-  <HorizonScrollView title={tags.title} subtitle={tags.description}>
-  {directories.map((content)=>(
-    content.tag.map((tagFiltered)=>{
-      if(tagFiltered === tags.title){
-        return  <Link to={"/diretorio/"+content.id}><NoticesCard id={content.id} icon={content.icon} image={content.image} title={content.title.length >= 18?content.title+"..":content.title}text={content.description.length >= 75 ? content.description+"..":content.description} /></Link>
-       }
-    })
- 
-  ))}
-  </HorizonScrollView>
-  ))
-  }
+
+    <h2>Mais Visualizados</h2>
+          
+    <button className={(mostViewedAt === 'daily')? "btn btn-primary" : "btn btn-outline-primary" } onClick={(e) => {e.preventDefault();setMostViewedAt("daily")}}>
+     Mais Visualizadas do Dia
+    </button>
+
+    <button className={(mostViewedAt === 'weekly')? "btn btn-primary" : "btn btn-outline-primary" } onClick={(e) => {e.preventDefault();setMostViewedAt("weekly")}}>
+     Mais Visualizadas da Semana
+    </button>
+
+    <button className={(mostViewedAt === 'monthly')? "btn btn-primary" : "btn btn-outline-primary" } onClick={(e) => {e.preventDefault();setMostViewedAt("monthly")}}>
+     Mais Visualizadas do Mês
+    </button>
+
+    <button className={(mostViewedAt === 'allTime')? "btn btn-primary" : "btn btn-outline-primary" } onClick={(e) => {e.preventDefault();setMostViewedAt("allTime")}}>
+     Mais Visualizadas de todos os tempos
+    </button>
+
+    <HorizonScrollView title={mostViewedAt} subtitle={"Mais visualizados durante o tempo: "+mostViewedAt}>
+      {directoriesMostViewed.map((content)=>{
+          return <Link to={"/diretorio/"+content.id}><NoticesCard id={content.id} icon={content.icon} image={content.image} title={content.title.length >= 18?content.title+"..":content.title}text={content.description.length >= 75 ? content.description+"..":content.description} /><span>Views: {content.views}</span></Link>
+        }
+      )}
+    </HorizonScrollView>
+
+    <h2>Recentes</h2>
+    {tags.map((tags)=>(
+      <HorizonScrollView title={tags.title} subtitle={tags.description}>
+      {directories.map((content)=>(
+        content.tag.map((tagFiltered)=>{
+          if(tagFiltered === tags.title){
+            return  <Link to={"/diretorio/"+content.id}><NoticesCard id={content.id} icon={content.icon} image={content.image} title={content.title.length >= 18?content.title+"..":content.title}text={content.description.length >= 75 ? content.description+"..":content.description} /></Link>
+           }
+        })
+     
+      ))}
+      </HorizonScrollView>
+      ))
+      }
         </MyScreenView>
         <Footer/>
       </Page>

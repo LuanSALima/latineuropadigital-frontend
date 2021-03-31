@@ -1,5 +1,7 @@
 import styled from 'styled-components';
+import { AppButton } from '../../styles/default';
 
+ 
 export const SidebarStyled = styled.div`
 min-width:18vw !important;
 width:auto;
@@ -9,9 +11,11 @@ display:flex;
 flex-direction:column;
 position:absolute;
 padding:0 !important;
-margin-top:0.5rem;
+margin-top:4rem;
 left:0;
 height:80%;
+z-index:9999;
+
 >div{
     display:flex;
     height:20%;
@@ -43,10 +47,8 @@ border-radius:0.3rem;
 display:flex;
 flex-direction:column !important;
 position:absolute;
+margin-top:0 !important;
 padding:0 !important;
-margin-top:0.5rem;
-z-index:999;
-overflow-x:scroll;
 >div{
     display:flex;
     height:100%;
@@ -73,20 +75,37 @@ overflow-x:scroll;
 }
 `;
 
+export  const DashButton = styled(AppButton)`
+padding:1rem;
+float:right;
+display:flex;
+margin-bottom:0.5rem !important;
+border-radius:0.3rem;
+font-size : 15px;
+`;
+
+
 export const Content = styled.div`
 display:flex;
-width:75%;
+width: ${(props)=>props.view?"100%":"75%"};
 height:auto;
+max-height:100vh;
 margin:0 auto;
 padding:1rem!important;
 position:absolute;
 right:0;
->h1{
+>label,h3{
     margin:0 auto;
     padding:1rem;
+    font-size:22px !important;
 }
 >table{
     margin-top:2rem;
     width:100% !important;
+}
+@media(max-width:975px){
+    label{
+        font-size:22px !important;
+    }
 }
 `;

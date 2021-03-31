@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import Header from '../../components/Header';
-import { Page, ScreenView } from '../../styles/default';
+import { AppButton, Page, ScreenView } from '../../styles/default';
 
 import Table from 'react-bootstrap/Table';
 import { Link } from 'react-router-dom';
 import Footer from '../../components/Footer';
 import api from '../../services/api';
 import Sidebar from './sidebar';
-import { Content } from './styles';
+import { Content, DashButton } from './styles';
 import HorizonScrollView from '../../components/HorizonScrollView'
 function Dashboard() {
 
@@ -15,7 +15,7 @@ function Dashboard() {
 	const [dataType, setDataType] = useState("");
 	const [columns, setColumns] = useState([]);
 	const [error,setError] = useState(false);
-
+	const [closeMenu,setCloseMenu] = useState(false);
   	const [ignoreColumns, setIgnoreColumns] = useState([
   		'__v',
   		'_id',
@@ -24,7 +24,6 @@ function Dashboard() {
   		'owner',
   		'imagePath'
   	]);
-
 	function mapDinamicColumns(){
 		let individualColumn = [];
 
@@ -325,9 +324,13 @@ function Dashboard() {
   return (
     <Page>
     <Header/>
-	<ScreenView width={"80%"}>
+	<ScreenView width={"100%"}>
+
 	{/* Content of page (TABLE below) */}
+
 	<Sidebar 
+	view={closeMenu?"none":null}
+	viewClick={()=>setCloseMenu(!closeMenu)}
 	noticia={setTableNotices} 
 	diretorio={setTableDirectories} 
 	evento={setTableEvent}
@@ -337,21 +340,18 @@ function Dashboard() {
 	tag={setTableTags}
 	jobType={setTableJobType}
 	/>
-		<Content>
-			<h1>Dashboard</h1>
-			{dataType ?
+		<Content view={closeMenu}>
+			<label>Dashboard</label>
+			{dataType &&
 			<div>
 				<Link to={"/"+dataType+"/cadastrar"}>
-				<h3>Cadastrar Novo</h3>
+				<DashButton>Regístrate Nuevo</DashButton>
 				</Link>
 			</div>
-			:
-			<div>
-
-			</div>
+				
 			}
-			<HorizonScrollView>
-			{error && !dbData.length ||error ? <h1>Não há Conteúdo disponível!</h1>: createTable(dbData)}
+			<HorizonScrollView >
+			{error && !dbData.length ||error ? <h3>No hay contenido disponible!</h3>: createTable(dbData)}
 			</HorizonScrollView>
 		</Content>
 	</ScreenView>

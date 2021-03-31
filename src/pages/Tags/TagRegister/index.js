@@ -5,12 +5,34 @@ import { AppButton, ContentView, Form, Page } from '../../../styles/default';
 
 import api from '../../../services/api';
 
+import Select from 'react-select';
+
 function TagRegister() {
 
   const [buttonText, setButtonText] = useState("Cadastrar");
 
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
+  const [types, setTypes] = useState([]);
+  const [typesOptions] = useState([
+    {
+      label: 'Notícia',
+      value: 'Notice'
+    }, 
+    {
+      label: 'Directorio',
+      value: 'Directory'
+    }, 
+    {
+      label: 'Evento',
+      value: 'Event'
+    }, 
+    {
+      label: 'Curso',
+      value: 'Course'
+    }
+  ])
+
   const [errors, setErrors] = useState({});
 
   const handleTagRegister = async (e) => {
@@ -18,7 +40,7 @@ function TagRegister() {
     setButtonText("Enviando Dados ...");
 
     try {
-      const response = await api.post("/tag/create", {title, description});
+      const response = await api.post("/tag/create", {title, description, types});
 
       console.log(response.data);
       setButtonText("Cadastrado com Sucesso");
@@ -40,6 +62,14 @@ function TagRegister() {
       }
     }
   };
+
+  const onChangeSelectTags = (typesSelected) => {
+    let types = [];
+    for(const type of typesSelected) {
+      types.push(type.value);
+    }
+    setTypes(types);
+  }
 
   return (
   <Page>
@@ -69,6 +99,16 @@ function TagRegister() {
           value={description}
         />
         <span style={{color: 'red'}}>{errors.description}</span>
+
+        <Select
+         options={typesOptions}
+          isClearable
+          isMulti
+          closeMenuOnSelect={false}
+          onChange={onChangeSelectTags}
+          placeholder={"Selecioneo Tipo de Publicação que está tag pertence"}
+        />
+        <span style={{color: 'red'}}>{errors.type}</span>
 
         <br></br>
         <AppButton onClick={handleTagRegister}>{buttonText}</AppButton>
