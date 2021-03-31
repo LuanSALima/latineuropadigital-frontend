@@ -325,8 +325,10 @@ function Dashboard() {
   return (
     <Page>
     <Header/>
-	<ScreenView width={"80%"}>
+	<ScreenView width={"100%"}>
+
 	{/* Content of page (TABLE below) */}
+
 	<Sidebar 
 	noticia={setTableNotices} 
 	diretorio={setTableDirectories} 
@@ -351,7 +353,7 @@ function Dashboard() {
 			</div>
 			}
 			<HorizonScrollView>
-			{error && !dbData.length ||error ? <h1>Não há Conteúdo disponível!</h1>: createTable(dbData)}
+			{error && !dbData.length ||error ? <h3>Não há Conteúdo disponível!</h3>: createTable(dbData)}
 			</HorizonScrollView>
 		</Content>
 	</ScreenView>
