@@ -17,6 +17,7 @@ color:var(--color-freela-white);
 font-size:18px;
 width:350px;
 min-height:250px;
+max-height:100vh;
 height:auto;
 margin-top:1rem;
 border-radius:0.5rem;

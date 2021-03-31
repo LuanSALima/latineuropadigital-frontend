@@ -51,7 +51,7 @@ function Header() {
         </Nav>
         <Nav>
         <Link to="/job/cadastrar">
-          <div className="headerLinks">
+          <div className="headerSuperLink" >
             <span className="texts">ANUNCIAR</span>
           </div>
         </Link>
