@@ -13,6 +13,8 @@ padding:0 !important;
 margin-top:4rem;
 left:0;
 height:80%;
+z-index:9999;
+
 >div{
     display:flex;
     height:20%;
@@ -44,8 +46,8 @@ border-radius:0.3rem;
 display:flex;
 flex-direction:column !important;
 position:absolute;
+margin-top:0 !important;
 padding:0 !important;
-z-index:999;
 >div{
     display:flex;
     height:100%;
@@ -74,7 +76,7 @@ z-index:999;
 
 export const Content = styled.div`
 display:flex;
-width:75%;
+width: ${(props)=>props.view?"100%":"75%"};
 height:auto;
 margin:0 auto;
 padding:1rem!important;

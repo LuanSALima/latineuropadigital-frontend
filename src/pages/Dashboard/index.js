@@ -15,7 +15,7 @@ function Dashboard() {
 	const [dataType, setDataType] = useState("");
 	const [columns, setColumns] = useState([]);
 	const [error,setError] = useState(false);
-
+	const [closeMenu,setCloseMenu] = useState(false);
   	const [ignoreColumns, setIgnoreColumns] = useState([
   		'__v',
   		'_id',
@@ -24,7 +24,6 @@ function Dashboard() {
   		'owner',
   		'imagePath'
   	]);
-
 	function mapDinamicColumns(){
 		let individualColumn = [];
 
@@ -330,6 +329,8 @@ function Dashboard() {
 	{/* Content of page (TABLE below) */}
 
 	<Sidebar 
+	view={closeMenu?"none":null}
+	viewClick={()=>setCloseMenu(!closeMenu)}
 	noticia={setTableNotices} 
 	diretorio={setTableDirectories} 
 	evento={setTableEvent}
@@ -339,7 +340,7 @@ function Dashboard() {
 	tag={setTableTags}
 	jobType={setTableJobType}
 	/>
-		<Content>
+		<Content view={closeMenu}>
 			<h1>Dashboard</h1>
 			{dataType ?
 			<div>
