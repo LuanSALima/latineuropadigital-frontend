@@ -110,6 +110,7 @@ const myView = css`
     width:95% !important;
     margin-top :10px;
     >div{
+ 
       >label{
       font-size:22px !important;
     }
