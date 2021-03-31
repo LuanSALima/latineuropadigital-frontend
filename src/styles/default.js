@@ -41,15 +41,15 @@ export const ContentView = styled.div`
 
   export const FeatureContent = styled.div`
   width:fit-content;
-  margin-top:1rem;
-  font-size:23px;
+  margin-top:0.4rem !important;
+  font-size:22.5px;
   text-transform:uppercase;
   font-style:bold;
   color:var(--color-freela-white);
   text-align:left;
   background-color:var(--color-freela-pink);
   display:flex;
-  padding:0.5rem 6rem 0.5rem 1rem !important;
+  padding:0.3rem 6rem 0.5rem 2.5rem !important;
 
 `;
   export const LittleFeatureContent = styled.div`

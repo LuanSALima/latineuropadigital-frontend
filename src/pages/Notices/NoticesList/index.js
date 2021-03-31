@@ -84,7 +84,7 @@ function NoticesList() {
       <Page>
         <Header/>
         <MyScreenView >
-          <h1> Noticias y actualidad:</h1>
+          <h1>Noticias y Actualidad</h1>
 
           <h2>Mais Visualizados</h2>
           
