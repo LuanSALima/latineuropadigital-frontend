@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 
+ 
 export const SidebarStyled = styled.div`
 min-width:18vw !important;
 width:auto;
@@ -9,7 +10,7 @@ display:flex;
 flex-direction:column;
 position:absolute;
 padding:0 !important;
-margin-top:0.5rem;
+margin-top:4rem;
 left:0;
 height:80%;
 >div{
@@ -44,9 +45,7 @@ display:flex;
 flex-direction:column !important;
 position:absolute;
 padding:0 !important;
-margin-top:0.5rem;
 z-index:999;
-overflow-x:scroll;
 >div{
     display:flex;
     height:100%;
