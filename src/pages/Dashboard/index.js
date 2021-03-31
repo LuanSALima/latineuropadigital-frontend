@@ -24,6 +24,11 @@ function Dashboard() {
   		'owner',
   		'imagePath'
   	]);
+
+  	useEffect(() => {
+  		setTableNotices();
+  	}, []);
+
 	function mapDinamicColumns(){
 		let individualColumn = [];
 
@@ -227,7 +232,10 @@ function Dashboard() {
   	}
 
   	const setTableNotices = async (e) => {
-  		e.preventDefault();
+  		if(e) {
+  			e.preventDefault();
+  		}
+  		
 		setDataType("notice");
 
   		try {
