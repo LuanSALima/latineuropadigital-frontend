@@ -1,13 +1,18 @@
 import React from 'react';
 
 import { Container, Description,Image, Title } from './styles';
-
+import imageAux from '../../assets/icon.svg'
 function NoticesCard(props) {
+
+  const handleImageError =(image)=>{
+    image.target.src = imageAux;
+  };
+
   return (
     
     <Container>      
         {props.image?<Image>
-        <img src={props.image}/>
+        <img onError={handleImageError} src={props.image}/>
         </Image>:null}
         <Description>
             <Title>

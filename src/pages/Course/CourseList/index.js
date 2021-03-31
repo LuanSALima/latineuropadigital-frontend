@@ -85,7 +85,7 @@ function CourseList() {
       <Page>
         <Header/>
         <MyScreenView >
-    <h1> Cursos :</h1>
+    <h1>Cursos</h1>
 
     <h2>Mais Visualizados</h2>
           

@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-
+import imgAux from '../../assets/icon.svg'
 export const Container = styled.div`
   height:auto;
   width:325px;
@@ -10,9 +10,10 @@ export const Image = styled.div`
     width:100%;
     padding:0 !important;
     img{
-     height:350px;
+     height:300px;
      width:295px;   
      border-radius:0.2rem;
+     background-repeat:round
     }
     `;
 

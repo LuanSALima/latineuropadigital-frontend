@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import Header from '../../components/Header';
-import { Page, ScreenView } from '../../styles/default';
+import { AppButton, Page, ScreenView } from '../../styles/default';
 
 import Table from 'react-bootstrap/Table';
 import { Link } from 'react-router-dom';
 import Footer from '../../components/Footer';
 import api from '../../services/api';
 import Sidebar from './sidebar';
-import { Content } from './styles';
+import { Content, DashButton } from './styles';
 import HorizonScrollView from '../../components/HorizonScrollView'
 function Dashboard() {
 
@@ -349,20 +349,17 @@ function Dashboard() {
 	jobType={setTableJobType}
 	/>
 		<Content view={closeMenu}>
-			<h1>Dashboard</h1>
-			{dataType ?
+			<label>Dashboard</label>
+			{dataType &&
 			<div>
 				<Link to={"/"+dataType+"/cadastrar"}>
-				<h3>Cadastrar Novo</h3>
+				<DashButton>Regístrate Nuevo</DashButton>
 				</Link>
 			</div>
-			:
-			<div>
-
-			</div>
+				
 			}
-			<HorizonScrollView>
-			{error && !dbData.length ||error ? <h3>Não há Conteúdo disponível!</h3>: createTable(dbData)}
+			<HorizonScrollView >
+			{error && !dbData.length ||error ? <h3>No hay contenido disponible!</h3>: createTable(dbData)}
 			</HorizonScrollView>
 		</Content>
 	</ScreenView>

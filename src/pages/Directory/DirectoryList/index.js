@@ -85,7 +85,7 @@ function DirectoryList() {
       <Page>
         <Header/>
         <MyScreenView >
-    <h1> Diretorios :</h1>
+    <h1>Directorios</h1>
 
     <h2>Mais Visualizados</h2>
           

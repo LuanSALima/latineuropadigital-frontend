@@ -5,8 +5,8 @@ import { ScrollView,TitleView,SubtitleView } from './styles';
 function HorizonScrollView(props) {
   return (
 <>
-<TitleView>{props.title}</TitleView>
-<SubtitleView>{props.subtitle}</SubtitleView>
+{props.title && <TitleView>{props.title}</TitleView>}
+{props.subtitle && <SubtitleView>{props.subtitle}</SubtitleView>}
 <ScrollView>
     {props.children}
 </ScrollView>
