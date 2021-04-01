@@ -38,7 +38,7 @@ function CourseList() {
           let coursesDb = [];
           for(let index in response.data.courses) {
             const course = response.data.courses[index];
-            coursesDb.push({ tag : course.tags,id: course._id, title: course.title, description: course.description, image: `${process.env.REACT_APP_API_URL}`+course.imagePath, icon: imgTest});
+            coursesDb.push({ tag : course.tags,id: course._id, title: course.title, subtitle: course.subtitle, image: `${process.env.REACT_APP_API_URL}`+course.imagePath, icon: imgTest});
           }
           setCourses(coursesDb);
         }
@@ -60,7 +60,7 @@ function CourseList() {
           let coursesMostViewedDb = [];
           for(let index in response.data.courses) {
             const course = response.data.courses[index];
-            coursesMostViewedDb.push({ tag : course.tags,id: course._id, title: course.title, description: course.description, image: `${process.env.REACT_APP_API_URL}`+course.imagePath, icon: imgTest, views: course.views});
+            coursesMostViewedDb.push({ tag : course.tags,id: course._id, title: course.title, subtitle: course.subtitle, image: `${process.env.REACT_APP_API_URL}`+course.imagePath, icon: imgTest, views: course.views});
           }
           setCoursesMostViewed(coursesMostViewedDb);
         }
@@ -107,7 +107,7 @@ function CourseList() {
 
     <HorizonScrollView title={mostViewedAt} subtitle={"Mais visualizados durante o tempo: "+mostViewedAt}>
       {coursesMostViewed.map((content)=>{
-          return <Link to={"/curso/"+content.id}><NoticesCard id={content.id} icon={content.icon} image={content.image} title={content.title.length >= 18?content.title+"..":content.title}text={content.description.length >= 75 ? content.description+"..":content.description} /><span>Views: {content.views}</span></Link>
+          return <Link to={"/curso/"+content.id}><NoticesCard id={content.id} icon={content.icon} image={content.image} title={content.title}text={content.subtitle} /><span>Views: {content.views}</span></Link>
         }
       )}
     </HorizonScrollView>
@@ -118,7 +118,7 @@ function CourseList() {
   {courses.map((content)=>(
     content.tag.map((tagFiltered)=>{
       if(tagFiltered === tags.title){
-        return  <Link to={"/curso/"+content.id}><NoticesCard id={content.id} icon={content.icon} image={content.image} title={content.title.length >= 18?content.title+"..":content.title}text={content.description.length >= 75 ? content.description+"..":content.description} /></Link>
+        return  <Link to={"/curso/"+content.id}><NoticesCard id={content.id} icon={content.icon} image={content.image} title={content.title}text={content.subtitle} /></Link>
        }
     })
  

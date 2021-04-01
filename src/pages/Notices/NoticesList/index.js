@@ -40,7 +40,7 @@ function NoticesList() {
           let noticesDb = [];
           for(let index in response.data.notices) {
             const notice = response.data.notices[index];
-            noticesDb.push({ tag : notice.tags,id: notice._id, title: notice.title, description: notice.description, image: `${process.env.REACT_APP_API_URL}`+notice.imagePath, icon: imgTest});
+            noticesDb.push({ tag : notice.tags,id: notice._id, title: notice.title, subtitle: notice.subtitle, image: `${process.env.REACT_APP_API_URL}`+notice.imagePath, icon: imgTest});
           }
           setNotices(noticesDb);
         }
@@ -60,7 +60,7 @@ function NoticesList() {
           let noticesMostViewedDb = [];
           for(let index in response.data.notices) {
             const notice = response.data.notices[index];
-            noticesMostViewedDb.push({ tag : notice.tags,id: notice._id, title: notice.title, description: notice.description, image: `${process.env.REACT_APP_API_URL}`+notice.imagePath, icon: imgTest, views: notice.views});
+            noticesMostViewedDb.push({ tag : notice.tags,id: notice._id, title: notice.title, subtitle: notice.subtitle, image: `${process.env.REACT_APP_API_URL}`+notice.imagePath, icon: imgTest, views: notice.views});
           }
           setNoticesMostViewed(noticesMostViewedDb);
         }
@@ -106,7 +106,7 @@ function NoticesList() {
 
           <HorizonScrollView title={mostViewedAt} subtitle={"Mais visualizados durante o tempo: "+mostViewedAt}>
             {noticesMostViewed.map((content)=>{
-                return <Link to={"/noticia/"+content.id}><NoticesCard id={content.id} icon={content.icon} image={content.image} title={content.title.length >= 18?content.title+"..":content.title}text={content.description.length >= 75 ? content.description+"..":content.description} /><span>Views: {content.views}</span></Link>
+                return <Link to={"/noticia/"+content.id}><NoticesCard id={content.id} icon={content.icon} image={content.image} title={content.title} text={content.subtitle} /><span>Views: {content.views}</span></Link>
               }
             )}
           </HorizonScrollView>
@@ -117,7 +117,7 @@ function NoticesList() {
               {notices.map((content)=>(
                 content.tag.map((tagFiltered)=>{
                   if(tagFiltered === tags.title){
-                    return  <Link to={"/noticia/"+content.id}><NoticesCard id={content.id} icon={content.icon} image={content.image} title={content.title.length >= 18?content.title+"..":content.title}text={content.description.length >= 75 ? content.description+"..":content.description} /></Link>
+                    return  <Link to={"/noticia/"+content.id}><NoticesCard id={content.id} icon={content.icon} image={content.image} title={content.title}text={content.subtitle} /></Link>
                    }
                 })
               ))}

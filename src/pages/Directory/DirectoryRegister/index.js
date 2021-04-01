@@ -7,12 +7,15 @@ import api from '../../../services/api';
 
 import Select from 'react-select';
 
+import { Link } from 'react-router-dom';
+
 function DirectoryRegister() {
 
   const [buttonText, setButtonText] = useState("Cadastrar");
 
   const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
+  const [subtitle, setSubtitle] = useState("");
+  const [content, setContent] = useState("");
   const [image, setImage] = useState('');
   const [tag, setTag] = useState("");
   const [tags, setTags] = useState([]);
@@ -55,7 +58,8 @@ function DirectoryRegister() {
     
     const formData = new FormData();
     formData.append('title', title);
-    formData.append('description', description);
+    formData.append('subtitle', subtitle);
+    formData.append('content', content);
     formData.append('image', image);
     tags.map((tag) => {
       formData.append('tags', tag);
@@ -120,14 +124,24 @@ function DirectoryRegister() {
         <span style={{color: 'red'}}>{errors.title}</span>
 
         <input
-          placeholder="Insira a Descrição"
+          placeholder="Insira o Subtítulo"
           type="text"
            onChange={(e) => {
-            setDescription(e.target.value);
+            setSubtitle(e.target.value);
           }}
-          value={description}
+          value={subtitle}
         />
-        <span style={{color: 'red'}}>{errors.description}</span>
+        <span style={{color: 'red'}}>{errors.subtitle}</span>
+
+        <input
+          placeholder="Insira o Conteudo"
+          type="text"
+           onChange={(e) => {
+            setContent(e.target.value);
+          }}
+          value={content}
+        />
+        <span style={{color: 'red'}}>{errors.content}</span>
 
         <input
           type="file"
@@ -148,6 +162,7 @@ function DirectoryRegister() {
         />
 
         <span style={{color: 'red'}}>{errors.dbTags}</span>
+        {errors.dbTags? <Link className="alert alert-danger" to="/tag/cadastrar">Cadastre uma Tag Clicando aqui</Link>: null}
 
         <button>Adicionar Tag</button>
         <span style={{color: 'red'}}>{errors.tags}</span>

@@ -38,7 +38,7 @@ function DirectoryList() {
           let directoriesDb = [];
           for(let index in response.data.directories) {
             const directory = response.data.directories[index];
-            directoriesDb.push({ tag : directory.tags,id: directory._id, title: directory.title, description: directory.description, image: `${process.env.REACT_APP_API_URL}`+directory.imagePath, icon: imgTest});
+            directoriesDb.push({ tag : directory.tags,id: directory._id, title: directory.title, subtitle: directory.subtitle, image: `${process.env.REACT_APP_API_URL}`+directory.imagePath, icon: imgTest});
           }
           setDirectories(directoriesDb);
         }
@@ -60,7 +60,7 @@ function DirectoryList() {
           let directoriesMostViewedDb = [];
           for(let index in response.data.directories) {
             const directory = response.data.directories[index];
-            directoriesMostViewedDb.push({ tag : directory.tags,id: directory._id, title: directory.title, description: directory.description, image: `${process.env.REACT_APP_API_URL}`+directory.imagePath, icon: imgTest, views: directory.views});
+            directoriesMostViewedDb.push({ tag : directory.tags,id: directory._id, title: directory.title, subtitle: directory.subtitle, image: `${process.env.REACT_APP_API_URL}`+directory.imagePath, icon: imgTest, views: directory.views});
           }
           setDirectoriesMostViewed(directoriesMostViewedDb);
         }
@@ -107,7 +107,7 @@ function DirectoryList() {
 
     <HorizonScrollView title={mostViewedAt} subtitle={"Mais visualizados durante o tempo: "+mostViewedAt}>
       {directoriesMostViewed.map((content)=>{
-          return <Link to={"/diretorio/"+content.id}><NoticesCard id={content.id} icon={content.icon} image={content.image} title={content.title.length >= 18?content.title+"..":content.title}text={content.description.length >= 75 ? content.description+"..":content.description} /><span>Views: {content.views}</span></Link>
+          return <Link to={"/diretorio/"+content.id}><NoticesCard id={content.id} icon={content.icon} image={content.image} title={content.title} text={content.subtitle} /><span>Views: {content.views}</span></Link>
         }
       )}
     </HorizonScrollView>
@@ -118,7 +118,7 @@ function DirectoryList() {
       {directories.map((content)=>(
         content.tag.map((tagFiltered)=>{
           if(tagFiltered === tags.title){
-            return  <Link to={"/diretorio/"+content.id}><NoticesCard id={content.id} icon={content.icon} image={content.image} title={content.title.length >= 18?content.title+"..":content.title}text={content.description.length >= 75 ? content.description+"..":content.description} /></Link>
+            return  <Link to={"/diretorio/"+content.id}><NoticesCard id={content.id} icon={content.icon} image={content.image} title={content.title}text={content.subtitle} /></Link>
            }
         })
      

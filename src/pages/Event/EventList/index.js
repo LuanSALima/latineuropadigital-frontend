@@ -38,7 +38,7 @@ function EventList() {
           let eventsDb = [];
           for(let index in response.data.events) {
             const event = response.data.events[index];
-            eventsDb.push({ tag : event.tags,id: event._id, title: event.title, description: event.description, image: `${process.env.REACT_APP_API_URL}`+event.imagePath, icon: imgTest});
+            eventsDb.push({ tag : event.tags,id: event._id, title: event.title, subtitle: event.subtitle, image: `${process.env.REACT_APP_API_URL}`+event.imagePath, icon: imgTest});
           }
           setEvents(eventsDb);
         }
@@ -60,7 +60,7 @@ function EventList() {
           let eventsMostViewedDb = [];
           for(let index in response.data.events) {
             const event = response.data.events[index];
-            eventsMostViewedDb.push({ tag : event.tags,id: event._id, title: event.title, description: event.description, image: `${process.env.REACT_APP_API_URL}`+event.imagePath, icon: imgTest, views: event.views});
+            eventsMostViewedDb.push({ tag : event.tags,id: event._id, title: event.title, subtitle: event.subtitle, image: `${process.env.REACT_APP_API_URL}`+event.imagePath, icon: imgTest, views: event.views});
           }
           setEventsMostViewed(eventsMostViewedDb);
         }
@@ -107,7 +107,7 @@ function EventList() {
 
     <HorizonScrollView title={mostViewedAt} subtitle={"Mais visualizados durante o tempo: "+mostViewedAt}>
       {eventsMostViewed.map((content)=>{
-          return <Link to={"/evento/"+content.id}><NoticesCard id={content.id} icon={content.icon} image={content.image} title={content.title.length >= 18?content.title+"..":content.title}text={content.description.length >= 75 ? content.description+"..":content.description} /><span>Views: {content.views}</span></Link>
+          return <Link to={"/evento/"+content.id}><NoticesCard id={content.id} icon={content.icon} image={content.image} title={content.title} text={content.subtitle} /><span>Views: {content.views}</span></Link>
         }
       )}
     </HorizonScrollView>
@@ -118,7 +118,7 @@ function EventList() {
   {events.map((content)=>(
     content.tag.map((tagFiltered)=>{
       if(tagFiltered === tags.title){
-        return  <Link to={"/evento/"+content.id}><NoticesCard id={content.id} icon={content.icon} image={content.image} title={content.title.length >= 18?content.title+"..":content.title}text={content.description.length >= 75 ? content.description+"..":content.description} /></Link>
+        return  <Link to={"/evento/"+content.id}><NoticesCard id={content.id} icon={content.icon} image={content.image} title={content.title} text={content.subtitle} /></Link>
        }
     })
  

@@ -18,7 +18,8 @@ function CourseEdit(props) {
   const [idCourse] = useState(props.match.params.id);
 
   const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
+  const [subtitle, setSubtitle] = useState("");
+  const [content, setContent] = useState("");
   const [image, setImage] = useState('');
   const [tag, setTag] = useState("");
   const [tags, setTags] = useState([]);
@@ -64,7 +65,8 @@ function CourseEdit(props) {
       if(response.data.success) {
         if(response.data.course) {
           setTitle(response.data.course.title);
-          setDescription(response.data.course.description);
+          setSubtitle(response.data.course.subtitle);
+          setContent(response.data.course.content);
           setTags(response.data.course.tags);
         }
       }
@@ -93,7 +95,8 @@ function CourseEdit(props) {
     
     const formData = new FormData();
     formData.append('title', title);
-    formData.append('description', description);
+    formData.append('subtitle', subtitle);
+    formData.append('content', content);
     formData.append('image', image);
     tags.map((tag) => {
       formData.append('tags', tag);
@@ -150,14 +153,24 @@ function CourseEdit(props) {
         <span style={{color: 'red'}}>{errors.title}</span>
 
         <input
-          placeholder="Insira a Descrição"
+          placeholder="Insira o Subtítulo"
           type="text"
            onChange={(e) => {
-            setDescription(e.target.value);
+            setSubtitle(e.target.value);
           }}
-          value={description}
+          value={subtitle}
         />
-        <span style={{color: 'red'}}>{errors.description}</span>
+        <span style={{color: 'red'}}>{errors.subtitle}</span>
+
+        <input
+          placeholder="Insira o Conteudo"
+          type="text"
+           onChange={(e) => {
+            setContent(e.target.value);
+          }}
+          value={content}
+        />
+        <span style={{color: 'red'}}>{errors.content}</span>
 
         <input
           type="file"
