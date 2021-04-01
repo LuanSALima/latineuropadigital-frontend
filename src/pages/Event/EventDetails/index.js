@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import Header from '../../../components/Header';
-import NoticesCard from '../../../components/NoticesCard';
-import { Page, ScreenView } from '../../../styles/default';
-
+import { Details, Page, Outline_Button } from '../../../styles/default';
+import Toastifying, {TOASTIFY_OPTIONS} from '../../../components/Toastifying'
 import api from '../../../services/api';
 
 import { isAdmin } from '../../../services/auth';
 import Footer from '../../../components/Footer';
+import imgAux from '../../../assets/icon.svg';
+import { toast } from 'react-toastify';
+import history from '../../../services/history/history'
 
 function EventDetails(props) {
 
@@ -46,52 +48,46 @@ function EventDetails(props) {
     setRemoveButtonText("Removendo ...");
 
     try {
-      const response = await api.delete("/event/"+idEvent);
-
-      if(response.data.success) {
-        setRemoveButtonText("Removido com sucesso!");
-      }
-    } catch (error) {
-      setRemoveButtonText("Ocorreu um erro ao remover");
+    await api.delete("/event/"+idEvent);
+    toast.success("Removido com Sucesso!",TOASTIFY_OPTIONS)
       
-      if(error.response) {
-        if(error.response.data) {
-          if(error.response.data.message) {
-            setErrors({message: error.response.data.message});
-          }
-        }
-      }
+    setTimeout(() => {
+        history.push('/dashboard')
+      }, 1500);
+    } catch (error) {
+      toast.error("Não foi Possível Remover",TOASTIFY_OPTIONS)
     }
+  }
+
+  const handleImageError = (image)=>{
+    image.target.src = imgAux;
+  }
+
+  const handleEditeEvent = ()=>{
+    history.push("/event/editar/"+idEvent);
   }
 
   return (
       <Page>
         <Header/>
-        <ScreenView width={"90%"}>
-         {/* <FeatureContent>
-        <b>Acesse Nossa PÁGINA!!!</b>
-         </FeatureContent> */}
-        <br></br>
-        <h2 style={{color: 'red'}}>{errors.message}</h2>
-
-        <img src={process.env.REACT_APP_API_URL+event.imagePath} />
-
-        <h1>Titulo</h1>
-        <h3>{event.title}</h3>
-
-        <h1>Descrição</h1>
-        <h3>{event.description}</h3>
+        <Details width={"90%"}>
+        <Toastifying/>
+   
+        <label>{event.title}</label>
+        <h3>{event.subtitle}</h3>
+        <img onError={handleImageError} src={process.env.REACT_APP_API_URL+event.imagePath} />
+        <h4> Contenido </h4>
+        <span>{event.content}</span>
         
         {
-        isAdmin() ?
+        isAdmin() &&
         <div>
-          <button onClick={handleRemoveEvent}>{removeButtonText}</button>
+          <Outline_Button type="danger" onClick={handleRemoveEvent}>{"Eliminar"}</Outline_Button>
+          <Outline_Button type="warning" onClick={handleEditeEvent}>{"Editar"}</Outline_Button>
         </div>
-        :
-        <br />
         }
 
-        </ScreenView>
+        </Details>
         <Footer/>
       </Page>
   );

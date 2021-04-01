@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import Header from '../../../components/Header';
-import NoticesCard from '../../../components/NoticesCard';
-import { Page, ScreenView } from '../../../styles/default';
-
+import { Details, Page, Outline_Button } from '../../../styles/default';
+import Toastifying, {TOASTIFY_OPTIONS} from '../../../components/Toastifying'
 import api from '../../../services/api';
 
 import { isAdmin } from '../../../services/auth';
 import Footer from '../../../components/Footer';
+import imgAux from '../../../assets/icon.svg';
+import { toast } from 'react-toastify';
+import history from '../../../services/history/history'
 
 function CourseDetails(props) {
 
@@ -46,54 +48,51 @@ function CourseDetails(props) {
     setRemoveButtonText("Removendo ...");
 
     try {
-      const response = await api.delete("/course/"+idCourse);
+       await api.delete("/course/"+idCourse);
 
-      if(response.data.success) {
-        setRemoveButtonText("Removido com sucesso!");
-      }
-    } catch (error) {
-      setRemoveButtonText("Ocorreu um erro ao remover");
+      toast.success("Removido com Sucesso!",TOASTIFY_OPTIONS)
+      setTimeout(() => {
+        history.push('/dashboard')
+      }, 1500);
       
-      if(error.response) {
-        if(error.response.data) {
-          if(error.response.data.message) {
-            setErrors({message: error.response.data.message});
-          }
-        }
-      }
+    } catch (error) {
+      
+      toast.error("Não foi Possível Remover",TOASTIFY_OPTIONS)
+  
+      
     }
   }
 
+  const handleImageError = (image)=>{
+    image.target.src = imgAux;
+  }
+  const handleEditeCourse = ()=>{
+    history.push("/course/editar/"+idCourse);
+  }
+
   return (
-      <Page>
-        <Header/>
-        <ScreenView width={"90%"}>
-         {/* <FeatureContent>
-        <b>Acesse Nossa PÁGINA!!!</b>
-         </FeatureContent> */}
-        <br></br>
-        <h2 style={{color: 'red'}}>{errors.message}</h2>
+    <Page>
+    <Header/>
+    <Details width={"90%"}>
+    <Toastifying/>
 
-        <img src={process.env.REACT_APP_API_URL+course.imagePath} />
+    <label>{course.title}</label>
+    <h3>{course.subtitle}</h3>
+    <img onError={handleImageError} src={process.env.REACT_APP_API_URL+course.imagePath} />
+    <h4> Contenido </h4>
+    <span>{course.content}</span>
+    
+    {
+    isAdmin() &&
+    <div>
+      <Outline_Button type="danger" onClick={handleRemoveCourse}>{"Eliminar"}</Outline_Button>
+      <Outline_Button type="warning" onClick={handleEditeCourse}>{"Editar"}</Outline_Button>
+    </div>
+    }
 
-        <h1>Titulo</h1>
-        <h3>{course.title}</h3>
-
-        <h1>Descrição</h1>
-        <h3>{course.description}</h3>
-        
-        {
-        isAdmin() ?
-        <div>
-          <button onClick={handleRemoveCourse}>{removeButtonText}</button>
-        </div>
-        :
-        <br />
-        }
-
-        </ScreenView>
-        <Footer/>
-      </Page>
+    </Details>
+    <Footer/>
+  </Page>
   );
 }
 

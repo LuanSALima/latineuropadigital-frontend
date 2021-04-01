@@ -16,8 +16,8 @@ margin-top:5rem;
 `;
 
 export const OportunityCard = styled.div`
-background-color:var(--color-freela-pink);
 color:var(--color-freela-white);
+background-color:var(--color-freela-pink);
 font-size:18px;
 width:350px;
 min-height:250px;

@@ -57,7 +57,7 @@ function OpportunitieList(props) {
     <MyScreenView>
 
     <h1>Oportunidades</h1>
-    <h2 style={{color: 'red'}}>{errors.message}</h2>
+    
      {jobs.map((currentjob)=>(
         <Job job={currentjob} />
       ))}
