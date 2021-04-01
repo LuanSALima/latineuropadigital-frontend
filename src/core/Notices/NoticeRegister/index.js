@@ -8,11 +8,11 @@ import Select from 'react-select';
 import {MdFileUpload} from 'react-icons/md/index'
 import Toastifying, {TOASTIFY_OPTIONS} from "../../../components/Toastifying"
 import { toast } from 'react-toastify';
+import ModalTag from '../../../components/ModalTag';
 
 function NoticeRegister() {
 
   const [buttonText, setButtonText] = useState("Registrar");
-
   const [title, setTitle] = useState("");
   const [subtitle, setSubtitle] = useState("");
   const [content, setContent] = useState("");
@@ -23,6 +23,9 @@ function NoticeRegister() {
   const [errors, setErrors] = useState({});
   const [progress, setProgess] = useState(0); // progess bar
 
+  //For open modal
+
+  const[modalShow,setModalShow] = useState(false);
   const [previewImage,setPreviewImage] = useState();
 
   async function listTags() {
@@ -96,12 +99,13 @@ function NoticeRegister() {
 
   const handleChangeTags = (e)=>{
     e.preventDefault();
-    console.log("Oi");
+    setModalShow(!modalShow);
   }
 
   return (
   <Page>
     <Toastifying/>
+   {modalShow && <ModalTag show={modalShow} truncate={(e)=>console.log(e)}/>}
     <Header/>
     <Form width={"45%"} height={"80vh"} center>
       <ContentView>
