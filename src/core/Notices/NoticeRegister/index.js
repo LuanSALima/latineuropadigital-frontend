@@ -1,17 +1,17 @@
 import React, { useState, useEffect } from 'react';
 
 import Header from '../../../components/Header';
-import { AppButton, ContentView, Form, Page } from '../../../styles/default';
+import { AppButton, ContentView, Form, Outline_Button, Page } from '../../../styles/default';
 import Footer from '../../../components/Footer';
 import api from '../../../services/api';
-
 import Select from 'react-select';
-
-import { Link } from 'react-router-dom';
+import {MdFileUpload} from 'react-icons/md/index'
+import Toastifying, {TOASTIFY_OPTIONS} from "../../../components/Toastifying"
+import { toast } from 'react-toastify';
 
 function NoticeRegister() {
 
-  const [buttonText, setButtonText] = useState("Cadastrar");
+  const [buttonText, setButtonText] = useState("Registrar");
 
   const [title, setTitle] = useState("");
   const [subtitle, setSubtitle] = useState("");
@@ -22,6 +22,8 @@ function NoticeRegister() {
   const [dbTags, setDbTags] = useState([]);
   const [errors, setErrors] = useState({});
   const [progress, setProgess] = useState(0); // progess bar
+
+  const [previewImage,setPreviewImage] = useState();
 
   async function listTags() {
     try {
@@ -50,7 +52,9 @@ function NoticeRegister() {
   useEffect(() => {
     listTags();
   }, []);
-
+  useEffect(()=>{
+    console.log(image);
+  },[image])
   const handleNoticeRegister = async (e) => {
     e.preventDefault();
     setButtonText("Enviando Dados ...");
@@ -66,31 +70,18 @@ function NoticeRegister() {
     
     try {
       
-      const response = await api.post("/notice/create", formData, {
+      await api.post("/notice/create", formData, {
         onUploadProgress: (ProgressEvent) => {
           let progress = Math.round(ProgressEvent.loaded / ProgressEvent.total * 100) + '%';
           setProgess(progress);
         }
       });
-
-      setButtonText("Cadastrado com Sucesso");
+      toast.success("¡Registrado correctamente!",TOASTIFY_OPTIONS)
+      setButtonText("Registrado Correctamente");
     } catch (error) {
-      setButtonText("Tente Novamente");
-      if(error.response) {
-        if(error.response.data) {
-          //Dados retornados do backend
-          if(error.response.data.errors) {
-            setErrors(error.response.data.errors);
-          }
-          if(error.response.data.message) {
-            setErrors({message: error.response.data.message});
-          }
-        } else {
-          //Não houve dados retornados do backend
-          alert("Erro Inesperado!");
-        }
-        console.log(errors);
-      }
+      console.log(error)
+      setButtonText("Registrar");
+        toast.error("¡Hubo un error! Verifique que todos los campos estén llenos",TOASTIFY_OPTIONS)
     }
 
   };
@@ -103,72 +94,76 @@ function NoticeRegister() {
     setTags(tags);
   }
 
+  const handleChangeTags = (e)=>{
+    e.preventDefault();
+    console.log("Oi");
+  }
+
   return (
   <Page>
+    <Toastifying/>
     <Header/>
     <Form width={"45%"} height={"80vh"} center>
       <ContentView>
-        <label>Crie uma Publicação !</label>
-
-        <label style={{color: 'red'}}>{errors.message}</label>
+        <label>¡Cree una Publicación!</label>
 
         <input
-          placeholder="Insira o Título"
+          placeholder="Título"
           type="text"
           onChange={(e) => {
             setTitle(e.target.value);
           }}
           value={title}
         />
-        <span style={{color: 'red'}}>{errors.title}</span>
 
         <input
-          placeholder="Insira o Subtítulo"
+          placeholder="Subtítulo"
           type="text"
            onChange={(e) => {
             setSubtitle(e.target.value);
           }}
           value={subtitle}
         />
-        <span style={{color: 'red'}}>{errors.subtitle}</span>
 
-        <input
-          placeholder="Insira o Conteudo"
+        <textarea
+          placeholder="Contenido"
           type="text"
            onChange={(e) => {
             setContent(e.target.value);
           }}
           value={content}
         />
-        <span style={{color: 'red'}}>{errors.content}</span>
-
+        <div>
+        <label for="uploadPhoto" class="btn-cta">
+          {image?.name?image?.name:"Haga clic aquí para agregar una imagen"}
+        <MdFileUpload/>
+        </label>
         <input
+           id="uploadPhoto"
           type="file"
           onChange={(e) => {
             setImage(e.target.files[0]);
+            if(e.target.files[0]){
+              setPreviewImage(URL.createObjectURL(e.target.files[0]));
+            }
           }}
         />
-        <span style={{color: 'red'}}>{errors.imagePath}</span>
-   
-        <Select
+       { image && <img src={previewImage}/>}
+       </div>
+          
+        <fieldset>
+       <Select
          options={dbTags.map((currentTag)=>(
-          {label:currentTag,value:currentTag}))}
-          isClearable
-          isMulti
-          closeMenuOnSelect={false}
-          onChange={onChangeSelectTags}
-          placeholder={"Selecione as tags"}
+         {label:currentTag,value:currentTag}))}
+         isClearable
+         isMulti
+         closeMenuOnSelect={false}
+         onChange={onChangeSelectTags}
+         placeholder={"Seleccionar Etiquetas"}
         />
-       
-        <span style={{color: 'red'}}>{errors.dbTags}</span>
-        {errors.dbTags? <Link className="alert alert-danger" to="/tag/cadastrar">Cadastre uma Tag Clicando aqui</Link>: null}
+        </fieldset>
+        <Outline_Button type="success" onClick={handleChangeTags}>Añadir Etiqueta</Outline_Button>
 
-        <button>Adicionar Tag</button>
-        <span style={{color: 'red'}}>{errors.tags}</span>
-
-        <div style={{ width: progress, backgroundColor: 'blue', color: 'white' }}>
-           {progress}
-        </div>
         <br></br>
         <AppButton onClick={handleNoticeRegister}>{buttonText}</AppButton>
       </ContentView>
