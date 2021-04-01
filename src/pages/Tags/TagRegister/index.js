@@ -31,7 +31,7 @@ function TagRegister() {
       label: 'Curso',
       value: 'Course'
     }
-  ])
+  ]);
 
   const [errors, setErrors] = useState({});
 
