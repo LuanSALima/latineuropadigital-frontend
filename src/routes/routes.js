@@ -5,30 +5,30 @@ import NotFound from '../pages/NotFound';
 import history from '../services/history/history';
 import Login from '../pages/Login';
 
-import OpportunitieList from '../pages/Oportunities/OpportunitieList';
-import OpportunitieRegister from '../pages/Oportunities/OpportunitieRegister';
-import OpportunitieEdit from '../pages/Oportunities/OpportunitieEdit';
-import OpportunitiePendents from '../pages/Oportunities/OpportunitiePendents';
+import OpportunitieList from '../core/Oportunities/OpportunitieList';
+import OpportunitieRegister from '../core/Oportunities/OpportunitieRegister';
+import OpportunitieEdit from '../core/Oportunities/OpportunitieEdit';
+import OpportunitiePendents from '../core/Oportunities/OpportunitiePendents';
 
-import NoticeRegister from '../pages/Notices/NoticeRegister';
-import NoticesList from '../pages/Notices/NoticesList';
-import NoticesDetails from '../pages/Notices/NoticesDetails';
-import NoticeEdit from '../pages/Notices/NoticeEdit';
+import NoticeRegister from '../core/Notices/NoticeRegister';
+import NoticesList from '../core/Notices/NoticesList';
+import NoticesDetails from '../core/Notices/NoticesDetails';
+import NoticeEdit from '../core/Notices/NoticeEdit';
 
-import DirectoryRegister from '../pages/Directory/DirectoryRegister';
-import DirectoryList from '../pages/Directory/DirectoryList';
-import DirectoryDetails from '../pages/Directory/DirectoryDetails';
-import DirectoryEdit from '../pages/Directory/DirectoryEdit';
+import DirectoryRegister from '../core/Directory/DirectoryRegister';
+import DirectoryList from '../core/Directory/DirectoryList';
+import DirectoryDetails from '../core/Directory/DirectoryDetails';
+import DirectoryEdit from '../core/Directory/DirectoryEdit';
 
-import EventRegister from '../pages/Event/EventRegister';
-import EventList from '../pages/Event/EventList';
-import EventDetails from '../pages/Event/EventDetails';
-import EventEdit from '../pages/Event/EventEdit';
+import EventRegister from '../core/Event/EventRegister';
+import EventList from '../core/Event/EventList';
+import EventDetails from '../core/Event/EventDetails';
+import EventEdit from '../core/Event/EventEdit';
 
-import CourseRegister from '../pages/Course/CourseRegister';
-import CourseList from '../pages/Course/CourseList';
-import CourseDetails from '../pages/Course/CourseDetails';
-import CourseEdit from '../pages/Course/CourseEdit';
+import CourseRegister from '../core/Course/CourseRegister';
+import CourseList from '../core/Course/CourseList';
+import CourseDetails from '../core/Course/CourseDetails';
+import CourseEdit from '../core/Course/CourseEdit';
 
 import TagRegister from '../pages/Tags/TagRegister';
 import TagEdit from '../pages/Tags/TagEdit';
