@@ -127,13 +127,11 @@ function NoticesList() {
                   title={content.title}
                   text={content.subtitle}
                 />
-                <span>Views: {content.views}</span>
               </Link>
             );
           })}
         </HorizonScrollView>
 
-        <h2>Recentes</h2>
         {tags.map((tags) => (
           <HorizonScrollView title={tags.title} subtitle={tags.description}>
             {notices.map((content) =>

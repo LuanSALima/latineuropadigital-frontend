@@ -13,16 +13,12 @@ import MyModal from '../../../components/MyModal';
 
 function NoticeRegister() {
 
-  const [buttonText, setButtonText] = useState("Registrar");
   const [title, setTitle] = useState("");
   const [subtitle, setSubtitle] = useState("");
   const [content, setContent] = useState("");
   const [image, setImage] = useState('');
-  const [tag, setTag] = useState("");
   const [tags, setTags] = useState([]);
   const [dbTags, setDbTags] = useState([]);
-  const [errors, setErrors] = useState({});
-  const [progress, setProgess] = useState(0); // progess bar
 
   //For open modal
 
@@ -43,13 +39,7 @@ function NoticeRegister() {
         }
       }
     } catch (error) {
-      if(error.response) {
-        if(error.response.data) {
-          if(error.response.data.message) {
-            setErrors({dbTags: error.response.data.message});
-          }
-        }
-      }
+    
     }
   }
 
@@ -61,7 +51,6 @@ function NoticeRegister() {
   },[image])
   const handleNoticeRegister = async (e) => {
     e.preventDefault();
-    setButtonText("Enviando Dados ...");
     
     const formData = new FormData();
     formData.append('title', title);
@@ -74,17 +63,10 @@ function NoticeRegister() {
     
     try {
       
-      await api.post("/notice/create", formData, {
-        onUploadProgress: (ProgressEvent) => {
-          let progress = Math.round(ProgressEvent.loaded / ProgressEvent.total * 100) + '%';
-          setProgess(progress);
-        }
-      });
+      await api.post("/notice/create", formData);
       toast.success("¡Registrado correctamente!",TOASTIFY_OPTIONS)
-      setButtonText("Registrado Correctamente");
     } catch (error) {
       console.log(error)
-      setButtonText("Registrar");
         toast.error("¡Hubo un error! Verifique que todos los campos estén llenos",TOASTIFY_OPTIONS)
     }
 
@@ -172,8 +154,7 @@ function NoticeRegister() {
         </fieldset>
         <Outline_Button type="success" onClick={handleChangeTags}>Añadir Etiqueta</Outline_Button>
 
-        <br></br>
-        <AppButton onClick={handleNoticeRegister}>{buttonText}</AppButton>
+        <AppButton onClick={handleNoticeRegister}>Registrar</AppButton>
       </ContentView>
     </Form>
     <Footer/>
