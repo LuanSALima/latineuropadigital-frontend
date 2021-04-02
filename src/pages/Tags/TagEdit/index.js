@@ -5,6 +5,8 @@ import { AppButton, ContentView, Form, Page } from '../../../styles/default';
 
 import api from '../../../services/api';
 
+import Select from 'react-select';
+
 function TagEdit(props) {
 
   const [buttonText, setButtonText] = useState("Editar");
@@ -12,6 +14,25 @@ function TagEdit(props) {
   const [idTag] = useState(props.match.params.id);
   const [title, setTitle] = useState("Carregando Título...");
   const [description, setDescription] = useState("Carregando Descrição...");
+  const [types, setTypes] = useState([]);
+  const [typesOptions] = useState([
+    {
+      label: 'Notícia',
+      value: 'Notice'
+    }, 
+    {
+      label: 'Directorio',
+      value: 'Directory'
+    }, 
+    {
+      label: 'Evento',
+      value: 'Event'
+    }, 
+    {
+      label: 'Curso',
+      value: 'Course'
+    }
+  ]);
   const [errors, setErrors] = useState({});
 
   const handleTagEdit = async (e) => {
@@ -19,7 +40,7 @@ function TagEdit(props) {
     setButtonText("Enviando Dados ...");
 
     try {
-      const response = await api.put("/tag/"+idTag, {title, description});
+      const response = await api.put("/tag/"+idTag, {title, description, types});
 
       console.log(response.data);
       setButtonText("Editado com Sucesso");
@@ -51,6 +72,7 @@ function TagEdit(props) {
         if(response.data.tag) {
           setTitle(response.data.tag.title);
           setDescription(response.data.tag.description);
+          setTypes(response.data.tag.types);
         }
       }
     } catch (error) {
@@ -62,6 +84,14 @@ function TagEdit(props) {
   useEffect(() => {
     getTag();
   }, [idTag]);
+
+  const onChangeSelectTags = (typesSelected) => {
+    let types = [];
+    for(const type of typesSelected) {
+      types.push(type.value);
+    }
+    setTypes(types);
+  }
 
   return (
   <Page>
@@ -91,6 +121,16 @@ function TagEdit(props) {
           value={description}
         />
         <span style={{color: 'red'}}>{errors.description}</span>
+
+        <Select
+         options={typesOptions}
+          isClearable
+          isMulti
+          closeMenuOnSelect={false}
+          onChange={onChangeSelectTags}
+          placeholder={"Selecioneo Tipo de Publicação que está tag pertence"}
+        />
+        <span style={{color: 'red'}}>{errors.type}</span>
 
         <br></br>
         <AppButton onClick={handleTagEdit}>{buttonText}</AppButton>

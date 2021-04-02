@@ -24,6 +24,50 @@ export const ContentView = styled.div`
     width: 65% !important;
     height: 45px !important;
   }
+
+  >div{
+    padding:0 !important;
+    margin:0 auto !important;
+    justify-content:center !important;
+  >label{
+  margin: 0 auto !important;
+  margin:2rem !important;
+  color:var(--color-freela-text);
+  font-size:20px;
+  >svg{
+    margin-left:1rem;
+    font-size: 35px !important;
+    color:var(--color-freela-pink) !important;
+
+  }
+}
+  >input[type="file"]{
+border:0px !important;
+padding:0rem !important;
+margin-top:2rem !important;
+margin-bottom:1rem !important;
+display:none !important;
+    ::-webkit-file-upload-button {
+  color: white;
+  display: inline-block;
+  background: #1CB6E0;
+  border: none;
+  padding: 7px 15px;
+  font-weight: 700;
+  border-radius: 3px;
+  white-space: nowrap;
+  cursor: pointer;
+  font-size: 10pt;
+    }
+  }
+
+  >img{
+      height:350px;
+      width:100%; 
+      margin-bottom:1rem;
+      border-radius:0.3rem;
+  }
+  }
   > a {
     color: var(--color-high-blue) !important;
     cursor: pointer;
@@ -32,8 +76,8 @@ export const ContentView = styled.div`
     padding: 1rem 0rem 1rem 0rem;
   }
   > button {
-    margin-top: 2rem !important;
-    width: 80%;
+    margin-top: 1rem !important;
+    width: 65%;
     font-size: 20px !important;
   }
 `;
@@ -81,18 +125,29 @@ const myView = css`
     color: black;
   }
 
+
+
   > div {
     padding: 1rem;
     display: flex;
     flex-direction: column;
-    > input {
+
+    >fieldset{
+    width: 70%;
+    margin:0 auto;
+    margin-bottom:1rem;
+  }
+
+    > textarea,input {
       width: 70%;
       border-radius: 0.3rem;
       display: flex;
       padding: 1rem;
       margin: 0 auto;
       margin-top: 1rem;
+      resize:none;
     }
+
     > button {
       padding: 0.5rem 2rem 0.5rem 2rem;
       margin: 0 auto;
@@ -104,6 +159,7 @@ const myView = css`
       border: 1px solid black;
     }
   }
+ 
   @media (max-width: 995px) {
     width: 95% !important;
     margin-top: 10px;
@@ -119,6 +175,7 @@ const myView = css`
   }
 `;
 
+  
 export const Form = styled.form`
   ${myView};
   border: 1px solid #1e1e1e;

@@ -12,7 +12,7 @@ box-sizing:border-box;
 a {
 text-decoration: none;
 }
-input {
+input,textarea {
 border: 1.5px solid var(--color-blackPurple) !important;
 transition:border 0.3s ease;
     transition:box-shadow 0.2s ease;
@@ -34,7 +34,7 @@ overflow-x:hidden;
 /* overflow-x:hidden; */
 }
 
-*, button, input {
+*, button, input,textarea {
 border: 0;
 background: none;
 outline: 0 !important;
