@@ -92,7 +92,7 @@ function NoticesDetails(props) {
       toast.error("Não foi Possível Remover",TOASTIFY_OPTIONS)
     }
   }
-
+   
   return (
       <Page>
         <Header/>
@@ -105,12 +105,14 @@ function NoticesDetails(props) {
         <img onError={handleImageError} src={process.env.REACT_APP_API_URL+notice.imagePath} />
         <h4> Contenido </h4>
         <span>{notice.content}</span>
+    
+    {
+      notice.link?.length > 1?
     <div>
-
-      <AppButton onClick={()=>tryOn}>Accesito</AppButton>
+      <AppButton onClick={()=>{window.location.assign(notice.link);}}>Accesito</AppButton>
     </div>
- 
-
+    :null
+}
         {
         isAdmin() &&
         <div>

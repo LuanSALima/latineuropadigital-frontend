@@ -56,6 +56,7 @@ function NoticeRegister() {
     formData.append('title', title);
     formData.append('subtitle', subtitle);
     formData.append('content', content);
+    formData.append('link',link)
     formData.append('image', image);
     tags.map((tag) => {
       formData.append('tags', tag);
