@@ -18,6 +18,7 @@ function OpportunitieRegister() {
   const [description, setDescription] = useState("");
   const [jobTypes, setJobTypes] = useState([]);
   const [dbJobTypes, setDbJobTypes] = useState([]);
+  const [link,setLink]= useState();
 
   const[modalShow,setModalShow] = useState(false);
 
@@ -147,6 +148,9 @@ function OpportunitieRegister() {
           }}
           value={description}
         />
+
+<input type="text" placeholder="Link" onChange={(e)=>{setLink(e.target.value)}} value={link} />
+
 
         <fieldset>
         <Select

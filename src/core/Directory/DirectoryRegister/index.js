@@ -18,6 +18,7 @@ function DirectoryRegister() {
   const [image, setImage] = useState('');
   const [tags, setTags] = useState([]);
   const [dbTags, setDbTags] = useState([]);
+  const [link,setLink]= useState();
   
   //For open modal
 
@@ -141,6 +142,9 @@ function DirectoryRegister() {
         />
        { image && <img src={previewImage}/>}
        </div>
+
+       <input type="text" placeholder="Link" onChange={(e)=>{setLink(e.target.value)}} value={link} />
+
 
         <fieldset>
         <Select

@@ -18,6 +18,7 @@ function CourseRegister() {
   const [image, setImage] = useState('');
   const [tags, setTags] = useState([]);
   const [dbTags, setDbTags] = useState([]);
+  const [link,setLink]= useState();
 
   //For open modal
 
@@ -120,6 +121,7 @@ function CourseRegister() {
           value={content}
         />
 
+
         <div>
         <label for="uploadPhoto" class="btn-cta">
           {image?.name?image?.name:"Haga clic aquí para agregar una imagen"}
@@ -138,6 +140,9 @@ function CourseRegister() {
        { image && <img src={previewImage}/>}
        </div>
           
+       <input type="text" placeholder="Link" onChange={(e)=>{setLink(e.target.value)}} value={link} />
+
+
         <fieldset>
         <Select
          options={dbTags.map((currentTag)=>(
