@@ -10,46 +10,12 @@ import HorizonScrollView from "../../components/HorizonScrollView";
 import api from '../../services/api';
 
 function Notices() {
-  //Card content
-  const [myCard,setMyCard] = useState([{
-    title:"LatiN Europa Digital Vem com Tudo!".substr(0,18),
-    text:"Latin Europa Digital vem fazendo Juz ao Nome! com seu Criador Oficcial, Alexandre, Conectou Continentes!".substr(0,75),
-    image:imgTest,
-    icon:imgTest,
-  },{
-    title:"LatiN Europa Digital Vem com Tudo!".substr(0,18),
-    text:"Latin Europa Digital vem fazendo Juz ao Nome! com seu Criador Oficcial, Alexandre, Conectou Continentes!".substr(0,75),
-    image:imgTest,
-    icon:imgTest,
-  },{
-    title:"LatiN Europa Digital Vem com Tudo!".substr(0,18),
-    text:"Latin Europa Digital vem fazendo Juz ao Nome! com seu Criador Oficcial, Alexandre, Conectou Continentes!".substr(0,75),
-    image:imgTest,
-    icon:imgTest,
-  },{
-    title:"LatiN Europa Digital Vem com Tudo!".substr(0,18),
-    text:"Latin Europa Digital vem fazendo Juz ao Nome! com seu Criador Oficcial, Alexandre, Conectou Continentes!".substr(0,75),
-    image:imgTest,
-    icon:imgTest,
-  },{
-    title:"LatiN Europa Digital Vem com Tudo!".substr(0,18),
-    text:"Latin Europa Digital vem fazendo Juz ao Nome! com seu Criador Oficcial, Alexandre, Conectou Continentes!".substr(0,75),
-    image:imgTest,
-    icon:imgTest,
-  },{
-    title:"LatiN Europa Digital Vem com Tudo!".substr(0,18),
-    text:"Latin Europa Digital vem fazendo Juz ao Nome! com seu Criador Oficcial, Alexandre, Conectou Continentes!".substr(0,75),
-    image:imgTest,
-    icon:imgTest,
-  }]);
 
   const [featureds, setFeatureds] = useState([]);
 
   const listFeatureds = async () => {
     try {
-
       const response = await api.get("/featured/list");
-
       if(response.data.success) {
         if(response.data.featureds) {
           let featuredsDb = [];
@@ -94,11 +60,13 @@ function Notices() {
          </MyView>
         <br></br>
          <ScreenView width="95%">
+
         <HorizonScrollView title="destaques" subtitle="Espetáculos, entretenimento e mucho más">
-        {myCard.map((content)=>(
-          <NoticesCard icon={content.icon} image={content.image} title={content.title.length >= 18?content.title+"..":content.title}text={content.text.length >= 75 ? content.text+"..":content.text} />
+        {featureds.map((featured)=>(
+          <NoticesCard icon={featured.icon} image={featured.image} title={featured.title} text={featured.subtitle} />
         ))}
         </HorizonScrollView>
+
          </ScreenView>
           <Footer/>
       </Page>
