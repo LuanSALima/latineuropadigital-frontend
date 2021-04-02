@@ -261,6 +261,7 @@ export const Details = styled(ScreenView)`
     padding:0.5rem;
     text-align:justify;
   }
+  
 `;
 
 //Buttons (Four types, danger, succes, succes and default.)

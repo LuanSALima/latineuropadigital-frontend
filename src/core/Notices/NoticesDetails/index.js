@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Header from '../../../components/Header';
-import { Details, Page, Outline_Button } from '../../../styles/default';
+import { Details, Page, Outline_Button, AppButton } from '../../../styles/default';
 import Toastifying, {TOASTIFY_OPTIONS} from '../../../components/Toastifying'
 import {isAuthenticated} from '../../../services/auth'
 import api from '../../../services/api';
@@ -105,7 +105,12 @@ function NoticesDetails(props) {
         <img onError={handleImageError} src={process.env.REACT_APP_API_URL+notice.imagePath} />
         <h4> Contenido </h4>
         <span>{notice.content}</span>
-        
+    <div>
+
+      <AppButton onClick={()=>tryOn}>Accesito</AppButton>
+    </div>
+ 
+
         {
         isAdmin() &&
         <div>
