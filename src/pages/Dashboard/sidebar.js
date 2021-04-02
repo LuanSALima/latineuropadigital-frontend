@@ -9,13 +9,13 @@ function Sidebar(props) {
         <span>{props.view?">":"<"}</span>
       </div>
       <div onClick={props.noticia} style={{display: props.view}}>
-        <span>Notícias</span>
+        <span>Actualidad</span>
       </div>
       <div onClick={props.diretorio} style={{display: props.view}}>
-        <span>Diretórios</span>
+        <span>Directorios</span>
       </div>
       <div onClick={props.evento} style={{display: props.view}}>
-        <span>Agendas</span>
+        <span>Eventos</span>
       </div>
       <div onClick={props.curso} style={{display: props.view}}>
         <span>Cursos</span>
@@ -27,11 +27,11 @@ function Sidebar(props) {
         <span>Oportunidades</span>
       </div>
       <div onClick={props.tag} style={{display: props.view}}>
-        <span>Tags</span>
+        <span>Etiquetas</span>
       </div>
-      <div onClick={props.jobType} style={{display: props.view}}>
+      {/* <div onClick={props.jobType} style={{display: props.view}}>
         <span>Tipos de Oportunidades</span>
-      </div>
+      </div> */}
     </SidebarStyled>
   );
 }

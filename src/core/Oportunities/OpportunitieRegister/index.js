@@ -18,9 +18,8 @@ function OpportunitieRegister() {
   const [description, setDescription] = useState("");
   const [jobTypes, setJobTypes] = useState([]);
   const [dbJobTypes, setDbJobTypes] = useState([]);
-  const [errors, setErrors] = useState({});
-  const [modalShow,setModalShow] = useState(false);
 
+  const[modalShow,setModalShow] = useState(false);
 
   async function listJobTypes() {
     try {
@@ -36,7 +35,7 @@ function OpportunitieRegister() {
         }
       }
     } catch (error) {
-      toast.error("¡Hubo un error!",TOASTIFY_OPTIONS);
+      console.error("houve um erro!" , error)
     }
   }
 
@@ -46,30 +45,12 @@ function OpportunitieRegister() {
 
   const handleJobRegister = async (e) => {
     e.preventDefault();
-
     try {
-
-      
-      const response = await api.post("/job/create", {professionalName, professionalContact, title, description, jobTypes});
-      console.log(response.data);
+     await api.post("/job/create", {professionalName, professionalContact, title, description, jobTypes});
       toast.success("¡Enviado para validación!",TOASTIFY_OPTIONS)
     } catch (error) {
       toast.error("¡Hubo un error! Inténtalo de nuevo.",TOASTIFY_OPTIONS)
-      if(error.response) {
-        if(error.response.data) {
-          //Dados retornados do backend
-          if(error.response.data.errors) {
-            setErrors(error.response.data.errors);
-          }
-          if(error.response.data.message) {
-            setErrors({message: error.response.data.message});
-          }
-        } else {
-          //Não houve dados retornados do backend
-          alert("Erro Inesperado!");
-        }
-        console.log(errors);
-      }
+    
     }
   };
 
@@ -130,7 +111,6 @@ function OpportunitieRegister() {
       <Toastifying/>
       <ContentView>
         <label>¡Anuncie sus servicios!</label>
-        <label style={{color: 'red'}}>{errors.message}</label>
 
         <input
           placeholder="Introduzca su Nombre"
@@ -140,7 +120,6 @@ function OpportunitieRegister() {
           }}
           value={professionalName}
         />
-        <span style={{color: 'red'}}>{errors.professionalName}</span>
 
         <input
           placeholder="Entrar en Contacto Profesional"
@@ -150,7 +129,6 @@ function OpportunitieRegister() {
           }}
           value={professionalContact}
         />
-        <span style={{color: 'red'}}>{errors.professionalContact}</span>
 
         <input
           placeholder="Ingrese su Título de Servicio"
@@ -160,7 +138,6 @@ function OpportunitieRegister() {
           }}
           value={title}
         />
-        <span style={{color: 'red'}}>{errors.title}</span>
 
         <input
           placeholder="Ingrese su Descripción de Servicio"
@@ -170,7 +147,6 @@ function OpportunitieRegister() {
           }}
           value={description}
         />
-        <span style={{color: 'red'}}>{errors.description}</span>
 
         <fieldset>
         <Select
@@ -180,14 +156,13 @@ function OpportunitieRegister() {
           isMulti
           closeMenuOnSelect={false}
           onChange={onChangeSelectTags}
-          placeholder={"Selecione as tags"}
+          placeholder={"¡Seleccione las etiquetas!"}
         />
         </fieldset>
         <Outline_Button type="success" onClick={handleChangeTags}>Añadir Etiqueta</Outline_Button>
        
 
 
-        <br></br>
         <AppButton onClick={handleJobRegister}>Registrar</AppButton>
       </ContentView>
     </Form>

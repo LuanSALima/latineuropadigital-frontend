@@ -77,7 +77,7 @@ function ModalTag(props) {
             <Form width={"100%"} height={"50vh"} center nullBox nullBorder>
             <ContentView>
         <input
-          placeholder="Insira o Título"
+          placeholder="  Título"
           type="text"
           onChange={(e) => {
             setTitle(e.target.value);
@@ -86,7 +86,7 @@ function ModalTag(props) {
         />
 
         <input
-          placeholder="Insira a Descrição"
+          placeholder=" Descrição"
           type="text"
           onChange={(e) => {
             setDescription(e.target.value);

@@ -103,7 +103,7 @@ function TagEdit(props) {
         <label style={{color: 'red'}}>{errors.message}</label>
 
         <input
-          placeholder="Insira o Título"
+          placeholder="  Título"
           type="text"
           onChange={(e) => {
             setTitle(e.target.value);
@@ -113,7 +113,7 @@ function TagEdit(props) {
         <span style={{color: 'red'}}>{errors.title}</span>
 
         <input
-          placeholder="Insira a Descrição"
+          placeholder=" Descrição"
           type="text"
           onChange={(e) => {
             setDescription(e.target.value);

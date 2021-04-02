@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import Header from '../../../components/Header';
 import NoticesCard from '../../../components/NoticesCard';
-import {  Page, ScreenView } from '../../../styles/default';
+import {  MyFilteredOptions, Page, ScreenView } from '../../../styles/default';
 import imgTest from '../../../assets/icon.svg';
+import Select from 'react-select';
 
 import api from '../../../services/api';
 import HorizonScrollView from '../../../components/HorizonScrollView';
@@ -10,6 +11,7 @@ import Footer from '../../../components/Footer';
 import { MyScreenView } from './styles';
 
 import { Link } from 'react-router-dom';
+import { MdFilterList } from 'react-icons/md';
 
 function EventList() {
 
@@ -87,23 +89,24 @@ function EventList() {
         <MyScreenView >
     <h1>Eventos</h1>
 
-    <h2>Mais Visualizados</h2>
-          
-    <button className={(mostViewedAt === 'daily')? "btn btn-primary" : "btn btn-outline-primary" } onClick={(e) => {e.preventDefault();setMostViewedAt("daily")}}>
-     Mais Visualizadas do Dia
-    </button>
-
-    <button className={(mostViewedAt === 'weekly')? "btn btn-primary" : "btn btn-outline-primary" } onClick={(e) => {e.preventDefault();setMostViewedAt("weekly")}}>
-     Mais Visualizadas da Semana
-    </button>
-
-    <button className={(mostViewedAt === 'monthly')? "btn btn-primary" : "btn btn-outline-primary" } onClick={(e) => {e.preventDefault();setMostViewedAt("monthly")}}>
-     Mais Visualizadas do Mês
-    </button>
-
-    <button className={(mostViewedAt === 'allTime')? "btn btn-primary" : "btn btn-outline-primary" } onClick={(e) => {e.preventDefault();setMostViewedAt("allTime")}}>
-     Mais Visualizadas de todos os tempos
-    </button>
+    <MyFilteredOptions>
+          <Select
+            placeholder={
+              <MdFilterList
+                style={{ marginLeft: "1rem" }}
+                size={23}
+                color="var(--color-freela-pink)"
+              />
+            }
+            options={[
+              { label: " Mais Visualizadas do Dia", value: "daily" },
+              { label: " Mais Visualizadas da Semana", value: "weekly" },
+              { label: " Mais Visualizadas do Mês", value: "monthly" },
+              { label: " Mais Visualizadas de todos os tempos", value: "allTime" },
+            ]}
+            onChange={(e)=>setMostViewedAt(e.value)}
+          />
+        </MyFilteredOptions>
 
     <HorizonScrollView title={mostViewedAt} subtitle={"Mais visualizados durante o tempo: "+mostViewedAt}>
       {eventsMostViewed.map((content)=>{

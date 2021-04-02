@@ -12,16 +12,12 @@ import ModalTag from '../../../components/ModalTag';
 
 function CourseRegister() {
 
-  const [buttonText, setButtonText] = useState("Cadastrar");
   const [title, setTitle] = useState("");
   const [subtitle, setSubtitle] = useState("");
   const [content, setContent] = useState("");
   const [image, setImage] = useState('');
-  const [tag, setTag] = useState("");
   const [tags, setTags] = useState([]);
   const [dbTags, setDbTags] = useState([]);
-  const [errors, setErrors] = useState({});
-  const [progress, setProgess] = useState(0); // progess bar
 
   //For open modal
 
@@ -42,13 +38,6 @@ function CourseRegister() {
         }
       }
     } catch (error) {
-      if(error.response) {
-        if(error.response.data) {
-          if(error.response.data.message) {
-            setErrors({dbTags: error.response.data.message});
-          }
-        }
-      }
     }
   }
 
@@ -58,7 +47,6 @@ function CourseRegister() {
 
   const handleCourseRegister = async (e) => {
     e.preventDefault();
-    setButtonText("Enviando Dados ...");
     
     const formData = new FormData();
     formData.append('title', title);
@@ -71,34 +59,10 @@ function CourseRegister() {
     
     try {
       
-      const response = await api.post("/course/create", formData, {
-        onUploadProgress: (ProgressCourse) => {
-          let progress = Math.round(ProgressCourse.loaded / ProgressCourse.total * 100) + '%';
-          setProgess(progress);
-        }
-      });
-
+      await api.post("/course/create", formData);
       toast.success("¡Registrado correctamente!",TOASTIFY_OPTIONS)
-      setButtonText("Registrado Correctamente");
     } catch (error) {
-      console.log(error)
-      setButtonText("Registrar");
         toast.error("¡Hubo un error! Verifique que todos los campos estén llenos",TOASTIFY_OPTIONS)
-      if(error.response) {
-        if(error.response.data) {
-          //Dados retornados do backend
-          if(error.response.data.errors) {
-            setErrors(error.response.data.errors);
-          }
-          if(error.response.data.message) {
-            setErrors({message: error.response.data.message});
-          }
-        } else {
-          //Não houve dados retornados do backend
-          alert("Erro Inesperado!");
-        }
-        console.log(errors);
-      }
     }
 
   };
@@ -127,29 +91,25 @@ function CourseRegister() {
     <Header/>
     <Form width={"45%"} height={"80vh"} center>
       <ContentView>
-        <label>Crie um Curso !</label>
-
-        <label style={{color: 'red'}}>{errors.message}</label>
+        <label>¡Crea un curso!</label>
 
         <input
-          placeholder="Insira o Título"
+          placeholder="Título"
           type="text"
           onChange={(e) => {
             setTitle(e.target.value);
           }}
           value={title}
         />
-        <span style={{color: 'red'}}>{errors.title}</span>
 
         <input
-          placeholder="Insira o Subtítulo"
+          placeholder="Subtítulo"
           type="text"
            onChange={(e) => {
             setSubtitle(e.target.value);
           }}
           value={subtitle}
         />
-        <span style={{color: 'red'}}>{errors.subtitle}</span>
 
         <textarea
           placeholder="Contenido"
@@ -159,7 +119,6 @@ function CourseRegister() {
           }}
           value={content}
         />
-        <span style={{color: 'red'}}>{errors.content}</span>
 
         <div>
         <label for="uploadPhoto" class="btn-cta">
@@ -187,18 +146,13 @@ function CourseRegister() {
           isMulti
           closeMenuOnSelect={false}
           onChange={onChangeSelectTags}
-          placeholder={"Selecione as tags"}
+          placeholder={"Seleccionar Etiquetas"}
         />
 
-        <span style={{color: 'red'}}>{errors.dbTags}</span>
         </fieldset>
         <Outline_Button type="success" onClick={handleChangeTags}>Añadir Etiqueta</Outline_Button>
 
-        <div style={{ width: progress, backgroundColor: 'blue', color: 'white' }}>
-           {progress}
-        </div>
-        <br></br>
-        <AppButton onClick={handleCourseRegister}>{buttonText}</AppButton>
+        <AppButton onClick={handleCourseRegister}>Registrar</AppButton>
       </ContentView>
     </Form>
     <Footer/>
