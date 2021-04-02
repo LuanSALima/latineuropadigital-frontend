@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
 
 import Header from '../../../components/Header';
-import { AppButton, ContentView, Form, Page } from '../../../styles/default';
+import { AppButton, ContentView, Form, Outline_Button, Page } from '../../../styles/default';
 import Footer from '../../../components/Footer';
 import Toastifying, { TOASTIFY_OPTIONS } from '../../../components/Toastifying';
 import api from '../../../services/api';
 import { toast } from "react-toastify";
 
 import Select from 'react-select';
+import ModalTag from '../../../components/ModalTag';
 
 function OpportunitieRegister() {
 
@@ -21,6 +22,7 @@ function OpportunitieRegister() {
   const [jobTypes, setJobTypes] = useState([]);
   const [dbJobTypes, setDbJobTypes] = useState([]);
   const [errors, setErrors] = useState({});
+  const[modalShow,setModalShow] = useState(false);
 
   useEffect(() => {
 
@@ -91,8 +93,19 @@ function OpportunitieRegister() {
     setJobTypes(types);
   }
 
+  const handleChangeTags = (e)=>{
+    e.preventDefault();
+    setModalShow(true);
+  }
+
   return (
   <Page>
+
+{modalShow && <ModalTag
+    show={modalShow}
+    onHide={()=>setModalShow(false)}
+    />}
+
     <Header/>
     <Form width={"45%"} height={"80vh"} center>
       <Toastifying/>
@@ -140,6 +153,7 @@ function OpportunitieRegister() {
         />
         <span style={{color: 'red'}}>{errors.description}</span>
 
+        <fieldset>
         <Select
          options={dbJobTypes.map((currentJobType)=>(
           {label:currentJobType,value:currentJobType}))}
@@ -149,11 +163,10 @@ function OpportunitieRegister() {
           onChange={onChangeSelectTags}
           placeholder={"Selecione as tags"}
         />
+        </fieldset>
+        <Outline_Button type="success" onClick={handleChangeTags}>Añadir Etiqueta</Outline_Button>
        
-        <span style={{color: 'red'}}>{errors.dbJobTypes}</span>
 
-        <button>Adicionar Tag</button>
-        <span style={{color: 'red'}}>{errors.tags}</span>
 
         <br></br>
         <AppButton onClick={handleJobRegister}>Registrar</AppButton>
