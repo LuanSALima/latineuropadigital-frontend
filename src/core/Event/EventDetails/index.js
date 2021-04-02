@@ -3,12 +3,14 @@ import Header from '../../../components/Header';
 import { Details, Page, Outline_Button } from '../../../styles/default';
 import Toastifying, {TOASTIFY_OPTIONS} from '../../../components/Toastifying'
 import api from '../../../services/api';
+import {isAuthenticated} from '../../../services/auth'
 
 import { isAdmin } from '../../../services/auth';
 import Footer from '../../../components/Footer';
 import imgAux from '../../../assets/icon.svg';
 import { toast } from 'react-toastify';
 import history from '../../../services/history/history'
+import Stars from '../../../components/Stars';
 
 function EventDetails(props) {
 
@@ -71,6 +73,7 @@ function EventDetails(props) {
       <Page>
         <Header/>
         <Details width={"90%"}>
+        {isAuthenticated() === true ? <Stars isFeature={false} />: null}
         <Toastifying/>
    
         <label>{event.title}</label>

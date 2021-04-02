@@ -10,6 +10,9 @@ import { isAdmin } from '../../../services/auth';
 import Footer from '../../../components/Footer';
 import history from '../../../services/history/history'
 import { toast } from 'react-toastify';
+import Stars from '../../../components/Stars';
+
+import {isAuthenticated} from '../../../services/auth'
 
 function DirectoryDetails(props) {
 
@@ -69,6 +72,7 @@ function DirectoryDetails(props) {
     <Page>
     <Header/>
     <Details width={"90%"}>
+    {isAuthenticated() === true ? <Stars isFeature={false} />: null}
     <Toastifying/>
 
     <label>{directory.title}</label>

@@ -4,11 +4,12 @@ import { Details, Page, Outline_Button } from '../../../styles/default';
 import Toastifying, {TOASTIFY_OPTIONS} from '../../../components/Toastifying'
 import api from '../../../services/api';
 
-import { isAdmin } from '../../../services/auth';
+import { isAdmin, isAuthenticated } from '../../../services/auth';
 import Footer from '../../../components/Footer';
 import imgAux from '../../../assets/icon.svg';
 import { toast } from 'react-toastify';
 import history from '../../../services/history/history'
+import Stars from '../../../components/Stars';
 
 function CourseDetails(props) {
 
@@ -74,6 +75,7 @@ function CourseDetails(props) {
     <Page>
     <Header/>
     <Details width={"90%"}>
+    {isAuthenticated() === true ? <Stars isFeature={false} />: null}
     <Toastifying/>
 
     <label>{course.title}</label>

@@ -113,7 +113,6 @@ function NoticesList() {
             onChange={(e)=>setMostViewedAt(e.value)}
           />
         </MyFilteredOptions>
-        <Stars isFeature={true} />
         <HorizonScrollView
           title={mostViewedAt}
           subtitle={"Mais visualizados durante o tempo: " + mostViewedAt}
