@@ -176,7 +176,14 @@ const myView = css`
   }
 `;
 
-  
+export const MyFilteredOptions = styled.fieldset`
+width:30%;
+margin-inline-start:auto;
+padding:1rem;
+@media(max-width:700px){
+width:45%;
+}
+`;
 export const Form = styled.form`
   ${myView};
   border: ${(props)=>!props.nullBorder?"1px solid #1e1e1e":null};
