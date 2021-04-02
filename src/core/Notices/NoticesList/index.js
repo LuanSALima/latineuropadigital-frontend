@@ -11,6 +11,7 @@ import { MyScreenView } from "./styles";
 import { Link } from "react-router-dom";
 import Select from "react-select";
 import { MdFilterList } from "react-icons/md/index";
+import Stars from "../../../components/Stars";
 
 function NoticesList() {
   const [noticesFeatured, setNoticesFeatured] = useState([]);
@@ -112,7 +113,7 @@ function NoticesList() {
             onChange={(e)=>setMostViewedAt(e.value)}
           />
         </MyFilteredOptions>
-      
+        <Stars isFeature={true} />
         <HorizonScrollView
           title={mostViewedAt}
           subtitle={"Mais visualizados durante o tempo: " + mostViewedAt}

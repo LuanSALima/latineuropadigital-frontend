@@ -63,27 +63,27 @@ function Header() {
 <>       
        <Nav className="mr-auto">
           <NavDropdown className="headerLinks texts" title="ACTUALIDAD">
-            <Link to="/noticias" className="dropdown-item">Listar Actualidad</Link>
+            <Link to="/noticias" className="dropdown-item">Lista de Actualidad</Link>
             <Link to="/notice/cadastrar" className="dropdown-item">Anunciar Actualidad</Link>
           </NavDropdown>
       
           <NavDropdown className="headerLinks texts" title="DIRECTORIO">
-            <Link to="/diretorios" className="dropdown-item">Listar Directorio</Link>
+            <Link to="/diretorios" className="dropdown-item">Lista de Directorio</Link>
             <Link to="/directory/cadastrar" className="dropdown-item">Anunciar Directorio</Link>
           </NavDropdown>
 
           <NavDropdown className="headerLinks texts" title="AGENDA">
-            <Link to="/eventos" className="dropdown-item">Listar Eventos</Link>
+            <Link to="/eventos" className="dropdown-item">Lista de Eventos</Link>
             <Link to="/event/cadastrar" className="dropdown-item">Anunciar Eventos</Link>
           </NavDropdown>
 
           <NavDropdown className="headerLinks texts" title="EDUCACIÓN">
-            <Link to="/cursos" className="dropdown-item">Listar Cursos</Link>
+            <Link to="/cursos" className="dropdown-item">Lista de Cursos</Link>
             <Link to="/course/cadastrar" className="dropdown-item">Anunciar Cursos</Link>
           </NavDropdown>
           <NavDropdown className="headerLinks texts" title="OPORTUNIDADES">
-            <Link to="/oportunidades" className="dropdown-item">Listar Aceitas</Link>
-            <Link to="/oportunidades-pendentes" className="dropdown-item">Listar Pendentes</Link>
+            <Link to="/oportunidades" className="dropdown-item">Lista de Aceitas</Link>
+            <Link to="/oportunidades-pendentes" className="dropdown-item">Lista de Pendentes</Link>
             <Link to="/job/cadastrar" className="dropdown-item">Anunciar</Link>
           </NavDropdown>
           </Nav>
