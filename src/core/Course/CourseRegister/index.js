@@ -1,18 +1,18 @@
 import React, { useState, useEffect } from 'react';
 
 import Header from '../../../components/Header';
-import { AppButton, ContentView, Form, Page } from '../../../styles/default';
+import { AppButton, ContentView, Form, Outline_Button, Page } from '../../../styles/default';
 import Footer from '../../../components/Footer';
 import api from '../../../services/api';
-
 import Select from 'react-select';
-
-import { Link } from 'react-router-dom';
+import {MdFileUpload} from 'react-icons/md/index'
+import Toastifying, {TOASTIFY_OPTIONS} from "../../../components/Toastifying"
+import { toast } from 'react-toastify';
+import ModalTag from '../../../components/ModalTag';
 
 function CourseRegister() {
 
   const [buttonText, setButtonText] = useState("Cadastrar");
-
   const [title, setTitle] = useState("");
   const [subtitle, setSubtitle] = useState("");
   const [content, setContent] = useState("");
@@ -23,33 +23,37 @@ function CourseRegister() {
   const [errors, setErrors] = useState({});
   const [progress, setProgess] = useState(0); // progess bar
 
-  useEffect(() => {
+  //For open modal
 
-    async function listTags() {
-      try {
-        const response = await api.get("/tags/course");
+  const[modalShow,setModalShow] = useState(false);
+  const [previewImage,setPreviewImage] = useState();
 
-        if(response.data.success) {
-          if(response.data.tags) {
-            let dbTags = [];
-            for(let index in response.data.tags) {
-              dbTags.push(response.data.tags[index].title);
-            }
-            setDbTags(dbTags);
+  async function listTags() {
+    try {
+      const response = await api.get("/tags/course");
+
+      if(response.data.success) {
+        if(response.data.tags) {
+          let dbTags = [];
+          for(let index in response.data.tags) {
+            dbTags.push(response.data.tags[index].title);
           }
+          setDbTags(dbTags);
         }
-      } catch (error) {
-        if(error.response) {
-          if(error.response.data) {
-            if(error.response.data.message) {
-              setErrors({dbTags: error.response.data.message});
-            }
+      }
+    } catch (error) {
+      if(error.response) {
+        if(error.response.data) {
+          if(error.response.data.message) {
+            setErrors({dbTags: error.response.data.message});
           }
         }
       }
     }
-    listTags();
+  }
 
+  useEffect(() => {
+    listTags();
   }, []);
 
   const handleCourseRegister = async (e) => {
@@ -74,9 +78,12 @@ function CourseRegister() {
         }
       });
 
-      setButtonText("Cadastrado com Sucesso");
+      toast.success("¡Registrado correctamente!",TOASTIFY_OPTIONS)
+      setButtonText("Registrado Correctamente");
     } catch (error) {
-      setButtonText("Tente Novamente");
+      console.log(error)
+      setButtonText("Registrar");
+        toast.error("¡Hubo un error! Verifique que todos los campos estén llenos",TOASTIFY_OPTIONS)
       if(error.response) {
         if(error.response.data) {
           //Dados retornados do backend
@@ -96,7 +103,7 @@ function CourseRegister() {
 
   };
 
-   const onChangeSelectTags = (tagsSelected) => {
+  const onChangeSelectTags = (tagsSelected) => {
     let tags = [];
     for(const tag of tagsSelected) {
       tags.push(tag.value);
@@ -104,8 +111,16 @@ function CourseRegister() {
     setTags(tags);
   }
 
+
+  const handleChangeTags = (e)=>{
+    e.preventDefault();
+    setModalShow(!modalShow);
+  }
+
   return (
   <Page>
+    <Toastifying/>
+   {modalShow && <ModalTag show={modalShow} truncate={(e)=>console.log(e)}/>}
     <Header/>
     <Form width={"45%"} height={"80vh"} center>
       <ContentView>
@@ -133,8 +148,8 @@ function CourseRegister() {
         />
         <span style={{color: 'red'}}>{errors.subtitle}</span>
 
-        <input
-          placeholder="Insira o Conteudo"
+        <textarea
+          placeholder="Contenido"
           type="text"
            onChange={(e) => {
             setContent(e.target.value);
@@ -143,14 +158,25 @@ function CourseRegister() {
         />
         <span style={{color: 'red'}}>{errors.content}</span>
 
+        <div>
+        <label for="uploadPhoto" class="btn-cta">
+          {image?.name?image?.name:"Haga clic aquí para agregar una imagen"}
+        <MdFileUpload/>
+        </label>
         <input
+           id="uploadPhoto"
           type="file"
           onChange={(e) => {
             setImage(e.target.files[0]);
+            if(e.target.files[0]){
+              setPreviewImage(URL.createObjectURL(e.target.files[0]));
+            }
           }}
         />
-        <span style={{color: 'red'}}>{errors.imagePath}</span>
-
+       { image && <img src={previewImage}/>}
+       </div>
+          
+        <fieldset>
         <Select
          options={dbTags.map((currentTag)=>(
           {label:currentTag,value:currentTag}))}
@@ -162,10 +188,8 @@ function CourseRegister() {
         />
 
         <span style={{color: 'red'}}>{errors.dbTags}</span>
-        {errors.dbTags? <Link className="alert alert-danger" to="/tag/cadastrar">Cadastre uma Tag Clicando aqui</Link>: null}
-
-        <button>Adicionar Tag</button>
-        <span style={{color: 'red'}}>{errors.tags}</span>
+        </fieldset>
+        <Outline_Button type="success" onClick={handleChangeTags}>Añadir Etiqueta</Outline_Button>
 
         <div style={{ width: progress, backgroundColor: 'blue', color: 'white' }}>
            {progress}
