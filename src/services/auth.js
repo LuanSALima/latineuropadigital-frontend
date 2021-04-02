@@ -1,6 +1,10 @@
-export const TOKEN_KEY = "@nodePortifolio-Token";
-export const USER_KEY = "@nodePortifolio-User";
-export const isAuthenticated = () => localStorage.getItem(TOKEN_KEY) !== null;
+export const TOKEN_KEY = "@latineuropadigital-Token";
+export const USER_KEY = "@latineuropadigital-User";
+export const isAuthenticated = () => {
+	if(getToken()) {
+		return true;
+	}
+};
 export const isAdmin = () => {
 	if(getUser()) {
 		if(getUser().role === "Admin") {
