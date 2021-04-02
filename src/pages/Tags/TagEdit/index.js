@@ -122,6 +122,7 @@ function TagEdit(props) {
         />
         <span style={{color: 'red'}}>{errors.description}</span>
 
+        <fieldset>
         <Select
          options={typesOptions}
           isClearable
@@ -131,6 +132,7 @@ function TagEdit(props) {
           placeholder={"Selecioneo Tipo de Publicação que está tag pertence"}
         />
         <span style={{color: 'red'}}>{errors.type}</span>
+        </fieldset>
 
         <br></br>
         <AppButton onClick={handleTagEdit}>{buttonText}</AppButton>

@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import Header from '../../../components/Header';
-import { Details, Outline_Button, Page } from '../../../styles/default';
+import { Details, Outline_Button, Page, AppButton } from '../../../styles/default';
 import imgAux from '../../../assets/icon.svg';
 import Toastifying, {TOASTIFY_OPTIONS} from '../../../components/Toastifying'
 
 import api from '../../../services/api';
 
-import { isAdmin } from '../../../services/auth';
 import Footer from '../../../components/Footer';
 import history from '../../../services/history/history'
 import { toast } from 'react-toastify';
@@ -110,9 +109,17 @@ function DirectoryDetails(props) {
     <img onError={handleImageError} src={process.env.REACT_APP_API_URL+directory.imagePath} />
     <h4> Contenido </h4>
     <span>{directory.content}</span>
+
+    {
+      directory.link?.length > 1?
+    <div>
+      <AppButton onClick={()=>{window.location.assign(directory.link);}}>Accesito</AppButton>
+    </div>
+    :null
+    }
     
     {
-    isAdmin() &&
+    isAuthenticated() &&
     <div>
       <Outline_Button type="danger" onClick={handleRemoveDirectory}>{"Eliminar"}</Outline_Button>
       <Outline_Button type="warning" onClick={handleEditeDirectory}>{"Editar"}</Outline_Button>

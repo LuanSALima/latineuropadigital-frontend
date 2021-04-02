@@ -18,7 +18,7 @@ function DirectoryRegister() {
   const [image, setImage] = useState('');
   const [tags, setTags] = useState([]);
   const [dbTags, setDbTags] = useState([]);
-  const [link,setLink]= useState();
+  const [link,setLink]= useState('');
   
   //For open modal
 
@@ -55,6 +55,7 @@ function DirectoryRegister() {
     formData.append('subtitle', subtitle);
     formData.append('content', content);
     formData.append('image', image);
+    formData.append('link', link);
     tags.map((tag) => {
       formData.append('tags', tag);
     })

@@ -20,8 +20,10 @@ function Notices() {
         if(response.data.featureds) {
           let featuredsDb = [];
           for(let index in response.data.featureds) {
-            const featured = response.data.featureds[index].post;
-            featuredsDb.push({ tag : featured.tags,id: featured._id, title: featured.title, subtitle: featured.subtitle, image: `${process.env.REACT_APP_API_URL}`+featured.imagePath, icon: imgTest});
+            if(response.data.featureds[index].post) {
+              const featured = response.data.featureds[index].post;
+              featuredsDb.push({ tag : featured.tags,id: featured._id, title: featured.title, subtitle: featured.subtitle, image: `${process.env.REACT_APP_API_URL}`+featured.imagePath, icon: imgTest});
+            }
           }
           setFeatureds(featuredsDb);
           console.log(featuredsDb);

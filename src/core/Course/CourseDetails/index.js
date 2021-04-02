@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import Header from '../../../components/Header';
-import { Details, Page, Outline_Button } from '../../../styles/default';
+import { Details, Page, Outline_Button, AppButton } from '../../../styles/default';
 import Toastifying, {TOASTIFY_OPTIONS} from '../../../components/Toastifying'
 import api from '../../../services/api';
 
-import { isAdmin, isAuthenticated } from '../../../services/auth';
+import { isAuthenticated } from '../../../services/auth';
 import Footer from '../../../components/Footer';
 import imgAux from '../../../assets/icon.svg';
 import { toast } from 'react-toastify';
@@ -112,9 +112,17 @@ function CourseDetails(props) {
     <img onError={handleImageError} src={process.env.REACT_APP_API_URL+course.imagePath} />
     <h4> Contenido </h4>
     <span>{course.content}</span>
+
+    {
+      course.link?.length > 1?
+    <div>
+      <AppButton onClick={()=>{window.location.assign(course.link);}}>Accesito</AppButton>
+    </div>
+    :null
+    }
     
     {
-    isAdmin() &&
+    isAuthenticated() &&
     <div>
       <Outline_Button type="danger" onClick={handleRemoveCourse}>{"Eliminar"}</Outline_Button>
       <Outline_Button type="warning" onClick={handleEditeCourse}>{"Editar"}</Outline_Button>

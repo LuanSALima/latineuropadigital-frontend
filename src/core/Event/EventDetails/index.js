@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import Header from '../../../components/Header';
-import { Details, Page, Outline_Button } from '../../../styles/default';
+import { Details, Page, Outline_Button, AppButton } from '../../../styles/default';
 import Toastifying, {TOASTIFY_OPTIONS} from '../../../components/Toastifying'
 import api from '../../../services/api';
 import {isAuthenticated} from '../../../services/auth'
 
-import { isAdmin } from '../../../services/auth';
 import Footer from '../../../components/Footer';
 import imgAux from '../../../assets/icon.svg';
 import { toast } from 'react-toastify';
@@ -110,9 +109,17 @@ function EventDetails(props) {
         <img onError={handleImageError} src={process.env.REACT_APP_API_URL+event.imagePath} />
         <h4> Contenido </h4>
         <span>{event.content}</span>
+
+        {
+          event.link?.length > 1?
+        <div>
+          <AppButton onClick={()=>{window.location.assign(event.link);}}>Accesito</AppButton>
+        </div>
+        :null
+        }
         
         {
-        isAdmin() &&
+        isAuthenticated() &&
         <div>
           <Outline_Button type="danger" onClick={handleRemoveEvent}>{"Eliminar"}</Outline_Button>
           <Outline_Button type="warning" onClick={handleEditeEvent}>{"Editar"}</Outline_Button>

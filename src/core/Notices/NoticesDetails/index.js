@@ -5,7 +5,6 @@ import Toastifying, {TOASTIFY_OPTIONS} from '../../../components/Toastifying'
 import {isAuthenticated} from '../../../services/auth'
 import api from '../../../services/api';
 
-import { isAdmin } from '../../../services/auth';
 import Footer from '../../../components/Footer';
 import imgAux from '../../../assets/icon.svg';
 import { toast } from 'react-toastify';
@@ -114,7 +113,7 @@ function NoticesDetails(props) {
     :null
 }
         {
-        isAdmin() &&
+        isAuthenticated() &&
         <div>
           <Outline_Button type="danger" onClick={handleRemoveNotice}>{"Eliminar"}</Outline_Button>
           <Outline_Button type="warning" onClick={handleEditeNotice}>{"Editar"}</Outline_Button>

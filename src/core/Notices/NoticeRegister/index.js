@@ -19,7 +19,7 @@ function NoticeRegister() {
   const [image, setImage] = useState('');
   const [tags, setTags] = useState([]);
   const [dbTags, setDbTags] = useState([]);
-  const [link,setLink]= useState();
+  const [link,setLink]= useState('');
   //For open modal
 
   const[modalShow,setModalShow] = useState(false);
@@ -63,7 +63,6 @@ function NoticeRegister() {
     })
     
     try {
-      
       await api.post("/notice/create", formData);
       toast.success("¡Registrado correctamente!",TOASTIFY_OPTIONS)
     } catch (error) {
@@ -142,7 +141,7 @@ function NoticeRegister() {
        { image && <img src={previewImage}/>}
        </div>
           
-          <input type="text" placeholder="Link" onChange={(e)=>{setLink(e.target.value)}} value={link} />
+        <input type="text" placeholder="Link" onChange={(e)=>{setLink(e.target.value)}} value={link} />
 
         <fieldset>
        <Select

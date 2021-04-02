@@ -29,6 +29,9 @@ function Sidebar(props) {
       <div onClick={props.tag} style={{display: props.view}}>
         <span>Etiquetas</span>
       </div>
+      <div onClick={props.featureds} style={{display: props.view}}>
+        <span>Destaques</span>
+      </div>
       {/* <div onClick={props.jobType} style={{display: props.view}}>
         <span>Tipos de Oportunidades</span>
       </div> */}
