@@ -17,6 +17,7 @@ function CourseDetails(props) {
 
   const [idCourse] = useState(props.match.params.id);
   const [course, setCourse] = useState([]);
+  const [featured, setFeatured] = useState(false);
   const [errors, setErrors] = useState({});
 
   async function findCourse() {
@@ -26,6 +27,9 @@ function CourseDetails(props) {
       if(response.data.success) {
         if(response.data.course) {
           setCourse(response.data.course);
+        }
+        if(response.data.featured) {
+          setFeatured(response.data.featured);
         }
       }
     } catch (error) {
@@ -71,11 +75,36 @@ function CourseDetails(props) {
     history.push("/course/editar/"+idCourse);
   }
 
+  const updateFeatured = async (e) => {
+    e.preventDefault();
+
+    try {
+      if(featured) {
+        const response = await api.delete("/featured/"+featured._id);
+        if(response.data.success) {
+          toast.success("Removido dos destaques com sucesso", TOASTIFY_OPTIONS);
+          
+          setFeatured(null);
+        }
+      } else {
+        const response = await api.post("/featured/create", {post: course._id, postType: 'Course'});
+        if(response.data.success) {
+          toast.success("Adicionado aos destaques com sucesso", TOASTIFY_OPTIONS);
+          if(response.data.featured) {
+            setFeatured(response.data.featured);
+          }
+        }
+      }
+    } catch (error) {
+      toast.error("Não foi Possível Remover",TOASTIFY_OPTIONS)
+    }
+  }
+
   return (
     <Page>
     <Header/>
     <Details width={"90%"}>
-    {isAuthenticated() === true ? <Stars isFeature={false} />: null}
+    {isAuthenticated() === true ? <Stars isFeature={featured} onClick={updateFeatured}/>: null}
     <Toastifying/>
 
     <label>{course.title}</label>
