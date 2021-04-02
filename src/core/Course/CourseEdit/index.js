@@ -1,15 +1,17 @@
 import React, { useState, useEffect } from 'react';
 
 import Header from '../../../components/Header';
-import { AppButton, ContentView, Form, Page } from '../../../styles/default';
+import { AppButton, ContentView, Form, Outline_Button, Page } from '../../../styles/default';
 import Footer from '../../../components/Footer';
 import api from '../../../services/api';
 
-function Tag(props) {
-  return (
-    <div style={{margin: '0 auto'}}><span style={{fontSize: '18px'}}>{props.tag}</span><button style={{backgroundColor: 'red', marginLeft: '5px'}}>X</button></div>
-  );
-}
+import {MdFileUpload} from 'react-icons/md/index';
+import Toastifying, {TOASTIFY_OPTIONS} from "../../../components/Toastifying";
+import { toast } from 'react-toastify';
+import ModalTag from '../../../components/ModalTag';
+import MyModal from '../../../components/MyModal';
+
+import Select from 'react-select';
 
 function CourseEdit(props) {
 
@@ -21,18 +23,16 @@ function CourseEdit(props) {
   const [subtitle, setSubtitle] = useState("");
   const [content, setContent] = useState("");
   const [image, setImage] = useState('');
-  const [tag, setTag] = useState("");
+  const [link, setLink] = useState("");
   const [tags, setTags] = useState([]);
   const [dbTags, setDbTags] = useState([]);
   const [errors, setErrors] = useState({});
   const [progress, setProgess] = useState(0); // progess bar
 
-  const addTag = (e) => {
-    e.preventDefault();
+  //For open modal
 
-    setTags([...tags, tag]);
-    setTag("");
-  }
+  const[modalShow,setModalShow] = useState(false);
+  const [previewImage,setPreviewImage] = useState();
 
   async function listTags() {
     try {
@@ -68,6 +68,7 @@ function CourseEdit(props) {
           setSubtitle(response.data.course.subtitle);
           setContent(response.data.course.content);
           setTags(response.data.course.tags);
+          setLink(response.data.course.link);
         }
       }
     } catch (error) {
@@ -98,6 +99,7 @@ function CourseEdit(props) {
     formData.append('subtitle', subtitle);
     formData.append('content', content);
     formData.append('image', image);
+    formData.append('link', link);
     tags.map((tag) => {
       formData.append('tags', tag);
     })
@@ -130,11 +132,29 @@ function CourseEdit(props) {
         console.log(errors);
       }
     }
-
   };
+
+  const handleChangeTags = (e)=>{
+    e.preventDefault();
+    setModalShow(!modalShow);
+  }
+
+  const onChangeSelectTags = (tagsSelected) => {
+    let tags = [];
+    for(const tag of tagsSelected) {
+      tags.push(tag.value);
+    }
+    setTags(tags);
+  }
+
 
   return (
   <Page>
+     <Toastifying/>
+   {modalShow && <ModalTag
+    show={modalShow}
+    onHide={()=>setModalShow(false)}
+    />}
     <Header/>
     <Form width={"45%"} center>
       <ContentView>
@@ -143,7 +163,7 @@ function CourseEdit(props) {
         <label style={{color: 'red'}}>{errors.message}</label>
 
         <input
-          placeholder="Insira o Título"
+          placeholder="  Título"
           type="text"
           onChange={(e) => {
             setTitle(e.target.value);
@@ -153,7 +173,7 @@ function CourseEdit(props) {
         <span style={{color: 'red'}}>{errors.title}</span>
 
         <input
-          placeholder="Insira o Subtítulo"
+          placeholder="  Subtítulo"
           type="text"
            onChange={(e) => {
             setSubtitle(e.target.value);
@@ -163,7 +183,7 @@ function CourseEdit(props) {
         <span style={{color: 'red'}}>{errors.subtitle}</span>
 
         <input
-          placeholder="Insira o Conteudo"
+          placeholder="  Conteudo"
           type="text"
            onChange={(e) => {
             setContent(e.target.value);
@@ -172,41 +192,41 @@ function CourseEdit(props) {
         />
         <span style={{color: 'red'}}>{errors.content}</span>
 
+        <div>
+        <label for="uploadPhoto" class="btn-cta">
+          {image?.name?image?.name:"Haga clic aquí para agregar una imagen"}
+        <MdFileUpload/>
+        </label>
         <input
+           id="uploadPhoto"
           type="file"
           onChange={(e) => {
             setImage(e.target.files[0]);
+            if(e.target.files[0]){
+              setPreviewImage(URL.createObjectURL(e.target.files[0]));
+            }
           }}
         />
-        <span style={{color: 'red'}}>{errors.imagePath}</span>
+       { image && <img src={previewImage}/>}
+       </div>
+          
+        <input type="text" placeholder="Link" onChange={(e)=>{setLink(e.target.value)}} value={link} />
 
-        <h6 style={{margin: '10px auto'}}>Tags:</h6>
-        {tags.map((currentTag)=>(
-          <Tag tag={currentTag} />
-        ))}
-
-        <select>
-        {dbTags.map((currentTag)=>(
-          <option>{currentTag}</option>
-        ))}
-        </select>
+        <fieldset>
+         <Select
+         options={dbTags.map((currentTag)=>(
+          {label:currentTag,value:currentTag}))}
+          isClearable
+          isMulti
+          closeMenuOnSelect={false}
+          onChange={onChangeSelectTags}
+          placeholder={"¡Seleccione las etiquetas!"}
+        />
+       
         <span style={{color: 'red'}}>{errors.dbTags}</span>
 
-        <input
-          placeholder="Insira as Tags"
-          type="text"
-           onChange={(e) => {
-            setTag(e.target.value);
-          }}
-          value={tag}
-        />
-        <button onClick={addTag}>Adicionar Tag</button>
-        <span style={{color: 'red'}}>{errors.tags}</span>
-
-        <div style={{ width: progress, backgroundColor: 'blue', color: 'white' }}>
-           {progress}
-        </div>
-        <br></br>
+        </fieldset>
+        <Outline_Button type="success" onClick={handleChangeTags}>Añadir Etiqueta</Outline_Button>
         <AppButton onClick={handleCourseEdit}>{buttonText}</AppButton>
       </ContentView>
     </Form>

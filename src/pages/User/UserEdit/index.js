@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 
-import Header from '../../components/Header';
-import { AppButton, ContentView, Form, Page } from '../../styles/default';
+import Header from '../../../components/Header';
+import { AppButton, ContentView, Form, Page } from '../../../styles/default';
 
-import api from '../../services/api';
+import api from '../../../services/api';
 
-import { getUser, updateUser } from "../../services/auth";
+import { getUser, updateUser } from "../../../services/auth";
 
 function UserEdit(props) {
 
@@ -83,7 +83,7 @@ function UserEdit(props) {
         <label style={{color: 'red'}}>{errors.message}</label>
 
         <input
-          placeholder="  Nome do Usuário"
+          placeholder="Insira o Nome do Usuário"
           type="text"
            onChange={(e) => {
             setUsername(e.target.value);
@@ -93,7 +93,7 @@ function UserEdit(props) {
         <span style={{color: 'red'}}>{errors.username}</span>
 
         <input
-          placeholder="  E-mail do Usuário"
+          placeholder="Insira o E-mail do Usuário"
           type="text"
            onChange={(e) => {
             setEmail(e.target.value);
@@ -103,7 +103,7 @@ function UserEdit(props) {
         <span style={{color: 'red'}}>{errors.email}</span>
 
         <input
-          placeholder="  Telefone do Usuário"
+          placeholder="Insira o Telefone do Usuário"
           type="text"
           onChange={(e) => {
             setPhone(e.target.value);
@@ -113,7 +113,7 @@ function UserEdit(props) {
         <span style={{color: 'red'}}>{errors.phone}</span>
 
         <input
-          placeholder=" Senha do Usuário"
+          placeholder="Insira a Senha do Usuário"
           type="text"
            onChange={(e) => {
             setPassword(e.target.value);

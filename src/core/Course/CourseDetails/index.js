@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import Header from '../../../components/Header';
-import { Details, Page, Outline_Button } from '../../../styles/default';
+import { Details, Page, Outline_Button, AppButton } from '../../../styles/default';
 import Toastifying, {TOASTIFY_OPTIONS} from '../../../components/Toastifying'
 import api from '../../../services/api';
 
-import { isAdmin } from '../../../services/auth';
+import { isAuthenticated } from '../../../services/auth';
 import Footer from '../../../components/Footer';
 import imgAux from '../../../assets/icon.svg';
 import { toast } from 'react-toastify';
 import history from '../../../services/history/history'
+import Stars from '../../../components/Stars';
 
 function CourseDetails(props) {
 
@@ -16,6 +17,7 @@ function CourseDetails(props) {
 
   const [idCourse] = useState(props.match.params.id);
   const [course, setCourse] = useState([]);
+  const [featured, setFeatured] = useState(false);
   const [errors, setErrors] = useState({});
 
   async function findCourse() {
@@ -25,6 +27,9 @@ function CourseDetails(props) {
       if(response.data.success) {
         if(response.data.course) {
           setCourse(response.data.course);
+        }
+        if(response.data.featured) {
+          setFeatured(response.data.featured);
         }
       }
     } catch (error) {
@@ -70,10 +75,36 @@ function CourseDetails(props) {
     history.push("/course/editar/"+idCourse);
   }
 
+  const updateFeatured = async (e) => {
+    e.preventDefault();
+
+    try {
+      if(featured) {
+        const response = await api.delete("/featured/"+featured._id);
+        if(response.data.success) {
+          toast.success("Removido dos destaques com sucesso", TOASTIFY_OPTIONS);
+          
+          setFeatured(null);
+        }
+      } else {
+        const response = await api.post("/featured/create", {post: course._id, postType: 'Course'});
+        if(response.data.success) {
+          toast.success("Adicionado aos destaques com sucesso", TOASTIFY_OPTIONS);
+          if(response.data.featured) {
+            setFeatured(response.data.featured);
+          }
+        }
+      }
+    } catch (error) {
+      toast.error("Não foi Possível Remover",TOASTIFY_OPTIONS)
+    }
+  }
+
   return (
     <Page>
     <Header/>
     <Details width={"90%"}>
+    {isAuthenticated() === true ? <Stars isFeature={featured} onClick={updateFeatured}/>: null}
     <Toastifying/>
 
     <label>{course.title}</label>
@@ -81,9 +112,17 @@ function CourseDetails(props) {
     <img onError={handleImageError} src={process.env.REACT_APP_API_URL+course.imagePath} />
     <h4> Contenido </h4>
     <span>{course.content}</span>
+
+    {
+      course.link?.length > 1?
+    <div>
+      <AppButton onClick={()=>{window.location.assign(course.link);}}>Accesito</AppButton>
+    </div>
+    :null
+    }
     
     {
-    isAdmin() &&
+    isAuthenticated() &&
     <div>
       <Outline_Button type="danger" onClick={handleRemoveCourse}>{"Eliminar"}</Outline_Button>
       <Outline_Button type="warning" onClick={handleEditeCourse}>{"Editar"}</Outline_Button>

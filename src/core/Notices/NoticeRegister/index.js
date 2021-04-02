@@ -9,20 +9,17 @@ import {MdFileUpload} from 'react-icons/md/index'
 import Toastifying, {TOASTIFY_OPTIONS} from "../../../components/Toastifying"
 import { toast } from 'react-toastify';
 import ModalTag from '../../../components/ModalTag';
+import MyModal from '../../../components/MyModal';
 
 function NoticeRegister() {
 
-  const [buttonText, setButtonText] = useState("Registrar");
   const [title, setTitle] = useState("");
   const [subtitle, setSubtitle] = useState("");
   const [content, setContent] = useState("");
   const [image, setImage] = useState('');
-  const [tag, setTag] = useState("");
   const [tags, setTags] = useState([]);
   const [dbTags, setDbTags] = useState([]);
-  const [errors, setErrors] = useState({});
-  const [progress, setProgess] = useState(0); // progess bar
-
+  const [link,setLink]= useState('');
   //For open modal
 
   const[modalShow,setModalShow] = useState(false);
@@ -42,13 +39,7 @@ function NoticeRegister() {
         }
       }
     } catch (error) {
-      if(error.response) {
-        if(error.response.data) {
-          if(error.response.data.message) {
-            setErrors({dbTags: error.response.data.message});
-          }
-        }
-      }
+    
     }
   }
 
@@ -60,30 +51,22 @@ function NoticeRegister() {
   },[image])
   const handleNoticeRegister = async (e) => {
     e.preventDefault();
-    setButtonText("Enviando Dados ...");
     
     const formData = new FormData();
     formData.append('title', title);
     formData.append('subtitle', subtitle);
     formData.append('content', content);
+    formData.append('link',link)
     formData.append('image', image);
     tags.map((tag) => {
       formData.append('tags', tag);
     })
     
     try {
-      
-      await api.post("/notice/create", formData, {
-        onUploadProgress: (ProgressEvent) => {
-          let progress = Math.round(ProgressEvent.loaded / ProgressEvent.total * 100) + '%';
-          setProgess(progress);
-        }
-      });
+      await api.post("/notice/create", formData);
       toast.success("¡Registrado correctamente!",TOASTIFY_OPTIONS)
-      setButtonText("Registrado Correctamente");
     } catch (error) {
       console.log(error)
-      setButtonText("Registrar");
         toast.error("¡Hubo un error! Verifique que todos los campos estén llenos",TOASTIFY_OPTIONS)
     }
 
@@ -105,7 +88,10 @@ function NoticeRegister() {
   return (
   <Page>
     <Toastifying/>
-   {modalShow && <ModalTag show={modalShow} truncate={(e)=>console.log(e)}/>}
+   {modalShow && <ModalTag
+    show={modalShow}
+    onHide={()=>setModalShow(false)}
+    />}
     <Header/>
     <Form width={"45%"} height={"80vh"} center>
       <ContentView>
@@ -155,6 +141,8 @@ function NoticeRegister() {
        { image && <img src={previewImage}/>}
        </div>
           
+        <input type="text" placeholder="Link" onChange={(e)=>{setLink(e.target.value)}} value={link} />
+
         <fieldset>
        <Select
          options={dbTags.map((currentTag)=>(
@@ -168,8 +156,7 @@ function NoticeRegister() {
         </fieldset>
         <Outline_Button type="success" onClick={handleChangeTags}>Añadir Etiqueta</Outline_Button>
 
-        <br></br>
-        <AppButton onClick={handleNoticeRegister}>{buttonText}</AppButton>
+        <AppButton onClick={handleNoticeRegister}>Registrar</AppButton>
       </ContentView>
     </Form>
     <Footer/>

@@ -1,15 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import Header from '../../../components/Header';
-import { Details, Outline_Button, Page } from '../../../styles/default';
+import { Details, Outline_Button, Page, AppButton } from '../../../styles/default';
 import imgAux from '../../../assets/icon.svg';
 import Toastifying, {TOASTIFY_OPTIONS} from '../../../components/Toastifying'
 
 import api from '../../../services/api';
 
-import { isAdmin } from '../../../services/auth';
 import Footer from '../../../components/Footer';
 import history from '../../../services/history/history'
 import { toast } from 'react-toastify';
+import Stars from '../../../components/Stars';
+
+import {isAuthenticated} from '../../../services/auth'
 
 function DirectoryDetails(props) {
 
@@ -17,6 +19,7 @@ function DirectoryDetails(props) {
 
   const [idDirectory] = useState(props.match.params.id);
   const [directory, setDirectory] = useState([]);
+  const [featured, setFeatured] = useState(false);
   const [errors, setErrors] = useState({});
 
   async function findDirectory() {
@@ -26,6 +29,9 @@ function DirectoryDetails(props) {
       if(response.data.success) {
         if(response.data.directory) {
           setDirectory(response.data.directory);
+        }
+        if(response.data.featured) {
+          setFeatured(response.data.featured);
         }
       }
     } catch (error) {
@@ -65,10 +71,37 @@ function DirectoryDetails(props) {
   const handleImageError = (image)=>{
     image.target.src = imgAux;
   }
+
+  const updateFeatured = async (e) => {
+    e.preventDefault();
+
+    try {
+      if(featured) {
+        const response = await api.delete("/featured/"+featured._id);
+        if(response.data.success) {
+          toast.success("Removido dos destaques com sucesso", TOASTIFY_OPTIONS);
+          
+          setFeatured(null);
+        }
+      } else {
+        const response = await api.post("/featured/create", {post: directory._id, postType: 'Directory'});
+        if(response.data.success) {
+          toast.success("Adicionado aos destaques com sucesso", TOASTIFY_OPTIONS);
+          if(response.data.featured) {
+            setFeatured(response.data.featured);
+          }
+        }
+      }
+    } catch (error) {
+      toast.error("Não foi Possível Remover",TOASTIFY_OPTIONS)
+    }
+  }
+
   return (
     <Page>
     <Header/>
     <Details width={"90%"}>
+    {isAuthenticated() === true ? <Stars isFeature={featured} onClick={updateFeatured}/>: null}
     <Toastifying/>
 
     <label>{directory.title}</label>
@@ -76,9 +109,17 @@ function DirectoryDetails(props) {
     <img onError={handleImageError} src={process.env.REACT_APP_API_URL+directory.imagePath} />
     <h4> Contenido </h4>
     <span>{directory.content}</span>
+
+    {
+      directory.link?.length > 1?
+    <div>
+      <AppButton onClick={()=>{window.location.assign(directory.link);}}>Accesito</AppButton>
+    </div>
+    :null
+    }
     
     {
-    isAdmin() &&
+    isAuthenticated() &&
     <div>
       <Outline_Button type="danger" onClick={handleRemoveDirectory}>{"Eliminar"}</Outline_Button>
       <Outline_Button type="warning" onClick={handleEditeDirectory}>{"Editar"}</Outline_Button>

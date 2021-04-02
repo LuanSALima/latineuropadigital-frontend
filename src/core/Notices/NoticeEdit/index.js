@@ -1,9 +1,15 @@
 import React, { useState, useEffect } from 'react';
 
 import Header from '../../../components/Header';
-import { AppButton, ContentView, Form, Page } from '../../../styles/default';
+import { AppButton, ContentView, Form, Outline_Button, Page } from '../../../styles/default';
 import Footer from '../../../components/Footer';
 import api from '../../../services/api';
+
+import {MdFileUpload} from 'react-icons/md/index';
+import Toastifying, {TOASTIFY_OPTIONS} from "../../../components/Toastifying";
+import { toast } from 'react-toastify';
+import ModalTag from '../../../components/ModalTag';
+import MyModal from '../../../components/MyModal';
 
 import Select from 'react-select';
 
@@ -17,11 +23,16 @@ function NoticeEdit(props) {
   const [subtitle, setSubtitle] = useState("");
   const [content, setContent] = useState("");
   const [image, setImage] = useState('');
-  const [tag, setTag] = useState("");
+  const [link, setLink] = useState('');
   const [tags, setTags] = useState([]);
   const [dbTags, setDbTags] = useState([]);
   const [errors, setErrors] = useState({});
   const [progress, setProgess] = useState(0); // progess bar
+
+  //For open modal
+
+  const[modalShow,setModalShow] = useState(false);
+  const [previewImage,setPreviewImage] = useState();
 
   async function listTags() {
     try {
@@ -57,6 +68,7 @@ function NoticeEdit(props) {
           setSubtitle(response.data.notice.subtitle);
           setContent(response.data.notice.content);
           setTags(response.data.notice.tags);
+          setLink(response.data.notice.link);
         }
       }
     } catch (error) {
@@ -87,12 +99,12 @@ function NoticeEdit(props) {
     formData.append('subtitle', subtitle);
     formData.append('content', content);
     formData.append('image', image);
+    formData.append('link', link);
     tags.map((tag) => {
       formData.append('tags', tag);
     })
     
     try {
-      
       const response = await api.put("/notice/"+idNotice, formData, {
         onUploadProgress: (ProgressEvent) => {
           let progress = Math.round(ProgressEvent.loaded / ProgressEvent.total * 100) + '%';
@@ -122,6 +134,11 @@ function NoticeEdit(props) {
 
   };
 
+  const handleChangeTags = (e)=>{
+    e.preventDefault();
+    setModalShow(!modalShow);
+  }
+
   const onChangeSelectTags = (tagsSelected) => {
     let tags = [];
     for(const tag of tagsSelected) {
@@ -132,15 +149,20 @@ function NoticeEdit(props) {
 
   return (
   <Page>
+    <Toastifying/>
+   {modalShow && <ModalTag
+    show={modalShow}
+    onHide={()=>setModalShow(false)}
+    />}
     <Header/>
     <Form width={"45%"} center>
       <ContentView>
-        <label>Edite a Notícia !</label>
+        <label>Editar la publicación</label>
 
         <label style={{color: 'red'}}>{errors.message}</label>
 
         <input
-          placeholder="Insira o Título"
+          placeholder="Título"
           type="text"
           onChange={(e) => {
             setTitle(e.target.value);
@@ -150,7 +172,7 @@ function NoticeEdit(props) {
         <span style={{color: 'red'}}>{errors.title}</span>
 
         <input
-          placeholder="Insira o Subtítulo"
+          placeholder="Subtítulo"
           type="text"
            onChange={(e) => {
             setSubtitle(e.target.value);
@@ -160,7 +182,7 @@ function NoticeEdit(props) {
         <span style={{color: 'red'}}>{errors.subtitle}</span>
 
         <input
-          placeholder="Insira o Conteudo"
+          placeholder="Contenido"
           type="text"
            onChange={(e) => {
             setContent(e.target.value);
@@ -169,14 +191,27 @@ function NoticeEdit(props) {
         />
         <span style={{color: 'red'}}>{errors.content}</span>
 
+        <div>
+        <label for="uploadPhoto" class="btn-cta">
+          {image?.name?image?.name:"Haga clic aquí para agregar una imagen"}
+        <MdFileUpload/>
+        </label>
         <input
+           id="uploadPhoto"
           type="file"
           onChange={(e) => {
             setImage(e.target.files[0]);
+            if(e.target.files[0]){
+              setPreviewImage(URL.createObjectURL(e.target.files[0]));
+            }
           }}
         />
-        <span style={{color: 'red'}}>{errors.imagePath}</span>
+       { image && <img src={previewImage}/>}
+       </div>
+          
+        <input type="text" placeholder="Link" onChange={(e)=>{setLink(e.target.value)}} value={link} />
 
+        <fieldset>
          <Select
          options={dbTags.map((currentTag)=>(
           {label:currentTag,value:currentTag}))}
@@ -184,18 +219,14 @@ function NoticeEdit(props) {
           isMulti
           closeMenuOnSelect={false}
           onChange={onChangeSelectTags}
-          placeholder={"Selecione as tags"}
+          placeholder={"¡Seleccione las etiquetas!"}
         />
        
         <span style={{color: 'red'}}>{errors.dbTags}</span>
 
-        <button>Adicionar Tag</button>
-        <span style={{color: 'red'}}>{errors.tags}</span>
+        </fieldset>
+        <Outline_Button type="success" onClick={handleChangeTags}>Añadir Etiqueta</Outline_Button>
 
-        <div style={{ width: progress, backgroundColor: 'blue', color: 'white' }}>
-           {progress}
-        </div>
-        <br></br>
         <AppButton onClick={handleNoticeEdit}>{buttonText}</AppButton>
       </ContentView>
     </Form>
