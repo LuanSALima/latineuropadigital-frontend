@@ -32,6 +32,7 @@ export const ContentView = styled.div`
   >label{
   margin: 0 auto !important;
   margin:2rem !important;
+  text-align:center;
   color:var(--color-freela-text);
   font-size:20px;
   >svg{

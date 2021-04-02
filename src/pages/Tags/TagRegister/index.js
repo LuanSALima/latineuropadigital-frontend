@@ -1,15 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 
 import Header from '../../../components/Header';
 import { AppButton, ContentView, Form, Page } from '../../../styles/default';
-
+import Footer from '../../../components/Footer';
 import api from '../../../services/api';
 
 import Select from 'react-select';
-
+import { toast } from 'react-toastify';
+import Toastifying, {TOASTIFY_OPTIONS} from'../../../components/Toastifying';
 function TagRegister() {
 
-  const [buttonText, setButtonText] = useState("Cadastrar");
 
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -33,33 +33,15 @@ function TagRegister() {
     }
   ]);
 
-  const [errors, setErrors] = useState({});
 
   const handleTagRegister = async (e) => {
     e.preventDefault();
-    setButtonText("Enviando Dados ...");
 
     try {
-      const response = await api.post("/tag/create", {title, description, types});
-
-      console.log(response.data);
-      setButtonText("Cadastrado com Sucesso");
+       await api.post("/tag/create", {title, description, types});
+      toast.success("Registrado Correctamente.")
     } catch (error) {
-      setButtonText("Tente Novamente");
-      if(error.response) {
-        if(error.response.data) {
-          //Dados retornados do backend
-          if(error.response.data.errors) {
-            setErrors(error.response.data.errors);
-          }
-          if(error.response.data.message) {
-            setErrors({message: error.response.data.message});
-          }
-        }
-      } else {
-        //Não houve dados retornados do backend
-        alert("Erro Inesperado!");
-      }
+      toast.error("Error!.",TOASTIFY_OPTIONS);
     }
   };
 
@@ -74,11 +56,10 @@ function TagRegister() {
   return (
   <Page>
     <Header/>
+    <Toastifying/>
     <Form width={"45%"} height={"80vh"} center>
       <ContentView>
-        <label>Cadastrar a Tag !</label>
-
-        <label style={{color: 'red'}}>{errors.message}</label>
+        <label>Registrar Etiqueta</label>
 
         <input
           placeholder="Insira o Título"
@@ -88,7 +69,6 @@ function TagRegister() {
           }}
           value={title}
         />
-        <span style={{color: 'red'}}>{errors.title}</span>
 
         <input
           placeholder="Insira a Descrição"
@@ -98,22 +78,22 @@ function TagRegister() {
           }}
           value={description}
         />
-        <span style={{color: 'red'}}>{errors.description}</span>
-
+    <fieldset>
         <Select
          options={typesOptions}
           isClearable
           isMulti
           closeMenuOnSelect={false}
           onChange={onChangeSelectTags}
-          placeholder={"Selecioneo Tipo de Publicação que está tag pertence"}
+          placeholder={"Seleccione dónde aparecerá esta etiqueta"}
         />
-        <span style={{color: 'red'}}>{errors.type}</span>
+    </fieldset>
 
         <br></br>
-        <AppButton onClick={handleTagRegister}>{buttonText}</AppButton>
+        <AppButton onClick={handleTagRegister}>Registrar</AppButton>
       </ContentView>
     </Form>
+    <Footer/>
   </Page>);
 }
 
