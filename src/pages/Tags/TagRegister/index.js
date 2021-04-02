@@ -62,7 +62,7 @@ function TagRegister() {
         <label>Registrar Etiqueta</label>
 
         <input
-          placeholder="Insira o Título"
+          placeholder="  Título"
           type="text"
           onChange={(e) => {
             setTitle(e.target.value);
@@ -71,7 +71,7 @@ function TagRegister() {
         />
 
         <input
-          placeholder="Insira a Descrição"
+          placeholder=" Descrição"
           type="text"
           onChange={(e) => {
             setDescription(e.target.value);

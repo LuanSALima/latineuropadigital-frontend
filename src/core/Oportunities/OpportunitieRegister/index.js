@@ -162,7 +162,7 @@ function OpportunitieRegister() {
           isMulti
           closeMenuOnSelect={false}
           onChange={onChangeSelectTags}
-          placeholder={"Selecione as tags"}
+          placeholder={"¡Seleccione las etiquetas!"}
         />
         </fieldset>
         <Outline_Button type="success" onClick={handleChangeTags}>Añadir Etiqueta</Outline_Button>

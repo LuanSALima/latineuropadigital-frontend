@@ -79,7 +79,7 @@ function OpportunitieEdit(props) {
         <label style={{color: 'red'}}>{errors.message}</label>
 
         <input
-          placeholder="Insira o Nome do Profissional"
+          placeholder="  Nome do Profissional"
           type="text"
            onChange={(e) => {
             setProfessionalName(e.target.value);
@@ -89,7 +89,7 @@ function OpportunitieEdit(props) {
         <span style={{color: 'red'}}>{errors.professionalName}</span>
 
         <input
-          placeholder="Insira o Contato do Profissional"
+          placeholder="  Contato do Profissional"
           type="text"
            onChange={(e) => {
             setProfessionalContact(e.target.value);
@@ -99,7 +99,7 @@ function OpportunitieEdit(props) {
         <span style={{color: 'red'}}>{errors.professionalContact}</span>
 
         <input
-          placeholder="Insira o Título"
+          placeholder="  Título"
           type="text"
           onChange={(e) => {
             setTitle(e.target.value);
@@ -109,7 +109,7 @@ function OpportunitieEdit(props) {
         <span style={{color: 'red'}}>{errors.title}</span>
 
         <input
-          placeholder="Insira a Descrição"
+          placeholder=" Descrição"
           type="text"
            onChange={(e) => {
             setDescription(e.target.value);

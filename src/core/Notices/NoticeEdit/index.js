@@ -140,7 +140,7 @@ function NoticeEdit(props) {
         <label style={{color: 'red'}}>{errors.message}</label>
 
         <input
-          placeholder="Insira o Título"
+          placeholder="  Título"
           type="text"
           onChange={(e) => {
             setTitle(e.target.value);
@@ -150,7 +150,7 @@ function NoticeEdit(props) {
         <span style={{color: 'red'}}>{errors.title}</span>
 
         <input
-          placeholder="Insira o Subtítulo"
+          placeholder="  Subtítulo"
           type="text"
            onChange={(e) => {
             setSubtitle(e.target.value);
@@ -160,7 +160,7 @@ function NoticeEdit(props) {
         <span style={{color: 'red'}}>{errors.subtitle}</span>
 
         <input
-          placeholder="Insira o Conteudo"
+          placeholder="  Conteudo"
           type="text"
            onChange={(e) => {
             setContent(e.target.value);
@@ -184,7 +184,7 @@ function NoticeEdit(props) {
           isMulti
           closeMenuOnSelect={false}
           onChange={onChangeSelectTags}
-          placeholder={"Selecione as tags"}
+          placeholder={"¡Seleccione las etiquetas!"}
         />
        
         <span style={{color: 'red'}}>{errors.dbTags}</span>

@@ -95,11 +95,11 @@ function EventRegister() {
     <Header/>
     <Form width={"45%"} height={"80vh"} center>
       <ContentView>
-        <label>Crie um Evento !</label>
+        <label>¡Crea un evento!</label>
 
 
         <input
-          placeholder="Insira o Título"
+          placeholder="  Título"
           type="text"
           onChange={(e) => {
             setTitle(e.target.value);
@@ -108,7 +108,7 @@ function EventRegister() {
         />
 
         <input
-          placeholder="Insira o Subtítulo"
+          placeholder="  Subtítulo"
           type="text"
            onChange={(e) => {
             setSubtitle(e.target.value);
@@ -151,14 +151,14 @@ function EventRegister() {
           isMulti
           closeMenuOnSelect={false}
           onChange={onChangeSelectTags}
-          placeholder={"Selecione as tags"}
+          placeholder={"¡Seleccione las etiquetas!"}
         />
 
         </fieldset>
         <Outline_Button type="success" onClick={handleChangeTags}>Añadir Etiqueta</Outline_Button>
 
       
-        <AppButton onClick={handleEventRegister}>{buttonText}</AppButton>
+        <AppButton onClick={handleEventRegister}>Registrar</AppButton>
       </ContentView>
     </Form>
     <Footer/>

@@ -91,7 +91,7 @@ function CourseRegister() {
     <Header/>
     <Form width={"45%"} height={"80vh"} center>
       <ContentView>
-        <label>Crear un Curso</label>
+        <label>¡Crea un curso!</label>
 
         <input
           placeholder="Título"
