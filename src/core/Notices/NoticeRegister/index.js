@@ -9,6 +9,7 @@ import {MdFileUpload} from 'react-icons/md/index'
 import Toastifying, {TOASTIFY_OPTIONS} from "../../../components/Toastifying"
 import { toast } from 'react-toastify';
 import ModalTag from '../../../components/ModalTag';
+import MyModal from '../../../components/MyModal';
 
 function NoticeRegister() {
 
@@ -105,7 +106,10 @@ function NoticeRegister() {
   return (
   <Page>
     <Toastifying/>
-   {modalShow && <ModalTag show={modalShow} truncate={(e)=>console.log(e)}/>}
+   {modalShow && <ModalTag
+    show={modalShow}
+    onHide={()=>setModalShow(false)}
+    />}
     <Header/>
     <Form width={"45%"} height={"80vh"} center>
       <ContentView>

@@ -16,7 +16,7 @@ function TagRegister() {
   const [types, setTypes] = useState([]);
   const [typesOptions] = useState([
     {
-      label: 'Notícia',
+      label: 'Actualidad',
       value: 'Notice'
     }, 
     {
@@ -24,11 +24,11 @@ function TagRegister() {
       value: 'Directory'
     }, 
     {
-      label: 'Evento',
+      label: 'Agenda',
       value: 'Event'
     }, 
     {
-      label: 'Curso',
+      label: 'Educación',
       value: 'Course'
     }
   ]);

@@ -115,10 +115,10 @@ const myView = css`
   margin: 0 auto;
   flex-direction: column;
   padding: 1rem 1rem 3rem 1rem;
-  margin-top: 1.5rem !important;
+  margin-top: 1.8rem !important;
   margin-bottom: 1.5rem !important;
   background-color: #fff;
-  border-radius: 0.1rem;
+  border-radius: 0.25rem;
   > label {
     padding: 1rem;
     font-size: var(--font-size-title);
@@ -133,8 +133,9 @@ const myView = css`
     flex-direction: column;
 
     >fieldset{
-    width: 70%;
+    width: 64%;
     margin:0 auto;
+    margin-top:1rem;
     margin-bottom:1rem;
   }
 
@@ -178,8 +179,8 @@ const myView = css`
   
 export const Form = styled.form`
   ${myView};
-  border: 1px solid #1e1e1e;
-  box-shadow: 2px 2px 6px 2px #2e2e2e;
+  border: ${(props)=>!props.nullBorder?"1px solid #1e1e1e":null};
+  box-shadow:${(props)=>!props.nullBox?"2px 2px 6px 2px #2e2e2e":null} ;
 `;
 
 export const ScreenView = styled.div`

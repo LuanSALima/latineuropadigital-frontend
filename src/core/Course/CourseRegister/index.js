@@ -114,13 +114,16 @@ function CourseRegister() {
 
   const handleChangeTags = (e)=>{
     e.preventDefault();
-    setModalShow(!modalShow);
+    setModalShow(true);
   }
 
   return (
   <Page>
     <Toastifying/>
-   {modalShow && <ModalTag show={modalShow} truncate={(e)=>console.log(e)}/>}
+    {modalShow && <ModalTag
+    show={modalShow}
+    onHide={()=>setModalShow(false)}
+    />}
     <Header/>
     <Form width={"45%"} height={"80vh"} center>
       <ContentView>
