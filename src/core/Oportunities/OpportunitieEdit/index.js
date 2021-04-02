@@ -1,9 +1,14 @@
 import React, { useState, useEffect } from 'react';
 
 import Header from '../../../components/Header';
-import { AppButton, ContentView, Form, Page } from '../../../styles/default';
-
+import { AppButton, ContentView, Form, Outline_Button, Page } from '../../../styles/default';
+import Footer from '../../../components/Footer';
+import Toastifying, { TOASTIFY_OPTIONS } from '../../../components/Toastifying';
 import api from '../../../services/api';
+import { toast } from "react-toastify";
+
+import Select from 'react-select';
+import {Modal,Button} from 'react-bootstrap'
 
 function OpportunitieEdit(props) {
 
@@ -14,15 +19,40 @@ function OpportunitieEdit(props) {
   const [professionalContact, setProfessionalContact] = useState("Carregando Contato do Profissional...");
   const [title, setTitle] = useState("Carregando Título...");
   const [description, setDescription] = useState("Carregando Descrição...");
+  const [jobTypes, setJobTypes] = useState([]);
+  const [dbJobTypes, setDbJobTypes] = useState([]);
   const [status, setStatus] = useState("");
   const [errors, setErrors] = useState({});
+  const [modalShow,setModalShow] = useState(false);
+
+  async function listJobTypes() {
+    try {
+      const response = await api.get("/jobtype/list");
+
+      if(response.data.success) {
+        if(response.data.jobTypes) {
+          let dbJobTypes = [];
+          for(let index in response.data.jobTypes) {
+            dbJobTypes.push(response.data.jobTypes[index].title);
+          }
+          setDbJobTypes(dbJobTypes);
+        }
+      }
+    } catch (error) {
+      toast.error("¡Hubo un error!",TOASTIFY_OPTIONS);
+    }
+  }
+
+  useEffect(() => {
+    listJobTypes();
+  }, []);
 
   const handleJobEdit = async (e) => {
     e.preventDefault();
     setButtonText("Enviando Dados ...");
 
     try {
-      const response = await api.put("/job/"+idJob, {professionalName, professionalContact, title, description, status});
+      const response = await api.put("/job/"+idJob, {professionalName, professionalContact, title, description, jobTypes, status});
 
       console.log(response.data);
       setButtonText("Editado com Sucesso");
@@ -56,6 +86,7 @@ function OpportunitieEdit(props) {
             setTitle(response.data.job.title);
             setDescription(response.data.job.description);
             setStatus(response.data.job.status);
+            setJobTypes(response.data.job.jobTypes);
           }
         }
       } catch (error) {
@@ -68,6 +99,19 @@ function OpportunitieEdit(props) {
     }
     getJob();
   }, [idJob]);
+
+  const onChangeSelectTags = (typesSelected) => {
+    let types = [];
+    for(const type of typesSelected) {
+      types.push(type.value);
+    }
+    setJobTypes(types);
+  }
+
+  const handleChangeTags = (e)=>{
+    e.preventDefault();
+    setModalShow(true);
+  }
 
   return (
   <Page>
@@ -117,6 +161,19 @@ function OpportunitieEdit(props) {
           value={description}
         />
         <span style={{color: 'red'}}>{errors.description}</span>
+
+        <fieldset>
+        <Select
+         options={dbJobTypes.map((currentJobType)=>(
+          {label:currentJobType,value:currentJobType}))}
+          isClearable
+          isMulti
+          closeMenuOnSelect={false}
+          onChange={onChangeSelectTags}
+          placeholder={"Selecione as tags"}
+        />
+        </fieldset>
+        <Outline_Button type="success" onClick={handleChangeTags}>Añadir Etiqueta</Outline_Button>
 
         <p>Selecione o status da Oportunidade</p>
         <select value={status} onChange={(e) => {setStatus(e.target.value)}}>

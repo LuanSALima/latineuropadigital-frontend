@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import icon from '../../assets/icon.svg'
 import './styles.css';
 
-import {isAdmin, getUser } from "../../services/auth";
+import {isAuthenticated, getUser } from "../../services/auth";
 
 function Header() {
   return (
@@ -15,7 +15,7 @@ function Header() {
       <Navbar.Toggle aria-controls="responsive-navbar-nav" />
       <Navbar.Collapse id="responsive-navbar-nav">
         {
-          ! isAdmin() ? 
+          ! isAuthenticated() ? 
           (
           <>
           <Nav className="mr-auto">
@@ -59,7 +59,7 @@ function Header() {
         </>
         ):null}
       
-       { isAdmin()? (
+       { isAuthenticated()? (
 <>       
        <Nav className="mr-auto">
           <NavDropdown className="headerLinks texts" title="ACTUALIDAD">
