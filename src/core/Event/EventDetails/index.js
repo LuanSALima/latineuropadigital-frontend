@@ -18,6 +18,7 @@ function EventDetails(props) {
 
   const [idEvent] = useState(props.match.params.id);
   const [event, setEvent] = useState([]);
+  const [featured, setFeatured] = useState(false);
   const [errors, setErrors] = useState({});
 
   async function findEvent() {
@@ -27,6 +28,9 @@ function EventDetails(props) {
       if(response.data.success) {
         if(response.data.event) {
           setEvent(response.data.event);
+        }
+        if(response.data.featured) {
+          setFeatured(response.data.featured);
         }
       }
     } catch (error) {
@@ -69,11 +73,36 @@ function EventDetails(props) {
     history.push("/event/editar/"+idEvent);
   }
 
+  const updateFeatured = async (e) => {
+    e.preventDefault();
+
+    try {
+      if(featured) {
+        const response = await api.delete("/featured/"+featured._id);
+        if(response.data.success) {
+          toast.success("Removido dos destaques com sucesso", TOASTIFY_OPTIONS);
+          
+          setFeatured(null);
+        }
+      } else {
+        const response = await api.post("/featured/create", {post: event._id, postType: 'Event'});
+        if(response.data.success) {
+          toast.success("Adicionado aos destaques com sucesso", TOASTIFY_OPTIONS);
+          if(response.data.featured) {
+            setFeatured(response.data.featured);
+          }
+        }
+      }
+    } catch (error) {
+      toast.error("Não foi Possível Remover",TOASTIFY_OPTIONS)
+    }
+  }
+
   return (
       <Page>
         <Header/>
         <Details width={"90%"}>
-        {isAuthenticated() === true ? <Stars isFeature={false} />: null}
+        {isAuthenticated() === true ? <Stars isFeature={featured} onClick={updateFeatured} />: null}
         <Toastifying/>
    
         <label>{event.title}</label>

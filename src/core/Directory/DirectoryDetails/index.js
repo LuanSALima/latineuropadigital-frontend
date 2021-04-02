@@ -20,6 +20,7 @@ function DirectoryDetails(props) {
 
   const [idDirectory] = useState(props.match.params.id);
   const [directory, setDirectory] = useState([]);
+  const [featured, setFeatured] = useState(false);
   const [errors, setErrors] = useState({});
 
   async function findDirectory() {
@@ -29,6 +30,9 @@ function DirectoryDetails(props) {
       if(response.data.success) {
         if(response.data.directory) {
           setDirectory(response.data.directory);
+        }
+        if(response.data.featured) {
+          setFeatured(response.data.featured);
         }
       }
     } catch (error) {
@@ -68,11 +72,37 @@ function DirectoryDetails(props) {
   const handleImageError = (image)=>{
     image.target.src = imgAux;
   }
+
+  const updateFeatured = async (e) => {
+    e.preventDefault();
+
+    try {
+      if(featured) {
+        const response = await api.delete("/featured/"+featured._id);
+        if(response.data.success) {
+          toast.success("Removido dos destaques com sucesso", TOASTIFY_OPTIONS);
+          
+          setFeatured(null);
+        }
+      } else {
+        const response = await api.post("/featured/create", {post: directory._id, postType: 'Directory'});
+        if(response.data.success) {
+          toast.success("Adicionado aos destaques com sucesso", TOASTIFY_OPTIONS);
+          if(response.data.featured) {
+            setFeatured(response.data.featured);
+          }
+        }
+      }
+    } catch (error) {
+      toast.error("Não foi Possível Remover",TOASTIFY_OPTIONS)
+    }
+  }
+
   return (
     <Page>
     <Header/>
     <Details width={"90%"}>
-    {isAuthenticated() === true ? <Stars isFeature={false} />: null}
+    {isAuthenticated() === true ? <Stars isFeature={featured} onClick={updateFeatured}/>: null}
     <Toastifying/>
 
     <label>{directory.title}</label>
