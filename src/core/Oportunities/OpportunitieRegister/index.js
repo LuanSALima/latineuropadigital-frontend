@@ -10,10 +10,7 @@ import { toast } from "react-toastify";
 import Select from 'react-select';
 import {Modal,Button} from 'react-bootstrap'
 
-
-
 function OpportunitieRegister() {
-
 
   const [professionalName, setProfessionalName] = useState("");
   const [professionalContact, setProfessionalContact] = useState("");
@@ -22,10 +19,10 @@ function OpportunitieRegister() {
   const [jobTypes, setJobTypes] = useState([]);
   const [dbJobTypes, setDbJobTypes] = useState([]);
   const [errors, setErrors] = useState({});
-  const[modalShow,setModalShow] = useState(false);
+  const [modalShow,setModalShow] = useState(false);
 
 
-  async function listTags() {
+  async function listJobTypes() {
     try {
       const response = await api.get("/jobtype/list");
 
@@ -44,7 +41,7 @@ function OpportunitieRegister() {
   }
 
   useEffect(() => {
-    listTags();
+    listJobTypes();
   }, []);
 
   const handleJobRegister = async (e) => {
@@ -88,9 +85,6 @@ function OpportunitieRegister() {
     e.preventDefault();
     setModalShow(true);
   }
-
-
-
 
   function MyModalView(props){
    return ( <Modal

@@ -36,7 +36,8 @@ import TagEdit from '../pages/Tags/TagEdit';
 import JobTypeRegister from '../pages/JobType/JobTypeRegister';
 import JobTypeEdit from '../pages/JobType/JobTypeEdit';
 
-import UserEdit from '../pages/UserEdit';
+import UserRegister from '../pages/User/UserRegister';
+import UserEdit from '../pages/User/UserEdit';
 
 import Dashboard from '../pages/Dashboard';
 
@@ -64,7 +65,7 @@ const AdminRoute = ({ component: Component, ...rest }) => (
       isAdmin() ? (
         <Component {...props} />
       ) : (
-        <Redirect to={{ pathname: "/unauthorized", state: { from: props.location } }} />
+        <Redirect to={{ pathname: "/home", state: { from: props.location } }} />
       )
     }
   />
@@ -92,31 +93,31 @@ function Routes() {
         <Route path="/oportunidades" exact component={OpportunitieList} />
         <Route path="/job/cadastrar" component={OpportunitieRegister} />
         
-        <AdminRoute path="/dashboard" component={Dashboard} />
+        <PrivateRoute path="/dashboard" component={Dashboard} />
 
-        <AdminRoute path="/oportunidades-pendentes" component={OpportunitiePendents} />
-        <AdminRoute path="/job/editar/:id" component={OpportunitieEdit} />
+        <PrivateRoute path="/oportunidades-pendentes" component={OpportunitiePendents} />
+        <PrivateRoute path="/job/editar/:id" component={OpportunitieEdit} />
         
-        <AdminRoute path="/tag/cadastrar" component={TagRegister} />
-        <AdminRoute path="/tag/editar/:id" component={TagEdit} />
+        <PrivateRoute path="/tag/cadastrar" component={TagRegister} />
+        <PrivateRoute path="/tag/editar/:id" component={TagEdit} />
 
-        <AdminRoute path="/notice/cadastrar" component={NoticeRegister} />
-        <AdminRoute path="/notice/editar/:id" component={NoticeEdit} />
+        <PrivateRoute path="/notice/cadastrar" component={NoticeRegister} />
+        <PrivateRoute path="/notice/editar/:id" component={NoticeEdit} />
 
-        <AdminRoute path="/directory/cadastrar" component={DirectoryRegister} />
-        <AdminRoute path="/directory/editar/:id" component={DirectoryEdit} />
+        <PrivateRoute path="/directory/cadastrar" component={DirectoryRegister} />
+        <PrivateRoute path="/directory/editar/:id" component={DirectoryEdit} />
 
-        <AdminRoute path="/event/cadastrar" component={EventRegister} />
-        <AdminRoute path="/event/editar/:id" component={EventEdit} />
+        <PrivateRoute path="/event/cadastrar" component={EventRegister} />
+        <PrivateRoute path="/event/editar/:id" component={EventEdit} />
 
-        <AdminRoute path="/course/cadastrar" component={CourseRegister} />
-        <AdminRoute path="/course/editar/:id" component={CourseEdit} />
+        <PrivateRoute path="/course/cadastrar" component={CourseRegister} />
+        <PrivateRoute path="/course/editar/:id" component={CourseEdit} />
 
-        <AdminRoute path="/jobtype/cadastrar" component={JobTypeRegister} />
-        <AdminRoute path="/jobtype/editar/:id" component={JobTypeEdit} />
+        <PrivateRoute path="/jobtype/cadastrar" component={JobTypeRegister} />
+        <PrivateRoute path="/jobtype/editar/:id" component={JobTypeEdit} />
 
+        <AdminRoute path="/user/cadastrar" component={UserRegister} />
         <AdminRoute path="/user/editar/:id" component={UserEdit} />
-
         
 
         <Route path="/logout" exact render={props => {
