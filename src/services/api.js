@@ -15,6 +15,8 @@ api.interceptors.request.use(async config => {
 },
 function () {
   localStorage.removeItem("@latineuropadigital-Token");
+  localStorage.removeItem("@latineuropadigital-User");
+
   history.push("/");
 
 });
@@ -28,12 +30,15 @@ api.interceptors.response.use(
   function (error) {
     if (error.message === "Network Error") {
       localStorage.removeItem("@latineuropadigital-Token");
+      localStorage.removeItem("@latineuropadigital-User");
+
       history.push("/");
       return;
     }
     const { status } = error.response;
     if (status === 401) {
       localStorage.removeItem("@latineuropadigital-Token");
+      localStorage.removeItem("@latineuropadigital-User");
       history.push("/");
     }
     return Promise.reject(error.response.data);
