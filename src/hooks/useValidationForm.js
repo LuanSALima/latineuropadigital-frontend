@@ -1,3 +1,15 @@
+export const verifyLink = (link)=>{
+    if(!link){
+        return false;
+    }
+    if(link.substr(0,7) !== "http://" ){
+        if(link.substr(0,8) !== "https://"){
+            return false
+        }
+    }
+    return true;
+};
+
 const useMyForm = (...props)=>{
  const total = props.map((item)=>{
       if(typeof(item) === "string"){
