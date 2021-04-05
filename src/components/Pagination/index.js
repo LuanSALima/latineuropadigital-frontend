@@ -4,61 +4,6 @@ import "bootstrap/dist/css/bootstrap.min.css";
 
 function Pagination(props) {
 
-	/*
-	
-	<ul class="paginacao">
-				
-	<?php if($pagina != 1): ?>
-		<?php 
-				$tag = isset($_GET['tag']) ? "&tag=".$_GET['tag'] : '';
-			?>
-			<li>
-				<a href="<?php echo $_SERVER['PHP_SELF'].'?pagina=1'.$tag; ?>">&laquo;</a>
-			</li>
-	<?php else: ?>
-		<li>
-			<span>&laquo;</span>
-		</li>
-	<?php endif; ?>
-
-		<?php for($i=($pagina-10); $i<($pagina+10); $i++): ?>
-			
- 		<?php if(($i > 0) && ($i <= $totalPaginas)): ?>
-
- 			<?php if($i == $pagina): ?>
- 				<li>
-		 			<span><?php echo $i; ?></span>
-		 		</li>
- 			<?php else: ?>
-
- 				<?php 
- 					$tag = isset($_GET['tag']) ? "&tag=".$_GET['tag'] : '';
- 				 ?>
- 				<li>
-	 				<a href="<?php echo $_SERVER['PHP_SELF'].'?pagina='.$i.$tag; ?>"><?php echo $i; ?></a>
-	 			</li>
- 			<?php endif; ?>
-
- 		<?php endif; ?>
-
-		<?php endfor; ?>
-
-		<?php if($pagina != $totalPaginas): ?>
-		<?php 
-				$tag = isset($_GET['tag']) ? "&tag=".$_GET['tag'] : '';
-			?>
-			<li>
-				<a href="<?php echo $_SERVER['PHP_SELF'].'?pagina='.$totalPaginas.$tag; ?>">&raquo;</a>
-			</li>
-	<?php else: ?>
-		<li>
-			<span>&raquo;</span>
-		</li>
-	<?php endif; ?>
-	</ul>
-
-	*/
-
 	const totalResults = props.totalResults;
 	const resultsPerPage = props.resultsPerPage;
 	const actualPage = props.actualPage;

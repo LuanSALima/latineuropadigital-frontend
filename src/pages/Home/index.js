@@ -26,7 +26,6 @@ function Notices() {
             }
           }
           setFeatureds(featuredsDb);
-          console.log(featuredsDb);
         }
       }
     } catch (error) {    

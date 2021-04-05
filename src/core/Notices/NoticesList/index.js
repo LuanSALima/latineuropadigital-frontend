@@ -141,7 +141,7 @@ function NoticesList() {
           })}
         </HorizonScrollView>
 
-        <h2>Noticias</h2>
+        <h2>Recentes</h2>
         <div style={{flexDirection: 'row', flexWrap: 'wrap'}}>
         {notices.map((content) => {
           return (
