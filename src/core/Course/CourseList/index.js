@@ -12,6 +12,8 @@ import { MyScreenView } from './styles';
 import { Link } from 'react-router-dom';
 import { MdFilterList } from 'react-icons/md';
 
+import Pagination from '../../../components/Pagination';
+
 function CourseList() {
 
   const [coursesFeatured, setCoursesFeatured] = useState([]);
@@ -21,6 +23,9 @@ function CourseList() {
 
   const [courses, setCourses] = useState([]);
   const [tags, setTags] = useState([]);
+
+  const [actualPage, setActualPage] = useState(1);
+  const [totalCourses, setTotalCourses] = useState(0);
  
   const listTags = async () => {
     try {
@@ -42,6 +47,9 @@ function CourseList() {
             coursesDb.push({ tag : course.tags,id: course._id, title: course.title, subtitle: course.subtitle, image: `${process.env.REACT_APP_API_URL}`+course.imagePath, icon: imgTest});
           }
           setCourses(coursesDb);
+        }
+        if(response.data.totalCourses) {
+          setTotalCourses(response.data.totalCourses);
         }
       }
 
@@ -68,6 +76,7 @@ function CourseList() {
       }
 
     } catch (error) {
+      setCoursesMostViewed([]);
     }
   }
 
@@ -77,7 +86,7 @@ function CourseList() {
 
   useEffect(() => {
     listCourses();
-  }, []);
+  }, [actualPage]);
   useEffect(() => {
     listTags();
   }, []);
@@ -114,20 +123,25 @@ function CourseList() {
       )}
     </HorizonScrollView>
 
-    <h2>Recentes</h2>
-{tags.map((tags)=>(
-  <HorizonScrollView title={tags.title} subtitle={tags.description}>
-  {courses.map((content)=>(
-    content.tag.map((tagFiltered)=>{
-      if(tagFiltered === tags.title){
-        return  <Link to={"/curso/"+content.id}><NoticesCard id={content.id} icon={content.icon} image={content.image} title={content.title}text={content.subtitle} /></Link>
-       }
-    })
- 
-  ))}
-  </HorizonScrollView>
-  ))
-  }
+        <h2>Recentes</h2>
+        <div style={{flexDirection: 'row', flexWrap: 'wrap'}}>
+        {courses.map((content) => {
+          return (
+            <Link to={"/curso/" + content.id}>
+              <NoticesCard
+                id={content.id}
+                icon={content.icon}
+                image={content.image}
+                title={content.title}
+                text={content.subtitle}
+              />
+            </Link>
+          );
+        })}
+        </div>
+        <Pagination totalResults={totalCourses} resultsPerPage={30} actualPage={actualPage} changePage={setActualPage}/>
+        <span>PAGINA ATUAL: {actualPage}</span>
+
         </MyScreenView>
         <Footer/>
       </Page>

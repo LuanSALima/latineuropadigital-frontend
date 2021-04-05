@@ -13,6 +13,8 @@ import { MyScreenView } from './styles';
 import { Link } from 'react-router-dom';
 import { MdFilterList } from 'react-icons/md';
 
+import Pagination from '../../../components/Pagination';
+
 function DirectoryList() {
 
   const [directoriesFeatured, setDirectoriesFeatured] = useState([]);
@@ -22,6 +24,9 @@ function DirectoryList() {
 
   const [directories, setDirectories] = useState([]);
   const [tags, setTags] = useState([]);
+
+  const [actualPage, setActualPage] = useState(1);
+  const [totalDirectories, setTotalDirectories] = useState(0);
  
   const listTags = async () => {
     try {
@@ -43,6 +48,9 @@ function DirectoryList() {
             directoriesDb.push({ tag : directory.tags,id: directory._id, title: directory.title, subtitle: directory.subtitle, image: `${process.env.REACT_APP_API_URL}`+directory.imagePath, icon: imgTest});
           }
           setDirectories(directoriesDb);
+        }
+        if (response.data.totalDirectories) {
+          setTotalDirectories(response.data.totalDirectories);
         }
       }
 
@@ -69,6 +77,7 @@ function DirectoryList() {
       }
 
     } catch (error) {
+      setDirectoriesMostViewed([]);
     }
   }
 
@@ -78,7 +87,7 @@ function DirectoryList() {
 
   useEffect(() => {
     listDirectories();
-  }, []);
+  }, [actualPage]);
   useEffect(() => {
     listTags();
   }, []);
@@ -108,27 +117,33 @@ function DirectoryList() {
           />
         </MyFilteredOptions>
 
-    <HorizonScrollView title={mostViewedAt} subtitle={"Mais visualizados durante o tempo: "+mostViewedAt}>
-      {directoriesMostViewed.map((content)=>{
-          return <Link to={"/diretorio/"+content.id}><NoticesCard id={content.id} icon={content.icon} image={content.image} title={content.title} text={content.subtitle} /><span>Views: {content.views}</span></Link>
-        }
-      )}
-    </HorizonScrollView>
+        <HorizonScrollView title={mostViewedAt} subtitle={"Mais visualizados durante o tempo: "+mostViewedAt}>
+          {directoriesMostViewed.map((content)=>{
+              return <Link to={"/diretorio/"+content.id}><NoticesCard id={content.id} icon={content.icon} image={content.image} title={content.title} text={content.subtitle} /><span>Views: {content.views}</span></Link>
+            }
+          )}
+        </HorizonScrollView>
 
-    <h2>Recentes</h2>
-    {tags.map((tags)=>(
-      <HorizonScrollView title={tags.title} subtitle={tags.description}>
-      {directories.map((content)=>(
-        content.tag.map((tagFiltered)=>{
-          if(tagFiltered === tags.title){
-            return  <Link to={"/diretorio/"+content.id}><NoticesCard id={content.id} icon={content.icon} image={content.image} title={content.title}text={content.subtitle} /></Link>
-           }
-        })
-     
-      ))}
-      </HorizonScrollView>
-      ))
-      }
+        <h2>Recentes</h2>
+        <div style={{flexDirection: 'row', flexWrap: 'wrap'}}>
+        {directories.map((content) => {
+          return (
+            <Link to={"/diretorio/" + content.id}>
+              <NoticesCard
+                id={content.id}
+                icon={content.icon}
+                image={content.image}
+                title={content.title}
+                text={content.subtitle}
+              />
+            </Link>
+          );
+        })}
+        </div>
+
+        <Pagination totalResults={totalDirectories} resultsPerPage={30} actualPage={actualPage} changePage={setActualPage}/>
+        <span>PAGINA ATUAL: {actualPage}</span>
+
         </MyScreenView>
         <Footer/>
       </Page>
