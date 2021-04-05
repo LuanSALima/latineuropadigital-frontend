@@ -78,19 +78,19 @@ function Routes() {
 
         <Route path="/login"  component={Login} />
         
-        <Route path="/noticias" exact component={NoticesList} />
+        <Route path="/noticias"  component={NoticesList} />
         <Route path="/noticia/:id" exact component={NoticesDetails} />
 
-        <Route path="/diretorios" exact component={DirectoryList} />
+        <Route path="/diretorios"  component={DirectoryList} />
         <Route path="/diretorio/:id" exact component={DirectoryDetails} />
 
-        <Route path="/eventos" exact component={EventList} />
+        <Route path="/eventos"  component={EventList} />
         <Route path="/evento/:id" exact component={EventDetails} />
 
-        <Route path="/cursos" exact component={CourseList} />
+        <Route path="/cursos"  component={CourseList} />
         <Route path="/curso/:id" exact component={CourseDetails} />
 
-        <Route path="/oportunidades" exact component={OpportunitieList} />
+        <Route path="/oportunidades"  component={OpportunitieList} />
         <Route path="/job/cadastrar" component={OpportunitieRegister} />
         
         <PrivateRoute path="/dashboard" component={Dashboard} />
