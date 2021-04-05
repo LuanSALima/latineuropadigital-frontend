@@ -9,7 +9,7 @@ import {MdFileUpload} from 'react-icons/md/index'
 import Toastifying, {TOASTIFY_OPTIONS} from "../../../components/Toastifying"
 import { toast } from 'react-toastify';
 import ModalTag from '../../../components/ModalTag';
-import MyModal from '../../../components/MyModal';
+import useMyForm, { validateTitle } from '../../../hooks/useValidationForm';
 
 function NoticeRegister() {
 
@@ -22,8 +22,12 @@ function NoticeRegister() {
   const [link,setLink]= useState('');
   //For open modal
 
+
   const[modalShow,setModalShow] = useState(false);
   const [previewImage,setPreviewImage] = useState();
+
+  const handleValidator =  useMyForm(title,subtitle,content,image,tags,link);
+
 
   async function listTags() {
     try {
@@ -51,7 +55,7 @@ function NoticeRegister() {
   },[image])
   const handleNoticeRegister = async (e) => {
     e.preventDefault();
-    
+    if(handleValidator){
     const formData = new FormData();
     formData.append('title', title);
     formData.append('subtitle', subtitle);
@@ -67,9 +71,11 @@ function NoticeRegister() {
       toast.success("¡Registrado correctamente!",TOASTIFY_OPTIONS)
     } catch (error) {
       console.log(error)
-        toast.error("¡Hubo un error! Verifique que todos los campos estén llenos",TOASTIFY_OPTIONS)
+        toast.error("¡Hubo un error con Server!",TOASTIFY_OPTIONS)
     }
-
+  }else{
+    toast.error("¡Hubo un error! Verifique que todos los campos estén llenos",TOASTIFY_OPTIONS)
+  }
   };
 
   const onChangeSelectTags = (tagsSelected) => {
