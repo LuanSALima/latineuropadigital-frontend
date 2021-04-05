@@ -54,26 +54,26 @@ function NoticeRegister() {
   const handleNoticeRegister = async (e) => {
     e.preventDefault();
     if(handleValidator && handleLinkValidator){
-    const formData = new FormData();
-    formData.append('title', title);
-    formData.append('subtitle', subtitle);
-    formData.append('content', content);
-    formData.append('link',link)
-    formData.append('image', image);
-    tags.map((tag) => {
-      formData.append('tags', tag);
-    })
-    
-    try {
-      await api.post("/notice/create", formData);
-      toast.success("¡Registrado correctamente!",TOASTIFY_OPTIONS)
-    } catch (error) {
-      console.log(error)
-        toast.error("¡Hubo un error con Server!",TOASTIFY_OPTIONS)
+      const formData = new FormData();
+      formData.append('title', title);
+      formData.append('subtitle', subtitle);
+      formData.append('content', content);
+      formData.append('link',link)
+      formData.append('image', image);
+      tags.map((tag) => {
+        formData.append('tags', tag);
+      })
+      
+      try {
+        await api.post("/notice/create", formData);
+        toast.success("¡Registrado correctamente!",TOASTIFY_OPTIONS)
+      } catch (error) {
+        console.log(error)
+          toast.error("¡Hubo un error con Server!",TOASTIFY_OPTIONS)
+      }
+    }else{
+      toast.error("¡Hubo un error! Verifique que todos los campos estén llenos",TOASTIFY_OPTIONS)
     }
-  }else{
-    toast.error("¡Hubo un error! Verifique que todos los campos estén llenos",TOASTIFY_OPTIONS)
-  }
   };
 
   const onChangeSelectTags = (tagsSelected) => {

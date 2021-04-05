@@ -13,6 +13,8 @@ import MyModal from '../../../components/MyModal';
 
 import Select from 'react-select';
 
+import useMyForm, { verifyLink } from '../../../hooks/useValidationForm';
+
 function EventEdit(props) {
 
   const [buttonText, setButtonText] = useState("Editar");
@@ -29,10 +31,11 @@ function EventEdit(props) {
   const [errors, setErrors] = useState({});
   const [progress, setProgess] = useState(0); // progess bar
 
-  //For open modal
-
   const[modalShow,setModalShow] = useState(false);
   const [previewImage,setPreviewImage] = useState();
+
+  const handleValidator =  useMyForm(title,subtitle,content,tags,link);
+  const handleLinkValidator = verifyLink(link);
 
   async function listTags() {
     try {
@@ -94,45 +97,49 @@ function EventEdit(props) {
     e.preventDefault();
     setButtonText("Enviando Dados ...");
     
-    const formData = new FormData();
-    formData.append('title', title);
-    formData.append('subtitle', subtitle);
-    formData.append('content', content);
-    formData.append('image', image);
-    formData.append('link', link);
-    tags.map((tag) => {
-      formData.append('tags', tag);
-    })
-    
-    try {
+    if(handleValidator && handleLinkValidator){
+      const formData = new FormData();
+      formData.append('title', title);
+      formData.append('subtitle', subtitle);
+      formData.append('content', content);
+      formData.append('image', image);
+      formData.append('link', link);
+      tags.map((tag) => {
+        formData.append('tags', tag);
+      })
       
-      const response = await api.put("/event/"+idEvent, formData, {
-        onUploadProgress: (ProgressEvent) => {
-          let progress = Math.round(ProgressEvent.loaded / ProgressEvent.total * 100) + '%';
-          setProgess(progress);
-        }
-      });
+      try {
+        
+        const response = await api.put("/event/"+idEvent, formData, {
+          onUploadProgress: (ProgressEvent) => {
+            let progress = Math.round(ProgressEvent.loaded / ProgressEvent.total * 100) + '%';
+            setProgess(progress);
+          }
+        });
 
-      setButtonText("Editado com Sucesso");
-    } catch (error) {
-      setButtonText("Tente Novamente");
-      if(error.response) {
-        if(error.response.data) {
-          //Dados retornados do backend
-          if(error.response.data.errors) {
-            setErrors(error.response.data.errors);
+        setButtonText("Editado com Sucesso");
+      } catch (error) {
+        setButtonText("Tente Novamente");
+        if(error.response) {
+          if(error.response.data) {
+            //Dados retornados do backend
+            if(error.response.data.errors) {
+              setErrors(error.response.data.errors);
+            }
+            if(error.response.data.message) {
+              setErrors({message: error.response.data.message});
+            }
+          } else {
+            //Não houve dados retornados do backend
+            alert("Erro Inesperado!");
           }
-          if(error.response.data.message) {
-            setErrors({message: error.response.data.message});
-          }
-        } else {
-          //Não houve dados retornados do backend
-          alert("Erro Inesperado!");
+          console.log(errors);
         }
-        console.log(errors);
       }
+    }else{
+      setButtonText("Tente Novamente");
+      toast.error("¡Hubo un error! Verifique que todos los campos estén llenos",TOASTIFY_OPTIONS)
     }
-
   };
 
    const handleChangeTags = (e)=>{
