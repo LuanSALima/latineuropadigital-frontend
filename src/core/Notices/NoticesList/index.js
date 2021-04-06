@@ -14,6 +14,7 @@ import { MdFilterList } from "react-icons/md/index";
 import Stars from "../../../components/Stars";
 
 import Pagination from '../../../components/Pagination';
+import CardCarousel from '../../../components/CardCarousel';
 
 function NoticesList() {
   const [noticesFeatured, setNoticesFeatured] = useState([]);
@@ -25,6 +26,7 @@ function NoticesList() {
   const [tags, setTags] = useState([]);
 
   const [actualPage, setActualPage] = useState(1);
+  const [qntResults] = useState(10);
   const [totalNotices, setTotalNotices] = useState(0);
 
   const listTags = async () => {
@@ -36,7 +38,7 @@ function NoticesList() {
 
   const listNotices = async () => {
     try {
-      const response = await api.get("/notice/list?page="+actualPage);
+      const response = await api.get("/notice/list?page="+actualPage+"&results="+qntResults);
 
       if (response.data.success) {
         if (response.data.notices) {
@@ -63,7 +65,7 @@ function NoticesList() {
 
   const listNoticesMostViewed = async () => {
     try {
-      const response = await api.get("/notice/list?views=" + mostViewedAt);
+      const response = await api.get("/notice/list?results=5&views=" + mostViewedAt);
 
       if (response.data.success) {
         if (response.data.notices) {
@@ -122,25 +124,8 @@ function NoticesList() {
             onChange={(e)=>setMostViewedAt(e.value)}
           />
         </MyFilteredOptions>
-        <HorizonScrollView
-          title={mostViewedAt}
-          subtitle={"Mais visualizados durante o tempo: " + mostViewedAt}
-        >
-          {noticesMostViewed.map((content) => {
-            return (
-              <Link to={"/noticia/" + content.id}>
-                <NoticesCard
-                  id={content.id}
-                  tag={content.tag}
-                  icon={content.icon}
-                  image={content.image}
-                  title={content.title}
-                  text={content.subtitle}
-                />
-              </Link>
-            );
-          })}
-        </HorizonScrollView>
+
+        <CardCarousel items={noticesMostViewed}/>
 
         <h2>Recentes</h2>
         <div style={{flexDirection: 'row', flexWrap: 'wrap'}}>
@@ -149,7 +134,7 @@ function NoticesList() {
             <Link to={"/noticia/" + content.id}>
               <NoticesCard
                 id={content.id}
-                tag={content.tag.map(item=>item+",")}
+                tag={content.tag}
                 icon={content.icon}
                 image={content.image}
                 title={content.title}
@@ -160,7 +145,7 @@ function NoticesList() {
         })}
         </div>
 
-        <Pagination totalResults={totalNotices} resultsPerPage={30} actualPage={actualPage} changePage={setActualPage}/>
+        <Pagination totalResults={totalNotices} resultsPerPage={qntResults} actualPage={actualPage} changePage={setActualPage}/>
         <span>PAGINA ATUAL: {actualPage}</span>
       </MyScreenView>
       <Footer />
