@@ -125,24 +125,38 @@ function NoticesList() {
           />
         </MyFilteredOptions>
 
-        <CardCarousel items={noticesMostViewed}/>
+        <CardCarousel items={noticesMostViewed} route={"/noticia"}/>
 
-        <h2>Recentes</h2>
-        <div style={{flexDirection: 'row', flexWrap: 'wrap'}}>
-        {notices.map((content) => {
-          return (
-            <Link to={"/noticia/" + content.id}>
-              <NoticesCard
-                id={content.id}
-                tag={content.tag}
-                icon={content.icon}
-                image={content.image}
-                title={content.title}
-                text={content.subtitle}
-              />
-            </Link>
-          );
-        })}
+        <div style={{display: 'block'}}>
+          <div style={{flexWrap: 'wrap', width: '80%', float: 'left'}}>
+          <h2>Recentes</h2>
+          {notices.map((content) => {
+            return (
+
+                <NoticesCard
+                  id={content.id}
+                  tag={content.tag}
+                  icon={content.icon}
+                  image={content.image}
+                  title={content.title}
+                  text={content.subtitle}
+                />
+
+            );
+          })}
+          </div>
+
+          <div style={{float: 'left', width: '20%'}}>
+            <img style={{width: '250px', height: '250px'}} src={imgTest} />
+            <hr/>
+            <img style={{width: '250px', height: '250px'}} src={imgTest} />
+            <hr/>
+            <img style={{width: '250px', height: '250px'}} src={imgTest} />
+            <hr/>
+            <img style={{width: '250px', height: '250px'}} src={imgTest} />
+            <hr/>
+            <img style={{width: '250px', height: '250px'}} src={imgTest} />  
+          </div>
         </div>
 
         <Pagination totalResults={totalNotices} resultsPerPage={qntResults} actualPage={actualPage} changePage={setActualPage}/>

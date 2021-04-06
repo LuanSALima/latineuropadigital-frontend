@@ -1,8 +1,9 @@
 import React from 'react';
 
 import Carousel from 'react-bootstrap/Carousel';
-
 import imageAux from '../../assets/icon.svg';
+
+import { Link } from "react-router-dom";
 
 function CardCarousel(props) {
 
@@ -15,17 +16,19 @@ function CardCarousel(props) {
 			{props.items.map((content) => {
 				return (
 					<Carousel.Item interval={1500}>
-						<img
-						  className="d-block w-100"
-						  src={content.image}
-						  onError={handleImageError}
-						  alt="First slide"
-						  style={{maxHeight: '350px', objectFit: 'cover'}}
-						/>
-						<Carousel.Caption>
-						  <h3>{content.title}</h3>
-						  <p>{content.subtitle}</p>
-						</Carousel.Caption>
+						<Link to={props.route+"/"+content.id}>
+							<img
+							  className="d-block w-100"
+							  src={content.image}
+							  onError={handleImageError}
+							  alt="First slide"
+							  style={{maxHeight: '350px', objectFit: 'cover'}}
+							/>
+							<Carousel.Caption>
+							  <h3>{content.title}</h3>
+							  <p>{content.subtitle}</p>
+							</Carousel.Caption>
+						</Link>
 					</Carousel.Item>
 				);
 			})}
