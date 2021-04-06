@@ -132,7 +132,7 @@ function NoticesList() {
           <h2>Recentes</h2>
           {notices.map((content) => {
             return (
-
+              <Link to={"/noticia/" + content.id}>
                 <NoticesCard
                   id={content.id}
                   tag={content.tag}
@@ -141,7 +141,7 @@ function NoticesList() {
                   title={content.title}
                   text={content.subtitle}
                 />
-
+              </Link>
             );
           })}
           </div>
