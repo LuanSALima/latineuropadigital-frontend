@@ -83,22 +83,24 @@ function Dashboard() {
 			Object.keys(row).map((item) => {
 
 				if(column == item) {
-					if(row[item]) {
+					if(row[item] !== null) {
 						if(typeof(row[item]) === "object") {
 							try {
 								if(row[item].title) {
 									rowData.push(row[item].title);
+								} else if(row[item].length === 0){
+									rowData.push('No hay '+item);
 								} else {
-									rowData.push(row[item].join(' / '));
+									rowData.push(row[item].join('/'));
 								}
 							} catch(err) {
 								rowData.push(err.message);
 							}
 						} else {
-							rowData.push(row[item].toString());	
+							rowData.push(row[item].toString());
 						}
 					} else {
-						rowData.push('Eliminado');
+						rowData.push(item+' eliminado');
 					}
 					
 					pushed = true;
@@ -141,14 +143,18 @@ function Dashboard() {
 							if(response.data.success) {
 							  	let array = dbData;
 
-		  						array.map((content, contentIndex) => {
-		  							if(content._id === data) {
-		  								array.splice(contentIndex, 1);
+							  	if(dataType === 'featured') {
+							  		setTableFeatureds();
+							  	} else {
+							  		array.map((content, contentIndex) => {
+			  							if(content._id === data) {
+			  								array.splice(contentIndex, 1);
 
-		  								setDBData([]); //Utilizo isto para limpar o state e depois popular o state com a array atualizada
-		  								setDBData(array);
-		  							}
-		  						});
+			  								setDBData([]); //Utilizo isto para limpar o state e depois popular o state com a array atualizada
+			  								setDBData(array);
+			  							}
+			  						});
+							  	}
 							}
 						} catch (error) {
 						}
@@ -343,7 +349,10 @@ function Dashboard() {
   	}
 
   	const setTableFeatureds = async (e) => {
-  		e.preventDefault();
+  		if(e) {
+  			e.preventDefault();
+  		}
+  		
 		setDataType("featured");
 
   		try {
