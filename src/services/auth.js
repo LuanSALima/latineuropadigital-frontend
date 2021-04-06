@@ -15,11 +15,9 @@ export const isAdmin = () => {
 export const getToken = () => localStorage.getItem(TOKEN_KEY);
 export const getUser = () => JSON.parse(localStorage.getItem(USER_KEY));
 
-export const updateUser = (username, email, phone) => {
+export const updateUser = (username) => {
 	const user = getUser();
 	user.username = username;
-	user.email = email;
-	user.phone = phone;
 	localStorage.setItem(USER_KEY, JSON.stringify(user));
 }
 

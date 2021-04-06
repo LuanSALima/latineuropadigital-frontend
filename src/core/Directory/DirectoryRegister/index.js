@@ -10,6 +10,8 @@ import Toastifying, {TOASTIFY_OPTIONS} from "../../../components/Toastifying"
 import { toast } from 'react-toastify';
 import ModalTag from '../../../components/ModalTag';
 
+import useMyForm, { verifyLink } from '../../../hooks/useValidationForm';
+
 function DirectoryRegister() {
 
   const [title, setTitle] = useState("");
@@ -19,11 +21,12 @@ function DirectoryRegister() {
   const [tags, setTags] = useState([]);
   const [dbTags, setDbTags] = useState([]);
   const [link,setLink]= useState('');
-  
-  //For open modal
 
   const[modalShow,setModalShow] = useState(false);
   const [previewImage,setPreviewImage] = useState();
+
+  const handleValidator =  useMyForm(title,subtitle,content,image,tags,link);
+  const handleLinkValidator = verifyLink(link);
 
   async function listTags() {
     try {
@@ -50,28 +53,31 @@ function DirectoryRegister() {
   const handleDirectoryRegister = async (e) => {
     e.preventDefault();
     
-    const formData = new FormData();
-    formData.append('title', title);
-    formData.append('subtitle', subtitle);
-    formData.append('content', content);
-    formData.append('image', image);
-    formData.append('link', link);
-    tags.map((tag) => {
-      formData.append('tags', tag);
-    })
-    
-    try {
+    if(handleValidator && handleLinkValidator){
+      const formData = new FormData();
+      formData.append('title', title);
+      formData.append('subtitle', subtitle);
+      formData.append('content', content);
+      formData.append('image', image);
+      formData.append('link', link);
+      tags.map((tag) => {
+        formData.append('tags', tag);
+      })
       
-      await api.post("/directory/create", formData);
+      try {
+        
+        await api.post("/directory/create", formData);
 
-      toast.success("¡Registrado correctamente!",TOASTIFY_OPTIONS)
-    } catch (error) {
-        toast.error("¡Hubo un error! Verifique que todos los campos estén llenos",TOASTIFY_OPTIONS)
-      if(error.response) {
-      
+        toast.success("¡Registrado correctamente!",TOASTIFY_OPTIONS)
+      } catch (error) {
+          toast.error("¡Hubo un error! Verifique que todos los campos estén llenos",TOASTIFY_OPTIONS)
+        if(error.response) {
+        
+        }
       }
+    }else{
+      toast.error("¡Hubo un error! Verifique que todos los campos estén llenos",TOASTIFY_OPTIONS)
     }
-
   };
 
   const onChangeSelectTags = (tagsSelected) => {

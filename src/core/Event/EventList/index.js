@@ -13,6 +13,8 @@ import { MyScreenView } from './styles';
 import { Link } from 'react-router-dom';
 import { MdFilterList } from 'react-icons/md';
 
+import Pagination from '../../../components/Pagination';
+
 function EventList() {
 
   const [eventsFeatured, setEventsFeatured] = useState([]);
@@ -22,6 +24,9 @@ function EventList() {
 
   const [events, setEvents] = useState([]);
   const [tags, setTags] = useState([]);
+
+  const [actualPage, setActualPage] = useState(1);
+  const [totalEvents, setTotalEvents] = useState(0);
  
   const listTags = async () => {
     try {
@@ -43,6 +48,9 @@ function EventList() {
             eventsDb.push({ tag : event.tags,id: event._id, title: event.title, subtitle: event.subtitle, image: `${process.env.REACT_APP_API_URL}`+event.imagePath, icon: imgTest});
           }
           setEvents(eventsDb);
+        }
+        if(response.data.totalEvents) {
+          setTotalEvents(response.data.totalEvents);
         }
       }
 
@@ -69,6 +77,7 @@ function EventList() {
       }
 
     } catch (error) {
+      setEventsMostViewed([]);
     }
   }
 
@@ -78,7 +87,7 @@ function EventList() {
 
   useEffect(() => {
     listEvents();
-  }, []);
+  }, [actualPage]);
   useEffect(() => {
     listTags();
   }, []);
@@ -115,20 +124,25 @@ function EventList() {
       )}
     </HorizonScrollView>
 
-    <h2>Recentes</h2>
-{tags.map((tags)=>(
-  <HorizonScrollView title={tags.title} subtitle={tags.description}>
-  {events.map((content)=>(
-    content.tag.map((tagFiltered)=>{
-      if(tagFiltered === tags.title){
-        return  <Link to={"/evento/"+content.id}><NoticesCard id={content.id} icon={content.icon} image={content.image} title={content.title} text={content.subtitle} /></Link>
-       }
-    })
- 
-  ))}
-  </HorizonScrollView>
-  ))
-  }
+        <h2>Recentes</h2>
+        <div style={{flexDirection: 'row', flexWrap: 'wrap'}}>
+        {events.map((content) => {
+          return (
+            <Link to={"/evento/" + content.id}>
+              <NoticesCard
+                id={content.id}
+                icon={content.icon}
+                image={content.image}
+                title={content.title}
+                text={content.subtitle}
+              />
+            </Link>
+          );
+        })}
+        </div>
+        <Pagination totalResults={totalEvents} resultsPerPage={30} actualPage={actualPage} changePage={setActualPage}/>
+        <span>PAGINA ATUAL: {actualPage}</span>
+
         </MyScreenView>
         <Footer/>
       </Page>

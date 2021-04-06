@@ -9,7 +9,7 @@ import {MdFileUpload} from 'react-icons/md/index'
 import Toastifying, {TOASTIFY_OPTIONS} from "../../../components/Toastifying"
 import { toast } from 'react-toastify';
 import ModalTag from '../../../components/ModalTag';
-import MyModal from '../../../components/MyModal';
+import useMyForm, { verifyLink } from '../../../hooks/useValidationForm';
 
 function NoticeRegister() {
 
@@ -20,10 +20,12 @@ function NoticeRegister() {
   const [tags, setTags] = useState([]);
   const [dbTags, setDbTags] = useState([]);
   const [link,setLink]= useState('');
-  //For open modal
 
   const[modalShow,setModalShow] = useState(false);
   const [previewImage,setPreviewImage] = useState();
+
+  const handleValidator =  useMyForm(title,subtitle,content,image,tags,link);
+  const handleLinkValidator = verifyLink(link);
 
   async function listTags() {
     try {
@@ -51,25 +53,27 @@ function NoticeRegister() {
   },[image])
   const handleNoticeRegister = async (e) => {
     e.preventDefault();
-    
-    const formData = new FormData();
-    formData.append('title', title);
-    formData.append('subtitle', subtitle);
-    formData.append('content', content);
-    formData.append('link',link)
-    formData.append('image', image);
-    tags.map((tag) => {
-      formData.append('tags', tag);
-    })
-    
-    try {
-      await api.post("/notice/create", formData);
-      toast.success("¡Registrado correctamente!",TOASTIFY_OPTIONS)
-    } catch (error) {
-      console.log(error)
-        toast.error("¡Hubo un error! Verifique que todos los campos estén llenos",TOASTIFY_OPTIONS)
+    if(handleValidator && handleLinkValidator){
+      const formData = new FormData();
+      formData.append('title', title);
+      formData.append('subtitle', subtitle);
+      formData.append('content', content);
+      formData.append('link',link)
+      formData.append('image', image);
+      tags.map((tag) => {
+        formData.append('tags', tag);
+      })
+      
+      try {
+        await api.post("/notice/create", formData);
+        toast.success("¡Registrado correctamente!",TOASTIFY_OPTIONS)
+      } catch (error) {
+        console.log(error)
+          toast.error("¡Hubo un error con Server!",TOASTIFY_OPTIONS)
+      }
+    }else{
+      toast.error("¡Hubo un error! Verifique que todos los campos estén llenos",TOASTIFY_OPTIONS)
     }
-
   };
 
   const onChangeSelectTags = (tagsSelected) => {
@@ -140,7 +144,7 @@ function NoticeRegister() {
         />
        { image && <img src={previewImage}/>}
        </div>
-          
+        <span>Por favor, inserte "http: //" o "https: //" antes de su enlace.</span>
         <input type="text" placeholder="Link" onChange={(e)=>{setLink(e.target.value)}} value={link} />
 
         <fieldset>

@@ -13,6 +13,8 @@ import Select from "react-select";
 import { MdFilterList } from "react-icons/md/index";
 import Stars from "../../../components/Stars";
 
+import Pagination from '../../../components/Pagination';
+
 function NoticesList() {
   const [noticesFeatured, setNoticesFeatured] = useState([]);
 
@@ -21,6 +23,9 @@ function NoticesList() {
 
   const [notices, setNotices] = useState([]);
   const [tags, setTags] = useState([]);
+
+  const [actualPage, setActualPage] = useState(1);
+  const [totalNotices, setTotalNotices] = useState(0);
 
   const listTags = async () => {
     try {
@@ -31,7 +36,7 @@ function NoticesList() {
 
   const listNotices = async () => {
     try {
-      const response = await api.get("/notice/list");
+      const response = await api.get("/notice/list?page="+actualPage);
 
       if (response.data.success) {
         if (response.data.notices) {
@@ -48,6 +53,9 @@ function NoticesList() {
             });
           }
           setNotices(noticesDb);
+        }
+        if (response.data.totalNotices) {
+          setTotalNotices(response.data.totalNotices);
         }
       }
     } catch (error) {}
@@ -75,7 +83,9 @@ function NoticesList() {
           setNoticesMostViewed(noticesMostViewedDb);
         }
       }
-    } catch (error) {}
+    } catch (error) {
+      setNoticesMostViewed([]);
+    }
   };
 
   useEffect(() => {
@@ -83,11 +93,10 @@ function NoticesList() {
   }, [mostViewedAt]);
   useEffect(() => {
     listNotices();
-  }, []);
+  }, [actualPage]);
   useEffect(() => {
     listTags();
   }, []);
-
 
   return (
     <Page>
@@ -132,27 +141,25 @@ function NoticesList() {
           })}
         </HorizonScrollView>
 
-        {tags.map((tags) => (
-          <HorizonScrollView title={tags.title} subtitle={tags.description}>
-            {notices.map((content) =>
-              content.tag.map((tagFiltered) => {
-                if (tagFiltered === tags.title) {
-                  return (
-                    <Link to={"/noticia/" + content.id}>
-                      <NoticesCard
-                        id={content.id}
-                        icon={content.icon}
-                        image={content.image}
-                        title={content.title}
-                        text={content.subtitle}
-                      />
-                    </Link>
-                  );
-                }
-              })
-            )}
-          </HorizonScrollView>
-        ))}
+        <h2>Recentes</h2>
+        <div style={{flexDirection: 'row', flexWrap: 'wrap'}}>
+        {notices.map((content) => {
+          return (
+            <Link to={"/noticia/" + content.id}>
+              <NoticesCard
+                id={content.id}
+                icon={content.icon}
+                image={content.image}
+                title={content.title}
+                text={content.subtitle}
+              />
+            </Link>
+          );
+        })}
+        </div>
+
+        <Pagination totalResults={totalNotices} resultsPerPage={30} actualPage={actualPage} changePage={setActualPage}/>
+        <span>PAGINA ATUAL: {actualPage}</span>
       </MyScreenView>
       <Footer />
     </Page>

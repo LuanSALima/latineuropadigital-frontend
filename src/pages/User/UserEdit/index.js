@@ -27,7 +27,7 @@ function UserEdit(props) {
 
       if(response.data.success) {
         if(getUser()._id === idUser) {
-          updateUser(username, email, phone);
+          updateUser(username);
         }
       }
 
