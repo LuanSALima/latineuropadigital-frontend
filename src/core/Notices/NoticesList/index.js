@@ -47,7 +47,7 @@ function NoticesList() {
               tag: notice.tags,
               id: notice._id,
               title: notice.title,
-              subtitle: notice.subtitle,
+              subtitle: notice.content,
               image: `${process.env.REACT_APP_API_URL}` + notice.imagePath,
               icon: imgTest,
             });
@@ -74,7 +74,7 @@ function NoticesList() {
               tag: notice.tags,
               id: notice._id,
               title: notice.title,
-              subtitle: notice.subtitle,
+              subtitle: notice.content,
               image: `${process.env.REACT_APP_API_URL}` + notice.imagePath,
               icon: imgTest,
               views: notice.views,
@@ -131,6 +131,7 @@ function NoticesList() {
               <Link to={"/noticia/" + content.id}>
                 <NoticesCard
                   id={content.id}
+                  tag={content.tag}
                   icon={content.icon}
                   image={content.image}
                   title={content.title}
@@ -148,6 +149,7 @@ function NoticesList() {
             <Link to={"/noticia/" + content.id}>
               <NoticesCard
                 id={content.id}
+                tag={content.tag.map(item=>item+",")}
                 icon={content.icon}
                 image={content.image}
                 title={content.title}

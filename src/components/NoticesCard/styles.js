@@ -24,37 +24,41 @@ export const Image = styled.div`
     -ms-transform: scale(1.1);
     transform: scale(1.1);
      }
-
     }
     `;
 
 export const Title = styled.div`
 display:flex;
-flex-direction:row;
-align-items:center;
+flex-direction:column;
 width:256px;   
 >img{
         width:40px;
         height:35px;
         border-radius:0.5rem;
 }
+>span{
+    font-size:18px;
+    padding:0.2rem;
+    overflow-wrap:break-word;
+    color: var(--color-freela-text);
+}
 >label{
-    margin-left:5px;
     font-size:20px;
     text-transform:uppercase;
     font-weight:630;
     padding:0.2rem;
-    color: var(--color-freela-text);
+    color: var(--color-freela-pink);
     overflow-wrap:break-word;
 }
 `;
 
 export const Description = styled.div`
-    >span{
+   margin-left:1rem;
+   padding:1rem;
+   >span{
     font-size:18px;
     padding:0.2rem;
     overflow-wrap:break-word;
     color: var(--color-freela-text);
-
     }
 `;
