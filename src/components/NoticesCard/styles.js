@@ -1,44 +1,51 @@
 import styled from 'styled-components';
-import imgAux from '../../assets/icon.svg'
 export const Container = styled.div`
+  display:flex;
   height:auto;
-  width:325px;
-  padding:0 !important;
+  width:750px;
   cursor:pointer;
+  margin-bottom:1rem;
+  border-top:1px solid var(--color-freela-hover);
+  padding:1rem !important;
+   transition:box-shadow 0.3s ease;
+    :hover{
+    box-shadow: 2px 2px 10px 5px  var(--color-freela-hover);
+    }
 `;
 export const Image = styled.div`
     width:100%;
-    padding:0 !important;
     img{
-     height:300px;
-     width:295px;   
+     width: 400px;
+     max-height:250px;
      border-radius:0.2rem;
-     background-repeat:round
+     transition:transform 0.3s ease;
+     :hover{
+    -webkit-transform: scale(1.1);
+    -ms-transform: scale(1.1);
+    transform: scale(1.1);
+     }
+
     }
     `;
 
 export const Title = styled.div`
-border-top:2px solid var(--color-blackPurple);
 display:flex;
 flex-direction:row;
 align-items:center;
-width:295px;   
+width:256px;   
 >img{
-margin-top:5px;
         width:40px;
         height:35px;
+        border-radius:0.5rem;
 }
 >label{
-margin-top:5px;
-    
-    margin-left:10px;
-    font-size:22px;
+    margin-left:5px;
+    font-size:20px;
     text-transform:uppercase;
-    font-weight:650;
+    font-weight:630;
     padding:0.2rem;
     color: var(--color-freela-text);
     overflow-wrap:break-word;
-
 }
 `;
 
