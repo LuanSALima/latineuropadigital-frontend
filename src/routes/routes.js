@@ -41,6 +41,8 @@ import UserEdit from '../pages/User/UserEdit';
 
 import Dashboard from '../pages/Dashboard';
 
+import FeaturedEdit from '../pages/Featured/FeaturedEdit';
+
 // import { Container } from './styles';
 
 import { isAuthenticated, isAdmin, logout } from "../services/auth";
@@ -116,9 +118,10 @@ function Routes() {
         <PrivateRoute path="/jobtype/cadastrar" component={JobTypeRegister} />
         <PrivateRoute path="/jobtype/editar/:id" component={JobTypeEdit} />
 
+        <PrivateRoute path="/featured/editar/:id" component={FeaturedEdit} />
+
         <AdminRoute path="/user/cadastrar" component={UserRegister} />
         <AdminRoute path="/user/editar/:id" component={UserEdit} />
-        
 
         <Route path="/logout" exact render={props => {
 	          logout(); 

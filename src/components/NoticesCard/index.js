@@ -16,11 +16,17 @@ function NoticesCard(props) {
         </Image>:null}
         <Description>
             <Title>
-                {props.icon?<img src={props.icon}/>:null}
+                {/* {props.icon?<img src={props.icon}/>:null} */}
+               <div>{props.tag?
+                props.tag.map((tag) => {
+                  return <span style={{margin: '0 5px', padding: '2px 10px', color: 'white', backgroundColor: '#2f2d2d'}}>{tag}</span>
+                })
+                :
+                null}</div>
                 {props.title?
                   <label>
                   {props.title.length > 18?
-                    props.title.substr(0,18)+".."
+                    props.title.substr(0,28)+".."
                     :
                     props.title}
                   </label>
@@ -33,7 +39,7 @@ function NoticesCard(props) {
             {props.text?
               <span>
               {props.text.length > 75?
-                    props.text.substr(0,75)+".."
+                    props.text.substr(0,100)+".."
                     :
                     props.text}
               </span>

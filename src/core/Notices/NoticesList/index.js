@@ -14,6 +14,7 @@ import { MdFilterList } from "react-icons/md/index";
 import Stars from "../../../components/Stars";
 
 import Pagination from '../../../components/Pagination';
+import CardCarousel from '../../../components/CardCarousel';
 
 function NoticesList() {
   const [noticesFeatured, setNoticesFeatured] = useState([]);
@@ -25,6 +26,7 @@ function NoticesList() {
   const [tags, setTags] = useState([]);
 
   const [actualPage, setActualPage] = useState(1);
+  const [qntResults] = useState(10);
   const [totalNotices, setTotalNotices] = useState(0);
 
   const listTags = async () => {
@@ -36,7 +38,7 @@ function NoticesList() {
 
   const listNotices = async () => {
     try {
-      const response = await api.get("/notice/list?page="+actualPage);
+      const response = await api.get("/notice/list?page="+actualPage+"&results="+qntResults);
 
       if (response.data.success) {
         if (response.data.notices) {
@@ -47,7 +49,7 @@ function NoticesList() {
               tag: notice.tags,
               id: notice._id,
               title: notice.title,
-              subtitle: notice.subtitle,
+              subtitle: notice.content,
               image: `${process.env.REACT_APP_API_URL}` + notice.imagePath,
               icon: imgTest,
             });
@@ -63,7 +65,7 @@ function NoticesList() {
 
   const listNoticesMostViewed = async () => {
     try {
-      const response = await api.get("/notice/list?views=" + mostViewedAt);
+      const response = await api.get("/notice/list?results=5&views=" + mostViewedAt);
 
       if (response.data.success) {
         if (response.data.notices) {
@@ -74,7 +76,7 @@ function NoticesList() {
               tag: notice.tags,
               id: notice._id,
               title: notice.title,
-              subtitle: notice.subtitle,
+              subtitle: notice.content,
               image: `${process.env.REACT_APP_API_URL}` + notice.imagePath,
               icon: imgTest,
               views: notice.views,
@@ -122,43 +124,42 @@ function NoticesList() {
             onChange={(e)=>setMostViewedAt(e.value)}
           />
         </MyFilteredOptions>
-        <HorizonScrollView
-          title={mostViewedAt}
-          subtitle={"Mais visualizados durante o tempo: " + mostViewedAt}
-        >
-          {noticesMostViewed.map((content) => {
+
+        <CardCarousel items={noticesMostViewed} route={"/noticia"}/>
+
+        <div style={{display: 'block'}}>
+          <div style={{flexWrap: 'wrap', width: '80%', float: 'left'}}>
+          <h2>Recentes</h2>
+          {notices.map((content) => {
             return (
-              <Link to={"/noticia/" + content.id}>
+
                 <NoticesCard
                   id={content.id}
+                  tag={content.tag}
                   icon={content.icon}
                   image={content.image}
                   title={content.title}
                   text={content.subtitle}
                 />
-              </Link>
+
             );
           })}
-        </HorizonScrollView>
+          </div>
 
-        <h2>Recentes</h2>
-        <div style={{flexDirection: 'row', flexWrap: 'wrap'}}>
-        {notices.map((content) => {
-          return (
-            <Link to={"/noticia/" + content.id}>
-              <NoticesCard
-                id={content.id}
-                icon={content.icon}
-                image={content.image}
-                title={content.title}
-                text={content.subtitle}
-              />
-            </Link>
-          );
-        })}
+          <div style={{float: 'left', width: '20%'}}>
+            <img style={{width: '250px', height: '250px'}} src={imgTest} />
+            <hr/>
+            <img style={{width: '250px', height: '250px'}} src={imgTest} />
+            <hr/>
+            <img style={{width: '250px', height: '250px'}} src={imgTest} />
+            <hr/>
+            <img style={{width: '250px', height: '250px'}} src={imgTest} />
+            <hr/>
+            <img style={{width: '250px', height: '250px'}} src={imgTest} />  
+          </div>
         </div>
 
-        <Pagination totalResults={totalNotices} resultsPerPage={30} actualPage={actualPage} changePage={setActualPage}/>
+        <Pagination totalResults={totalNotices} resultsPerPage={qntResults} actualPage={actualPage} changePage={setActualPage}/>
         <span>PAGINA ATUAL: {actualPage}</span>
       </MyScreenView>
       <Footer />

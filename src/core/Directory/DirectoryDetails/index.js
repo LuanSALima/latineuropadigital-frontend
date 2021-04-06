@@ -93,7 +93,7 @@ function DirectoryDetails(props) {
         }
       }
     } catch (error) {
-      toast.error("Não foi Possível Remover",TOASTIFY_OPTIONS)
+      toast.error("Não foi Possível Adicionar aos Destaques",TOASTIFY_OPTIONS)
     }
   }
 
