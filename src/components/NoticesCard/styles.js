@@ -49,6 +49,7 @@ export const Description = styled.div`
     padding:0.2rem;
     overflow-wrap:break-word;
     color: var(--color-freela-text);
+    line-break:anywhere;
     overflow-wrap:break-word;
     }
 `;
@@ -68,6 +69,7 @@ width:156px;
     overflow-wrap:break-word;
     color: var(--color-freela-text);
     overflow-wrap:break-word;
+    line-break:anywhere;
 }
 >label{
     font-size:18px;
@@ -75,7 +77,7 @@ width:156px;
     font-weight:630;
     padding:0.2rem;
     color: var(--color-freela-pink);
-    
+    line-break:anywhere;
     overflow-wrap:break-word;
 }
 `;
