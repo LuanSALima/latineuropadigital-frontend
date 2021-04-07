@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Header from "../../../components/Header";
 import NoticesCard from "../../../components/NoticesCard";
-import { MyFilteredOptions, Page, ScreenView } from "../../../styles/default";
+import { MyCardLink, MyFilteredOptions, MySideCardLink, Page, ScreenView } from "../../../styles/default";
 import imgTest from "../../../assets/icon.svg";
 
 import api from "../../../services/api";
@@ -128,11 +128,12 @@ function NoticesList() {
         <CardCarousel items={noticesMostViewed} route={"/noticia"}/>
 
         <div style={{display: 'block'}}>
-          <div style={{flexWrap: 'wrap', width: '80%', float: 'left'}}>
           <h2>Recentes</h2>
+          <div style={{display:"flex",flexWrap: 'wrap', width: '85%', float: 'left'}}>
           {notices.map((content) => {
             return (
-              <Link to={"/noticia/" + content.id}>
+              <MyCardLink>
+              <Link to={"/noticia/" + content.id} >
                 <NoticesCard
                   id={content.id}
                   tag={content.tag}
@@ -142,21 +143,18 @@ function NoticesList() {
                   text={content.subtitle}
                 />
               </Link>
+              </MyCardLink>
             );
           })}
           </div>
 
-          <div style={{float: 'left', width: '20%'}}>
-            <img style={{width: '250px', height: '250px'}} src={imgTest} />
-            <hr/>
-            <img style={{width: '250px', height: '250px'}} src={imgTest} />
-            <hr/>
-            <img style={{width: '250px', height: '250px'}} src={imgTest} />
-            <hr/>
-            <img style={{width: '250px', height: '250px'}} src={imgTest} />
-            <hr/>
-            <img style={{width: '250px', height: '250px'}} src={imgTest} />  
-          </div>
+          <MySideCardLink>
+            <img  src={imgTest} />
+            <img  src={imgTest} />
+            <img  src={imgTest} />
+            <img  src={imgTest} />
+            <img  src={imgTest} />  
+            </MySideCardLink>
         </div>
 
         <Pagination totalResults={totalNotices} resultsPerPage={qntResults} actualPage={actualPage} changePage={setActualPage}/>

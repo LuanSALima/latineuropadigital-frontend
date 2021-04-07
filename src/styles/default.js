@@ -231,8 +231,41 @@ export const TwoDivided = styled.div`
   }
 `;
 
-//For Details view
 
+//for side bar after links
+export const MySideCardLink = styled.div`
+float: left;
+width:15%;
+cursor:pointer;
+>img{
+  padding-top:1rem;
+  width:100%;
+  height:100%;
+  margin-top:1rem;
+  border-top:1px solid var(--color-freela-hover);
+}
+@media(max-width:1200px){
+  display:none;
+}
+`;
+
+//When a englobe all card
+export const MyCardLink = styled.div`
+width:95%;
+margin-left:1rem;
+margin-bottom:1rem;
+max-height:400px;
+@media(min-width:1200px){
+  width:48%;
+}
+
+
+>a{
+max-width:100%;
+}
+`;
+
+//For Details view
 export const Details = styled(ScreenView)`
   background-color:white !important;
   padding:2rem !important;
@@ -245,6 +278,7 @@ export const Details = styled(ScreenView)`
   > h3 {
     margin:0 auto;
   }
+
   > img {
     height:450px;
     background-color:var(--color-freela-white);
