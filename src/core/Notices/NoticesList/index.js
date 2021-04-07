@@ -25,6 +25,8 @@ function NoticesList() {
   const [notices, setNotices] = useState([]);
   const [tags, setTags] = useState([]);
 
+  const [noticesSideBar, setNoticesSideBar] = useState([]);
+
   const [actualPage, setActualPage] = useState(1);
   const [qntResults] = useState(10);
   const [totalNotices, setTotalNotices] = useState(0);
@@ -90,6 +92,33 @@ function NoticesList() {
     }
   };
 
+  const listNoticesSideBar = async () => {
+    try {
+      const response = await api.get("/notice/list?results=10&views=weekly");
+
+      if (response.data.success) {
+        if (response.data.notices) {
+          let noticesMostViewedDb = [];
+          for (let index in response.data.notices) {
+            const notice = response.data.notices[index];
+            noticesMostViewedDb.push({
+              tag: notice.tags,
+              id: notice._id,
+              title: notice.title,
+              subtitle: notice.content,
+              image: `${process.env.REACT_APP_API_URL}` + notice.imagePath,
+              icon: imgTest,
+              views: notice.views,
+            });
+          }
+          setNoticesSideBar(noticesMostViewedDb);
+        }
+      }
+    } catch (error) {
+      setNoticesSideBar([]);
+    }
+  };
+
   useEffect(() => {
     listNoticesMostViewed();
   }, [mostViewedAt]);
@@ -98,6 +127,7 @@ function NoticesList() {
   }, [actualPage]);
   useEffect(() => {
     listTags();
+    listNoticesSideBar();
   }, []);
 
   return (
@@ -149,12 +179,17 @@ function NoticesList() {
           </MyCardMap>
 
           <MySideCardLink>
-            <img  src={imgTest} />
-            <img  src={imgTest} />
-            <img  src={imgTest} />
-            <img  src={imgTest} />
-            <img  src={imgTest} />  
-            </MySideCardLink>
+            {noticesSideBar.map((notice) => {
+              return (
+                <Link to={"/noticia/" + notice.id}>
+                  <div style={{margin: '20px', textAlign: 'center'}}>
+                    <img style={{width: '100%'}} src={notice.image} onError={(image) => {image.target.src = imgTest}}/>
+                    <span style={{color: 'var(--color-freela-pink)', fontSize: '20px'}}>{notice.title}</span>
+                  </div>
+                </Link>
+              );
+            })} 
+          </MySideCardLink>
         </div>
 
         <Pagination totalResults={totalNotices} resultsPerPage={qntResults} actualPage={actualPage} changePage={setActualPage}/>

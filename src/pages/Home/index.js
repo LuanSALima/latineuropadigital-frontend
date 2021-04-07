@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Header from '../../components/Header';
 import NoticesCard from '../../components/NoticesCard';
-import { FeatureContent, LittleFeatureContent, Page, ScreenView } from '../../styles/default';
+import { FeatureContent, LittleFeatureContent, Page, ScreenView, MyCardMap } from '../../styles/default';
 import imgTest from '../../assets/icon.svg';
 import { Banner, MyView,GetContent } from './styles';
 import Footer from '../../components/Footer';
@@ -60,16 +60,16 @@ function Notices() {
          
          </MyView>
         <br></br>
-         <ScreenView width="95%">
+        <ScreenView width="95%">
 
-        <HorizonScrollView title="destaques" subtitle="Espetáculos, entretenimento e mucho más">
-        {featureds.map((featured)=>(
-          <NoticesCard icon={featured.icon} image={featured.image} title={featured.title} text={featured.subtitle} />
-        ))}
-        </HorizonScrollView>
+          <MyCardMap>
+          {featureds.map((featured)=>(
+            <NoticesCard icon={featured.icon} image={featured.image} title={featured.title} text={featured.subtitle} />
+          ))}
+          </MyCardMap>
 
-         </ScreenView>
-          <Footer/>
+       </ScreenView>
+        <Footer/>
       </Page>
   );
 }
