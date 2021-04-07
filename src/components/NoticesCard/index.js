@@ -17,12 +17,14 @@ function NoticesCard(props) {
         <Description>
             <Title>
                 {/* {props.icon?<img src={props.icon}/>:null} */}
-               <div>{props.tag?
+             
+                 {props.tag?
                 props.tag.map((tag) => {
-                  return <span style={{margin: '0 5px', padding: '2px 10px', color: 'white', backgroundColor: '#2f2d2d'}}>{tag}</span>
+                  return   <div><span >{tag}</span> </div>
                 })
                 :
-                null}</div>
+                null}
+               
                 {props.title?
                   <label>
                   {props.title.length > 18?

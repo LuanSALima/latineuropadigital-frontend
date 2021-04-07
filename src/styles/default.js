@@ -257,6 +257,12 @@ flex-wrap: wrap;
 width: 85%;
 float: left;
 
+>h2{
+  margin:0 auto;
+  justify-content:center;
+  padding-bottom: 2rem;
+  text-align:center;
+}
 @media(max-width:1600px){
   width:85%;
 }

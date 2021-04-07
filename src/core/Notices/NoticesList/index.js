@@ -128,8 +128,8 @@ function NoticesList() {
         <CardCarousel items={noticesMostViewed} route={"/noticia"}/>
 
         <div style={{display: 'block'}}>
-          <h2>Recentes</h2>
           <MyCardMap>
+          <h2 style={{margin:"0 auto" , width:"100%"}}>Reciente</h2>
           {notices.map((content) => {
             return (
               <MyCardLink>

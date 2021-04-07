@@ -24,9 +24,7 @@ export const Image = styled.div`
     background-position: center;  /* centra a imagem independentemente do tamanho ou largura do elemento */
     img{
         width:350px;
-        max-height:100%;
-        min-height:140px;
-        min-width:240px;
+        height:320px;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -58,6 +56,18 @@ export const Title = styled.div`
 display:flex;
 flex-direction:column;
 width:156px;   
+
+>div{
+    margin-bottom:0.5rem;
+    >span{
+        margin: 0 5px;
+        flex-direction:column;
+        padding: 2px 10px; 
+        color: white; 
+        width:100%;
+        background-color: #2f2d2d;
+    }
+}
 >img{
         width:40px;
         height:35px;
