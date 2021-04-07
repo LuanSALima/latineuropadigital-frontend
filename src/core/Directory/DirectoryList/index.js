@@ -19,9 +19,6 @@ function DirectoryList() {
 
   const [directoriesFeatured, setDirectoriesFeatured] = useState([]);
 
-  const [mostViewedAt, setMostViewedAt] = useState("daily");
-  const [directoriesMostViewed, setDirectoriesMostViewed] = useState([]);
-
   const [directories, setDirectories] = useState([]);
   const [tags, setTags] = useState([]);
 
@@ -45,7 +42,7 @@ function DirectoryList() {
           let directoriesDb = [];
           for(let index in response.data.directories) {
             const directory = response.data.directories[index];
-            directoriesDb.push({ tag : directory.tags,id: directory._id, title: directory.title, subtitle: directory.subtitle, image: `${process.env.REACT_APP_API_URL}`+directory.imagePath, icon: imgTest});
+            directoriesDb.push({ tag : directory.tags,id: directory._id, title: directory.businessName, subtitle: directory.businessAdress, image: `${process.env.REACT_APP_API_URL}`+directory.imagePath, icon: imgTest});
           }
           setDirectories(directoriesDb);
         }
@@ -60,31 +57,6 @@ function DirectoryList() {
     }
   }
 
-  const listDirectoriesMostViewed = async () => {
-    try {
-
-      const response = await api.get("/directory/list?views="+mostViewedAt);
-
-      if(response.data.success) {
-        if(response.data.directories) {
-          let directoriesMostViewedDb = [];
-          for(let index in response.data.directories) {
-            const directory = response.data.directories[index];
-            directoriesMostViewedDb.push({ tag : directory.tags,id: directory._id, title: directory.title, subtitle: directory.subtitle, image: `${process.env.REACT_APP_API_URL}`+directory.imagePath, icon: imgTest, views: directory.views});
-          }
-          setDirectoriesMostViewed(directoriesMostViewedDb);
-        }
-      }
-
-    } catch (error) {
-      setDirectoriesMostViewed([]);
-    }
-  }
-
-  useEffect(() => {
-    listDirectoriesMostViewed();
-  }, [mostViewedAt]);
-
   useEffect(() => {
     listDirectories();
   }, [actualPage]);
@@ -96,33 +68,7 @@ function DirectoryList() {
       <Page>
         <Header/>
         <MyScreenView >
-    <h1>Directorios</h1>
-
-    <MyFilteredOptions>
-          <Select
-            placeholder={
-              <MdFilterList
-                style={{ marginLeft: "1rem" }}
-                size={23}
-                color="var(--color-freela-pink)"
-              />
-            }
-            options={[
-              { label: " Mais Visualizadas do Dia", value: "daily" },
-              { label: " Mais Visualizadas da Semana", value: "weekly" },
-              { label: " Mais Visualizadas do Mês", value: "monthly" },
-              { label: " Mais Visualizadas de todos os tempos", value: "allTime" },
-            ]}
-            onChange={(e)=>setMostViewedAt(e.value)}
-          />
-        </MyFilteredOptions>
-
-        <HorizonScrollView title={mostViewedAt} subtitle={"Mais visualizados durante o tempo: "+mostViewedAt}>
-          {directoriesMostViewed.map((content)=>{
-              return <Link to={"/diretorio/"+content.id}><NoticesCard id={content.id} icon={content.icon} image={content.image} title={content.title} text={content.subtitle} /><span>Views: {content.views}</span></Link>
-            }
-          )}
-        </HorizonScrollView>
+        <h1>Directorios</h1>
 
         <h2>Recentes</h2>
         <div style={{flexDirection: 'row', flexWrap: 'wrap'}}>

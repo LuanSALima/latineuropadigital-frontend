@@ -30,8 +30,9 @@ function DirectoryRegister() {
   const [tags, setTags] = useState([]);
   const [dbTags, setDbTags] = useState([]);
 
-  const [modalShow,setModalShow] = useState(false);
+  const [image, setImage] = useState('');
   const [previewImage,setPreviewImage] = useState();
+  const [progress, setProgess] = useState(0);
 
   const handleValidator =  useMyForm(
     businessName,
@@ -75,20 +76,29 @@ function DirectoryRegister() {
     
     if(handleValidator){
       try {
-        await api.post("/directory/create", {
-          businessName,
-          businessAdress,
-          businessCity,
-          businessProvince,
-          businessPostalCode,
-          businessPhone,
-          businessWebsite,
-          businessDescription,
-          contactName,
-          contactPhone,
-          contactEmail,
-          contactRole,
-          tags
+        const formData = new FormData();
+        formData.append('businessName', businessName);
+        formData.append('businessAdress', businessAdress);
+        formData.append('businessCity', businessCity);
+        formData.append('businessProvince', businessProvince);
+        formData.append('businessPostalCode', businessPostalCode);
+        formData.append('businessPhone', businessPhone);
+        formData.append('businessWebsite', businessWebsite);
+        formData.append('businessDescription', businessDescription);
+        formData.append('contactName', contactName);
+        formData.append('contactPhone', contactPhone);
+        formData.append('contactEmail', contactEmail);
+        formData.append('contactRole', contactRole);
+        formData.append('image', image);
+        tags.map((tag) => {
+          formData.append('tags', tag);
+        });
+
+        await api.post("/directory/create", formData, {
+          onUploadProgress: (ProgressCourse) => {
+            let progress = Math.round(ProgressCourse.loaded / ProgressCourse.total * 100) + '%';
+            setProgess(progress);
+          }
         });
 
         toast.success("¡Directorio enviado para validación!",TOASTIFY_OPTIONS)
@@ -109,18 +119,9 @@ function DirectoryRegister() {
     setTags(tags);
   }
 
-  const handleChangeTags = (e)=>{
-    e.preventDefault();
-    setModalShow(true);
-  }
-
   return (
   <Page>
     <Toastifying/>
-    {modalShow && <ModalTag
-    show={modalShow}
-    onHide={()=>setModalShow(false)}
-    />}
     <Header/>
     <Form width={"80%"} height={"80vh"} center>
       
@@ -236,7 +237,7 @@ function DirectoryRegister() {
               value={businessDescription}
             />
             <div style={{width: '100%', textAlign: 'center'}}>
-              <span>400 characters limit.  400 characters left</span>
+              <span>400 characters limit. {businessDescription.length < 400 ? 400-businessDescription.length+" characters left": "Limit characters reached"} </span>
             </div>
           </div>
           
@@ -313,6 +314,28 @@ function DirectoryRegister() {
               />
             </fieldset>
           </div>
+          <ContentView>
+            <div style={{ width: progress, backgroundColor: 'blue', color: 'white' }}>
+              {progress}
+            </div>
+            <div>
+              <label for="uploadPhoto" class="btn-cta">
+                {image?.name?image?.name:"Haga clic aquí para agregar una imagen"}
+              <MdFileUpload/>
+              </label>
+              <input
+                 id="uploadPhoto"
+                type="file"
+                onChange={(e) => {
+                  setImage(e.target.files[0]);
+                  if(e.target.files[0]){
+                    setPreviewImage(URL.createObjectURL(e.target.files[0]));
+                  }
+                }}
+              />
+             { image && <img src={previewImage}/>}
+            </div>
+          </ContentView>
         </div>
 
         <button className="btn btn-primary btn-lg btn-block" onClick={handleDirectoryRegister}>Registrar</button>

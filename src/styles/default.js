@@ -278,7 +278,7 @@ width:95%;
 margin-left:1rem;
 margin-bottom:1rem;
 max-height:400px;
-@media(min-width:1300px){
+@media(min-width:1600){
   width:48%;
 }
 >a{

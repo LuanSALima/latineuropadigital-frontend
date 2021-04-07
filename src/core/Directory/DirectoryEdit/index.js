@@ -39,8 +39,9 @@ function DirectoryEdit(props) {
   const [tags, setTags] = useState([]);
   const [dbTags, setDbTags] = useState([]);
 
-  const[modalShow,setModalShow] = useState(false);
+  const [image, setImage] = useState('');
   const [previewImage,setPreviewImage] = useState();
+  const [progress, setProgess] = useState(0);
 
   const handleValidator =  useMyForm(
     businessName,
@@ -115,22 +116,30 @@ function DirectoryEdit(props) {
     
     if(handleValidator){
       try {
+        const formData = new FormData();
+        formData.append('businessName', businessName);
+        formData.append('businessAdress', businessAdress);
+        formData.append('businessCity', businessCity);
+        formData.append('businessProvince', businessProvince);
+        formData.append('businessPostalCode', businessPostalCode);
+        formData.append('businessPhone', businessPhone);
+        formData.append('businessWebsite', businessWebsite);
+        formData.append('businessDescription', businessDescription);
+        formData.append('contactName', contactName);
+        formData.append('contactPhone', contactPhone);
+        formData.append('contactEmail', contactEmail);
+        formData.append('contactRole', contactRole);
+        formData.append('status', status);
+        formData.append('image', image);
+        tags.map((tag) => {
+          formData.append('tags', tag);
+        });
         
-        const response = await api.put("/directory/"+idDirectory, {
-          businessName,
-          businessAdress,
-          businessCity,
-          businessProvince,
-          businessPostalCode,
-          businessPhone,
-          businessWebsite,
-          businessDescription,
-          contactName,
-          contactPhone,
-          contactEmail,
-          contactRole,
-          tags,
-          status
+        const response = await api.put("/directory/"+idDirectory, formData, {
+          onUploadProgress: (ProgressCourse) => {
+            let progress = Math.round(ProgressCourse.loaded / ProgressCourse.total * 100) + '%';
+            setProgess(progress);
+          }
         });
 
         setButtonText("Editado com Sucesso");
@@ -145,11 +154,6 @@ function DirectoryEdit(props) {
     }
   };
 
-  const handleChangeTags = (e)=>{
-    e.preventDefault();
-    setModalShow(!modalShow);
-  }
-
   const onChangeSelectTags = (tagsSelected) => {
     let tags = [];
     for(const tag of tagsSelected) {
@@ -160,11 +164,7 @@ function DirectoryEdit(props) {
 
   return (
   <Page>
-     <Toastifying/>
-   {modalShow && <ModalTag
-    show={modalShow}
-    onHide={()=>setModalShow(false)}
-    />}
+    <Toastifying/>
     <Header/>
     <Form width={"80%"} height={"80vh"} center>
       
@@ -280,7 +280,7 @@ function DirectoryEdit(props) {
               value={businessDescription}
             />
             <div style={{width: '100%', textAlign: 'center'}}>
-              <span>400 characters limit.  400 characters left</span>
+              <span>400 characters limit. {businessDescription.length < 400 ? 400-businessDescription.length+" characters left": "Limit characters reached"} </span>
             </div>
           </div>
           
@@ -366,7 +366,28 @@ function DirectoryEdit(props) {
               </select>
             </fieldset>
           </div>
-          
+          <ContentView>
+            <div style={{ width: progress, backgroundColor: 'blue', color: 'white' }}>
+              {progress}
+            </div>
+            <div>
+              <label for="uploadPhoto" class="btn-cta">
+                {image?.name?image?.name:"Haga clic aquí para agregar una imagen"}
+              <MdFileUpload/>
+              </label>
+              <input
+                 id="uploadPhoto"
+                type="file"
+                onChange={(e) => {
+                  setImage(e.target.files[0]);
+                  if(e.target.files[0]){
+                    setPreviewImage(URL.createObjectURL(e.target.files[0]));
+                  }
+                }}
+              />
+             { image && <img src={previewImage}/>}
+            </div>
+          </ContentView>
         </div>
 
         <button className="btn btn-primary btn-lg btn-block" onClick={handleDirectoryEdit}>{buttonText}</button>
