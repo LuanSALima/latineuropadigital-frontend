@@ -2,10 +2,13 @@ import styled from 'styled-components';
 export const Container = styled.div`
   display:flex;
   height:auto;
-  width:750px;
+  max-height:350px;
+  width:100%;
+  min-height:140px;
+  min-width:240px;
   cursor:pointer;
   margin-bottom:1rem;
-  border-top:1px solid var(--color-freela-hover);
+  border:1px solid var(--color-freela-hover);
   padding:1rem !important;
    transition:box-shadow 0.3s ease;
     :hover{
@@ -14,9 +17,19 @@ export const Container = styled.div`
 `;
 export const Image = styled.div`
     width:100%;
+    display:inline-block;
+    display: flex;
+    background-size:contain;      /* faz a imagem ficar contida dentro do elemento */
+    background-repeat:no-repeat;  /* faz a imagem não ser repetida */
+    background-position: center;  /* centra a imagem independentemente do tamanho ou largura do elemento */
     img{
-     width: 400px;
-     max-height:250px;
+        max-width:100%;
+        max-height:100%;
+        min-height:140px;
+        min-width:240px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
      border-radius:0.2rem;
      transition:transform 0.3s ease;
      :hover{
@@ -27,23 +40,35 @@ export const Image = styled.div`
     }
     `;
 
+
+export const Description = styled.div`
+   margin-left:1rem;
+   padding:1rem;
+   >span{
+    font-size:14px;
+    padding:0.2rem;
+    overflow-wrap:break-word;
+    color: var(--color-freela-text);
+    }
+`;
+
 export const Title = styled.div`
 display:flex;
 flex-direction:column;
-width:256px;   
+width:156px;   
 >img{
         width:40px;
         height:35px;
         border-radius:0.5rem;
 }
 >span{
-    font-size:18px;
+    font-size:14px !important;
     padding:0.2rem;
     overflow-wrap:break-word;
     color: var(--color-freela-text);
 }
 >label{
-    font-size:20px;
+    font-size:18px;
     text-transform:uppercase;
     font-weight:630;
     padding:0.2rem;
@@ -52,13 +77,3 @@ width:256px;
 }
 `;
 
-export const Description = styled.div`
-   margin-left:1rem;
-   padding:1rem;
-   >span{
-    font-size:18px;
-    padding:0.2rem;
-    overflow-wrap:break-word;
-    color: var(--color-freela-text);
-    }
-`;
