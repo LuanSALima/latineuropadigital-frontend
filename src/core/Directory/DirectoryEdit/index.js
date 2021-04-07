@@ -21,21 +21,41 @@ function DirectoryEdit(props) {
 
   const [idDirectory] = useState(props.match.params.id);
 
-  const [title, setTitle] = useState("");
-  const [subtitle, setSubtitle] = useState("");
-  const [content, setContent] = useState("");
-  const [image, setImage] = useState('');
-  const [link, setLink] = useState("");
+  const [businessName, setBusinessName] = useState("");
+  const [businessAdress, setBusinessAdress] = useState("");
+  const [businessCity, setBusinessCity] = useState("");
+  const [businessProvince, setBusinessProvince] = useState("");
+  const [businessPostalCode, setBusinessPostalCode] = useState("");
+  const [businessPhone, setBusinessPhone] = useState("");
+  const [businessWebsite, setBusinessWebsite] = useState("");
+  const [businessDescription, setBusinessDescription] = useState("");
+  const [contactName, setContactName] = useState("");
+  const [contactPhone, setContactPhone] = useState("");
+  const [contactEmail, setContactEmail] = useState("");
+  const [contactRole, setContactRole] = useState("");
+
+  const [status, setStatus] = useState("");
+
   const [tags, setTags] = useState([]);
   const [dbTags, setDbTags] = useState([]);
-  const [errors, setErrors] = useState({});
-  const [progress, setProgess] = useState(0); // progess bar
 
   const[modalShow,setModalShow] = useState(false);
   const [previewImage,setPreviewImage] = useState();
 
-  const handleValidator =  useMyForm(title,subtitle,content,tags,link);
-  const handleLinkValidator = verifyLink(link);
+  const handleValidator =  useMyForm(
+    businessName,
+    businessAdress,
+    businessCity,
+    businessProvince,
+    businessPostalCode,
+    businessPhone,
+    businessDescription,
+    contactName,
+    contactPhone,
+    contactEmail,
+    contactRole
+  );
+  const handleLinkValidator = verifyLink(businessWebsite);
 
   async function listTags() {
     try {
@@ -51,13 +71,7 @@ function DirectoryEdit(props) {
         }
       }
     } catch (error) {
-      if(error.response) {
-        if(error.response.data) {
-          if(error.response.data.message) {
-            setErrors({dbTags: error.response.data.message});
-          }
-        }
-      }
+      console.log(error);
     }
   }
 
@@ -67,22 +81,24 @@ function DirectoryEdit(props) {
 
       if(response.data.success) {
         if(response.data.directory) {
-          setTitle(response.data.directory.title);
-          setSubtitle(response.data.directory.subtitle);
-          setContent(response.data.directory.content);
+          setBusinessName(response.data.directory.businessName);
+          setBusinessAdress(response.data.directory.businessAdress);
+          setBusinessCity(response.data.directory.businessCity);
+          setBusinessProvince(response.data.directory.businessProvince);
+          setBusinessPostalCode(response.data.directory.businessPostalCode);
+          setBusinessPhone(response.data.directory.businessPhone);
+          setBusinessWebsite(response.data.directory.businessWebsite);
+          setBusinessDescription(response.data.directory.businessDescription);
+          setContactName(response.data.directory.contactName);
+          setContactPhone(response.data.directory.contactPhone);
+          setContactEmail(response.data.directory.contactEmail);
+          setContactRole(response.data.directory.contactRole);
           setTags(response.data.directory.tags);
-          setLink(response.data.directory.link);
+          setStatus(response.data.directory.status);
         }
       }
     } catch (error) {
-      setErrors({message: "Não foi possível carregar o Diretório"});
-      if(error.response) {
-        if(error.response.data) {
-          if(error.response.data.message) {
-            setErrors({message: error.response.data.message});
-          }
-        }
-      }
+      console.log(error);
     }
   }
 
@@ -97,44 +113,31 @@ function DirectoryEdit(props) {
     e.preventDefault();
     setButtonText("Enviando Dados ...");
     
-    if(handleValidator && handleLinkValidator){
-      const formData = new FormData();
-      formData.append('title', title);
-      formData.append('subtitle', subtitle);
-      formData.append('content', content);
-      formData.append('image', image);
-      formData.append('link', link);
-      tags.map((tag) => {
-        formData.append('tags', tag);
-      })
-      
+    if(handleValidator){
       try {
         
-        const response = await api.put("/directory/"+idDirectory, formData, {
-          onUploadProgress: (ProgressEvent) => {
-            let progress = Math.round(ProgressEvent.loaded / ProgressEvent.total * 100) + '%';
-            setProgess(progress);
-          }
+        const response = await api.put("/directory/"+idDirectory, {
+          businessName,
+          businessAdress,
+          businessCity,
+          businessProvince,
+          businessPostalCode,
+          businessPhone,
+          businessWebsite,
+          businessDescription,
+          contactName,
+          contactPhone,
+          contactEmail,
+          contactRole,
+          tags,
+          status
         });
 
         setButtonText("Editado com Sucesso");
       } catch (error) {
         setButtonText("Tente Novamente");
-        if(error.response) {
-          if(error.response.data) {
-            //Dados retornados do backend
-            if(error.response.data.errors) {
-              setErrors(error.response.data.errors);
-            }
-            if(error.response.data.message) {
-              setErrors({message: error.response.data.message});
-            }
-          } else {
-            //Não houve dados retornados do backend
-            alert("Erro Inesperado!");
-          }
-          console.log(errors);
-        }
+
+        console.log(error);
       }
     }else{
       setButtonText("Tente Novamente");
@@ -163,79 +166,210 @@ function DirectoryEdit(props) {
     onHide={()=>setModalShow(false)}
     />}
     <Header/>
-    <Form width={"45%"} center>
-      <ContentView>
-        <label>Edite o Diretório !</label>
+    <Form width={"80%"} height={"80vh"} center>
+      
+        <label>Editar Diretorio</label>
 
-        <label style={{color: 'red'}}>{errors.message}</label>
+        <div style={{display: 'block'}}>
+          <h4>BUSINESS INFORMATION</h4>
+          <div style={{width: '50%', float: 'left'}}>
+            <div className="form-group" style={{padding: '15px', height: '80px'}}>
+              <label>Business Name<span style={{color: 'red'}}>*</span></label>
+              <input
+                style={{width: '100%', height: '30px', marginTop: '0'}}
+                type="text"
+                onChange={(e) => {
+                  setBusinessName(e.target.value);
+                }}
+                value={businessName}
+              />
+            </div>
+            <div className="form-group" style={{padding: '15px', height: '80px'}}>
+              <label>City<span style={{color: 'red'}}>*</span></label>
+              <input
+                style={{width: '100%', height: '30px', marginTop: '0'}}
+                type="text"
+                onChange={(e) => {
+                  setBusinessCity(e.target.value);
+                }}
+                value={businessCity}
+              />
+            </div>
+            <div className="form-group" style={{padding: '15px', height: '80px'}}>
+              <label>Postal Code<span style={{color: 'red'}}>*</span></label>
+              <input
+                style={{width: '100%', height: '30px', marginTop: '0'}}
+                type="text"
+                onChange={(e) => {
+                  setBusinessPostalCode(e.target.value);
+                }}
+                value={businessPostalCode}
+              />
+            </div>
+            <div className="form-group" style={{padding: '15px', height: '80px'}}>
+              <label>Phone 2</label>
+              <input
+                style={{width: '100%', height: '30px', marginTop: '0'}}
+                type="text"
+                placeholder="Atribui nada pq nao existe no BCD"
+              />
+            </div>
+          </div>
 
-        <input
-          placeholder="  Título"
-          type="text"
-          onChange={(e) => {
-            setTitle(e.target.value);
-          }}
-          value={title}
-        />
-        <span style={{color: 'red'}}>{errors.title}</span>
+          <div style={{width: '50%', float: 'left'}}>
+            <div className="form-group" style={{padding: '15px', height: '80px'}}>
+              <label>Address<span style={{color: 'red'}}>*</span></label>
+              <input
+                style={{width: '100%', height: '30px', marginTop: '0'}}
+                type="text"
+                onChange={(e) => {
+                  setBusinessAdress(e.target.value);
+                }}
+                value={businessAdress}
+              />
+            </div>
+            <div className="form-group" style={{padding: '15px', height: '80px'}}>
+              <label>Province<span style={{color: 'red'}}>*</span></label>
+              <fieldset>
+                <Select
+                  options={[
+                    {label: 'Portugal', value: 'Portugal'},
+                    {label: 'Espanha', value: 'Espanha'},
+                    {label: 'França', value: 'França'}
 
-        <input
-          placeholder="  Subtítulo"
-          type="text"
-           onChange={(e) => {
-            setSubtitle(e.target.value);
-          }}
-          value={subtitle}
-        />
-        <span style={{color: 'red'}}>{errors.subtitle}</span>
+                  ]}
+                  isClearable
+                  closeMenuOnSelect={false}
+                  onChange={(e) => {setBusinessProvince(e.value)}}
+                  placeholder={"¡Seleccione a Provincia!"}
+                />
+              </fieldset>
+            </div>
+            <div className="form-group" style={{padding: '15px', height: '80px'}}>
+              <label>Phone<span style={{color: 'red'}}>*</span></label>
+              <input
+                style={{width: '100%', height: '30px', marginTop: '0'}}
+                type="text"
+                onChange={(e) => {
+                  setBusinessPhone(e.target.value);
+                }}
+                value={businessPhone}
+              />
+            </div>
+            <div className="form-group" style={{padding: '15px', height: '80px'}}>
+              <label>Website</label>
+              <input
+                style={{width: '100%', height: '30px', marginTop: '0'}}
+                type="text"
+                onChange={(e) => {
+                  setBusinessWebsite(e.target.value);
+                }}
+                value={businessWebsite}
+              />
+            </div>
 
-        <input
-          placeholder="  Conteudo"
-          type="text"
-           onChange={(e) => {
-            setContent(e.target.value);
-          }}
-          value={content}
-        />
-        <span style={{color: 'red'}}>{errors.content}</span>
-
-        <div>
-        <label for="uploadPhoto" class="btn-cta">
-          {image?.name?image?.name:"Haga clic aquí para agregar una imagen"}
-        <MdFileUpload/>
-        </label>
-        <input
-           id="uploadPhoto"
-          type="file"
-          onChange={(e) => {
-            setImage(e.target.files[0]);
-            if(e.target.files[0]){
-              setPreviewImage(URL.createObjectURL(e.target.files[0]));
-            }
-          }}
-        />
-       { image && <img src={previewImage}/>}
-       </div>
+          </div>
+          <div className="form-group" style={{padding: '15px'}}>
+            <label>Business Description<span style={{color: 'red'}}>*</span></label>
+            <textarea
+              style={{width: '100%', height: '30px', marginTop: '0'}}
+              type="text"
+              onChange={(e) => {
+                setBusinessDescription(e.target.value);
+              }}
+              value={businessDescription}
+            />
+            <div style={{width: '100%', textAlign: 'center'}}>
+              <span>400 characters limit.  400 characters left</span>
+            </div>
+          </div>
           
-        <input type="text" placeholder="Link" onChange={(e)=>{setLink(e.target.value)}} value={link} />
+        </div>
 
-        <fieldset>
-         <Select
-         options={dbTags.map((currentTag)=>(
-          {label:currentTag,value:currentTag}))}
-          isClearable
-          isMulti
-          closeMenuOnSelect={false}
-          onChange={onChangeSelectTags}
-          placeholder={"¡Seleccione las etiquetas!"}
-        />
+        <hr />
        
-        <span style={{color: 'red'}}>{errors.dbTags}</span>
+        <div style={{display: 'block'}}>
+          <h4>CONTACT INFORMATION</h4>
+          <div style={{width: '50%', float: 'left'}}>
+            <div className="form-group" style={{padding: '15px', height: '80px'}}>
+              <label>Full Name<span style={{color: 'red'}}>*</span></label>
+              <input
+                style={{width: '100%', height: '30px', marginTop: '0'}}
+                type="text"
+                onChange={(e) => {
+                  setContactName(e.target.value);
+                }}
+                value={contactName}
+              />
+            </div>
+            <div className="form-group" style={{padding: '15px', height: '80px'}}>
+              <label>Email<span style={{color: 'red'}}>*</span></label>
+              <input
+                style={{width: '100%', height: '30px', marginTop: '0'}}
+                type="text"
+                onChange={(e) => {
+                  setContactEmail(e.target.value);
+                }}
+                value={contactEmail}
+              />
+            </div>
+          </div>
 
-        </fieldset>
-        <Outline_Button type="success" onClick={handleChangeTags}>Añadir Etiqueta</Outline_Button>
-        <AppButton onClick={handleDirectoryEdit}>{buttonText}</AppButton>
-      </ContentView>
+          <div style={{width: '50%', float: 'left'}}>
+            <div className="form-group" style={{padding: '15px', height: '80px'}}>
+              <label>Phone Number<span style={{color: 'red'}}>*</span></label>
+              <input
+                style={{width: '100%', height: '30px', marginTop: '0'}}
+                type="text"
+                onChange={(e) => {
+                  setContactPhone(e.target.value);
+                }}
+                value={contactPhone}
+              />
+            </div>
+            <div className="form-group" style={{padding: '15px', height: '80px'}}>
+              <label>Which is your role?<span style={{color: 'red'}}>*</span></label>
+              <fieldset>
+                <Select
+                  options={[
+                    {label: 'Business Owner', value: 'Business Owner'},
+                    {label: 'Business Manager', value: 'Business Manager'}
+                  ]}
+                  isClearable
+                  closeMenuOnSelect={false}
+                  onChange={(e) => {setContactRole(e.value)}}
+                  placeholder={"¡Seleccione!"}
+                />
+              </fieldset>
+            </div>
+          </div>
+          <div className="form-group" style={{padding: '15px'}}>
+            <label>Tags<span style={{color: 'red'}}>*</span></label>
+            <fieldset>
+              <Select
+               options={dbTags.map((currentTag)=>(
+                {label:currentTag,value:currentTag}))}
+                isClearable
+                isMulti
+                closeMenuOnSelect={false}
+                onChange={onChangeSelectTags}
+                placeholder={"¡Seleccione las etiquetas!"}
+              />
+            </fieldset>
+          </div>
+           <div className="form-group" style={{padding: '15px'}}>
+            <label>Status</label>
+            <fieldset>
+              <select style={{width: '100%', border: '1px solid gray'}} value={status} onChange={(e) => {setStatus(e.target.value)}}>
+                <option value="pendent">Pendente</option>
+                <option value="accepted">Aceita</option>
+              </select>
+            </fieldset>
+          </div>
+          
+        </div>
+
+        <button className="btn btn-primary btn-lg btn-block" onClick={handleDirectoryEdit}>{buttonText}</button>
     </Form>
     <Footer/>
   </Page>);
