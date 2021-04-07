@@ -27,7 +27,7 @@ function Pagination(props) {
 				} else {
 					return (
 						<li className="page-item">
-							<span onClick={() => {changePage(page)}}className="page-link">{page}</span>
+							<span onClick={() => {changePage(page); window.scrollTo(0,300);}}className="page-link">{page}</span>
 						</li>
 					);
 				}
@@ -41,7 +41,7 @@ function Pagination(props) {
 			<ul className="pagination">
 				{actualPage !== 1 ?
 				<li className="page-item">
-					<span onClick={() => {changePage(1)}} className="page-link">&laquo;</span>
+					<span onClick={() => {changePage(1); window.scrollTo(0,300);}} className="page-link">&laquo;</span>
 				</li>
 				:
 				<li className="page-item">
@@ -53,7 +53,9 @@ function Pagination(props) {
 
 				{actualPage !== totalPages ?
 				<li className="page-item">
-					<span onClick={() => {changePage(totalPages)}} className="page-link">&raquo;</span>
+					<span onClick={() => {changePage(totalPages);
+					window.scrollTo(0,300);
+					}} className="page-link">&raquo;</span>
 				</li>
 				:
 				<li className="page-item">
