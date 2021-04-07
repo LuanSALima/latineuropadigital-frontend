@@ -257,8 +257,8 @@ flex-wrap: wrap;
 width: 85%;
 float: left;
 
-@media(max-width:1300px){
-  width:80%;
+@media(max-width:1600px){
+  width:85%;
 }
 
 @media(max-width:1000px){

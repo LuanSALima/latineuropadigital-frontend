@@ -2,7 +2,7 @@ import styled from 'styled-components';
 export const Container = styled.div`
   display:flex;
   height:auto;
-  max-height:350px;
+  max-height:auto;
   width:100%;
   min-height:140px;
   min-width:240px;
@@ -16,14 +16,14 @@ export const Container = styled.div`
     }
 `;
 export const Image = styled.div`
-    width:100%;
+    width:350px;
     display:inline-block;
     display: flex;
     background-size:contain;      /* faz a imagem ficar contida dentro do elemento */
     background-repeat:no-repeat;  /* faz a imagem não ser repetida */
     background-position: center;  /* centra a imagem independentemente do tamanho ou largura do elemento */
     img{
-        max-width:100%;
+        width:350px;
         max-height:100%;
         min-height:140px;
         min-width:240px;
@@ -49,6 +49,7 @@ export const Description = styled.div`
     padding:0.2rem;
     overflow-wrap:break-word;
     color: var(--color-freela-text);
+    overflow-wrap:break-word;
     }
 `;
 
@@ -66,6 +67,7 @@ width:156px;
     padding:0.2rem;
     overflow-wrap:break-word;
     color: var(--color-freela-text);
+    overflow-wrap:break-word;
 }
 >label{
     font-size:18px;
@@ -73,6 +75,7 @@ width:156px;
     font-weight:630;
     padding:0.2rem;
     color: var(--color-freela-pink);
+    
     overflow-wrap:break-word;
 }
 `;
