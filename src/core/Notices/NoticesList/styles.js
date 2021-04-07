@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { ScreenView } from '../../../styles/default';
 
 export const MyScreenView = styled(ScreenView)`
-  width:100%;
+  width:100% !important;
   border-radius:0.2rem;
   padding:0 !important;
   background-color:white;

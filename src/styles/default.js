@@ -231,6 +231,7 @@ export const TwoDivided = styled.div`
   }
 `;
 
+////////////////////////////////////////
 
 //for side bar after links
 export const MySideCardLink = styled.div`
@@ -241,29 +242,44 @@ cursor:pointer;
   padding-top:1rem;
   width:100%;
   height:100%;
+  min-height:250px;
   margin-top:1rem;
   border-top:1px solid var(--color-freela-hover);
 }
-@media(max-width:1200px){
+@media(max-width:1000px){
   display:none;
 }
 `;
+//Englobing all Div maps
+export const MyCardMap = styled.div`
+display:flex;
+flex-wrap: wrap;
+width: 85%;
+float: left;
 
+@media(max-width:1300px){
+  width:80%;
+}
+
+@media(max-width:1000px){
+  width:100%;
+}
+
+`;
 //When a englobe all card
 export const MyCardLink = styled.div`
 width:95%;
 margin-left:1rem;
 margin-bottom:1rem;
 max-height:400px;
-@media(min-width:1200px){
+@media(min-width:1300px){
   width:48%;
 }
-
-
 >a{
 max-width:100%;
 }
 `;
+//////////////////////////////////////
 
 //For Details view
 export const Details = styled(ScreenView)`

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Header from "../../../components/Header";
 import NoticesCard from "../../../components/NoticesCard";
-import { MyCardLink, MyFilteredOptions, MySideCardLink, Page, ScreenView } from "../../../styles/default";
+import { MyCardLink, MyFilteredOptions, MySideCardLink, Page, MyCardMap } from "../../../styles/default";
 import imgTest from "../../../assets/icon.svg";
 
 import api from "../../../services/api";
@@ -129,7 +129,7 @@ function NoticesList() {
 
         <div style={{display: 'block'}}>
           <h2>Recentes</h2>
-          <div style={{display:"flex",flexWrap: 'wrap', width: '85%', float: 'left'}}>
+          <MyCardMap>
           {notices.map((content) => {
             return (
               <MyCardLink>
@@ -146,7 +146,7 @@ function NoticesList() {
               </MyCardLink>
             );
           })}
-          </div>
+          </MyCardMap>
 
           <MySideCardLink>
             <img  src={imgTest} />
