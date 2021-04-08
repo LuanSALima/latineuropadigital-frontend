@@ -380,3 +380,13 @@ export const Outline_Button = styled.button`
     color: white !important;
   }
 `;
+
+export const ProgressBar = styled.div`
+  width:  ${(props) => (props.width ? props.width : "0%")};
+  height: 30px;
+  line-height: 30px;
+  color: white;
+  background-color: blue;
+  text-align: center;
+  transition: width .6s ease;
+`;

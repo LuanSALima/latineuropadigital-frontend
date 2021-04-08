@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
 import Header from '../../../components/Header';
-import { AppButton, ContentView, Form, Outline_Button, Page } from '../../../styles/default';
+import { AppButton, ContentView, Form, Outline_Button, Page, ProgressBar } from '../../../styles/default';
 import Footer from '../../../components/Footer';
 import api from '../../../services/api';
 
@@ -14,6 +14,8 @@ import MyModal from '../../../components/MyModal';
 import Select from 'react-select';
 
 import useMyForm, { verifyLink } from '../../../hooks/useValidationForm';
+
+import { FormBlock, FormColumn, FormGroup, Required, CharLimit } from './styles';
 
 function DirectoryEdit(props) {
 
@@ -170,66 +172,62 @@ function DirectoryEdit(props) {
       
         <label>Editar Diretorio</label>
 
-        <div style={{display: 'block'}}>
+        <FormBlock>
           <h4>BUSINESS INFORMATION</h4>
-          <div style={{width: '50%', float: 'left'}}>
-            <div className="form-group" style={{padding: '15px', height: '80px'}}>
-              <label>Business Name<span style={{color: 'red'}}>*</span></label>
-              <input
-                style={{width: '100%', height: '30px', marginTop: '0'}}
+          <FormColumn>
+            <FormGroup>
+              <label>Business Name<Required>*</Required></label>
+              <input               
                 type="text"
                 onChange={(e) => {
                   setBusinessName(e.target.value);
                 }}
                 value={businessName}
               />
-            </div>
-            <div className="form-group" style={{padding: '15px', height: '80px'}}>
-              <label>City<span style={{color: 'red'}}>*</span></label>
-              <input
-                style={{width: '100%', height: '30px', marginTop: '0'}}
+            </FormGroup>
+            <FormGroup>
+              <label>City<Required>*</Required></label>
+              <input                
                 type="text"
                 onChange={(e) => {
                   setBusinessCity(e.target.value);
                 }}
                 value={businessCity}
               />
-            </div>
-            <div className="form-group" style={{padding: '15px', height: '80px'}}>
-              <label>Postal Code<span style={{color: 'red'}}>*</span></label>
-              <input
-                style={{width: '100%', height: '30px', marginTop: '0'}}
+            </FormGroup>
+            <FormGroup>
+              <label>Postal Code<Required>*</Required></label>
+              <input                
                 type="text"
                 onChange={(e) => {
                   setBusinessPostalCode(e.target.value);
                 }}
                 value={businessPostalCode}
               />
-            </div>
-            <div className="form-group" style={{padding: '15px', height: '80px'}}>
+            </FormGroup>
+            <FormGroup>
               <label>Phone 2</label>
               <input
-                style={{width: '100%', height: '30px', marginTop: '0'}}
+                
                 type="text"
                 placeholder="Atribui nada pq nao existe no BCD"
               />
-            </div>
-          </div>
+            </FormGroup>
+          </FormColumn>
 
-          <div style={{width: '50%', float: 'left'}}>
-            <div className="form-group" style={{padding: '15px', height: '80px'}}>
-              <label>Address<span style={{color: 'red'}}>*</span></label>
-              <input
-                style={{width: '100%', height: '30px', marginTop: '0'}}
+          <FormColumn>
+            <FormGroup>
+              <label>Address<Required>*</Required></label>
+              <input               
                 type="text"
                 onChange={(e) => {
                   setBusinessAdress(e.target.value);
                 }}
                 value={businessAdress}
               />
-            </div>
-            <div className="form-group" style={{padding: '15px', height: '80px'}}>
-              <label>Province<span style={{color: 'red'}}>*</span></label>
+            </FormGroup>
+            <FormGroup>
+              <label>Province<Required>*</Required></label>
               <fieldset>
                 <Select
                   options={[
@@ -244,91 +242,86 @@ function DirectoryEdit(props) {
                   placeholder={"¡Seleccione a Provincia!"}
                 />
               </fieldset>
-            </div>
-            <div className="form-group" style={{padding: '15px', height: '80px'}}>
-              <label>Phone<span style={{color: 'red'}}>*</span></label>
+            </FormGroup>
+            <FormGroup>
+              <label>Phone<Required>*</Required></label>
               <input
-                style={{width: '100%', height: '30px', marginTop: '0'}}
+                
                 type="text"
                 onChange={(e) => {
                   setBusinessPhone(e.target.value);
                 }}
                 value={businessPhone}
               />
-            </div>
-            <div className="form-group" style={{padding: '15px', height: '80px'}}>
+            </FormGroup>
+            <FormGroup>
               <label>Website</label>
-              <input
-                style={{width: '100%', height: '30px', marginTop: '0'}}
+              <input               
                 type="text"
                 onChange={(e) => {
                   setBusinessWebsite(e.target.value);
                 }}
                 value={businessWebsite}
               />
-            </div>
+            </FormGroup>
 
-          </div>
-          <div className="form-group" style={{padding: '15px'}}>
-            <label>Business Description<span style={{color: 'red'}}>*</span></label>
-            <textarea
-              style={{width: '100%', height: '30px', marginTop: '0'}}
+          </FormColumn>
+          <FormGroup>
+            <label>Business Description<Required>*</Required></label>
+            <textarea            
               type="text"
               onChange={(e) => {
                 setBusinessDescription(e.target.value);
               }}
               value={businessDescription}
             />
-            <div style={{width: '100%', textAlign: 'center'}}>
+            <CharLimit>
               <span>400 characters limit. {businessDescription.length < 400 ? 400-businessDescription.length+" characters left": "Limit characters reached"} </span>
-            </div>
-          </div>
+            </CharLimit>
+          </FormGroup>
           
-        </div>
+        </FormBlock>
 
         <hr />
        
-        <div style={{display: 'block'}}>
+        <FormBlock>
           <h4>CONTACT INFORMATION</h4>
-          <div style={{width: '50%', float: 'left'}}>
-            <div className="form-group" style={{padding: '15px', height: '80px'}}>
-              <label>Full Name<span style={{color: 'red'}}>*</span></label>
-              <input
-                style={{width: '100%', height: '30px', marginTop: '0'}}
+          <FormColumn>
+            <FormGroup>
+              <label>Full Name<Required>*</Required></label>
+              <input              
                 type="text"
                 onChange={(e) => {
                   setContactName(e.target.value);
                 }}
                 value={contactName}
               />
-            </div>
-            <div className="form-group" style={{padding: '15px', height: '80px'}}>
-              <label>Email<span style={{color: 'red'}}>*</span></label>
-              <input
-                style={{width: '100%', height: '30px', marginTop: '0'}}
+            </FormGroup>
+            <FormGroup>
+              <label>Email<Required>*</Required></label>
+              <input                
                 type="text"
                 onChange={(e) => {
                   setContactEmail(e.target.value);
                 }}
                 value={contactEmail}
               />
-            </div>
-          </div>
+            </FormGroup>
+          </FormColumn>
 
-          <div style={{width: '50%', float: 'left'}}>
-            <div className="form-group" style={{padding: '15px', height: '80px'}}>
-              <label>Phone Number<span style={{color: 'red'}}>*</span></label>
+          <FormColumn>
+            <FormGroup>
+              <label>Phone Number<Required>*</Required></label>
               <input
-                style={{width: '100%', height: '30px', marginTop: '0'}}
                 type="text"
                 onChange={(e) => {
                   setContactPhone(e.target.value);
                 }}
                 value={contactPhone}
               />
-            </div>
-            <div className="form-group" style={{padding: '15px', height: '80px'}}>
-              <label>Which is your role?<span style={{color: 'red'}}>*</span></label>
+            </FormGroup>
+            <FormGroup>
+              <label>Which is your role?<Required>*</Required></label>
               <fieldset>
                 <Select
                   options={[
@@ -341,10 +334,10 @@ function DirectoryEdit(props) {
                   placeholder={"¡Seleccione!"}
                 />
               </fieldset>
-            </div>
-          </div>
-          <div className="form-group" style={{padding: '15px'}}>
-            <label>Tags<span style={{color: 'red'}}>*</span></label>
+            </FormGroup>
+          </FormColumn>
+          <FormGroup>
+            <label>Tags<Required>*</Required></label>
             <fieldset>
               <Select
                options={dbTags.map((currentTag)=>(
@@ -356,27 +349,24 @@ function DirectoryEdit(props) {
                 placeholder={"¡Seleccione las etiquetas!"}
               />
             </fieldset>
-          </div>
-           <div className="form-group" style={{padding: '15px'}}>
+          </FormGroup>
+           <FormGroup>
             <label>Status</label>
             <fieldset>
-              <select style={{width: '100%', border: '1px solid gray'}} value={status} onChange={(e) => {setStatus(e.target.value)}}>
+              <select value={status} onChange={(e) => {setStatus(e.target.value)}}>
                 <option value="pendent">Pendente</option>
                 <option value="accepted">Aceita</option>
               </select>
             </fieldset>
-          </div>
+          </FormGroup>
           <ContentView>
-            <div style={{ width: progress, backgroundColor: 'blue', color: 'white' }}>
-              {progress}
-            </div>
             <div>
               <label for="uploadPhoto" class="btn-cta">
                 {image?.name?image?.name:"Haga clic aquí para agregar una imagen"}
               <MdFileUpload/>
               </label>
               <input
-                 id="uploadPhoto"
+                id="uploadPhoto"
                 type="file"
                 onChange={(e) => {
                   setImage(e.target.files[0]);
@@ -388,7 +378,10 @@ function DirectoryEdit(props) {
              { image && <img src={previewImage}/>}
             </div>
           </ContentView>
-        </div>
+          <ProgressBar width={progress}>
+            {progress}
+          </ProgressBar>
+        </FormBlock>
 
         <button className="btn btn-primary btn-lg btn-block" onClick={handleDirectoryEdit}>{buttonText}</button>
     </Form>
