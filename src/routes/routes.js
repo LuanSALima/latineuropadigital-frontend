@@ -19,11 +19,13 @@ import DirectoryRegister from '../core/Directory/DirectoryRegister';
 import DirectoryList from '../core/Directory/DirectoryList';
 import DirectoryDetails from '../core/Directory/DirectoryDetails';
 import DirectoryEdit from '../core/Directory/DirectoryEdit';
+import DirectoryPendents from '../core/Directory/DirectoryPendents';
 
 import EventRegister from '../core/Event/EventRegister';
 import EventList from '../core/Event/EventList';
 import EventDetails from '../core/Event/EventDetails';
 import EventEdit from '../core/Event/EventEdit';
+import EventPendents from '../core/Event/EventPendents';
 
 import CourseRegister from '../core/Course/CourseRegister';
 import CourseList from '../core/Course/CourseList';
@@ -108,9 +110,11 @@ function Routes() {
 
         <PrivateRoute path="/directory/cadastrar" component={DirectoryRegister} />
         <PrivateRoute path="/directory/editar/:id" component={DirectoryEdit} />
+        <PrivateRoute path="/diretorios-pendentes" component={DirectoryPendents} />
 
         <PrivateRoute path="/event/cadastrar" component={EventRegister} />
         <PrivateRoute path="/event/editar/:id" component={EventEdit} />
+        <PrivateRoute path="/eventos-pendentes" component={EventPendents} />
 
         <PrivateRoute path="/course/cadastrar" component={CourseRegister} />
         <PrivateRoute path="/course/editar/:id" component={CourseEdit} />

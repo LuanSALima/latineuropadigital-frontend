@@ -15,7 +15,7 @@ import { MdFilterList } from 'react-icons/md';
 
 import Pagination from '../../../components/Pagination';
 
-function EventList() {
+function EventPendents() {
 
   const [eventsFeatured, setEventsFeatured] = useState([]);
 
@@ -25,17 +25,10 @@ function EventList() {
   const [actualPage, setActualPage] = useState(1);
   const [totalEvents, setTotalEvents] = useState(0);
  
-  const listTags = async () => {
-    try {
-      const response = await api.get("events/tags");
-      setTags(response.data.tags);
-    } catch (error) {
-    }
-  }
-   const listEvents = async () => {
+  const listEvents = async () => {
     try {
 
-      const response = await api.get("/event/list");
+      const response = await api.get("/events/pendent");
 
       if(response.data.success) {
         if(response.data.events) {
@@ -60,17 +53,13 @@ function EventList() {
   useEffect(() => {
     listEvents();
   }, [actualPage]);
-  useEffect(() => {
-    listTags();
-  }, []);
 
   return (
       <Page>
         <Header/>
         <MyScreenView >
-        <h1>Eventos</h1>
+        <h1>Eventos Pendentes</h1>
 
-        <h2>Recentes</h2>
         <div style={{flexDirection: 'row', flexWrap: 'wrap'}}>
         {events.map((content) => {
           return (
@@ -95,4 +84,4 @@ function EventList() {
   );
 }
 
-export default EventList;
+export default EventPendents;

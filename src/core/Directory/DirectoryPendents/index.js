@@ -15,39 +15,32 @@ import { MdFilterList } from 'react-icons/md';
 
 import Pagination from '../../../components/Pagination';
 
-function EventList() {
+function DirectoryPendents() {
 
-  const [eventsFeatured, setEventsFeatured] = useState([]);
+  const [directoriesFeatured, setDirectoriesFeatured] = useState([]);
 
-  const [events, setEvents] = useState([]);
+  const [directories, setDirectories] = useState([]);
   const [tags, setTags] = useState([]);
 
   const [actualPage, setActualPage] = useState(1);
-  const [totalEvents, setTotalEvents] = useState(0);
+  const [totalDirectories, setTotalDirectories] = useState(0);
  
-  const listTags = async () => {
-    try {
-      const response = await api.get("events/tags");
-      setTags(response.data.tags);
-    } catch (error) {
-    }
-  }
-   const listEvents = async () => {
+  const listDirectories = async () => {
     try {
 
-      const response = await api.get("/event/list");
+      const response = await api.get("/directories/pendent");
 
       if(response.data.success) {
-        if(response.data.events) {
-          let eventsDb = [];
-          for(let index in response.data.events) {
-            const event = response.data.events[index];
-            eventsDb.push({ tag : event.tags,id: event._id, title: event.eventName, subtitle: event.eventDescription, image: `${process.env.REACT_APP_API_URL}`+event.imagePath, icon: imgTest});
+        if(response.data.directories) {
+          let directoriesDb = [];
+          for(let index in response.data.directories) {
+            const directory = response.data.directories[index];
+            directoriesDb.push({ tag : directory.tags,id: directory._id, title: directory.businessName, subtitle: directory.businessAdress, image: `${process.env.REACT_APP_API_URL}`+directory.imagePath, icon: imgTest});
           }
-          setEvents(eventsDb);
+          setDirectories(directoriesDb);
         }
-        if(response.data.totalEvents) {
-          setTotalEvents(response.data.totalEvents);
+        if (response.data.totalDirectories) {
+          setTotalDirectories(response.data.totalDirectories);
         }
       }
 
@@ -58,23 +51,19 @@ function EventList() {
   }
 
   useEffect(() => {
-    listEvents();
+    listDirectories();
   }, [actualPage]);
-  useEffect(() => {
-    listTags();
-  }, []);
 
   return (
       <Page>
         <Header/>
         <MyScreenView >
-        <h1>Eventos</h1>
+        <h1>Directorios Pendentes</h1>
 
-        <h2>Recentes</h2>
         <div style={{flexDirection: 'row', flexWrap: 'wrap'}}>
-        {events.map((content) => {
+        {directories.map((content) => {
           return (
-            <Link to={"/evento/" + content.id}>
+            <Link to={"/diretorio/" + content.id}>
               <NoticesCard
                 id={content.id}
                 icon={content.icon}
@@ -86,7 +75,8 @@ function EventList() {
           );
         })}
         </div>
-        <Pagination totalResults={totalEvents} resultsPerPage={30} actualPage={actualPage} changePage={setActualPage}/>
+
+        <Pagination totalResults={totalDirectories} resultsPerPage={30} actualPage={actualPage} changePage={setActualPage}/>
         <span>PAGINA ATUAL: {actualPage}</span>
 
         </MyScreenView>
@@ -95,4 +85,4 @@ function EventList() {
   );
 }
 
-export default EventList;
+export default DirectoryPendents;

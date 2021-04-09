@@ -9,6 +9,8 @@ import HorizonScrollView from "../../components/HorizonScrollView";
 
 import api from '../../services/api';
 
+import { Link } from "react-router-dom";
+
 function Notices() {
 
   const [featureds, setFeatureds] = useState([]);
@@ -22,7 +24,7 @@ function Notices() {
           for(let index in response.data.featureds) {
             if(response.data.featureds[index].post) {
               const featured = response.data.featureds[index].post;
-              featuredsDb.push({ tag : featured.tags,id: featured._id, title: featured.title, subtitle: featured.subtitle, image: `${process.env.REACT_APP_API_URL}`+featured.imagePath, icon: imgTest});
+              featuredsDb.push({ tag : featured.tags,id: featured._id, title: featured.title, subtitle: featured.subtitle, image: `${process.env.REACT_APP_API_URL}`+featured.imagePath, icon: imgTest, postType: response.data.featureds[index].postType});
             }
           }
           setFeatureds(featuredsDb);
@@ -63,10 +65,34 @@ function Notices() {
         <ScreenView width="95%">
 
           <MyCardMap>
-          {featureds.map((featured)=>(
-            <NoticesCard icon={featured.icon} image={featured.image} title={featured.title} text={featured.subtitle} />
-          ))}
-          </MyCardMap>
+          {featureds.map((featured)=>{
+            let link = "/";
+
+            switch(featured.postType) {
+              case 'Notice':
+                link = "/noticia/";
+                break;
+              case 'Directory':
+                link = "/diretorio/";
+                break;
+              case 'Event':
+                link = "/evento/";
+                break;
+              case 'Course':
+                link = "/curso/";
+                break;
+              default:
+                break;
+            }
+
+            return (
+              <Link to={link+featured.id}>
+                <NoticesCard icon={featured.icon} image={featured.image} title={featured.title} text={featured.subtitle} />
+              </Link>
+            )
+          }
+        )}  
+        </MyCardMap>
 
        </ScreenView>
         <Footer/>
