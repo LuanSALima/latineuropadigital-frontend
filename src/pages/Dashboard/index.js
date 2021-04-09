@@ -97,7 +97,7 @@ function Dashboard() {
 								rowData.push(err.message);
 							}
 						} else {
-							rowData.push(row[item].toString());
+							rowData.push(row[item].toString().substr(0,20));
 						}
 					} else {
 						rowData.push(item+' eliminado');
@@ -277,7 +277,7 @@ function Dashboard() {
 		setDataType("directory");
 
   		try {
-			const response = await api.get("/directory/list");
+			const response = await api.get("/directories/all");
 
 			if(response.data.success) {
 			  	if(response.data.directories) {
@@ -296,7 +296,7 @@ function Dashboard() {
 		setDataType("event");
 
   		try {
-			const response = await api.get("/event/list");
+			const response = await api.get("/events/all");
 
 			if(response.data.success) {
 			  	if(response.data.events) {

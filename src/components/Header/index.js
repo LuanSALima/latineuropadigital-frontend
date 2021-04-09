@@ -68,12 +68,14 @@ function Header() {
           </NavDropdown>
       
           <NavDropdown className="headerLinks texts" title="DIRECTORIO">
-            <Link to="/diretorios" className="dropdown-item">Lista de Directorio</Link>
+            <Link to="/diretorios" className="dropdown-item">Lista de Directorios Aceitos</Link>
+            <Link to="/diretorios-pendentes" className="dropdown-item">Lista de Directorios Pendentes</Link>
             <Link to="/directory/cadastrar" className="dropdown-item">Anunciar Directorio</Link>
           </NavDropdown>
 
           <NavDropdown className="headerLinks texts" title="AGENDA">
-            <Link to="/eventos" className="dropdown-item">Lista de Eventos</Link>
+            <Link to="/eventos" className="dropdown-item">Lista de Eventos Aceitos</Link>
+            <Link to="/eventos-pendentes" className="dropdown-item">Lista de Eventos Pendentes</Link>
             <Link to="/event/cadastrar" className="dropdown-item">Anunciar Eventos</Link>
           </NavDropdown>
 
