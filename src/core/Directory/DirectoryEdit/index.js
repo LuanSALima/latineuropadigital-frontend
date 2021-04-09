@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
 import Header from '../../../components/Header';
-import { AppButton, ContentView, Form, Outline_Button, Page, ProgressBar } from '../../../styles/default';
+import { AppButton, ContentView, Form, Outline_Button, Page, ProgressBar, FormBlock, FormColumn, FormGroup, Required, CharLimit } from '../../../styles/default';
 import Footer from '../../../components/Footer';
 import api from '../../../services/api';
 
@@ -15,8 +15,6 @@ import Select from 'react-select';
 
 import useMyForm, { verifyLink } from '../../../hooks/useValidationForm';
 
-import { FormBlock, FormColumn, FormGroup, Required, CharLimit } from './styles';
-
 function DirectoryEdit(props) {
 
   const [buttonText, setButtonText] = useState("Editar");
@@ -24,7 +22,7 @@ function DirectoryEdit(props) {
   const [idDirectory] = useState(props.match.params.id);
 
   const [businessName, setBusinessName] = useState("");
-  const [businessAdress, setBusinessAdress] = useState("");
+  const [businessAddress, setBusinessAddress] = useState("");
   const [businessCity, setBusinessCity] = useState("");
   const [businessProvince, setBusinessProvince] = useState("");
   const [businessPostalCode, setBusinessPostalCode] = useState("");
@@ -47,7 +45,7 @@ function DirectoryEdit(props) {
 
   const handleValidator =  useMyForm(
     businessName,
-    businessAdress,
+    businessAddress,
     businessCity,
     businessProvince,
     businessPostalCode,
@@ -85,7 +83,7 @@ function DirectoryEdit(props) {
       if(response.data.success) {
         if(response.data.directory) {
           setBusinessName(response.data.directory.businessName);
-          setBusinessAdress(response.data.directory.businessAdress);
+          setBusinessAddress(response.data.directory.businessAddress);
           setBusinessCity(response.data.directory.businessCity);
           setBusinessProvince(response.data.directory.businessProvince);
           setBusinessPostalCode(response.data.directory.businessPostalCode);
@@ -120,7 +118,7 @@ function DirectoryEdit(props) {
       try {
         const formData = new FormData();
         formData.append('businessName', businessName);
-        formData.append('businessAdress', businessAdress);
+        formData.append('businessAddress', businessAddress);
         formData.append('businessCity', businessCity);
         formData.append('businessProvince', businessProvince);
         formData.append('businessPostalCode', businessPostalCode);
@@ -145,9 +143,15 @@ function DirectoryEdit(props) {
         });
 
         setButtonText("Editado com Sucesso");
+        toast.success("¡Directorio editado com Sucesso",TOASTIFY_OPTIONS)
       } catch (error) {
         setButtonText("Tente Novamente");
 
+        if(error.message) {
+          toast.error(error.message, TOASTIFY_OPTIONS)
+        } else {
+          toast.error("Hubo un error no Servidor! Verifique que todos los campos estén llenos", TOASTIFY_OPTIONS)
+        }
         console.log(error);
       }
     }else{
@@ -221,9 +225,9 @@ function DirectoryEdit(props) {
               <input               
                 type="text"
                 onChange={(e) => {
-                  setBusinessAdress(e.target.value);
+                  setBusinessAddress(e.target.value);
                 }}
-                value={businessAdress}
+                value={businessAddress}
               />
             </FormGroup>
             <FormGroup>
@@ -350,7 +354,7 @@ function DirectoryEdit(props) {
               />
             </fieldset>
           </FormGroup>
-           <FormGroup>
+          <FormGroup>
             <label>Status</label>
             <fieldset>
               <select value={status} onChange={(e) => {setStatus(e.target.value)}}>

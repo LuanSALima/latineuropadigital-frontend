@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
 import Header from '../../../components/Header';
-import { AppButton, ContentView, Form, Outline_Button, Page } from '../../../styles/default';
+import { AppButton, ContentView, Form, Outline_Button, Page, ProgressBar, FormBlock, FormColumn, FormGroup, Required, CharLimit } from '../../../styles/default';
 import Footer from '../../../components/Footer';
 import api from '../../../services/api';
 import Select from 'react-select';
@@ -14,20 +14,42 @@ import useMyForm, { verifyLink } from '../../../hooks/useValidationForm';
 
 function EventRegister() {
 
-  const [buttonText, setButtonText] = useState("Cadastrar");
-  const [title, setTitle] = useState("");
-  const [subtitle, setSubtitle] = useState("");
-  const [content, setContent] = useState("");
-  const [image, setImage] = useState('');
+  const [eventName, setEventName] = useState("");
+  const [eventOrganizedBy, setEventOrganizedBy] = useState("");
+  const [eventLocation, setEventLocation] = useState("");
+  const [eventAddress, setEventAddress] = useState("");
+  const [eventDate, setEventDate] = useState("");
+  const [eventTime, setEventTime] = useState("");
+  const [eventTicketPrice, setEventTicketPrice] = useState("");
+  const [eventMoreInfo, setEventMoreInfo] = useState("");
+  const [eventDescription, setEventDescription] = useState("");
+  const [contactName, setContactName] = useState("");
+  const [contactPhone, setContactPhone] = useState("");
+  const [contactEmail, setContactEmail] = useState("");
+  const [contactRole, setContactRole] = useState("");
+
   const [tags, setTags] = useState([]);
   const [dbTags, setDbTags] = useState([]);
-  const [link,setLink]= useState('');
 
-  const[modalShow,setModalShow] = useState(false);
+  const [image, setImage] = useState('');
   const [previewImage,setPreviewImage] = useState();
+  const [progress, setProgess] = useState(0);
 
-  const handleValidator =  useMyForm(title,subtitle,content,image,tags,link);
-  const handleLinkValidator = verifyLink(link);
+  const handleValidator =  useMyForm(
+    eventName,
+    eventOrganizedBy,
+    eventLocation,
+    eventAddress,
+    eventDate,
+    eventTime,
+    eventTicketPrice,
+    eventMoreInfo,
+    eventDescription,
+    contactName,
+    contactPhone,
+    contactEmail,
+    contactRole
+  );
 
   async function listTags() {
     try {
@@ -54,26 +76,42 @@ function EventRegister() {
   const handleEventRegister = async (e) => {
     e.preventDefault();
 
-    if(handleValidator && handleLinkValidator){
-      const formData = new FormData();
-      formData.append('title', title);
-      formData.append('subtitle', subtitle);
-      formData.append('content', content);
-      formData.append('image', image);
-      formData.append('link', link);
-      tags.map((tag) => {
-        formData.append('tags', tag);
-      })
-      
+    if(handleValidator){
       try {
-        
-       await api.post("/event/create", formData);
-      
+        const formData = new FormData();
 
-        toast.success("¡Registrado correctamente!",TOASTIFY_OPTIONS)
-        setButtonText("Registrado Correctamente");
+        formData.append('eventName', eventName);
+        formData.append('eventOrganizedBy', eventOrganizedBy);
+        formData.append('eventLocation', eventLocation);
+        formData.append('eventAddress', eventAddress);
+        formData.append('eventDate', eventDate);
+        formData.append('eventTime', eventTime);
+        formData.append('eventTicketPrice', eventTicketPrice);
+        formData.append('eventMoreInfo', eventMoreInfo);
+        formData.append('eventDescription', eventDescription);
+        formData.append('contactName', contactName);
+        formData.append('contactPhone', contactPhone);
+        formData.append('contactEmail', contactEmail);
+        formData.append('contactRole', contactRole);
+        formData.append('image', image);
+        tags.map((tag) => {
+          formData.append('tags', tag);
+        });
+        
+        await api.post("/event/create", formData, {
+          onUploadProgress: (ProgressCourse) => {
+            let progress = Math.round(ProgressCourse.loaded / ProgressCourse.total * 100) + '%';
+            setProgess(progress);
+          }
+        });
+      
+        toast.success("Evento enviado para validación!",TOASTIFY_OPTIONS)
       } catch (error) {
-          toast.error("¡Hubo un error con Server!",TOASTIFY_OPTIONS)
+        if(error.message) {
+          toast.error(error.message, TOASTIFY_OPTIONS)
+        } else {
+          toast.error("Hubo un error no Servidor! Verifique que todos los campos estén llenos", TOASTIFY_OPTIONS)
+        }
       }
     }else{
       toast.error("¡Hubo un error! Verifique que todos los campos estén llenos",TOASTIFY_OPTIONS)
@@ -88,89 +126,213 @@ function EventRegister() {
     setTags(tags);
   }
 
-  const handleChangeTags = (e)=>{
-    e.preventDefault();
-    setModalShow(true);
-  }
-
   return (
   <Page>
     <Toastifying/>
-    {modalShow && <ModalTag
-    show={modalShow}
-    onHide={()=>setModalShow(false)}
-    />}
     <Header/>
-    <Form width={"45%"} height={"80vh"} center>
-      <ContentView>
-        <label>¡Crea un evento!</label>
-
-
-        <input
-          placeholder="  Título"
-          type="text"
-          onChange={(e) => {
-            setTitle(e.target.value);
-          }}
-          value={title}
-        />
-
-        <input
-          placeholder="  Subtítulo"
-          type="text"
-           onChange={(e) => {
-            setSubtitle(e.target.value);
-          }}
-          value={subtitle}
-        />
-
-        <textarea
-          placeholder="Contenido"
-          type="text"
-           onChange={(e) => {
-            setContent(e.target.value);
-          }}
-          value={content}
-        />
-
-        <div>
-        <label for="uploadPhoto" class="btn-cta">
-          {image?.name?image?.name:"Haga clic aquí para agregar una imagen"}
-        <MdFileUpload/>
-        </label>
-        <input
-           id="uploadPhoto"
-          type="file"
-          onChange={(e) => {
-            setImage(e.target.files[0]);
-            if(e.target.files[0]){
-              setPreviewImage(URL.createObjectURL(e.target.files[0]));
-            }
-          }}
-        />
-       { image && <img src={previewImage}/>}
-       </div>
-
-       <input type="text" placeholder="Link" onChange={(e)=>{setLink(e.target.value)}} value={link} />
-
-          
-        <fieldset>
-        <Select
-         options={dbTags.map((currentTag)=>(
-          {label:currentTag,value:currentTag}))}
-          isClearable
-          isMulti
-          closeMenuOnSelect={false}
-          onChange={onChangeSelectTags}
-          placeholder={"¡Seleccione las etiquetas!"}
-        />
-
-        </fieldset>
-        <Outline_Button type="success" onClick={handleChangeTags}>Añadir Etiqueta</Outline_Button>
-
+    <Form width={"80%"} height={"80vh"} center>
       
-        <AppButton onClick={handleEventRegister}>Registrar</AppButton>
-      </ContentView>
+      <label>Registra tu evento gratis</label>
+
+      <FormBlock>
+        <h4>EVENT INFORMATION</h4>
+        <FormColumn>
+          <FormGroup>
+            <label>Event Name<Required>*</Required></label>
+            <input
+              type="text"
+              onChange={(e) => {
+                setEventName(e.target.value);
+              }}
+              value={eventName}
+            />
+          </FormGroup>
+          <FormGroup>
+            <label>Venue / Location<Required>*</Required></label>
+            <input
+              type="text"
+              onChange={(e) => {
+                setEventLocation(e.target.value);
+              }}
+              value={eventLocation}
+            />
+          </FormGroup>
+          <FormGroup>
+            <label>Date<Required>*</Required></label>
+            <input
+              type="text"
+              onChange={(e) => {
+                setEventDate(e.target.value);
+              }}
+              value={eventDate}
+            />
+          </FormGroup>
+          <FormGroup>
+            <label>Ticket Price<Required>*</Required></label>
+            <input
+              type="text"
+              onChange={(e) => {
+                setEventTicketPrice(e.target.value);
+              }}
+              value={eventTicketPrice}
+            />
+          </FormGroup>
+        </FormColumn>
+        <FormColumn>
+          <FormGroup>
+            <label>Organized By<Required>*</Required></label>
+            <input
+              type="text"
+              onChange={(e) => {
+                setEventOrganizedBy(e.target.value);
+              }}
+              value={eventOrganizedBy}
+            />
+          </FormGroup>
+          <FormGroup>
+            <label>Address<Required>*</Required></label>
+            <input
+              type="text"
+              onChange={(e) => {
+                setEventAddress(e.target.value);
+              }}
+              value={eventAddress}
+            />
+          </FormGroup>
+          <FormGroup>
+            <label>Time<Required>*</Required></label>
+            <input
+              type="text"
+              onChange={(e) => {
+                setEventTime(e.target.value);
+              }}
+              value={eventTime}
+              placeholder={"e.g. Doors open 8am. Show Time 10 pm."}
+            />
+          </FormGroup>
+          <FormGroup>
+            <label>More Info<Required>*</Required></label>
+            <input
+              type="text"
+              onChange={(e) => {
+                setEventMoreInfo(e.target.value);
+              }}
+              value={eventMoreInfo}
+              placeholder={"e.g. name@gmail.com | (111) 111-1111"}
+            />
+          </FormGroup>
+        </FormColumn>
+        <FormGroup>
+            <label>Event Description<Required>*</Required></label>
+            <textarea
+              type="text"
+              onChange={(e) => {
+                setEventDescription(e.target.value);
+              }}
+              value={eventDescription}
+              placeholder={"e.g. Free or $25.00"}
+            />
+            <CharLimit>
+              <span>215 characters limit. {eventDescription.length < 215 ? 215-eventDescription.length+" characters left": "Limit characters reached"} </span>
+            </CharLimit>
+        </FormGroup>
+
+      </FormBlock>
+
+      <hr />
+     
+      <FormBlock>
+        <h4>CONTACT INFORMATION</h4>
+        <FormColumn>
+          <FormGroup>
+            <label>Full Name<Required>*</Required></label>
+            <input
+              type="text"
+              onChange={(e) => {
+                setContactName(e.target.value);
+              }}
+              value={contactName}
+            />
+          </FormGroup>
+          <FormGroup>
+            <label>Email<Required>*</Required></label>
+            <input
+              type="text"
+              onChange={(e) => {
+                setContactEmail(e.target.value);
+              }}
+              value={contactEmail}
+            />
+          </FormGroup>
+        </FormColumn>
+
+        <FormColumn>
+          <FormGroup>
+            <label>Phone Number<Required>*</Required></label>
+            <input
+              type="text"
+              onChange={(e) => {
+                setContactPhone(e.target.value);
+              }}
+              value={contactPhone}
+            />
+          </FormGroup>
+          <FormGroup>
+            <label>Which is your role?<Required>*</Required></label>
+            <fieldset>
+              <Select
+                options={[
+                  {label: 'Event Owner', value: 'Event Owner'},
+                  {label: 'Event Producer', value: 'Event Producer'}
+                ]}
+                isClearable
+                closeMenuOnSelect={false}
+                onChange={(e) => {setContactRole(e.value)}}
+                placeholder={"¡Seleccione!"}
+              />
+            </fieldset>
+          </FormGroup>
+        </FormColumn>
+        <FormGroup>
+          <label>Tags<Required>*</Required></label>
+          <fieldset>
+            <Select
+             options={dbTags.map((currentTag)=>(
+              {label:currentTag,value:currentTag}))}
+              isClearable
+              isMulti
+              closeMenuOnSelect={false}
+              onChange={onChangeSelectTags}
+              placeholder={"¡Seleccione las etiquetas!"}
+            />
+          </fieldset>
+        </FormGroup>
+        <ContentView>
+          <div>
+            <label for="uploadPhoto" class="btn-cta">
+              {image?.name?image?.name:"Haga clic aquí para agregar una imagen"}
+            <MdFileUpload/>
+            </label>
+            <input
+               id="uploadPhoto"
+              type="file"
+              onChange={(e) => {
+                setImage(e.target.files[0]);
+                if(e.target.files[0]){
+                  setPreviewImage(URL.createObjectURL(e.target.files[0]));
+                }
+              }}
+            />
+           { image && <img src={previewImage}/>}
+          </div>
+        </ContentView>
+        <ProgressBar width={progress}>
+          {progress}
+        </ProgressBar>
+      </FormBlock>
+      
+      <button className="btn btn-primary btn-lg btn-block" onClick={handleEventRegister}>Registrar</button>
+    
     </Form>
     <Footer/>
   </Page>);

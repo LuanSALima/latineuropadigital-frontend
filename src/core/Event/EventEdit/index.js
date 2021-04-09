@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
 import Header from '../../../components/Header';
-import { AppButton, ContentView, Form, Outline_Button, Page } from '../../../styles/default';
+import { AppButton, ContentView, Form, Outline_Button, Page,  ProgressBar, FormBlock, FormColumn, FormGroup, Required, CharLimit } from '../../../styles/default';
 import Footer from '../../../components/Footer';
 import api from '../../../services/api';
 
@@ -21,21 +21,43 @@ function EventEdit(props) {
 
   const [idEvent] = useState(props.match.params.id);
 
-  const [title, setTitle] = useState("");
-  const [subtitle, setSubtitle] = useState("");
-  const [content, setContent] = useState("");
-  const [image, setImage] = useState('');
-  const [link, setLink] = useState("");
+  const [eventName, setEventName] = useState("");
+  const [eventOrganizedBy, setEventOrganizedBy] = useState("");
+  const [eventLocation, setEventLocation] = useState("");
+  const [eventAddress, setEventAddress] = useState("");
+  const [eventDate, setEventDate] = useState("");
+  const [eventTime, setEventTime] = useState("");
+  const [eventTicketPrice, setEventTicketPrice] = useState("");
+  const [eventMoreInfo, setEventMoreInfo] = useState("");
+  const [eventDescription, setEventDescription] = useState("");
+  const [contactName, setContactName] = useState("");
+  const [contactPhone, setContactPhone] = useState("");
+  const [contactEmail, setContactEmail] = useState("");
+  const [contactRole, setContactRole] = useState("");
+  const [status, setStatus] = useState("");
+
   const [tags, setTags] = useState([]);
   const [dbTags, setDbTags] = useState([]);
-  const [errors, setErrors] = useState({});
-  const [progress, setProgess] = useState(0); // progess bar
 
-  const[modalShow,setModalShow] = useState(false);
+  const [progress, setProgess] = useState(0); // progess bar
+  const [image, setImage] = useState('');
   const [previewImage,setPreviewImage] = useState();
 
-  const handleValidator =  useMyForm(title,subtitle,content,tags,link);
-  const handleLinkValidator = verifyLink(link);
+  const handleValidator =  useMyForm(
+    eventName,
+    eventOrganizedBy,
+    eventLocation,
+    eventAddress,
+    eventDate,
+    eventTime,
+    eventTicketPrice,
+    eventMoreInfo,
+    eventDescription,
+    contactName,
+    contactPhone,
+    contactEmail,
+    contactRole
+  );
 
   async function listTags() {
     try {
@@ -51,13 +73,7 @@ function EventEdit(props) {
         }
       }
     } catch (error) {
-      if(error.response) {
-        if(error.response.data) {
-          if(error.response.data.message) {
-            setErrors({dbTags: error.response.data.message});
-          }
-        }
-      }
+      toast.error("Error al enumerar etiquetas",TOASTIFY_OPTIONS)
     }
   }
 
@@ -67,22 +83,25 @@ function EventEdit(props) {
 
       if(response.data.success) {
         if(response.data.event) {
-          setTitle(response.data.event.title);
-          setSubtitle(response.data.event.subtitle);
-          setContent(response.data.event.content);
+          setEventName(response.data.event.eventName);
+          setEventOrganizedBy(response.data.event.eventOrganizedBy);
+          setEventLocation(response.data.event.eventLocation);
+          setEventAddress(response.data.event.eventAddress);
+          setEventDate(response.data.event.eventName);
+          setEventTime(response.data.event.eventTime);
+          setEventTicketPrice(response.data.event.eventTicketPrice);
+          setEventMoreInfo(response.data.event.eventMoreInfo);
+          setEventDescription(response.data.event.eventDescription);
+          setContactName(response.data.event.contactName);
+          setContactPhone(response.data.event.contactPhone);
+          setContactEmail(response.data.event.contactEmail);
+          setContactRole(response.data.event.contactRole);
           setTags(response.data.event.tags);
-          setLink(response.data.event.link);
+          setStatus(response.data.event.status);
         }
       }
     } catch (error) {
-      setErrors({message: "Não foi possível carregar o Evento"});
-      if(error.response) {
-        if(error.response.data) {
-          if(error.response.data.message) {
-            setErrors({message: error.response.data.message});
-          }
-        }
-      }
+      toast.error("Error al buscar el evento",TOASTIFY_OPTIONS)
     }
   }
 
@@ -97,18 +116,29 @@ function EventEdit(props) {
     e.preventDefault();
     setButtonText("Enviando Dados ...");
     
-    if(handleValidator && handleLinkValidator){
-      const formData = new FormData();
-      formData.append('title', title);
-      formData.append('subtitle', subtitle);
-      formData.append('content', content);
-      formData.append('image', image);
-      formData.append('link', link);
-      tags.map((tag) => {
-        formData.append('tags', tag);
-      })
-      
+    if(handleValidator){
       try {
+
+        const formData = new FormData();
+
+        formData.append('eventName', eventName);
+        formData.append('eventOrganizedBy', eventOrganizedBy);
+        formData.append('eventLocation', eventLocation);
+        formData.append('eventAddress', eventAddress);
+        formData.append('eventDate', eventDate);
+        formData.append('eventTime', eventTime);
+        formData.append('eventTicketPrice', eventTicketPrice);
+        formData.append('eventMoreInfo', eventMoreInfo);
+        formData.append('eventDescription', eventDescription);
+        formData.append('contactName', contactName);
+        formData.append('contactPhone', contactPhone);
+        formData.append('contactEmail', contactEmail);
+        formData.append('contactRole', contactRole);
+        formData.append('status', status);
+        formData.append('image', image);
+        tags.map((tag) => {
+          formData.append('tags', tag);
+        });
         
         const response = await api.put("/event/"+idEvent, formData, {
           onUploadProgress: (ProgressEvent) => {
@@ -117,35 +147,24 @@ function EventEdit(props) {
           }
         });
 
-        setButtonText("Editado com Sucesso");
+        setButtonText("editado exitosamente");
+        toast.success("editado exitosamente",TOASTIFY_OPTIONS)
       } catch (error) {
         setButtonText("Tente Novamente");
-        if(error.response) {
-          if(error.response.data) {
-            //Dados retornados do backend
-            if(error.response.data.errors) {
-              setErrors(error.response.data.errors);
-            }
-            if(error.response.data.message) {
-              setErrors({message: error.response.data.message});
-            }
-          } else {
-            //Não houve dados retornados do backend
-            alert("Erro Inesperado!");
-          }
-          console.log(errors);
+
+        if(error.message) {
+          toast.error(error.message, TOASTIFY_OPTIONS)
+        } else {
+          toast.error("Hubo un error no Servidor! Verifique que todos los campos estén llenos", TOASTIFY_OPTIONS)
         }
+        
+        console.log(error);
       }
     }else{
-      setButtonText("Tente Novamente");
+      
       toast.error("¡Hubo un error! Verifique que todos los campos estén llenos",TOASTIFY_OPTIONS)
     }
   };
-
-   const handleChangeTags = (e)=>{
-    e.preventDefault();
-    setModalShow(!modalShow);
-  }
 
   const onChangeSelectTags = (tagsSelected) => {
     let tags = [];
@@ -158,84 +177,219 @@ function EventEdit(props) {
   return (
   <Page>
     <Toastifying/>
-   {modalShow && <ModalTag
-    show={modalShow}
-    onHide={()=>setModalShow(false)}
-    />}
     <Header/>
-    <Form width={"45%"} center>
-      <ContentView>
-        <label>Edite o Evento !</label>
+    <Form width={"80%"} height={"80vh"} center>
+      
+      <label>Editar Evento</label>
 
-        <label style={{color: 'red'}}>{errors.message}</label>
+      <FormBlock>
+        <h4>EVENT INFORMATION</h4>
+        <FormColumn>
+          <FormGroup>
+            <label>Event Name<Required>*</Required></label>
+            <input
+              type="text"
+              onChange={(e) => {
+                setEventName(e.target.value);
+              }}
+              value={eventName}
+            />
+          </FormGroup>
+          <FormGroup>
+            <label>Venue / Location<Required>*</Required></label>
+            <input
+              type="text"
+              onChange={(e) => {
+                setEventLocation(e.target.value);
+              }}
+              value={eventLocation}
+            />
+          </FormGroup>
+          <FormGroup>
+            <label>Date<Required>*</Required></label>
+            <input
+              type="text"
+              onChange={(e) => {
+                setEventDate(e.target.value);
+              }}
+              value={eventDate}
+            />
+          </FormGroup>
+          <FormGroup>
+            <label>Ticket Price<Required>*</Required></label>
+            <input
+              type="text"
+              onChange={(e) => {
+                setEventTicketPrice(e.target.value);
+              }}
+              value={eventTicketPrice}
+            />
+          </FormGroup>
+        </FormColumn>
+        <FormColumn>
+          <FormGroup>
+            <label>Organized By<Required>*</Required></label>
+            <input
+              type="text"
+              onChange={(e) => {
+                setEventOrganizedBy(e.target.value);
+              }}
+              value={eventOrganizedBy}
+            />
+          </FormGroup>
+          <FormGroup>
+            <label>Address<Required>*</Required></label>
+            <input
+              type="text"
+              onChange={(e) => {
+                setEventAddress(e.target.value);
+              }}
+              value={eventAddress}
+            />
+          </FormGroup>
+          <FormGroup>
+            <label>Time<Required>*</Required></label>
+            <input
+              type="text"
+              onChange={(e) => {
+                setEventTime(e.target.value);
+              }}
+              value={eventTime}
+              placeholder={"e.g. Doors open 8am. Show Time 10 pm."}
+            />
+          </FormGroup>
+          <FormGroup>
+            <label>More Info<Required>*</Required></label>
+            <input
+              type="text"
+              onChange={(e) => {
+                setEventMoreInfo(e.target.value);
+              }}
+              value={eventMoreInfo}
+              placeholder={"e.g. name@gmail.com | (111) 111-1111"}
+            />
+          </FormGroup>
+        </FormColumn>
+        <FormGroup>
+            <label>Event Description<Required>*</Required></label>
+            <textarea
+              type="text"
+              onChange={(e) => {
+                setEventDescription(e.target.value);
+              }}
+              value={eventDescription}
+              placeholder={"e.g. Free or $25.00"}
+            />
+            <CharLimit>
+              <span>215 characters limit. {eventDescription.length < 215 ? 215-eventDescription.length+" characters left": "Limit characters reached"} </span>
+            </CharLimit>
+        </FormGroup>
 
-        <input
-          placeholder="  Título"
-          type="text"
-          onChange={(e) => {
-            setTitle(e.target.value);
-          }}
-          value={title}
-        />
-        <span style={{color: 'red'}}>{errors.title}</span>
+      </FormBlock>
 
-        <input
-          placeholder="  Subtítulo"
-          type="text"
-           onChange={(e) => {
-            setSubtitle(e.target.value);
-          }}
-          value={subtitle}
-        />
-        <span style={{color: 'red'}}>{errors.subtitle}</span>
+      <hr />
+     
+      <FormBlock>
+        <h4>CONTACT INFORMATION</h4>
+        <FormColumn>
+          <FormGroup>
+            <label>Full Name<Required>*</Required></label>
+            <input
+              type="text"
+              onChange={(e) => {
+                setContactName(e.target.value);
+              }}
+              value={contactName}
+            />
+          </FormGroup>
+          <FormGroup>
+            <label>Email<Required>*</Required></label>
+            <input
+              type="text"
+              onChange={(e) => {
+                setContactEmail(e.target.value);
+              }}
+              value={contactEmail}
+            />
+          </FormGroup>
+        </FormColumn>
 
-        <input
-          placeholder="  Conteudo"
-          type="text"
-           onChange={(e) => {
-            setContent(e.target.value);
-          }}
-          value={content}
-        />
-        <span style={{color: 'red'}}>{errors.content}</span>
-
-        <div>
-        <label for="uploadPhoto" class="btn-cta">
-          {image?.name?image?.name:"Haga clic aquí para agregar una imagen"}
-        <MdFileUpload/>
-        </label>
-        <input
-           id="uploadPhoto"
-          type="file"
-          onChange={(e) => {
-            setImage(e.target.files[0]);
-            if(e.target.files[0]){
-              setPreviewImage(URL.createObjectURL(e.target.files[0]));
-            }
-          }}
-        />
-       { image && <img src={previewImage}/>}
-       </div>
-          
-        <input type="text" placeholder="Link" onChange={(e)=>{setLink(e.target.value)}} value={link} />
-
-        <fieldset>
-         <Select
-         options={dbTags.map((currentTag)=>(
-          {label:currentTag,value:currentTag}))}
-          isClearable
-          isMulti
-          closeMenuOnSelect={false}
-          onChange={onChangeSelectTags}
-          placeholder={"¡Seleccione las etiquetas!"}
-        />
-       
-        <span style={{color: 'red'}}>{errors.dbTags}</span>
-
-        </fieldset>
-        <Outline_Button type="success" onClick={handleChangeTags}>Añadir Etiqueta</Outline_Button>
-        <AppButton onClick={handleEventEdit}>{buttonText}</AppButton>
-      </ContentView>
+        <FormColumn>
+          <FormGroup>
+            <label>Phone Number<Required>*</Required></label>
+            <input
+              type="text"
+              onChange={(e) => {
+                setContactPhone(e.target.value);
+              }}
+              value={contactPhone}
+            />
+          </FormGroup>
+          <FormGroup>
+            <label>Which is your role?<Required>*</Required></label>
+            <fieldset>
+              <Select
+                options={[
+                  {label: 'Event Owner', value: 'Event Owner'},
+                  {label: 'Event Producer', value: 'Event Producer'}
+                ]}
+                isClearable
+                closeMenuOnSelect={false}
+                onChange={(e) => {setContactRole(e.value)}}
+                placeholder={"¡Seleccione!"}
+              />
+            </fieldset>
+          </FormGroup>
+        </FormColumn>
+        <FormGroup>
+          <label>Tags<Required>*</Required></label>
+          <fieldset>
+            <Select
+             options={dbTags.map((currentTag)=>(
+              {label:currentTag,value:currentTag}))}
+              isClearable
+              isMulti
+              closeMenuOnSelect={false}
+              onChange={onChangeSelectTags}
+              placeholder={"¡Seleccione las etiquetas!"}
+            />
+          </fieldset>
+        </FormGroup>
+        <FormGroup>
+          <label>Status</label>
+          <fieldset>
+            <select value={status} onChange={(e) => {setStatus(e.target.value)}}>
+              <option value="pendent">Pendente</option>
+              <option value="accepted">Aceita</option>
+            </select>
+          </fieldset>
+        </FormGroup>
+        <ContentView>
+          <div>
+            <label for="uploadPhoto" class="btn-cta">
+              {image?.name?image?.name:"Haga clic aquí para agregar una imagen"}
+            <MdFileUpload/>
+            </label>
+            <input
+               id="uploadPhoto"
+              type="file"
+              onChange={(e) => {
+                setImage(e.target.files[0]);
+                if(e.target.files[0]){
+                  setPreviewImage(URL.createObjectURL(e.target.files[0]));
+                }
+              }}
+            />
+           { image && <img src={previewImage}/>}
+          </div>
+        </ContentView>
+        <ProgressBar width={progress}>
+          {progress}
+        </ProgressBar>
+      </FormBlock>
+      
+      <button className="btn btn-primary btn-lg btn-block" onClick={handleEventEdit}>Editar</button>
+    
     </Form>
     <Footer/>
   </Page>);

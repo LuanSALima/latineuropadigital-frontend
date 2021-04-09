@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
 import Header from '../../../components/Header';
-import { AppButton, ContentView, Form, Outline_Button, Page, ProgressBar } from '../../../styles/default';
+import { AppButton, ContentView, Form, Outline_Button, Page, ProgressBar, FormBlock, FormColumn, FormGroup, Required, CharLimit } from '../../../styles/default';
 import Footer from '../../../components/Footer';
 import api from '../../../services/api';
 import Select from 'react-select';
@@ -12,12 +12,10 @@ import ModalTag from '../../../components/ModalTag';
 
 import useMyForm, { verifyLink } from '../../../hooks/useValidationForm';
 
-import { FormBlock, FormColumn, FormGroup, Required, CharLimit } from './styles';
-
 function DirectoryRegister() {
 
   const [businessName, setBusinessName] = useState("");
-  const [businessAdress, setBusinessAdress] = useState("");
+  const [businessAddress, setBusinessAddress] = useState("");
   const [businessCity, setBusinessCity] = useState("");
   const [businessProvince, setBusinessProvince] = useState("");
   const [businessPostalCode, setBusinessPostalCode] = useState("");
@@ -38,7 +36,7 @@ function DirectoryRegister() {
 
   const handleValidator =  useMyForm(
     businessName,
-    businessAdress,
+    businessAddress,
     businessCity,
     businessProvince,
     businessPostalCode,
@@ -80,7 +78,7 @@ function DirectoryRegister() {
       try {
         const formData = new FormData();
         formData.append('businessName', businessName);
-        formData.append('businessAdress', businessAdress);
+        formData.append('businessAddress', businessAddress);
         formData.append('businessCity', businessCity);
         formData.append('businessProvince', businessProvince);
         formData.append('businessPostalCode', businessPostalCode);
@@ -105,7 +103,11 @@ function DirectoryRegister() {
 
         toast.success("¡Directorio enviado para validación!",TOASTIFY_OPTIONS)
       } catch (error) {
-        toast.error("¡Hubo un error! Verifique que todos los campos estén llenos",TOASTIFY_OPTIONS);
+        if(error.message) {
+          toast.error(error.message, TOASTIFY_OPTIONS)
+        } else {
+          toast.error("Hubo un error no Servidor! Verifique que todos los campos estén llenos", TOASTIFY_OPTIONS)
+        }
         console.log(error);
       }
     }else{
@@ -177,9 +179,9 @@ function DirectoryRegister() {
               <input
                 type="text"
                 onChange={(e) => {
-                  setBusinessAdress(e.target.value);
+                  setBusinessAddress(e.target.value);
                 }}
-                value={businessAdress}
+                value={businessAddress}
               />
             </FormGroup>
             <FormGroup>
