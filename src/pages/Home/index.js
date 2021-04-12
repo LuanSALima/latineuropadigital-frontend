@@ -24,7 +24,16 @@ function Notices() {
           for(let index in response.data.featureds) {
             if(response.data.featureds[index].post) {
               const featured = response.data.featureds[index].post;
-              featuredsDb.push({ tag : featured.tags,id: featured._id, title: featured.title, subtitle: featured.subtitle, image: `${process.env.REACT_APP_API_URL}`+featured.imagePath, icon: imgTest, postType: response.data.featureds[index].postType});
+              featuredsDb.push({
+                tag: featured.tags,
+                id: featured._id,
+                title: featured.title,
+                subtitle: featured.subtitle,
+                image: `${process.env.REACT_APP_API_URL}`+featured.imagePath,
+                icon: imgTest,
+                postType: response.data.featureds[index].postType,
+                date: featured.createdAt
+              });
             }
           }
           setFeatureds(featuredsDb);
@@ -87,7 +96,7 @@ function Notices() {
 
             return (
               <Link to={link+featured.id}>
-                <NoticesCard icon={featured.icon} image={featured.image} title={featured.title} text={featured.subtitle} />
+                <NoticesCard icon={featured.icon} image={featured.image} title={featured.title} text={featured.subtitle} date={featured.date}/>
               </Link>
             )
           }

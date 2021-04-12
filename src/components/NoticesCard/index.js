@@ -11,7 +11,7 @@ function NoticesCard(props) {
   const date = (date) => {
     const today = Date.now();
     const postDate = new Date(date);
-    const difer = Math.round((today-postDate.getTime())/1000);
+    const difer = Math.round((today-postDate.getTime())/1000); //Transformando milisegundo em segundo
 
     if(difer < 60) {
       if(Math.round(difer) === 1) {

@@ -20,6 +20,7 @@ function DirectoryRegister() {
   const [businessProvince, setBusinessProvince] = useState("");
   const [businessPostalCode, setBusinessPostalCode] = useState("");
   const [businessPhone, setBusinessPhone] = useState("");
+  const [businessSecondPhone, setBusinessSecondPhone] = useState("");
   const [businessWebsite, setBusinessWebsite] = useState("");
   const [businessDescription, setBusinessDescription] = useState("");
   const [contactName, setContactName] = useState("");
@@ -83,6 +84,7 @@ function DirectoryRegister() {
         formData.append('businessProvince', businessProvince);
         formData.append('businessPostalCode', businessPostalCode);
         formData.append('businessPhone', businessPhone);
+        formData.append('businessSecondPhone', businessSecondPhone);
         formData.append('businessWebsite', businessWebsite);
         formData.append('businessDescription', businessDescription);
         formData.append('contactName', contactName);
@@ -168,7 +170,10 @@ function DirectoryRegister() {
               <label>Phone 2</label>
               <input
                 type="text"
-                placeholder="Atribui nada pq nao existe no BCD"
+                onChange={(e) => {
+                  setBusinessSecondPhone(e.target.value);
+                }}
+                value={businessSecondPhone}
               />
             </FormGroup>
           </FormColumn>
