@@ -234,9 +234,40 @@ export const TwoDivided = styled.div`
 ////////////////////////////////////////
 
 //for side bar after links
+
+export const MySideBarCard = styled.div`
+display:flex;
+flex-direction:column;
+text-align: center;
+margin-top:1rem;
+border:1px solid var(--color-freela-hover);
+padding:10px;
+justify-content:center;
+align-items:center;
+text-align:center;
+transition: box-shadow 0.3s ease;
+:hover{
+  box-shadow: 1px 1px 10px 3px var(--color-freela-hover);
+}
+>img{
+  max-width:300px;
+  width: 100%;
+  height:100%;
+  transition: transform 0.3s ease;
+  :hover{
+    transform: scale(1.02);
+  }
+}
+>span{
+  color: var(--color-freela-text);
+   font-size: 18px;
+   margin-top:1rem;
+}
+`;
+
 export const MySideCardLink = styled.div`
 float: left;
-width:15%;
+width:25%;
 cursor:pointer;
 >img{
   padding-top:1rem;
@@ -254,7 +285,7 @@ cursor:pointer;
 export const MyCardMap = styled.div`
 display:flex;
 flex-wrap: wrap;
-width: 85%;
+width: 75%;
 float: left;
 
 >h2{
@@ -264,7 +295,7 @@ float: left;
   text-align:center;
 }
 @media(max-width:1600px){
-  width:85%;
+  width:75%;
 }
 
 @media(max-width:1000px){
