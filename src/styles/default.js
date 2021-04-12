@@ -252,7 +252,8 @@ transition: box-shadow 0.3s ease;
 >img{
   width: 100%;
   height:100%;
-  max-height:500px;
+  max-height:530px;
+  max-width:275px !important;
   transition: transform 0.3s ease;
   :hover{
     transform: scale(1.02);
@@ -265,7 +266,7 @@ transition: box-shadow 0.3s ease;
 }
 `;
 
-export const MySideCardLink = styled.div`
+export const MySideCardLink = styled.div` 
 float: left;
 width:25%;
 cursor:pointer;
@@ -273,7 +274,7 @@ cursor:pointer;
   padding-top:1rem;
   width:100%;
   height:100%;
-  min-height:250px;
+  min-height:200px;
   margin-top:1rem;
   border-top:1px solid var(--color-freela-hover);
 }
