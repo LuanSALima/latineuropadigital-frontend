@@ -255,7 +255,7 @@ function NoticesList() {
                 <Link to={"/noticia/" + notice.id}>
                   <MySideBarCard >
                     <img  src={notice.image} onError={(image) => {image.target.src = imgTest}}/>
-                    <span >{notice.title}</span>
+                    <span >{notice.title.length > 20?notice.title.substr(0,20)+"...":notice.title}</span>
                   </MySideBarCard>
                 </Link>
               );

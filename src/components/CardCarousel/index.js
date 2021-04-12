@@ -25,13 +25,13 @@ function CardCarousel(props) {
 							 
 							/>
 							<Carousel.Caption>
-							  <div style={{backgroundColor:"transparent",maxWidth:"auto",margin:"0 auto",borderRadius:"0.5rem"}}>
-							  <h3 style={{color:"var(--color-freela-white)"}}>{content.title.length > 40?
-								content.title.substr(0,40)+".."
+							  <div style={{ padding:"1.4rem 0.7rem",backgroundColor:"rgba(0, 0, 0, 0.35)",overflowWrap: "break-word",maxWidth:"250px !important",margin:"0 auto",borderRadius:"0.5rem"}}>
+							  <h3 style={{color:"var(--color-freela-white)"}}>{content.title.length > 20?
+								content.title.substr(0,30)+".."
 								:
 								content?.title}</h3>
-											<p className="spanP" style={{color:"var(--color-freela-white)"}}>{content.subtitle.length > 140?
-								content.subtitle.substr(0,140)+".."
+											<p className="spanP" style={{color:"var(--color-freela-white)",marginBottom:"1.5rem"}}>{content.subtitle.length > 70?
+								content.subtitle.substr(0,70)+".."
 								:
 								content?.subtitle}</p>
 								</div>
