@@ -54,6 +54,7 @@ function NoticesList() {
               subtitle: notice.content,
               image: `${process.env.REACT_APP_API_URL}` + notice.imagePath,
               icon: imgTest,
+              date: notice.createdAt
             });
           }
           setNotices(noticesDb);
@@ -171,6 +172,7 @@ function NoticesList() {
                   image={content.image}
                   title={content.title}
                   text={content.subtitle}
+                  date={content.date}
                 />
               </Link>
               </MyCardLink>

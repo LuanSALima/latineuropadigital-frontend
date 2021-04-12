@@ -40,6 +40,7 @@ export const Image = styled.div`
 
 
 export const Description = styled.div`
+   width: inherit;
    margin-left:1rem;
    padding:1rem;
    >span{
@@ -91,3 +92,10 @@ flex-direction:column;
 }
 `;
 
+export const Time = styled.div`
+text-align: end;
+>span{
+  font-size:12px;
+  color: gray;
+}
+`;
