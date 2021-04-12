@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Header from "../../../components/Header";
 import NoticesCard from "../../../components/NoticesCard";
-import { MyCardLink, MyFilteredOptions, MySideCardLink, Page, MyCardMap } from "../../../styles/default";
+import { MyCardLink, MyFilteredOptions, MySideCardLink, Page, MyCardMap, MySideBarCard } from "../../../styles/default";
 import imgTest from "../../../assets/icon.svg";
 
 import api from "../../../services/api";
@@ -184,10 +184,10 @@ function NoticesList() {
             {noticesSideBar.map((notice) => {
               return (
                 <Link to={"/noticia/" + notice.id}>
-                  <div style={{margin: '20px', textAlign: 'center'}}>
-                    <img style={{width: '100%'}} src={notice.image} onError={(image) => {image.target.src = imgTest}}/>
-                    <span style={{color: 'var(--color-freela-pink)', fontSize: '20px'}}>{notice.title}</span>
-                  </div>
+                  <MySideBarCard >
+                    <img  src={notice.image} onError={(image) => {image.target.src = imgTest}}/>
+                    <span >{notice.title}</span>
+                  </MySideBarCard>
                 </Link>
               );
             })} 
