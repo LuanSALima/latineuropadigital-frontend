@@ -8,20 +8,21 @@
   height: 550px !important;
   justify-content: center;
 }
-
 .myImage {
   margin: 0 auto;
-  max-width: 550px !important;
-  min-width: 160px !important;
-  height: auto !important;
+  min-height: 350px !important;
+  max-width: 100% !important;
   width: auto !important;
-  min-height: 550px;
 }
 
 @media (min-width: 1350px) {
   .myImage {
-    max-width: 50% !important;
-    height: 350px !important;
+    height: 550px !important;
     margin: 0 auto;
+  }
+}
+@media (max-width: 750px) {
+  .spanP {
+    display: none;
   }
 }
