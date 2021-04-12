@@ -398,7 +398,13 @@ function Dashboard() {
 			<label>Dashboard</label>
 			{dataType &&
 			<div>
-				<Link to={"/"+dataType+"/cadastrar"}>
+				<Link to={
+					dataType === 'event'?
+					"/evento/anunciar" : 
+					dataType === 'directory' ?
+					"/diretorio/anunciar" :
+					"/"+dataType+"/cadastrar"
+				}>
 				<DashButton>Regístrate Nuevo</DashButton>
 				</Link>
 			</div>

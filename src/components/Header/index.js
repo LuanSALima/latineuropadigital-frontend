@@ -50,11 +50,11 @@ function Header() {
 
         </Nav>
         <Nav>
-        <Link to="/job/cadastrar">
-          <div className="headerSuperLink" >
-            <span className="texts">ANUNCIAR</span>
-          </div>
-        </Link>
+        <NavDropdown alignRight className="headerSuperLink texts" title="ANUNCIAR">
+          <Link to="/diretorio/anunciar" className="dropdown-item">DIRECTORIO</Link>
+          <Link to="/evento/anunciar" className="dropdown-item">EVENTO</Link>
+          <Link to="/job/cadastrar" className="dropdown-item">OPORTUNIDADE</Link>
+        </NavDropdown>
       </Nav>
         </>
         ):null}
