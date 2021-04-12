@@ -16,6 +16,9 @@ import Stars from "../../../components/Stars";
 import Pagination from '../../../components/Pagination';
 import CardCarousel from '../../../components/CardCarousel';
 
+
+import { MdStar } from 'react-icons/md';
+
 function NoticesList() {
   const [noticesFeatured, setNoticesFeatured] = useState([]);
 
@@ -25,6 +28,7 @@ function NoticesList() {
   const [notices, setNotices] = useState([]);
   const [tags, setTags] = useState([]);
 
+  const [postsSideBar, setPostsSideBar] = useState([]);
   const [noticesSideBar, setNoticesSideBar] = useState([]);
 
   const [actualPage, setActualPage] = useState(1);
@@ -95,14 +99,14 @@ function NoticesList() {
 
   const listNoticesSideBar = async () => {
     try {
-      const response = await api.get("/notice/list?results=10&views=weekly");
+      const response = await api.get("/notice/list?results=9&views=weekly");
 
       if (response.data.success) {
         if (response.data.notices) {
-          let noticesMostViewedDb = [];
+          let noticesSideBarDB = [];
           for (let index in response.data.notices) {
             const notice = response.data.notices[index];
-            noticesMostViewedDb.push({
+            noticesSideBarDB.push({
               tag: notice.tags,
               id: notice._id,
               title: notice.title,
@@ -112,11 +116,46 @@ function NoticesList() {
               views: notice.views,
             });
           }
-          setNoticesSideBar(noticesMostViewedDb);
+          setNoticesSideBar(noticesSideBarDB);
         }
       }
     } catch (error) {
       setNoticesSideBar([]);
+    }
+  };
+
+  const listSideBar = async () => {
+    try {
+      const response = await api.get("/featured/list?type=notice");
+
+      if (response.data.success) {
+        if (response.data.featureds) {
+          let postsSideBarDB = [];
+          for (let index in response.data.featureds) {
+            const featuredPost = response.data.featureds[index].post;
+
+            let postTitle = "Titulo não encontrado";
+
+            if(featuredPost.title) {
+              postTitle = featuredPost.title;
+            } else if (featuredPost.businessName) {
+              postTitle = featuredPost.businessName;
+            } else if (featuredPost.eventName) {
+              postTitle = featuredPost.eventName;
+            }
+
+            postsSideBarDB.push({
+              id: featuredPost._id,
+              title: postTitle,
+              image: `${process.env.REACT_APP_API_URL}` + featuredPost.imagePath,
+              postType: response.data.featureds[index].postType
+            });
+          }
+          setPostsSideBar(postsSideBarDB);
+        }
+      }
+    } catch (error) {
+      setPostsSideBar([]);
     }
   };
 
@@ -128,6 +167,7 @@ function NoticesList() {
   }, [actualPage]);
   useEffect(() => {
     listTags();
+    listSideBar();
     listNoticesSideBar();
   }, []);
 
@@ -181,6 +221,35 @@ function NoticesList() {
           </MyCardMap>
 
           <MySideCardLink>
+            {postsSideBar.map((featured) => {
+              let link = "/";
+
+              switch(featured.postType) {
+                case 'Notice':
+                  link = "/noticia/";
+                  break;
+                case 'Directory':
+                  link = "/diretorio/";
+                  break;
+                case 'Event':
+                  link = "/evento/";
+                  break;
+                case 'Course':
+                  link = "/curso/";
+                  break;
+                default:
+                  break;
+              }
+
+              return (
+                <Link to={link+featured.id}>
+                  <MySideBarCard >
+                    <img  src={featured.image} onError={(image) => {image.target.src = imgTest}}/>
+                    <span >{featured.title}</span><MdStar size={30} color="yellow"/>
+                  </MySideBarCard>
+                </Link>
+              );
+            })}
             {noticesSideBar.map((notice) => {
               return (
                 <Link to={"/noticia/" + notice.id}>

@@ -24,11 +24,32 @@ function Notices() {
           for(let index in response.data.featureds) {
             if(response.data.featureds[index].post) {
               const featured = response.data.featureds[index].post;
+
+              	let postTitle = "Titulo não encontrado";
+
+				if(featured.title) {
+				  postTitle = featured.title;
+				} else if (featured.businessName) {
+				  postTitle = featured.businessName;
+				} else if (featured.eventName) {
+				  postTitle = featured.eventName;
+				}
+
+				let postSubtitle = "Subtítulo não encontrado";
+
+				if(featured.subtitle) {
+				  postSubtitle = featured.subtitle;
+				} else if (featured.businessDescription) {
+				  postSubtitle = featured.businessDescription;
+				} else if (featured.eventDescription) {
+				  postSubtitle = featured.eventDescription;
+				}
+
               featuredsDb.push({
                 tag: featured.tags,
                 id: featured._id,
-                title: featured.title,
-                subtitle: featured.subtitle,
+                title: postTitle,
+                subtitle: postSubtitle,
                 image: `${process.env.REACT_APP_API_URL}`+featured.imagePath,
                 icon: imgTest,
                 postType: response.data.featureds[index].postType,

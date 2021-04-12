@@ -74,7 +74,7 @@ function FeaturedEdit(props) {
 		        <input
 		          placeholder="Nova posición"
 		          type="number"
-		          min="0"
+		          min="1"
 		          onChange={(e) => {
 		            setPosition(e.target.value);
 		          }}
