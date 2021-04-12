@@ -11,7 +11,10 @@ import api from '../../../services/api';
 function FeaturedEdit(props) {
 
 	const [idFeatured] = useState(props.match.params.id);
+	const [post, setPost] = useState({});
+	const [postType, setPostType] = useState("");
 	const [position, setPosition] = useState(0);
+	const [prioritized, setPrioritized] = useState(false);
 	const [errors, setErrors] = useState({});
 
 	async function getFeatured() {
@@ -20,7 +23,14 @@ function FeaturedEdit(props) {
 
 	      if(response.data.success) {
 	        if(response.data.featured) {
-	          setPosition(response.data.featured.position);
+	        	setPost(response.data.featured.post);
+	        	setPostType(response.data.featured.postType);
+				setPosition(response.data.featured.position);
+				if(response.data.featured.prioritized === 'true') {
+					setPrioritized(true);	
+				} else {
+					setPrioritized(false);
+				}
 	        }
 	      }
 	    } catch (error) {
@@ -36,7 +46,7 @@ function FeaturedEdit(props) {
 		e.preventDefault();
 
 	    try {
-	      const response = await api.put("/featured/"+idFeatured+"/position", {position});
+	      const response = await api.put("/featured/"+idFeatured, {post, postType, position, prioritized: prioritized.toString()});
 
 	      toast.success("Alterado com Sucesso!",TOASTIFY_OPTIONS)
 	    } catch (error) {
@@ -60,7 +70,8 @@ function FeaturedEdit(props) {
 
 		        <label style={{color: 'red'}}>{errors.message}</label>
 
-		         <input
+		        <label>Seleccione la posición del Destacado</label>
+		        <input
 		          placeholder="Nova posición"
 		          type="number"
 		          min="0"
@@ -70,6 +81,18 @@ function FeaturedEdit(props) {
 		          value={position}
 		        />
 		        <span style={{color: 'red'}}>{errors.position}</span>
+
+		        <br />
+
+		        <label>Destacado tiene prioridad?</label>
+		        <input
+		          type="checkbox"
+		          onChange={(e) => {		    
+		            setPrioritized(e.target.checked);		            
+		          }}
+		          checked={prioritized}
+		        />
+		        <span style={{color: 'red'}}>{errors.prioritized}</span>
 
 		        <br></br>
 		        <AppButton onClick={handleFeaturedEdit}>Editar</AppButton>
