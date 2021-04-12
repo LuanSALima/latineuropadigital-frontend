@@ -16,14 +16,10 @@ export const Container = styled.div`
     }
 `;
 export const Image = styled.div`
-    width:350px;
-    display:inline-block;
-    display: flex;
-    background-size:contain;      /* faz a imagem ficar contida dentro do elemento */
-    background-repeat:no-repeat;  /* faz a imagem não ser repetida */
-    background-position: center;  /* centra a imagem independentemente do tamanho ou largura do elemento */
+   
     img{
-        width:350px;
+        min-width:150px;
+        max-height:350;
         height:320px;
         display: flex;
         align-items: center;
@@ -31,9 +27,9 @@ export const Image = styled.div`
      border-radius:0.2rem;
      transition:transform 0.3s ease;
      :hover{
-    -webkit-transform: scale(1.1);
-    -ms-transform: scale(1.1);
-    transform: scale(1.1);
+    -webkit-transform: scale(1.05);
+    -ms-transform: scale(1.05);
+    transform: scale(1.05);
      }
     }
     `;
