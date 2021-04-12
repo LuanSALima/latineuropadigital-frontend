@@ -4,7 +4,7 @@ import Carousel from 'react-bootstrap/Carousel';
 import imageAux from '../../assets/icon.svg';
 
 import { Link } from "react-router-dom";
-
+import './styles.css'
 function CardCarousel(props) {
 
 	const handleImageError =(image)=>{
@@ -12,17 +12,17 @@ function CardCarousel(props) {
 	};
 
 	return (
-		<Carousel>
+		<Carousel className="myCarrousel">
 			{props.items.map((content) => {
 				return (
 					<Carousel.Item interval={20000}>
 						<Link to={props.route+"/"+content.id}>
 							<img
-							  className="d-block w-100"
+							  className="d-block w-100 myImage"
 							  src={content.image}
 							  onError={handleImageError}
 							  alt="First slide"
-							  style={{maxHeight: '550px', backgroundRepeat: 'cover',backgroundColor:"var(--color-freela-white)"}}
+							 
 							/>
 							<Carousel.Caption>
 							  <div style={{backgroundColor:"transparent",maxWidth:"auto",margin:"0 auto",borderRadius:"0.5rem"}}>
