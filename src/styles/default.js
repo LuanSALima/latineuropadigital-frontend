@@ -299,7 +299,7 @@ float: left;
   width:75%;
 }
 
-@media(max-width:1150px){
+@media(max-width:1000px){
   width:100%;
 }
 

@@ -26,4 +26,7 @@
   .spanP {
     display: none;
   }
+  .myImage {
+    height: 0 !important;
+  }
 }
