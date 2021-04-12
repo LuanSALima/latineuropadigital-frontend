@@ -15,18 +15,26 @@ function CardCarousel(props) {
 		<Carousel>
 			{props.items.map((content) => {
 				return (
-					<Carousel.Item interval={1500}>
+					<Carousel.Item interval={20000}>
 						<Link to={props.route+"/"+content.id}>
 							<img
 							  className="d-block w-100"
 							  src={content.image}
 							  onError={handleImageError}
 							  alt="First slide"
-							  style={{maxHeight: '350px', objectFit: 'cover'}}
+							  style={{maxHeight: '550px', backgroundRepeat: 'cover',backgroundColor:"var(--color-freela-white)"}}
 							/>
 							<Carousel.Caption>
-							  <h3>{content.title}</h3>
-							  <p>{content.subtitle}</p>
+							  <div style={{backgroundColor:"transparent",maxWidth:"auto",margin:"0 auto",borderRadius:"0.5rem"}}>
+							  <h3 style={{color:"var(--color-freela-white)"}}>{content.title.length > 40?
+				content.title.substr(0,40)+".."
+				:
+				content?.title}</h3>
+							  <p style={{color:"var(--color-freela-white)"}}>{content.subtitle.length > 140?
+				content.subtitle.substr(0,140)+".."
+				:
+				content?.subtitle}</p>
+				</div>
 							</Carousel.Caption>
 						</Link>
 					</Carousel.Item>

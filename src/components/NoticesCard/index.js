@@ -89,7 +89,7 @@ function NoticesCard(props) {
                
                 {props.title?
                   <label>
-                  {props.title.length > 18?
+                  {props.title.length > 28?
                     props.title.substr(0,28)+".."
                     :
                     props.title}
