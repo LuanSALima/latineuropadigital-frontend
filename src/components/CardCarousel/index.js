@@ -27,14 +27,14 @@ function CardCarousel(props) {
 							<Carousel.Caption>
 							  <div style={{backgroundColor:"transparent",maxWidth:"auto",margin:"0 auto",borderRadius:"0.5rem"}}>
 							  <h3 style={{color:"var(--color-freela-white)"}}>{content.title.length > 40?
-				content.title.substr(0,40)+".."
-				:
-				content?.title}</h3>
-							  <p style={{color:"var(--color-freela-white)"}}>{content.subtitle.length > 140?
-				content.subtitle.substr(0,140)+".."
-				:
-				content?.subtitle}</p>
-				</div>
+								content.title.substr(0,40)+".."
+								:
+								content?.title}</h3>
+											<p className="spanP" style={{color:"var(--color-freela-white)"}}>{content.subtitle.length > 140?
+								content.subtitle.substr(0,140)+".."
+								:
+								content?.subtitle}</p>
+								</div>
 							</Carousel.Caption>
 						</Link>
 					</Carousel.Item>

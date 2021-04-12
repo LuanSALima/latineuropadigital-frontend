@@ -113,9 +113,7 @@ function NoticesCard(props) {
             </span>
             }
             <Time>
-              Data Atual: {new Date().toString()}
-              <br />
-              Data Post: {new Date(props.date).toString()}
+          
               <hr/>
               {props.date?
                 date(props.date)

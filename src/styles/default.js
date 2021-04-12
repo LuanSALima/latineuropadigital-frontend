@@ -250,9 +250,10 @@ transition: box-shadow 0.3s ease;
   box-shadow: 1px 1px 10px 3px var(--color-freela-hover);
 }
 >img{
-  max-width:300px;
   width: 100%;
   height:100%;
+  max-height:530px;
+  max-width:275px !important;
   transition: transform 0.3s ease;
   :hover{
     transform: scale(1.02);
@@ -265,7 +266,7 @@ transition: box-shadow 0.3s ease;
 }
 `;
 
-export const MySideCardLink = styled.div`
+export const MySideCardLink = styled.div` 
 float: left;
 width:25%;
 cursor:pointer;
@@ -273,7 +274,7 @@ cursor:pointer;
   padding-top:1rem;
   width:100%;
   height:100%;
-  min-height:250px;
+  min-height:200px;
   margin-top:1rem;
   border-top:1px solid var(--color-freela-hover);
 }
@@ -298,7 +299,7 @@ float: left;
   width:75%;
 }
 
-@media(max-width:1000px){
+@media(max-width:1150px){
   width:100%;
 }
 
@@ -306,11 +307,17 @@ float: left;
 //When a englobe all card
 export const MyCardLink = styled.div`
 width:95%;
-margin-left:1rem;
+margin-left:0.65rem;
 margin-bottom:1rem;
 max-height:400px;
 @media(min-width:1600px){
   width:48%;
+  margin-left:0px !important;
+}
+
+@media(max-width:650px){ 
+max-height:100% !important;
+
 }
 >a{
 max-width:100%;
