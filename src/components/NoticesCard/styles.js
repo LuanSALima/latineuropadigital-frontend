@@ -14,12 +14,18 @@ export const Container = styled.div`
     :hover{
     box-shadow: 2px 2px 10px 5px  var(--color-freela-hover);
     }
+
+     @media(max-width:650px){ 
+        flex-direction:column;
+        margin:0 !important;
+    }
 `;
 export const Image = styled.div`
    
     img{
         min-width:150px;
         max-height:350;
+        max-width:340px;
         height:320px;
         display: flex;
         align-items: center;
@@ -31,6 +37,16 @@ export const Image = styled.div`
     -ms-transform: scale(1.05);
     transform: scale(1.05);
      }
+    }
+    @media(max-width:650px){
+        img{
+
+            min-width:150px;
+            max-height:100%;
+            max-width:100%;
+            height:auto;
+            margin:0 auto !important
+        }
     }
     `;
 
@@ -47,6 +63,12 @@ export const Description = styled.div`
     line-break:anywhere;
     overflow-wrap:break-word;
     }
+
+    @media(max-width:650px){
+        flex-direction:column;
+        margin-left:0 !important
+    }
+
 `;
 
 export const Title = styled.div`
@@ -86,6 +108,9 @@ flex-direction:column;
     line-break:anywhere;
     overflow-wrap:break-word;
 }
+@media(max-width:650px){
+        flex-direction:column;
+    }
 `;
 
 export const Time = styled.div`
@@ -94,4 +119,7 @@ text-align: end;
   font-size:12px;
   color: gray;
 }
+@media(max-width:650px){
+        flex-direction:column;
+    }
 `;

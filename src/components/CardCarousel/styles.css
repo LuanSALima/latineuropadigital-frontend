@@ -1,20 +1,25 @@
+.myCarrousel {
+  padding: 2rem !important;
+  border-radius: 0.2rem;
+  width: 100% !important;
+  margin: 0 auto !important;
+  border: 1px solid var(--color-freela-hover);
+  background-color: var(--color-freela-hover);
+}
+
 .myImage {
   margin: 0 auto;
   max-width: 100%;
   height: auto !important;
   max-height: 600px;
-  background-color: var(--color-freela-hover);
-  height: 50%;
+  height: 550px !important;
   width: auto !important;
 }
-.myCarrousel {
-  background-color: var(--color-freela-hover);
-  padding: 2rem !important;
-  border-radius: 0.5rem;
-}
+
 @media (min-width: 1350px) {
   .myImage {
     max-width: 50% !important;
+    height: 350px !important;
     margin: 0 auto;
   }
 }

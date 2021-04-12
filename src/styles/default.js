@@ -250,9 +250,9 @@ transition: box-shadow 0.3s ease;
   box-shadow: 1px 1px 10px 3px var(--color-freela-hover);
 }
 >img{
-  max-width:300px;
   width: 100%;
   height:100%;
+  max-height:500px;
   transition: transform 0.3s ease;
   :hover{
     transform: scale(1.02);
@@ -298,7 +298,7 @@ float: left;
   width:75%;
 }
 
-@media(max-width:1000px){
+@media(max-width:1150px){
   width:100%;
 }
 
@@ -306,11 +306,17 @@ float: left;
 //When a englobe all card
 export const MyCardLink = styled.div`
 width:95%;
-margin-left:1rem;
+margin-left:0.65rem;
 margin-bottom:1rem;
 max-height:400px;
 @media(min-width:1600px){
   width:48%;
+  margin-left:0px !important;
+}
+
+@media(max-width:650px){ 
+max-height:100% !important;
+
 }
 >a{
 max-width:100%;
