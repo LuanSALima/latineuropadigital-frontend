@@ -85,9 +85,11 @@ function Routes() {
         <Route path="/noticias"  component={NoticesList} />
         <Route path="/noticia/:id" exact component={NoticesDetails} />
 
+        <Route path="/diretorio/anunciar" component={DirectoryRegister} />
         <Route path="/diretorios"  component={DirectoryList} />
         <Route path="/diretorio/:id" exact component={DirectoryDetails} />
 
+        <Route path="/evento/anunciar" component={EventRegister} />
         <Route path="/eventos"  component={EventList} />
         <Route path="/evento/:id" exact component={EventDetails} />
 
@@ -107,12 +109,10 @@ function Routes() {
 
         <PrivateRoute path="/notice/cadastrar" component={NoticeRegister} />
         <PrivateRoute path="/notice/editar/:id" component={NoticeEdit} />
-
-        <PrivateRoute path="/directory/cadastrar" component={DirectoryRegister} />
+        
         <PrivateRoute path="/directory/editar/:id" component={DirectoryEdit} />
         <PrivateRoute path="/diretorios-pendentes" component={DirectoryPendents} />
-
-        <PrivateRoute path="/event/cadastrar" component={EventRegister} />
+        
         <PrivateRoute path="/event/editar/:id" component={EventEdit} />
         <PrivateRoute path="/eventos-pendentes" component={EventPendents} />
 

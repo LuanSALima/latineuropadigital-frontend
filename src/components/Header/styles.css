@@ -43,9 +43,12 @@
   cursor: pointer;
   position: sticky;
   top: 0;
-  color: white !important;
   transition: background-color 0.2s ease-in-out;
   border-radius: 0.3rem;
+}
+
+.headerLinks a[role='button'] {
+  color: var(--color-freela-text) !important;
 }
 .headerLinks:hover {
   background-color: var(--color-freela-hover);
@@ -65,7 +68,7 @@
   transition: background-color 0.2s ease-in-out;
   border-radius: 0.2rem;
 }
-.headerSuperLink span {
+.headerSuperLink span, a[role='button'] {
   color: var(--color-freela-white) !important;
 }
 .headerSuperLink:hover {

@@ -27,6 +27,7 @@ function DirectoryEdit(props) {
   const [businessProvince, setBusinessProvince] = useState("");
   const [businessPostalCode, setBusinessPostalCode] = useState("");
   const [businessPhone, setBusinessPhone] = useState("");
+  const [businessSecondPhone, setBusinessSecondPhone] = useState("");
   const [businessWebsite, setBusinessWebsite] = useState("");
   const [businessDescription, setBusinessDescription] = useState("");
   const [contactName, setContactName] = useState("");
@@ -88,6 +89,7 @@ function DirectoryEdit(props) {
           setBusinessProvince(response.data.directory.businessProvince);
           setBusinessPostalCode(response.data.directory.businessPostalCode);
           setBusinessPhone(response.data.directory.businessPhone);
+          setBusinessSecondPhone(response.data.directory.businessSecondPhone);
           setBusinessWebsite(response.data.directory.businessWebsite);
           setBusinessDescription(response.data.directory.businessDescription);
           setContactName(response.data.directory.contactName);
@@ -123,6 +125,7 @@ function DirectoryEdit(props) {
         formData.append('businessProvince', businessProvince);
         formData.append('businessPostalCode', businessPostalCode);
         formData.append('businessPhone', businessPhone);
+        formData.append('businessSecondPhone', businessSecondPhone);
         formData.append('businessWebsite', businessWebsite);
         formData.append('businessDescription', businessDescription);
         formData.append('contactName', contactName);
@@ -212,9 +215,11 @@ function DirectoryEdit(props) {
             <FormGroup>
               <label>Phone 2</label>
               <input
-                
                 type="text"
-                placeholder="Atribui nada pq nao existe no BCD"
+                onChange={(e) => {
+                  setBusinessSecondPhone(e.target.value);
+                }}
+                value={businessSecondPhone}
               />
             </FormGroup>
           </FormColumn>

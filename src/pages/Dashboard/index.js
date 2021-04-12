@@ -88,6 +88,10 @@ function Dashboard() {
 							try {
 								if(row[item].title) {
 									rowData.push(row[item].title);
+								} else if(row[item].businessName) {
+									rowData.push(row[item].businessName);
+								} else if(row[item].eventName) {
+									rowData.push(row[item].eventName);
 								} else if(row[item].length === 0){
 									rowData.push('No hay '+item);
 								} else {
@@ -356,7 +360,7 @@ function Dashboard() {
 		setDataType("featured");
 
   		try {
-			const response = await api.get("/featured/list");
+			const response = await api.get("/featureds/all");
 
 			if(response.data.success) {
 			  	if(response.data.featureds) {
@@ -394,7 +398,13 @@ function Dashboard() {
 			<label>Dashboard</label>
 			{dataType &&
 			<div>
-				<Link to={"/"+dataType+"/cadastrar"}>
+				<Link to={
+					dataType === 'event'?
+					"/evento/anunciar" : 
+					dataType === 'directory' ?
+					"/diretorio/anunciar" :
+					"/"+dataType+"/cadastrar"
+				}>
 				<DashButton>Regístrate Nuevo</DashButton>
 				</Link>
 			</div>

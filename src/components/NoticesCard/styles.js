@@ -14,16 +14,18 @@ export const Container = styled.div`
     :hover{
     box-shadow: 2px 2px 10px 5px  var(--color-freela-hover);
     }
+
+     @media(max-width:650px){ 
+        flex-direction:column;
+        margin:0 !important;
+    }
 `;
 export const Image = styled.div`
-    width:350px;
-    display:inline-block;
-    display: flex;
-    background-size:contain;      /* faz a imagem ficar contida dentro do elemento */
-    background-repeat:no-repeat;  /* faz a imagem não ser repetida */
-    background-position: center;  /* centra a imagem independentemente do tamanho ou largura do elemento */
+   
     img{
-        width:350px;
+        min-width:150px;
+        max-height:350;
+        max-width:340px;
         height:320px;
         display: flex;
         align-items: center;
@@ -31,15 +33,26 @@ export const Image = styled.div`
      border-radius:0.2rem;
      transition:transform 0.3s ease;
      :hover{
-    -webkit-transform: scale(1.1);
-    -ms-transform: scale(1.1);
-    transform: scale(1.1);
+    -webkit-transform: scale(1.05);
+    -ms-transform: scale(1.05);
+    transform: scale(1.05);
      }
+    }
+    @media(max-width:650px){
+        img{
+
+            min-width:150px;
+            max-height:100%;
+            max-width:100%;
+            height:auto;
+            margin:0 auto !important
+        }
     }
     `;
 
 
 export const Description = styled.div`
+   width: inherit;
    margin-left:1rem;
    padding:1rem;
    >span{
@@ -50,12 +63,17 @@ export const Description = styled.div`
     line-break:anywhere;
     overflow-wrap:break-word;
     }
+
+    @media(max-width:650px){
+        flex-direction:column;
+        margin-left:0 !important
+    }
+
 `;
 
 export const Title = styled.div`
 display:flex;
 flex-direction:column;
-width:156px;   
 
 >div{
     margin-bottom:0.5rem;
@@ -90,5 +108,18 @@ width:156px;
     line-break:anywhere;
     overflow-wrap:break-word;
 }
+@media(max-width:650px){
+        flex-direction:column;
+    }
 `;
 
+export const Time = styled.div`
+text-align: end;
+>span{
+  font-size:12px;
+  color: gray;
+}
+@media(max-width:650px){
+        flex-direction:column;
+    }
+`;
