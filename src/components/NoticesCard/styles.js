@@ -55,7 +55,6 @@ export const Description = styled.div`
 export const Title = styled.div`
 display:flex;
 flex-direction:column;
-width:156px;   
 
 >div{
     margin-bottom:0.5rem;
