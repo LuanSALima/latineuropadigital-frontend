@@ -1,19 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import Header from '../../../components/Header';
 import NoticesCard from '../../../components/NoticesCard';
-import {  MyFilteredOptions, Page, ScreenView } from '../../../styles/default';
+import {  MyCardLink, MyCardMap, MyFilteredOptions, MySideBarCard, MySideCardLink, Page, ScreenView } from '../../../styles/default';
 import imgTest from '../../../assets/icon.svg';
 import Select from 'react-select';
 
 import api from '../../../services/api';
 import HorizonScrollView from '../../../components/HorizonScrollView';
 import Footer from '../../../components/Footer';
-import { MyScreenView } from './styles';
 
 import { Link } from 'react-router-dom';
-import { MdFilterList } from 'react-icons/md';
+import { MdFilterList, MdStar } from 'react-icons/md';
 
 import Pagination from '../../../components/Pagination';
+import { MyScreenView } from '../DirectoryList/styles';
 
 function DirectoryPendents() {
 
@@ -25,6 +25,10 @@ function DirectoryPendents() {
   const [actualPage, setActualPage] = useState(1);
   const [totalDirectories, setTotalDirectories] = useState(0);
  
+
+  const [postsSideBar, setPostsSideBar] = useState([]);
+  const [directorySideBar, setDirectorySideBar] = useState([]);
+
   const listDirectories = async () => {
     try {
 
@@ -58,11 +62,19 @@ function DirectoryPendents() {
       <Page>
         <Header/>
         <MyScreenView >
-        <h1>Directorios Pendentes</h1>
+      
+      
+        {/* <CardCarousel items={noticesMostViewed} route={"/noticia"}/> */}
 
-        <div style={{flexDirection: 'row', flexWrap: 'wrap'}}>
+
+        <div style={{display: 'block'}}>
+        <MyCardMap>
+        <h2>Directorios Pendentes</h2>
+
         {directories.map((content) => {
           return (
+            <MyCardLink>
+
             <Link to={"/diretorio/" + content.id}>
               <NoticesCard
                 id={content.id}
@@ -72,12 +84,59 @@ function DirectoryPendents() {
                 text={content.subtitle}
               />
             </Link>
+            </MyCardLink>
+
           );
         })}
-        </div>
+        </MyCardMap>
 
+
+  {/* Will enter the sidebar */}
+  <MySideCardLink>
+            {postsSideBar?.map((featured) => {
+              let link = "/";
+
+              switch(featured.postType) {
+                case 'Notice':
+                  link = "/noticia/";
+                  break;
+                case 'Directory':
+                  link = "/diretorio/";
+                  break;
+                case 'Event':
+                  link = "/evento/";
+                  break;
+                case 'Course':
+                  link = "/curso/";
+                  break;
+                default:
+                  break;
+              }
+
+              return (
+                <Link to={link+featured.id}>
+                  <MySideBarCard >
+                    <img  src={featured.image} onError={(image) => {image.target.src = imgTest}}/>
+                    <span >{featured.title}</span><MdStar size={30} color="yellow"/>
+                  </MySideBarCard>
+                </Link>
+              );
+            })}
+            {directorySideBar.map((notice) => {
+              return (
+                <Link to={"/noticia/" + notice.id}>
+                  <MySideBarCard >
+                    <img  src={notice.image} onError={(image) => {image.target.src = imgTest}}/>
+                    <span >{notice.title.length > 20?notice.title.substr(0,20)+"...":notice.title}</span>
+                  </MySideBarCard>
+                </Link>
+              );
+            })} 
+          </MySideCardLink>
+
+
+        </div>
         <Pagination totalResults={totalDirectories} resultsPerPage={30} actualPage={actualPage} changePage={setActualPage}/>
-        <span>PAGINA ATUAL: {actualPage}</span>
 
         </MyScreenView>
         <Footer/>

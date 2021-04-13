@@ -407,6 +407,13 @@ function Dashboard() {
 				}>
 				<DashButton>Regístrate Nuevo</DashButton>
 				</Link>
+				{dataType === 'featured'?
+				<Link to={'/featured/alterar-posicao'}>
+					<DashButton>Alterar Posições</DashButton>
+				</Link>
+				:
+				<></>
+				}
 			</div>
 				
 			}

@@ -1,7 +1,9 @@
 import React from 'react';
 
 import "bootstrap/dist/css/bootstrap.min.css";
-
+import { Container } from 'react-bootstrap';
+import { Content,Ul,Li } from './styles';
+import {MdNavigateBefore,MdNavigateNext} from 'react-icons/md';
 function Pagination(props) {
 
 	const totalResults = props.totalResults;
@@ -10,25 +12,26 @@ function Pagination(props) {
 	const totalPages = Math.ceil(totalResults/resultsPerPage);
 	const changePage = props.changePage;
 
-	const generatePagination = () => {
-		const pages = new Array();
+	const pages = new Array();
 		for(let i=1 ; i<(totalPages+1) ; i++) {
 			pages.push(i);
 		}
+	const generatePagination = () => {
+		
 
 		return (
 			pages.map((page) => {
 				if(page === actualPage) {
 					return (
-						<li className="page-item disabled">
-							<span className="page-link">{page}</span>
-						</li>
+						<Li className="page-item disabled">
+							<Content className="page-link">{page}</Content>
+						</Li>
 					);
 				} else {
 					return (
-						<li className="page-item">
-							<span onClick={() => {changePage(page); window.scrollTo(0,300);}}className="page-link">{page}</span>
-						</li>
+						<Li className="page-item">
+							<Content onClick={() => {changePage(page); window.scrollTo(0,300);}}className="page-link">{page}</Content>
+						</Li>
 					);
 				}
 				
@@ -36,35 +39,39 @@ function Pagination(props) {
 		);
 	}
 
-	return (
-		<div style={{width: '100%'}}>
-			<ul className="pagination">
+	if (pages?.length) {
+		return (
+		<Container>
+			<Ul className="pagination">
 				{actualPage !== 1 ?
-				<li className="page-item">
-					<span onClick={() => {changePage(1); window.scrollTo(0,300);}} className="page-link">&laquo;</span>
-				</li>
+				<Li className="page-item">
+					<Content onClick={() => {changePage(1); window.scrollTo(0,300);}} className="page-link">{<MdNavigateBefore/>}</Content>
+				</Li>
 				:
-				<li className="page-item">
-					<span className="page-link disabled">&laquo;</span>
-				</li>
+				<Li className="page-item">
+					<Content className="page-link disabled">{<MdNavigateBefore/>}</Content>
+				</Li>
 				}
 				
 				{generatePagination()}
 
 				{actualPage !== totalPages ?
-				<li className="page-item">
-					<span onClick={() => {changePage(totalPages);
+				<Li className="page-item">
+					<Content onClick={() => {changePage(totalPages);
 					window.scrollTo(0,300);
-					}} className="page-link">&raquo;</span>
-				</li>
+					}} className="page-link">{<MdNavigateNext/>}</Content>
+				</Li>
 				:
-				<li className="page-item">
-					<span className="page-link disabled">&raquo;</span>
-				</li>
+				<Li className="page-item">
+					<Content className="page-link disabled">{<MdNavigateNext/>}</Content>
+				</Li>
 				}
-			</ul>
-		</div>
+			</Ul>
+		</Container >
 	);
+			}else{
+				return <></>;
+			}
 }
 
 export default Pagination;

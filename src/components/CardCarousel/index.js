@@ -11,14 +11,35 @@ function CardCarousel(props) {
 	    image.target.src = imageAux;
 	};
 
-	return (
+	if(props.items.length)return (
 		<Carousel className="myCarrousel">
 			{props.items.map((content) => {
+
+				let link = props.route;
+
+				if(content.postType) {
+		            switch (content.postType) {
+		              case "Notice":
+		                link = "/noticia";
+		                break;
+		              case "Directory":
+		                link = "/diretorio";
+		                break;
+		              case "Event":
+		                link = "/evento";
+		                break;
+		              case "Course":
+		                link = "/curso";
+		                break;
+		              default:
+		                break;
+		            }
+	        	}
 				return (
 					<Carousel.Item interval={20000}>
-						<Link to={props.route+"/"+content.id}>
+						<Link to={link+"/"+content.id}>
 							<img
-							  className="d-block w-100 myImage"
+							  className="d-block myImage"
 							  src={content.image}
 							  onError={handleImageError}
 							  alt="First slide"
@@ -42,6 +63,9 @@ function CardCarousel(props) {
 			})}
 		</Carousel>
 	);
+	else{
+		return <></>
+	}
 }
 
 export default CardCarousel;

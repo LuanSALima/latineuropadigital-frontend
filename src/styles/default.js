@@ -263,6 +263,11 @@ transition: box-shadow 0.3s ease;
   color: var(--color-freela-text);
    font-size: 18px;
    margin-top:1rem;
+   white-space: nowrap;
+   text-overflow: ellipsis;
+   width: 100%;
+   display: block;
+   overflow: hidden
 }
 `;
 
@@ -291,6 +296,7 @@ float: left;
 
 >h2{
   margin:0 auto;
+  width:100%;
   justify-content:center;
   padding-bottom: 2rem;
   text-align:center;
@@ -312,7 +318,7 @@ margin-bottom:1rem;
 max-height:400px;
 @media(min-width:1600px){
   width:48%;
-  margin-left:0px !important;
+  margin-left:10px !important;
 }
 
 @media(max-width:650px){ 
@@ -452,7 +458,7 @@ export const FormGroup = styled.div`
   textarea{
     width: 100%;
     height: 80px;
-    marginTop: 0;
+    margin-top: 0;
     padding: 10px;
   }
 
@@ -484,5 +490,5 @@ export const Required = styled.span`
 
 export const CharLimit = styled.div`
   width: 100%;
-  textAlign: center;
+  text-align: center;
 `;

@@ -79,6 +79,8 @@ export  const DashButton = styled(AppButton)`
 padding:1rem;
 float:right;
 display:flex;
+margin-left: 10px;
+margin-right: 10px;
 margin-bottom:0.5rem !important;
 border-radius:0.3rem;
 font-size : 15px;

@@ -16,7 +16,6 @@ import Stars from "../../../components/Stars";
 import Pagination from '../../../components/Pagination';
 import CardCarousel from '../../../components/CardCarousel';
 
-
 import { MdStar } from 'react-icons/md';
 
 function NoticesList() {
@@ -99,7 +98,7 @@ function NoticesList() {
 
   const listNoticesSideBar = async () => {
     try {
-      const response = await api.get("/notice/list?results=9&views=weekly");
+      const response = await api.get("/notice/list?results=2&views=weekly");
 
       if (response.data.success) {
         if (response.data.notices) {
@@ -126,7 +125,7 @@ function NoticesList() {
 
   const listSideBar = async () => {
     try {
-      const response = await api.get("/featured/list?type=notice");
+      const response = await api.get("/featured/list?type=notice&results=3");
 
       if (response.data.success) {
         if (response.data.featureds) {
@@ -255,7 +254,7 @@ function NoticesList() {
                 <Link to={"/noticia/" + notice.id}>
                   <MySideBarCard >
                     <img  src={notice.image} onError={(image) => {image.target.src = imgTest}}/>
-                    <span >{notice.title.length > 20?notice.title.substr(0,20)+"...":notice.title}</span>
+                    <span >{notice.title}</span>
                   </MySideBarCard>
                 </Link>
               );
@@ -264,7 +263,6 @@ function NoticesList() {
         </div>
 
         <Pagination totalResults={totalNotices} resultsPerPage={qntResults} actualPage={actualPage} changePage={setActualPage}/>
-        <span>PAGINA ATUAL: {actualPage}</span>
       </MyScreenView>
       <Footer />
     </Page>

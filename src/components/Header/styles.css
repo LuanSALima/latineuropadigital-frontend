@@ -5,7 +5,7 @@
 .headerStyles {
   height: 86px;
   background-color: var(--color-freela-white);
-  max-width: 98vw !important;
+  max-width: 100vw !important;
 
   /* background-image: linear-gradient(#1e1e1e, #2e2e2e); */
 }
@@ -47,7 +47,7 @@
   border-radius: 0.3rem;
 }
 
-.headerLinks a[role='button'] {
+.headerLinks a[role="button"] {
   color: var(--color-freela-text) !important;
 }
 .headerLinks:hover {
@@ -68,7 +68,8 @@
   transition: background-color 0.2s ease-in-out;
   border-radius: 0.2rem;
 }
-.headerSuperLink span, a[role='button'] {
+.headerSuperLink span,
+a[role="button"] {
   color: var(--color-freela-white) !important;
 }
 .headerSuperLink:hover {
