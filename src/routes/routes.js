@@ -44,6 +44,7 @@ import UserEdit from '../pages/User/UserEdit';
 import Dashboard from '../pages/Dashboard';
 
 import FeaturedEdit from '../pages/Featured/FeaturedEdit';
+import FeaturedEditPosition from '../pages/Featured/FeaturedEditPosition';
 
 // import { Container } from './styles';
 
@@ -123,6 +124,7 @@ function Routes() {
         <PrivateRoute path="/jobtype/editar/:id" component={JobTypeEdit} />
 
         <PrivateRoute path="/featured/editar/:id" component={FeaturedEdit} />
+        <PrivateRoute path="/featured/alterar-posicao" component={FeaturedEditPosition} />
 
         <AdminRoute path="/user/cadastrar" component={UserRegister} />
         <AdminRoute path="/user/editar/:id" component={UserEdit} />

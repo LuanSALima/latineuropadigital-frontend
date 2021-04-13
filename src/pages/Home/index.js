@@ -141,7 +141,7 @@ function Notices() {
       </MyView>
       <br></br>
       <MyScreenView>
-        {/* <CardCarousel items={noticesMostViewed} route={"/noticia"}/> */}
+        <CardCarousel items={featureds} />
 
         <div style={{ display: "block" }}>
           <MyCardMap>

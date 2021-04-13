@@ -13,7 +13,7 @@ function NoticesCard(props) {
     const postDate = new Date(date);
     const difer = Math.round((today-postDate.getTime())/1000); //Transformando milisegundo em segundo
 
-    if(difer < 60) {
+    if(difer < 59) {
       if(Math.round(difer) === 1) {
         return ("1 segundo atrás");
       } else {
@@ -21,7 +21,7 @@ function NoticesCard(props) {
       }
     }
 
-    if((difer/60) < 60) {
+    if((difer/60) < 59) {
       if(Math.round(difer/60) === 1) {
         return ("1 minuto atrás");
       } else {
@@ -29,7 +29,7 @@ function NoticesCard(props) {
       }
     }
 
-    if((difer/3600) < 60) {
+    if((difer/3600) < 23) {
       if(Math.round(difer/3600) === 1) {
         return ("1 hora atrás");
       } else {
@@ -62,7 +62,7 @@ function NoticesCard(props) {
         return (Math.round(dias/30)+ " meses atrás");  
       }
     } else {
-      if(Math.round(dias/365) === 1) {
+      if(Math.round(dias/364) === 1) {
         return ("1 ano atrás");
       } else {
         return (Math.round(dias/365)+ " anos atrás");  
