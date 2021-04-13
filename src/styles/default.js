@@ -263,6 +263,11 @@ transition: box-shadow 0.3s ease;
   color: var(--color-freela-text);
    font-size: 18px;
    margin-top:1rem;
+   white-space: nowrap;
+   text-overflow: ellipsis;
+   width: 100%;
+   display: block;
+   overflow: hidden
 }
 `;
 
