@@ -65,8 +65,8 @@ function EventPendents() {
 
 
           <div style={{display: 'block'}}>
-        <h2>Eventos Pendentes</h2>
         <MyCardMap>
+        <h2>Eventos Pendentes</h2>
         {events.map((content) => {
           return (
             <MyCardLink>

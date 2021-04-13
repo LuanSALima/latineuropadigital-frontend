@@ -76,8 +76,8 @@ function EventList() {
 
 
         <div style={{display: 'block'}}>
-        <h2>Eventos</h2>
         <MyCardMap>
+        <h2>Eventos</h2>
         {events.map((content) => {
           return (
             <MyCardLink>
