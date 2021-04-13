@@ -77,8 +77,44 @@ function Notices() {
     } catch (error) {}
   };
 
+  const listSideBar = async () => {
+    try {
+      const response = await api.get("/featured/list?results=5");
+
+      if (response.data.success) {
+        if (response.data.featureds) {
+          let postsSideBarDB = [];
+          for (let index in response.data.featureds) {
+            const featuredPost = response.data.featureds[index].post;
+
+            let postTitle = "Titulo não encontrado";
+
+            if(featuredPost.title) {
+              postTitle = featuredPost.title;
+            } else if (featuredPost.businessName) {
+              postTitle = featuredPost.businessName;
+            } else if (featuredPost.eventName) {
+              postTitle = featuredPost.eventName;
+            }
+
+            postsSideBarDB.push({
+              id: featuredPost._id,
+              title: postTitle,
+              image: `${process.env.REACT_APP_API_URL}` + featuredPost.imagePath,
+              postType: response.data.featureds[index].postType
+            });
+          }
+          setPostsSideBar(postsSideBarDB);
+        }
+      }
+    } catch (error) {
+      setPostsSideBar([]);
+    }
+  };
+
   useEffect(() => {
     listFeatureds();
+    listSideBar();
   }, []);
 
   return (
@@ -106,63 +142,6 @@ function Notices() {
       <br></br>
       <MyScreenView>
         {/* <CardCarousel items={noticesMostViewed} route={"/noticia"}/> */}
-
-        <MySideCardLink>
-          {postsSideBar.map((featured) => {
-            let link = "/";
-
-            switch (featured.postType) {
-              case "Notice":
-                link = "/noticia/";
-                break;
-              case "Directory":
-                link = "/diretorio/";
-                break;
-              case "Event":
-                link = "/evento/";
-                break;
-              case "Course":
-                link = "/curso/";
-                break;
-              default:
-                break;
-            }
-
-            return (
-              <Link to={link + featured.id}>
-                <MySideBarCard>
-                  <img
-                    src={featured.image}
-                    onError={(image) => {
-                      image.target.src = imgTest;
-                    }}
-                  />
-                  <span>{featured.title}</span>
-                  <MdStar size={30} color="yellow" />
-                </MySideBarCard>
-              </Link>
-            );
-          })}
-          {noticesSideBar.map((notice) => {
-            return (
-              <Link to={"/noticia/" + notice.id}>
-                <MySideBarCard>
-                  <img
-                    src={notice.image}
-                    onError={(image) => {
-                      image.target.src = imgTest;
-                    }}
-                  />
-                  <span>
-                    {notice.title.length > 20
-                      ? notice.title.substr(0, 20) + "..."
-                      : notice.title}
-                  </span>
-                </MySideBarCard>
-              </Link>
-            );
-          })}
-        </MySideCardLink>
 
         <div style={{ display: "block" }}>
           <MyCardMap>
@@ -201,6 +180,44 @@ function Notices() {
               );
             })}
           </MyCardMap>
+
+          <MySideCardLink>
+          {postsSideBar.map((featured) => {
+            let link = "/";
+
+            switch (featured.postType) {
+              case "Notice":
+                link = "/noticia/";
+                break;
+              case "Directory":
+                link = "/diretorio/";
+                break;
+              case "Event":
+                link = "/evento/";
+                break;
+              case "Course":
+                link = "/curso/";
+                break;
+              default:
+                break;
+            }
+
+            return (
+              <Link to={link + featured.id}>
+                <MySideBarCard>
+                  <img
+                    src={featured.image}
+                    onError={(image) => {
+                      image.target.src = imgTest;
+                    }}
+                  />
+                  <span>{featured.title}</span>
+                  <MdStar size={30} color="yellow" />
+                </MySideBarCard>
+              </Link>
+            );
+          })}
+        </MySideCardLink>
         </div>
       </MyScreenView>
       <Footer />

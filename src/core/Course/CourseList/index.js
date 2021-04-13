@@ -1,18 +1,22 @@
-import React, { useState, useEffect } from 'react';
-import Header from '../../../components/Header';
-import NoticesCard from '../../../components/NoticesCard';
-import {  MyCardLink, MyCardMap, MyFilteredOptions, MySideBarCard, MySideCardLink, Page, ScreenView } from '../../../styles/default';
-import imgTest from '../../../assets/icon.svg';
-import Select from 'react-select';
-import api from '../../../services/api';
-import HorizonScrollView from '../../../components/HorizonScrollView';
-import Footer from '../../../components/Footer';
-import { MyScreenView } from './styles';
+import React, { useState, useEffect } from "react";
+import Header from "../../../components/Header";
+import NoticesCard from "../../../components/NoticesCard";
+import { MyCardLink, MyFilteredOptions, MySideCardLink, Page, MyCardMap, MySideBarCard } from "../../../styles/default";
+import imgTest from "../../../assets/icon.svg";
 
-import { Link } from 'react-router-dom';
-import { MdFilterList, MdStar } from 'react-icons/md';
+import api from "../../../services/api";
+import HorizonScrollView from "../../../components/HorizonScrollView";
+import Footer from "../../../components/Footer";
+import { MyScreenView } from "./styles";
+import { Link } from "react-router-dom";
+import Select from "react-select";
+import { MdFilterList } from "react-icons/md/index";
+import Stars from "../../../components/Stars";
 
 import Pagination from '../../../components/Pagination';
+import CardCarousel from '../../../components/CardCarousel';
+
+import { MdStar } from 'react-icons/md';
 
 function CourseList() {
 
@@ -25,6 +29,7 @@ function CourseList() {
   const [tags, setTags] = useState([]);
 
   const [actualPage, setActualPage] = useState(1);
+  const [qntResults] = useState(10);
   const [totalCourses, setTotalCourses] = useState(0);
  
   const [postsSideBar, setPostsSideBar] = useState([]);
@@ -47,7 +52,15 @@ function CourseList() {
           let coursesDb = [];
           for(let index in response.data.courses) {
             const course = response.data.courses[index];
-            coursesDb.push({ tag : course.tags,id: course._id, title: course.title, subtitle: course.subtitle, image: `${process.env.REACT_APP_API_URL}`+course.imagePath, icon: imgTest});
+            coursesDb.push({ 
+              tag: course.tags,
+              id: course._id,
+              title: course.title,
+              subtitle: course.subtitle,
+              image: `${process.env.REACT_APP_API_URL}`+course.imagePath,
+              icon: imgTest,
+              date: course.createdAt
+            });
           }
           setCourses(coursesDb);
         }
@@ -62,29 +75,97 @@ function CourseList() {
     }
   }
 
-  const listCoursesMostViewed = async () => {
+  const listCoursesCarousel = async () => {
     try {
+      const response = await api.get("/course/list?results=5&views=" + mostViewedAt);
 
-      const response = await api.get("/course/list?views="+mostViewedAt);
-
-      if(response.data.success) {
-        if(response.data.courses) {
+      if (response.data.success) {
+        if (response.data.courses) {
           let coursesMostViewedDb = [];
-          for(let index in response.data.courses) {
+          for (let index in response.data.courses) {
             const course = response.data.courses[index];
-            coursesMostViewedDb.push({ tag : course.tags,id: course._id, title: course.title, subtitle: course.subtitle, image: `${process.env.REACT_APP_API_URL}`+course.imagePath, icon: imgTest, views: course.views});
+            coursesMostViewedDb.push({
+              tag: course.tags,
+              id: course._id,
+              title: course.title,
+              subtitle: course.content,
+              image: `${process.env.REACT_APP_API_URL}` + course.imagePath,
+              icon: imgTest,
+              views: course.views,
+            });
           }
           setCoursesMostViewed(coursesMostViewedDb);
         }
       }
-
     } catch (error) {
       setCoursesMostViewed([]);
     }
-  }
+  };
+
+  const listCoursesSideBar = async () => {
+    try {
+      const response = await api.get("/course/list?results=2&views=weekly");
+
+      if (response.data.success) {
+        if (response.data.courses) {
+          let coursesSideBarDB = [];
+          for (let index in response.data.courses) {
+            const course = response.data.courses[index];
+            coursesSideBarDB.push({
+              tag: course.tags,
+              id: course._id,
+              title: course.title,
+              subtitle: course.content,
+              image: `${process.env.REACT_APP_API_URL}` + course.imagePath,
+              icon: imgTest,
+              views: course.views,
+            });
+          }
+          setCourseSideBar(coursesSideBarDB);
+        }
+      }
+    } catch (error) {
+      setCourseSideBar([]);
+    }
+  };
+
+  const listSideBar = async () => {
+    try {
+      const response = await api.get("/featured/list?type=course&results=3");
+
+      if (response.data.success) {
+        if (response.data.featureds) {
+          let postsSideBarDB = [];
+          for (let index in response.data.featureds) {
+            const featuredPost = response.data.featureds[index].post;
+
+            let postTitle = "Titulo não encontrado";
+
+            if(featuredPost.title) {
+              postTitle = featuredPost.title;
+            } else if (featuredPost.businessName) {
+              postTitle = featuredPost.businessName;
+            } else if (featuredPost.eventName) {
+              postTitle = featuredPost.eventName;
+            }
+
+            postsSideBarDB.push({
+              id: featuredPost._id,
+              title: postTitle,
+              image: `${process.env.REACT_APP_API_URL}` + featuredPost.imagePath,
+              postType: response.data.featureds[index].postType
+            });
+          }
+          setPostsSideBar(postsSideBarDB);
+        }
+      }
+    } catch (error) {
+      setPostsSideBar([]);
+    }
+  };
 
   useEffect(() => {
-    listCoursesMostViewed();
+    listCoursesCarousel();
   }, [mostViewedAt]);
 
   useEffect(() => {
@@ -92,12 +173,16 @@ function CourseList() {
   }, [actualPage]);
   useEffect(() => {
     listTags();
+    listSideBar();
+    listCoursesSideBar();
   }, []);
 
   return (
       <Page>
         <Header/>
         <MyScreenView >
+
+          <h1>Cursos</h1>
 
     <MyFilteredOptions>
           <Select
@@ -120,12 +205,12 @@ function CourseList() {
 
 
 
-         {/* <CardCarousel items={noticesMostViewed} route={"/noticia"}/> */}
+         <CardCarousel items={coursesMostViewed} route={"/curso"}/>
 
 
          <div style={{display: 'block'}}>
         <MyCardMap>
-        <h2>Cursos</h2>
+        
         {courses.map((content) => {
           return (
             <MyCardLink>
@@ -137,6 +222,7 @@ function CourseList() {
                 image={content.image}
                 title={content.title}
                 text={content.subtitle}
+                date={content.date}
               />
             </Link>
             </MyCardLink>
@@ -146,8 +232,8 @@ function CourseList() {
         </MyCardMap>
 
 
-{/* Will enter the sidebar */}
-<MySideCardLink>
+          {/* Will enter the sidebar */}
+          <MySideCardLink>
             {postsSideBar?.map((featured) => {
               let link = "/";
 
@@ -159,7 +245,7 @@ function CourseList() {
                   link = "/diretorio/";
                   break;
                 case 'Event':
-                  link = "/evento/";
+                  link = "/courseo/";
                   break;
                 case 'Course':
                   link = "/curso/";

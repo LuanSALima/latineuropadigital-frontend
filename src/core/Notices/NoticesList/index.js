@@ -16,7 +16,6 @@ import Stars from "../../../components/Stars";
 import Pagination from '../../../components/Pagination';
 import CardCarousel from '../../../components/CardCarousel';
 
-
 import { MdStar } from 'react-icons/md';
 
 function NoticesList() {
@@ -126,7 +125,7 @@ function NoticesList() {
 
   const listSideBar = async () => {
     try {
-      const response = await api.get("/featured/list?type=notice");
+      const response = await api.get("/featured/list?type=notice&results=3");
 
       if (response.data.success) {
         if (response.data.featureds) {
