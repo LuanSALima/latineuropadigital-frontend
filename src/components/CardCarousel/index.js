@@ -11,7 +11,7 @@ function CardCarousel(props) {
 	    image.target.src = imageAux;
 	};
 
-	return (
+	if(props.items.length)return (
 		<Carousel className="myCarrousel">
 			{props.items.map((content) => {
 				return (
@@ -42,6 +42,9 @@ function CardCarousel(props) {
 			})}
 		</Carousel>
 	);
+	else{
+		return <></>
+	}
 }
 
 export default CardCarousel;

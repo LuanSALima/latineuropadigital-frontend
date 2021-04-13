@@ -458,7 +458,7 @@ export const FormGroup = styled.div`
   textarea{
     width: 100%;
     height: 80px;
-    marginTop: 0;
+    margin-top: 0;
     padding: 10px;
   }
 
@@ -490,5 +490,5 @@ export const Required = styled.span`
 
 export const CharLimit = styled.div`
   width: 100%;
-  textAlign: center;
+  text-align: center;
 `;
