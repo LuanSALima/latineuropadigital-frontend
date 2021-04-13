@@ -99,7 +99,7 @@ function NoticesList() {
 
   const listNoticesSideBar = async () => {
     try {
-      const response = await api.get("/notice/list?results=9&views=weekly");
+      const response = await api.get("/notice/list?results=2&views=weekly");
 
       if (response.data.success) {
         if (response.data.notices) {
