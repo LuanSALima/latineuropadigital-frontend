@@ -12,7 +12,7 @@
   margin: 0 auto;
   height: 650px !important;
   min-height: 350px !important;
-  max-width: 100% !important;
+  max-width: auto !important;
   width: auto !important;
 }
 
@@ -20,6 +20,7 @@
   .myImage {
     height: 550px !important;
     margin: 0 auto;
+    max-width: auto !important;
   }
 }
 @media (max-width: 750px) {

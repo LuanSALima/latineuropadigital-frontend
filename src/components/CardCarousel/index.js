@@ -18,7 +18,7 @@ function CardCarousel(props) {
 					<Carousel.Item interval={20000}>
 						<Link to={props.route+"/"+content.id}>
 							<img
-							  className="d-block w-100 myImage"
+							  className="d-block  myImage"
 							  src={content.image}
 							  onError={handleImageError}
 							  alt="First slide"
