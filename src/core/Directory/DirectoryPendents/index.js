@@ -8,12 +8,12 @@ import Select from 'react-select';
 import api from '../../../services/api';
 import HorizonScrollView from '../../../components/HorizonScrollView';
 import Footer from '../../../components/Footer';
-import { MyScreenView } from './styles';
 
 import { Link } from 'react-router-dom';
 import { MdFilterList } from 'react-icons/md';
 
 import Pagination from '../../../components/Pagination';
+import { MyScreenView } from '../DirectoryList/styles';
 
 function DirectoryPendents() {
 
@@ -77,7 +77,6 @@ function DirectoryPendents() {
         </div>
 
         <Pagination totalResults={totalDirectories} resultsPerPage={30} actualPage={actualPage} changePage={setActualPage}/>
-        <span>PAGINA ATUAL: {actualPage}</span>
 
         </MyScreenView>
         <Footer/>

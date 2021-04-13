@@ -291,6 +291,7 @@ float: left;
 
 >h2{
   margin:0 auto;
+  width:100%;
   justify-content:center;
   padding-bottom: 2rem;
   text-align:center;
@@ -312,7 +313,7 @@ margin-bottom:1rem;
 max-height:400px;
 @media(min-width:1600px){
   width:48%;
-  margin-left:0px !important;
+  margin-left:10px !important;
 }
 
 @media(max-width:650px){ 

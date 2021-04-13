@@ -264,7 +264,6 @@ function NoticesList() {
         </div>
 
         <Pagination totalResults={totalNotices} resultsPerPage={qntResults} actualPage={actualPage} changePage={setActualPage}/>
-        <span>PAGINA ATUAL: {actualPage}</span>
       </MyScreenView>
       <Footer />
     </Page>
