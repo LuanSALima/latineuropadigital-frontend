@@ -157,21 +157,22 @@ function NoticeEdit(props) {
     setTags(tags);
   }
 
+  const [noticeTags,setNoticeTags] = useState();
 
-  const [myTag,setMyTag] = useState();
+  const createSelectOptions = () => {
+    let options = []
+    for(const tag of tags){
+        options.push({label:tag,value:tag})
+      }
+     setNoticeTags(options);
+  }
   
-
   useEffect(()=>{
-    let myArr = []
-      for(let i = 0 ; i< tags.length; i++){
-          myArr.push({label:tags[i],value:tags[i]})
-        }
-       setMyTag(myArr);
-    },[tags]);
+    createSelectOptions();
+  },[tags]);
 
 
-
-    return (
+  return (
   <Page>
     <Toastifying/>
    {modalShow && <ModalTag
@@ -240,7 +241,7 @@ function NoticeEdit(props) {
          options={dbTags.map((currentTag)=>(
           {label:currentTag,value:currentTag}))}
           isClearable
-          value={myTag}
+          value={noticeTags}
           isMulti
           closeMenuOnSelect={false}
           onChange={onChangeSelectTags}

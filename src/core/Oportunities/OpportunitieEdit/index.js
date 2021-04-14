@@ -113,6 +113,20 @@ function OpportunitieEdit(props) {
     setModalShow(true);
   }
 
+  const [opportunitieTags,setOpportunitieTags] = useState();
+
+  const createSelectOptions = () => {
+    let options = []
+    for(const jobType of jobTypes){
+        options.push({label:jobType,value:jobType})
+      }
+     setOpportunitieTags(options);
+  }
+  
+  useEffect(()=>{
+    createSelectOptions();
+  },[jobTypes]);
+
   return (
   <Page>
     <Header/>
@@ -167,6 +181,7 @@ function OpportunitieEdit(props) {
          options={dbJobTypes.map((currentJobType)=>(
           {label:currentJobType,value:currentJobType}))}
           isClearable
+          value={opportunitieTags}
           isMulti
           closeMenuOnSelect={false}
           onChange={onChangeSelectTags}

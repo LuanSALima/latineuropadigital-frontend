@@ -93,6 +93,20 @@ function TagEdit(props) {
     setTypes(types);
   }
 
+  const [tagTypes,setTagTypes] = useState();
+
+  const createSelectOptions = () => {
+    let options = []
+    for(const type of types){
+        options.push({label:type,value:type})
+      }
+     setTagTypes(options);
+  }
+  
+  useEffect(()=>{
+    createSelectOptions();
+  },[types]);
+
   return (
   <Page>
     <Header/>
@@ -126,6 +140,7 @@ function TagEdit(props) {
         <Select
          options={typesOptions}
           isClearable
+          value={tagTypes}
           isMulti
           closeMenuOnSelect={false}
           onChange={onChangeSelectTags}

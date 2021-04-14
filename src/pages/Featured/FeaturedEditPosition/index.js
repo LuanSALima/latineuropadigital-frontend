@@ -98,6 +98,12 @@ function FeaturedEditPosition() {
 
 				    		let postTitle = "Titulo não encontrado";
 
+				    		if(!featured.post) {
+				    			return (
+				    				<FeaturedCard id={featured._id} imagePath={""} title={featured.postType+" eliminado"} position={featured.position} options={validPositions} callback={refreshFeatureds}/>
+				    			);
+				    		}
+
 							if (featured.post.title) {
 								postTitle = featured.post.title;
 							} else if (featured.post.businessName) {

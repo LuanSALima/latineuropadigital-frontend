@@ -171,6 +171,20 @@ function DirectoryEdit(props) {
     setTags(tags);
   }
 
+  const [directoryTags,setDirectoryTags] = useState();
+
+  const createSelectOptions = () => {
+    let options = []
+    for(const tag of tags){
+        options.push({label:tag,value:tag})
+      }
+     setDirectoryTags(options);
+  }
+  
+  useEffect(()=>{
+    createSelectOptions();
+  },[tags]);
+
   return (
   <Page>
     <Toastifying/>
@@ -246,6 +260,7 @@ function DirectoryEdit(props) {
 
                   ]}
                   isClearable
+                  value={{label: businessProvince, value: businessProvince}}
                   closeMenuOnSelect={false}
                   onChange={(e) => {setBusinessProvince(e.value)}}
                   placeholder={"¡Seleccione a Provincia!"}
@@ -338,6 +353,7 @@ function DirectoryEdit(props) {
                     {label: 'Business Manager', value: 'Business Manager'}
                   ]}
                   isClearable
+                  value={{label: contactRole, value: contactRole}}
                   closeMenuOnSelect={false}
                   onChange={(e) => {setContactRole(e.value)}}
                   placeholder={"¡Seleccione!"}
@@ -352,6 +368,7 @@ function DirectoryEdit(props) {
                options={dbTags.map((currentTag)=>(
                 {label:currentTag,value:currentTag}))}
                 isClearable
+                value={directoryTags}
                 isMulti
                 closeMenuOnSelect={false}
                 onChange={onChangeSelectTags}

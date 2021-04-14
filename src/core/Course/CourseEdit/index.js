@@ -155,6 +155,20 @@ function CourseEdit(props) {
     setTags(tags);
   }
 
+  const [courseTags,setCourseTags] = useState();
+
+  const createSelectOptions = () => {
+    let options = []
+    for(const tag of tags){
+        options.push({label:tag,value:tag})
+      }
+     setCourseTags(options);
+  }
+  
+  useEffect(()=>{
+    createSelectOptions();
+  },[tags]);
+
 
   return (
   <Page>
@@ -225,6 +239,7 @@ function CourseEdit(props) {
          options={dbTags.map((currentTag)=>(
           {label:currentTag,value:currentTag}))}
           isClearable
+          value={courseTags}
           isMulti
           closeMenuOnSelect={false}
           onChange={onChangeSelectTags}

@@ -174,6 +174,20 @@ function EventEdit(props) {
     setTags(tags);
   }
 
+  const [eventTags,setEventTags] = useState();
+
+  const createSelectOptions = () => {
+    let options = []
+    for(const tag of tags){
+        options.push({label:tag,value:tag})
+      }
+     setEventTags(options);
+  }
+  
+  useEffect(()=>{
+    createSelectOptions();
+  },[tags]);
+
   return (
   <Page>
     <Toastifying/>
@@ -334,6 +348,7 @@ function EventEdit(props) {
                   {label: 'Event Producer', value: 'Event Producer'}
                 ]}
                 isClearable
+                value={{label: contactRole, value: contactRole}}
                 closeMenuOnSelect={false}
                 onChange={(e) => {setContactRole(e.value)}}
                 placeholder={"¡Seleccione!"}
@@ -348,6 +363,7 @@ function EventEdit(props) {
              options={dbTags.map((currentTag)=>(
               {label:currentTag,value:currentTag}))}
               isClearable
+              value={eventTags}
               isMulti
               closeMenuOnSelect={false}
               onChange={onChangeSelectTags}

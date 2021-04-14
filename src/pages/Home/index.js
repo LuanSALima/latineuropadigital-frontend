@@ -46,10 +46,6 @@ useEffect(() => {
   getTag();
 }, []);
 
-
-
-
-
   const listFeatureds = async () => {
     try {
       const response = await api.get("/featured/list");
