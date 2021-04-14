@@ -75,17 +75,6 @@ export const Title = styled.div`
 display:flex;
 flex-direction:column;
 
->div{
-    margin-bottom:0.5rem;
-    >span{
-        margin: 0 5px;
-        flex-direction:column;
-        padding: 2px 10px; 
-        color: white; 
-        width:100%;
-        background-color: #2f2d2d;
-    }
-}
 >img{
         width:40px;
         height:35px;
@@ -116,10 +105,27 @@ flex-direction:column;
 export const Time = styled.div`
 text-align: end;
 >span{
-  font-size:12px;
+  font-size:14px;
   color: gray;
 }
 @media(max-width:650px){
         flex-direction:column;
     }
+`;
+
+export const Tag = styled.div`
+  width: fit-content;
+  float: left;
+  margin-bottom:0.5rem;
+  margin: 0 5px;
+  
+  >span{
+    float: left;
+    padding: 2px 10px;
+    margin-bottom:0.25rem;
+    color: white; 
+    background-color: #2f2d2d;
+    max-width: 175px;
+    overflow-wrap: break-word;
+  }
 `;

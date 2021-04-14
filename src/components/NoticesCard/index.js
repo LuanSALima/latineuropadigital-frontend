@@ -1,7 +1,10 @@
 import React from 'react';
 
-import { Container, Description,Image, Title, Time } from './styles';
+
+import { Container, Description,Image, Title, Time, Tag } from './styles';
+
 import imageAux from '../../assets/icon.svg'
+
 function NoticesCard(props) {
 
   const handleImageError =(image)=>{
@@ -79,14 +82,15 @@ function NoticesCard(props) {
         <Description>
             <Title>
                 {/* {props.icon?<img src={props.icon}/>:null} */}
-             
-                 {props.tag?
+                <div>
+                {props.tag?
                 props.tag.map((tag) => {
-                  return   <div><span >{tag}</span> </div>
+                  return   <Tag><span >{tag}</span> </Tag>
                 })
                 :
-                null}
-               
+                null
+                }
+                </div>
                 {props.title?
                   <label>
                   {props.title.length > 28?
@@ -116,9 +120,9 @@ function NoticesCard(props) {
           
               <hr/>
               {props.date?
-                date(props.date)
+                <span>{date(props.date)}</span>
                 :
-                'data não passada'
+                <span>data não passada</span>
               }
             </Time>
         </Description>

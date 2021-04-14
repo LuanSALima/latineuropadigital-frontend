@@ -214,6 +214,7 @@ function EventList() {
             <Link to={"/evento/" + content.id}>
               <NoticesCard
                 id={content.id}
+                tag={content.tag}
                 icon={content.icon}
                 image={content.image}
                 title={content.title}

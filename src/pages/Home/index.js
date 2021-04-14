@@ -22,12 +22,33 @@ import { Link } from "react-router-dom";
 import { MyScreenView } from "../../core/Notices/NoticesList/styles";
 import CardCarousel from "../../components/CardCarousel";
 import { MdStar } from "react-icons/md";
+import { getToken } from "../../services/auth";
 
 function Notices() {
   const [featureds, setFeatureds] = useState([]);
 
   const [postsSideBar, setPostsSideBar] = useState([]);
-  const [noticesSideBar, setNoticesSideBar] = useState([]);
+
+//Will verify the tag
+async function getTag() {
+  try {
+    if(getToken()){
+      await api.get("/user/list");
+    }else{
+      console.log("no token provided");
+      return;
+    }
+  } catch (error) {
+    console.log(error);
+  }
+}
+useEffect(() => {
+  getTag();
+}, []);
+
+
+
+
 
   const listFeatureds = async () => {
     try {
@@ -169,6 +190,7 @@ function Notices() {
                 <MyCardLink>
                   <Link to={link + featured.id}>
                     <NoticesCard
+                      tag={featured.tag}
                       icon={featured.icon}
                       image={featured.image}
                       title={featured.title}
