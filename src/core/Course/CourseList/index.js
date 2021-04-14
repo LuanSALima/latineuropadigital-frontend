@@ -218,6 +218,7 @@ function CourseList() {
             <Link to={"/curso/" + content.id}>
               <NoticesCard
                 id={content.id}
+                tag={content.tag}
                 icon={content.icon}
                 image={content.image}
                 title={content.title}

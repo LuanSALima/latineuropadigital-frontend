@@ -169,6 +169,7 @@ function Notices() {
                 <MyCardLink>
                   <Link to={link + featured.id}>
                     <NoticesCard
+                      tag={featured.tag}
                       icon={featured.icon}
                       image={featured.image}
                       title={featured.title}
