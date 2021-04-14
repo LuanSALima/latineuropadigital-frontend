@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Container, Description,Image, Title, Time } from './styles';
+import { Container, Description,Image, Title, Time, TagsItem } from './styles';
 import imageAux from '../../assets/icon.svg'
 function NoticesCard(props) {
 
@@ -80,13 +80,14 @@ function NoticesCard(props) {
             <Title>
                 {/* {props.icon?<img src={props.icon}/>:null} */}
              
-                 {props.tag?
+                 <TagsItem>
+                   {props.tag?
                 props.tag.map((tag) => {
                   return   <div><span >{tag}</span> </div>
                 })
                 :
                 null}
-               
+               </TagsItem>
                 {props.title?
                   <label>
                   {props.title.length > 28?

@@ -71,21 +71,30 @@ export const Description = styled.div`
 
 `;
 
+export const TagsItem = styled.div`
+display:flex;
+flex-direction:row;
+>div{
+    margin-bottom:0.5rem;
+    white-space: nowrap;
+
+    >span{
+        margin: 0 5px;
+        padding: 2px 10px; 
+        color: white; 
+        overflow-wrap:break-word;
+        background-color: #2f2d2d;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
+}
+`;
+
 export const Title = styled.div`
 display:flex;
 flex-direction:column;
 
->div{
-    margin-bottom:0.5rem;
-    >span{
-        margin: 0 5px;
-        flex-direction:column;
-        padding: 2px 10px; 
-        color: white; 
-        width:100%;
-        background-color: #2f2d2d;
-    }
-}
+
 >img{
         width:40px;
         height:35px;
