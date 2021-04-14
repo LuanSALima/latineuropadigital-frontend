@@ -61,6 +61,8 @@ function NoticeEdit(props) {
     }
   }
 
+ 
+
   async function getNotice() {
     try {
       const response = await api.get("/notice/"+idNotice);
@@ -155,7 +157,21 @@ function NoticeEdit(props) {
     setTags(tags);
   }
 
-  return (
+
+  const [myTag,setMyTag] = useState();
+  
+
+  useEffect(()=>{
+    let myArr = []
+      for(let i = 0 ; i< tags.length; i++){
+          myArr.push({label:tags[i],value:tags[i]})
+        }
+       setMyTag(myArr);
+    },[tags]);
+
+
+
+    return (
   <Page>
     <Toastifying/>
    {modalShow && <ModalTag
@@ -224,6 +240,7 @@ function NoticeEdit(props) {
          options={dbTags.map((currentTag)=>(
           {label:currentTag,value:currentTag}))}
           isClearable
+          value={myTag}
           isMulti
           closeMenuOnSelect={false}
           onChange={onChangeSelectTags}
