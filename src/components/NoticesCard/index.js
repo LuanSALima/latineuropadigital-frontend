@@ -1,7 +1,10 @@
 import React from 'react';
 
+
 import { Container, Description,Image, Title, Time, Tag } from './styles';
+
 import imageAux from '../../assets/icon.svg'
+
 function NoticesCard(props) {
 
   const handleImageError =(image)=>{
@@ -88,7 +91,6 @@ function NoticesCard(props) {
                 null
                 }
                 </div>
-               
                 {props.title?
                   <label>
                   {props.title.length > 28?
