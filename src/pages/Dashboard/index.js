@@ -171,7 +171,7 @@ function Dashboard() {
   				}
 
   				return (
-  					<td>{data}</td>
+  					<td>{data.length>12?data.substr(0,12)+"...":data}</td>
   				);
   			})
   		);
