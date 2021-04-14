@@ -125,5 +125,7 @@ export const Tag = styled.div`
     margin-bottom:0.25rem;
     color: white; 
     background-color: #2f2d2d;
+    max-width: 175px;
+    overflow-wrap: break-word;
   }
 `;
