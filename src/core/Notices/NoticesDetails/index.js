@@ -10,6 +10,8 @@ import imgAux from '../../../assets/icon.svg';
 import { toast } from 'react-toastify';
 import history from '../../../services/history/history'
 import Stars from '../../../components/Stars';
+import { MyImage } from './styles';
+import { MyScreenView } from '../NoticesList/styles';
 function NoticesDetails(props) {
 
 
@@ -95,13 +97,16 @@ function NoticesDetails(props) {
   return (
       <Page>
         <Header/>
-        <Details width={"90%"}>
+        <MyScreenView>
         {isAuthenticated() === true ? <Stars isFeature={featured} onClick={updateFeatured}/>: null}
         <Toastifying/>
    
         <label>{notice.title}</label>
         <h3>{notice.subtitle}</h3>
+        <MyImage>
+          
         <img onError={handleImageError} src={process.env.REACT_APP_API_URL+notice.imagePath} />
+        </MyImage>
         <h4> Contenido </h4>
         <span>{notice.content}</span>
     
@@ -120,7 +125,7 @@ function NoticesDetails(props) {
         </div>
         }
 
-        </Details>
+        </MyScreenView>
         <Footer/>
       </Page>
   );
