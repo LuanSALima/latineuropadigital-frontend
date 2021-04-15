@@ -100,7 +100,7 @@ function FeaturedEditPosition() {
 
 				    		if(!featured.post) {
 				    			return (
-				    				<FeaturedCard id={featured._id} imagePath={""} title={featured.postType+" eliminado"} position={featured.position} options={validPositions} callback={refreshFeatureds}/>
+				    				<FeaturedCard id={featured._id} imagePath={""} title={featured.postType+" eliminado"} position={featured.position} options={validPositions} prioritized={featured.prioritized} callback={refreshFeatureds}/>
 				    			);
 				    		}
 
@@ -113,7 +113,7 @@ function FeaturedEditPosition() {
 							}
 
 				    		return (
-				    			<FeaturedCard id={featured._id} imagePath={featured.post.imagePath} title={postTitle} position={featured.position} options={validPositions} callback={refreshFeatureds}/>
+				    			<FeaturedCard id={featured._id} imagePath={featured.post.imagePath} title={postTitle} position={featured.position} options={validPositions} prioritized={featured.prioritized} callback={refreshFeatureds}/>
 				    		);
 				    	})}
 				    </List>
