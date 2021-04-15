@@ -19,6 +19,10 @@ export const Card = styled.div`
         overflow: hidden;
     }
 
+    >form{
+        margin-top: 10px;
+    }
+
     >form>button{
         width: 100%;
         height: 40px;
@@ -34,4 +38,14 @@ export const Card = styled.div`
     >form>select>option{
         text-align: center;
     }
+
+    >form>input{
+        width: 100%;
+    }
+
+    >form>input:focus{
+        border: none;
+        box-shadow: none;
+    }
+
 `;

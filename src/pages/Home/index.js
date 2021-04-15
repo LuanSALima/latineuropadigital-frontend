@@ -33,7 +33,7 @@ function Notices() {
 async function getTag() {
   try {
     if(getToken()){
-      await api.get("/user/list");
+      await api.get("/auth/check");
     }else{
       console.log("no token provided");
       return;
