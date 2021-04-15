@@ -19,13 +19,16 @@ import styled from "styled-components";
         width:100%;
         margin:0 auto;
         padding:1rem;
-        overflow-wrap:line-break;
+        overflow-wrap:break-word;
+    line-break:anywhere;
     }
     //subtitle / content title of the item
     >h4{
     font-size: 1.25rem;
     padding-left: 0;
     line-height: 1.75rem;
+    overflow-wrap:break-word;
+    line-break:anywhere;
     }
     //content of file
     >p{
@@ -38,7 +41,8 @@ import styled from "styled-components";
     text-align:left;
     font-size: 22px !important;
     font: inherit;
-    vertical-align: initial;
+    overflow-wrap:break-word;
+    line-break:anywhere;
 }
     }
   >div{
