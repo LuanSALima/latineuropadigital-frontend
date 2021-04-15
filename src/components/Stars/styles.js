@@ -9,5 +9,7 @@ float:left;
 flex-direction:row;
     >button{
     margin:0 !important;
-    }
+    padding:0.5rem 2rem;
+    border-radius:0.3rem;
+}
 `;

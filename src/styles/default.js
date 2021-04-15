@@ -25,49 +25,48 @@ export const ContentView = styled.div`
     height: 45px !important;
   }
 
-  >div{
-    padding:0 !important;
-    margin:0 auto !important;
-    justify-content:center !important;
-  >label{
-  margin: 0 auto !important;
-  margin:2rem !important;
-  text-align:center;
-  color:var(--color-freela-text);
-  font-size:20px;
-  >svg{
-    margin-left:1rem;
-    font-size: 35px !important;
-    color:var(--color-freela-pink) !important;
-
-  }
-}
-  >input[type="file"]{
-border:0px !important;
-padding:0rem !important;
-margin-top:2rem !important;
-margin-bottom:1rem !important;
-display:none !important;
-    ::-webkit-file-upload-button {
-  color: white;
-  display: inline-block;
-  background: #1CB6E0;
-  border: none;
-  padding: 7px 15px;
-  font-weight: 700;
-  border-radius: 3px;
-  white-space: nowrap;
-  cursor: pointer;
-  font-size: 10pt;
+  > div {
+    padding: 0 !important;
+    margin: 0 auto !important;
+    justify-content: center !important;
+    > label {
+      margin: 0 auto !important;
+      margin: 2rem !important;
+      text-align: center;
+      color: var(--color-freela-text);
+      font-size: 20px;
+      > svg {
+        margin-left: 1rem;
+        font-size: 35px !important;
+        color: var(--color-freela-pink) !important;
+      }
     }
-  }
+    > input[type="file"] {
+      border: 0px !important;
+      padding: 0rem !important;
+      margin-top: 2rem !important;
+      margin-bottom: 1rem !important;
+      display: none !important;
+      ::-webkit-file-upload-button {
+        color: white;
+        display: inline-block;
+        background: #1cb6e0;
+        border: none;
+        padding: 7px 15px;
+        font-weight: 700;
+        border-radius: 3px;
+        white-space: nowrap;
+        cursor: pointer;
+        font-size: 10pt;
+      }
+    }
 
-  >img{
-      height:350px;
-      width:100%; 
-      margin-bottom:1rem;
-      border-radius:0.3rem;
-  }
+    > img {
+      height: 350px;
+      width: 100%;
+      margin-bottom: 1rem;
+      border-radius: 0.3rem;
+    }
   }
   > a {
     color: var(--color-high-blue) !important;
@@ -126,28 +125,27 @@ const myView = css`
     color: black;
   }
 
-
-
   > div {
     padding: 1rem;
     display: flex;
     flex-direction: column;
 
-    >fieldset{
-    width: 64%;
-    margin:0 auto;
-    margin-top:1rem;
-    margin-bottom:1rem;
-  }
+    > fieldset {
+      width: 64%;
+      margin: 0 auto;
+      margin-top: 1rem;
+      margin-bottom: 1rem;
+    }
 
-    > textarea,input {
+    > textarea,
+    input {
       width: 70%;
       border-radius: 0.3rem;
       display: flex;
       padding: 1rem;
       margin: 0 auto;
       margin-top: 1rem;
-      resize:none;
+      resize: none;
     }
 
     > button {
@@ -161,7 +159,7 @@ const myView = css`
       border: 1px solid black;
     }
   }
- 
+
   @media (max-width: 995px) {
     width: 95% !important;
     margin-top: 10px;
@@ -178,17 +176,17 @@ const myView = css`
 `;
 
 export const MyFilteredOptions = styled.fieldset`
-width:30%;
-margin-inline-start:auto;
-padding:1rem;
-@media(max-width:700px){
-width:45%;
-}
+  width: 30%;
+  margin-inline-start: auto;
+  padding: 1rem;
+  @media (max-width: 700px) {
+    width: 45%;
+  }
 `;
 export const Form = styled.form`
   ${myView};
-  border: ${(props)=>!props.nullBorder?"1px solid #1e1e1e":null};
-  box-shadow:${(props)=>!props.nullBox?"2px 2px 6px 2px #2e2e2e":null} ;
+  border: ${(props) => (!props.nullBorder ? "1px solid #1e1e1e" : null)};
+  box-shadow: ${(props) => (!props.nullBox ? "2px 2px 6px 2px #2e2e2e" : null)};
 `;
 
 export const ScreenView = styled.div`
@@ -236,132 +234,129 @@ export const TwoDivided = styled.div`
 //for side bar after links
 
 export const MySideBarCard = styled.div`
-display:flex;
-flex-direction:column;
-text-align: center;
-margin-top:1rem;
-border:1px solid var(--color-freela-hover);
-padding:10px;
-justify-content:center;
-align-items:center;
-text-align:center;
-transition: box-shadow 0.3s ease;
-:hover{
-  box-shadow: 1px 1px 10px 3px var(--color-freela-hover);
-}
->img{
-  width: 100%;
-  height:100%;
-  max-height:530px;
-  max-width:275px !important;
-  transition: transform 0.3s ease;
-  :hover{
-    transform: scale(1.02);
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  margin-top: 1rem;
+  border: 1px solid var(--color-freela-hover);
+  padding: 10px;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  transition: box-shadow 0.3s ease;
+  :hover {
+    box-shadow: 1px 1px 10px 3px var(--color-freela-hover);
   }
-}
->span{
-  color: var(--color-freela-text);
-   font-size: 18px;
-   margin-top:1rem;
-   white-space: nowrap;
-   text-overflow: ellipsis;
-   width: 100%;
-   display: block;
-   overflow: hidden
-}
+  > img {
+    width: 100%;
+    height: 100%;
+    max-height: 530px;
+    max-width: 275px !important;
+    transition: transform 0.3s ease;
+    :hover {
+      transform: scale(1.02);
+    }
+  }
+  > span {
+    color: var(--color-freela-text);
+    font-size: 18px;
+    margin-top: 1rem;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    width: 100%;
+    display: block;
+    overflow: hidden;
+  }
 `;
 
-export const MySideCardLink = styled.div` 
-float: left;
-width:25%;
-cursor:pointer;
->img{
-  padding-top:1rem;
-  width:100%;
-  height:100%;
-  min-height:200px;
-  margin-top:1rem;
-  border-top:1px solid var(--color-freela-hover);
-}
-@media(max-width:1000px){
-  display:none;
-}
+export const MySideCardLink = styled.div`
+  float: left;
+  width: 25%;
+  cursor: pointer;
+  > img {
+    padding-top: 1rem;
+    width: 100%;
+    height: 100%;
+    min-height: 200px;
+    margin-top: 1rem;
+    border-top: 1px solid var(--color-freela-hover);
+  }
+  @media (max-width: 1000px) {
+    display: none;
+  }
 `;
 //Englobing all Div maps
 export const MyCardMap = styled.div`
-display:flex;
-flex-wrap: wrap;
-width: 75%;
-float: left;
+  display: flex;
+  flex-wrap: wrap;
+  width: 75%;
+  float: left;
 
->h2{
-  margin:0 auto;
-  width:100%;
-  justify-content:center;
-  padding-bottom: 2rem;
-  text-align:center;
-}
-@media(max-width:1600px){
-  width:75%;
-}
+  > h2 {
+    margin: 0 auto;
+    width: 100%;
+    justify-content: center;
+    padding-bottom: 2rem;
+    text-align: center;
+  }
+  @media (max-width: 1600px) {
+    width: 75%;
+  }
 
-@media(max-width:1000px){
-  width:100%;
-}
-
+  @media (max-width: 1000px) {
+    width: 100%;
+  }
 `;
 //When a englobe all card
 export const MyCardLink = styled.div`
-width:95%;
-margin-left:0.65rem;
-margin-bottom:1rem;
-max-height:400px;
-@media(min-width:1600px){
-  width:48%;
-  margin-left:10px !important;
-}
+  width: 95%;
+  margin-left: 0.65rem;
+  margin-bottom: 1rem;
+  max-height: 400px;
+  @media (min-width: 1600px) {
+    width: 48%;
+    margin-left: 10px !important;
+  }
 
-@media(max-width:650px){ 
-max-height:100% !important;
-
-}
->a{
-max-width:100%;
-}
+  @media (max-width: 650px) {
+    max-height: 100% !important;
+  }
+  > a {
+    max-width: 100%;
+  }
 `;
 //////////////////////////////////////
 
 //For Details view
 export const Details = styled(ScreenView)`
-  background-color:white !important;
-  padding:2rem !important;
+  background-color: white !important;
+  padding: 2rem !important;
   //title
   > label {
-    margin-top:1rem;
-    margin:0 auto;
+    margin-top: 1rem;
+    margin: 0 auto;
   }
   //subtitle
   > h3 {
-    margin:0 auto;
+    margin: 0 auto;
   }
 
   > img {
-    height:450px;
-    background-color:var(--color-freela-white);
-    border-radius:0.3rem;
+    height: 450px;
+    background-color: var(--color-freela-white);
+    border-radius: 0.3rem;
   }
   //contenido
   > h4 {
-    margin:0 auto;
-    margin-top:1rem;
+    margin: 0 auto;
+    margin-top: 1rem;
   }
   //content
   > span {
-    margin-top:1rem;
-    padding:0.5rem;
-    text-align:justify;
+    margin-top: 1rem;
+    padding: 0.5rem;
+    text-align: justify;
   }
-  
 `;
 
 //Buttons (Four types, danger, succes, succes and default.)
@@ -426,13 +421,13 @@ export const Outline_Button = styled.button`
 `;
 
 export const ProgressBar = styled.div`
-  width:  ${(props) => (props.width ? props.width : "0%")};
+  width: ${(props) => (props.width ? props.width : "0%")};
   height: 30px;
   line-height: 30px;
   color: white;
   background-color: blue;
   text-align: center;
-  transition: width .6s ease;
+  transition: width 0.6s ease;
 `;
 
 export const FormBlock = styled.div`
@@ -447,7 +442,7 @@ export const FormColumn = styled.div`
 export const FormGroup = styled.div`
   padding: 15px;
 
-  input{
+  input {
     width: 100% !important;
     height: 30px;
     border: 1px solid gray !important;
@@ -455,24 +450,24 @@ export const FormGroup = styled.div`
     margin-top: 0 !important;
   }
 
-  textarea{
+  textarea {
     width: 100%;
     height: 80px;
     margin-top: 0;
     padding: 10px;
   }
 
-  select{
+  select {
     width: 100%;
     padding: 10px;
     font-size: 17px;
     border: 1px solid gray;
-    option{
+    option {
       font-size: 17px;
     }
   }
-  
-  fieldset{
+
+  fieldset {
     input {
       border: 0 !important;
       height: 24px;
