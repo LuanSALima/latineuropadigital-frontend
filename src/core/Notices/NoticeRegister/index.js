@@ -21,7 +21,7 @@ function NoticeRegister() {
   const [dbTags, setDbTags] = useState([]);
   const [link,setLink]= useState('');
 
-  const[modalShow,setModalShow] = useState(false);
+  const [modalShow,setModalShow] = useState(false);
   const [previewImage,setPreviewImage] = useState();
 
   const handleValidator =  useMyForm(title,subtitle,content,image,tags,link);
@@ -48,9 +48,7 @@ function NoticeRegister() {
   useEffect(() => {
     listTags();
   }, []);
-  useEffect(()=>{
-    console.log(image);
-  },[image])
+
   const handleNoticeRegister = async (e) => {
     e.preventDefault();
     if(handleValidator && handleLinkValidator){

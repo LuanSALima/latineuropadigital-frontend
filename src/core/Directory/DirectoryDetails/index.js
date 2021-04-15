@@ -11,7 +11,10 @@ import history from '../../../services/history/history'
 import { toast } from 'react-toastify';
 import Stars from '../../../components/Stars';
 
-import {isAuthenticated} from '../../../services/auth'
+import {isAuthenticated} from '../../../services/auth';
+
+import { MyScreenView } from "../DirectoryList/styles";
+import { Content, MyImage } from "./styles";
 
 function DirectoryDetails(props) {
 
@@ -100,33 +103,69 @@ function DirectoryDetails(props) {
   return (
     <Page>
     <Header/>
-    <Details width={"90%"}>
-    {isAuthenticated() === true ? <Stars isFeature={featured} onClick={updateFeatured}/>: null}
-    <Toastifying/>
+      <MyScreenView>
+        <Content>
+          {isAuthenticated() === true ? (
+            <Stars isFeature={featured} onClick={updateFeatured} />
+          ) : null}
+          <Toastifying />
 
-    <label>{directory.title}</label>
-    <h3>{directory.subtitle}</h3>
-    <img onError={handleImageError} src={process.env.REACT_APP_API_URL+directory.imagePath} />
-    <h4> Contenido </h4>
-    <span>{directory.content}</span>
+          <label>{directory.businessName}</label>
 
-    {
-      directory.link?.length > 1?
-    <div>
-      <AppButton onClick={()=>{window.location.assign(directory.link);}}>Accesito</AppButton>
-    </div>
-    :null
-    }
-    
-    {
-    isAuthenticated() &&
-    <div>
-      <Outline_Button type="danger" onClick={handleRemoveDirectory}>{"Eliminar"}</Outline_Button>
-      <Outline_Button type="warning" onClick={handleEditeDirectory}>{"Editar"}</Outline_Button>
-    </div>
-    }
+          <br></br>
+          <hr></hr>
+          <MyImage>
+            <img
+              onError={handleImageError}
+              src={process.env.REACT_APP_API_URL + directory.imagePath}
+            />
+          </MyImage>
+          <br></br>
+          <hr></hr>
 
-    </Details>
+          <h4></h4>
+
+          <p>{directory.businessDescription}</p>
+
+          <br />
+
+          <span>Localización:</span>
+          <span>{directory.businessAddress}</span>
+          <br />
+
+          <span>Ciudad:</span>
+          <span>{directory.businessCity}</span>
+          <br />
+
+          <span>Provincia:</span>
+          <span>{directory.businessProvince}</span>
+          <br />
+
+          <span>Código postal:</span>
+          <span>{directory.businessPostalCode}</span>
+          <br />
+
+          <span>Teléfono:</span>
+          <span>{directory.businessPhone}</span>
+          <span>{directory.businessSecondPhone}</span>
+          <br />
+
+          <hr/>
+
+          <span>Nombre de contacto:</span>
+          <span>{directory.contactName}</span>
+          <br />
+
+          <span>Telefono para contacto:</span>
+          <span>{directory.contactPhone}</span>
+          <br />
+
+          <span>Email de contacto:</span>
+          <span>{directory.contactEmail}</span>
+          <br />
+
+        </Content>
+      </MyScreenView>
     <Footer/>
   </Page>
   );

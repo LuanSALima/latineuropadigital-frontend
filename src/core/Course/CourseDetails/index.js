@@ -11,6 +11,9 @@ import { toast } from 'react-toastify';
 import history from '../../../services/history/history'
 import Stars from '../../../components/Stars';
 
+import { Content, MyImage } from "./styles";
+import { MyScreenView } from "../CourseList/styles";
+
 function CourseDetails(props) {
 
   const [removeButtonText, setRemoveButtonText] = useState("Remover");
@@ -102,35 +105,53 @@ function CourseDetails(props) {
 
   return (
     <Page>
-    <Header/>
-    <Details width={"90%"}>
-    {isAuthenticated() === true ? <Stars isFeature={featured} onClick={updateFeatured}/>: null}
-    <Toastifying/>
+      <Header/>
+      <MyScreenView>
+        <Content>
+            {isAuthenticated() === true ? (
+              <Stars isFeature={featured} onClick={updateFeatured} />
+            ) : null}
+            <Toastifying />
 
-    <label>{course.title}</label>
-    <h3>{course.subtitle}</h3>
-    <img onError={handleImageError} src={process.env.REACT_APP_API_URL+course.imagePath} />
-    <h4> Contenido </h4>
-    <span>{course.content}</span>
+            <label>{course.title}</label>
+            <h4>{course.subtitle}</h4>
+            <br></br>
+            <hr></hr>
+            <MyImage>
+              <img
+                onError={handleImageError}
+                src={process.env.REACT_APP_API_URL + course.imagePath}
+              />
+            </MyImage>
+            <br></br>
+            <hr></hr>
+            <p>{course.content}</p>
+          </Content>
 
-    {
-      course.link?.length > 1?
-    <div>
-      <AppButton onClick={()=>{window.location.assign(course.link);}}>Accesito</AppButton>
-    </div>
-    :null
-    }
-    
-    {
-    isAuthenticated() &&
-    <div>
-      <Outline_Button type="danger" onClick={handleRemoveCourse}>{"Eliminar"}</Outline_Button>
-      <Outline_Button type="warning" onClick={handleEditeCourse}>{"Editar"}</Outline_Button>
-    </div>
-    }
+          {course.link?.length > 1 ? (
+            <div>
+              <AppButton
+                onClick={() => {
+                  window.location.assign(course.link);
+                }}
+              >
+                Accesito
+              </AppButton>
+            </div>
+          ) : null}
 
-    </Details>
-    <Footer/>
+          {isAuthenticated() && (
+            <div>
+              <Outline_Button type="danger" onClick={handleRemoveCourse}>
+                {"Eliminar"}
+              </Outline_Button>
+              <Outline_Button type="warning" onClick={handleEditeCourse}>
+                {"Editar"}
+              </Outline_Button>
+            </div>
+          )}
+      </MyScreenView>
+      <Footer/>
   </Page>
   );
 }

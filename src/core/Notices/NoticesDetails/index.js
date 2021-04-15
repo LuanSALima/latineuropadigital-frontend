@@ -17,6 +17,7 @@ import history from "../../../services/history/history";
 import Stars from "../../../components/Stars";
 import { Content, MyImage } from "./styles";
 import { MyScreenView } from "../NoticesList/styles";
+
 function NoticesDetails(props) {
   const [idNotice] = useState(props.match.params.id);
   const [notice, setNotice] = useState([]);
@@ -151,7 +152,7 @@ function NoticesDetails(props) {
           </div>
         )}
       </MyScreenView>
-      <Footer />
+      <Footer/>
     </Page>
   );
 }
