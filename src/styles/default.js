@@ -116,7 +116,7 @@ const myView = css`
   margin: 0 auto;
   flex-direction: column;
   padding: 1rem 1rem 3rem 1rem;
-  margin-top: 1.8rem !important;
+  margin-top: 5rem !important;
   margin-bottom: 1.5rem !important;
   background-color: #fff;
   border-radius: 0.25rem;

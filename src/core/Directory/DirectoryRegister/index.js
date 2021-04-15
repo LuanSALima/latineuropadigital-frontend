@@ -134,6 +134,62 @@ function DirectoryRegister() {
         <label>Registra tu negocio gratis</label>
 
         <FormBlock>
+          <h4>CONTACT INFORMATION</h4>
+          <FormColumn>
+            <FormGroup>
+              <label>Full Name<Required>*</Required></label>
+              <input
+                type="text"
+                onChange={(e) => {
+                  setContactName(e.target.value);
+                }}
+                value={contactName}
+              />
+            </FormGroup>
+            <FormGroup>
+              <label>Email<Required>*</Required></label>
+              <input
+                type="text"
+                onChange={(e) => {
+                  setContactEmail(e.target.value);
+                }}
+                value={contactEmail}
+              />
+            </FormGroup>
+          </FormColumn>
+
+          <FormColumn>
+            <FormGroup>
+              <label>Phone Number<Required>*</Required></label>
+              <input
+                type="text"
+                onChange={(e) => {
+                  setContactPhone(e.target.value);
+                }}
+                value={contactPhone}
+              />
+            </FormGroup>
+            <FormGroup>
+              <label>Which is your role?<Required>*</Required></label>
+              <fieldset>
+                <Select
+                  options={[
+                    {label: 'Business Owner', value: 'Business Owner'},
+                    {label: 'Business Manager', value: 'Business Manager'}
+                  ]}
+                  isClearable
+                  closeMenuOnSelect={false}
+                  onChange={(e) => {setContactRole(e.value)}}
+                  placeholder={"¡Seleccione!"}
+                />
+              </fieldset>
+            </FormGroup>
+          </FormColumn>
+        </FormBlock>
+
+        <hr />
+
+        <FormBlock>
           <h4>BUSINESS INFORMATION</h4>
           <FormColumn>
             <FormGroup>
@@ -241,63 +297,6 @@ function DirectoryRegister() {
               <span>400 characters limit. {businessDescription.length < 400 ? 400-businessDescription.length+" characters left": "Limit characters reached"} </span>
             </CharLimit>
           </FormGroup>
-          
-        </FormBlock>
-
-        <hr />
-       
-        <FormBlock>
-          <h4>CONTACT INFORMATION</h4>
-          <FormColumn>
-            <FormGroup>
-              <label>Full Name<Required>*</Required></label>
-              <input
-                type="text"
-                onChange={(e) => {
-                  setContactName(e.target.value);
-                }}
-                value={contactName}
-              />
-            </FormGroup>
-            <FormGroup>
-              <label>Email<Required>*</Required></label>
-              <input
-                type="text"
-                onChange={(e) => {
-                  setContactEmail(e.target.value);
-                }}
-                value={contactEmail}
-              />
-            </FormGroup>
-          </FormColumn>
-
-          <FormColumn>
-            <FormGroup>
-              <label>Phone Number<Required>*</Required></label>
-              <input
-                type="text"
-                onChange={(e) => {
-                  setContactPhone(e.target.value);
-                }}
-                value={contactPhone}
-              />
-            </FormGroup>
-            <FormGroup>
-              <label>Which is your role?<Required>*</Required></label>
-              <fieldset>
-                <Select
-                  options={[
-                    {label: 'Business Owner', value: 'Business Owner'},
-                    {label: 'Business Manager', value: 'Business Manager'}
-                  ]}
-                  isClearable
-                  closeMenuOnSelect={false}
-                  onChange={(e) => {setContactRole(e.value)}}
-                  placeholder={"¡Seleccione!"}
-                />
-              </fieldset>
-            </FormGroup>
-          </FormColumn>
           <FormGroup>
             <label>Tags<Required>*</Required></label>
             <fieldset>
