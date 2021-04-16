@@ -6,9 +6,7 @@
   height: 86px;
   background-color: var(--color-freela-white);
   max-width: 100vw !important;
-  position: sticky !important;
-  top: 0 !important;
-  z-index: 99999999999 !important;
+
   /* background-image: linear-gradient(#1e1e1e, #2e2e2e); */
 }
 

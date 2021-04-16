@@ -20,12 +20,10 @@ function NoticeRegister() {
   const [tags, setTags] = useState([]);
   const [dbTags, setDbTags] = useState([]);
   const [link,setLink]= useState('');
-
   const [modalShow,setModalShow] = useState(false);
   const [previewImage,setPreviewImage] = useState();
-
-  const handleValidator =  useMyForm(title,subtitle,content,image,tags,link);
   const handleLinkValidator = verifyLink(link);
+  const [firstRender,setFirstRender]= useState(true);
 
   async function listTags() {
     try {
@@ -44,34 +42,15 @@ function NoticeRegister() {
     
     }
   }
-
   useEffect(() => {
     listTags();
   }, []);
 
   const handleNoticeRegister = async (e) => {
     e.preventDefault();
-
-    const errors = validateForm([
-    {
-      title,
-      validate: {
-        required: true,
-        min: 4,
-        max: 10
-      }
-    }, {
-      name: 'Subtítulo',
-      value: subtitle,
-      validate: {
-        required: true,
-        min: 4,
-        max: 10
-      }
-    }
-    ]);
-
-    if(!errors){
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    if(useMyForm(title,subtitle,content,image,tags,link) === true 
+    && handleLinkValidator){
       const formData = new FormData();
       formData.append('title', title);
       formData.append('subtitle', subtitle);
@@ -87,16 +66,15 @@ function NoticeRegister() {
         toast.success("¡Registrado correctamente!",TOASTIFY_OPTIONS)
       } catch (error) {
         console.log(error)
-          toast.error(error.message,TOASTIFY_OPTIONS)
+          toast.error("oi"+error.message,TOASTIFY_OPTIONS)
       }
     }else{
-      let mensagem = "";
-
-      Object.keys(errors).map((item)=> {
-        mensagem += errors[item];
-      })
-
-      toast.error(mensagem, TOASTIFY_OPTIONS)
+      toast.error("¡Hubo un error! Verifique que todos los campos estén llenos",TOASTIFY_OPTIONS)
+      setFirstRender(false);
+      // toast.error(mensagem, TOASTIFY_OPTIONS)
+      // Object.keys(errors).map((item)=> {
+      //   mensagem += errors[item];
+      // })
     }
   };
 
@@ -135,6 +113,7 @@ function NoticeRegister() {
         />
 
         <input
+          style={!useMyForm(subtitle) && !firstRender?{borderColor:"red"}:{}}
           placeholder="Subtítulo"
           type="text"
            onChange={(e) => {
@@ -142,7 +121,6 @@ function NoticeRegister() {
           }}
           value={subtitle}
         />
-
         <textarea
           placeholder="Contenido"
           type="text"

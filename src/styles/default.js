@@ -23,6 +23,7 @@ export const ContentView = styled.div`
     margin-top: 1rem !important;
     width: 65% !important;
     height: 45px !important;
+    border:1px solid var(--color-freela-text);
   }
 
   > div {
