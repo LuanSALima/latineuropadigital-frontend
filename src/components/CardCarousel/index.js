@@ -45,7 +45,8 @@ function CardCarousel(props) {
 							  alt="First slide"
 							 
 							/>
-							<Carousel.Caption>
+							{/* Alexandre does not wanna get caption here */}
+							{/* <Carousel.Caption>
 							  <div style={{ padding:"1.4rem 0.7rem",backgroundColor:"rgba(0, 0, 0, 0.35)",overflowWrap: "break-word",maxWidth:"250px !important",margin:"0 auto",borderRadius:"0.5rem"}}>
 							  <h3 style={{color:"var(--color-freela-white)"}}>{content.title.length > 20?
 								content.title.substr(0,30)+".."
@@ -56,7 +57,7 @@ function CardCarousel(props) {
 								:
 								content?.subtitle}</p>
 								</div>
-							</Carousel.Caption>
+							</Carousel.Caption> */}
 						</Link>
 					</Carousel.Item>
 				);

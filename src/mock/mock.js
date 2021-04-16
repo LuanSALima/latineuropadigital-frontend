@@ -4,7 +4,7 @@ export const ActivityBrench = [
   "Abogados",
   "Asesoría de empresas",
   "Asesor Financiero",
-  " Atención a clientes",
+  "Atención a clientes",
   "Arquitectura e Design de Interiores ",
   "Agricultura",
   "Audio – Edición & Producción ",
@@ -26,3 +26,9 @@ export const ActivityBrench = [
   "Vendas & Marketing",
   "Web, Móvil & Software",
 ];
+
+//Transform
+export const ActivityObject = [];
+ActivityBrench.forEach((item)=>{
+    ActivityObject.push({label:item,value:item});
+  });

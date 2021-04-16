@@ -9,6 +9,7 @@ import { toast } from "react-toastify";
 
 import Select from 'react-select';
 import {Modal,Button} from 'react-bootstrap'
+import { ActivityBrench, ActivityObject } from '../../../mock/mock';
 
 function OpportunitieRegister() {
 
@@ -19,8 +20,6 @@ function OpportunitieRegister() {
   const [jobTypes, setJobTypes] = useState([]);
   const [dbJobTypes, setDbJobTypes] = useState([]);
   const [link,setLink]= useState();
-
-  const[modalShow,setModalShow] = useState(false);
 
   async function listJobTypes() {
     try {
@@ -44,6 +43,7 @@ function OpportunitieRegister() {
     listJobTypes();
   }, []);
 
+  
   const handleJobRegister = async (e) => {
     e.preventDefault();
     try {
@@ -63,50 +63,8 @@ function OpportunitieRegister() {
     setJobTypes(types);
   }
 
-  const handleChangeTags = (e)=>{
-    e.preventDefault();
-    setModalShow(true);
-  }
-
-  function MyModalView(props){
-   return ( <Modal
-    {...props}
-    size="lg"
-    aria-labelledby="contained-modal-title-vcenter"
-    centered
-  >
-    <Toastifying/>
-    <Modal.Header closeButton>
-      <Modal.Title id="contained-modal-title-vcenter">
-      <h1>Promociona tu trabajo</h1>
-      </Modal.Title>
-    </Modal.Header>
-    <Modal.Body>
-    {<h4>
-      Seleccione su rama de trabajo</h4>}
-                 
-
-      <Form width={"100%"} height={"50vh"} center nullBox nullBorder>
-      <ContentView>
- {/* Promover RAMOS DE TABALHO AQUI! */}
-      <input type="text"/>
-</ContentView>
-  </Form>
-    </Modal.Body>
-    <Modal.Footer>
-      <Button onClick={()=>setModalShow(false)}>Cerrar</Button>
-    </Modal.Footer>
-  </Modal>);
-  }
-
   return (
   <Page>
-
-        { <MyModalView 
-        show={modalShow}
-        onHide={()=>setModalShow(false)}
-        />}
-
     <Header/>
     <Form width={"45%"} height={"80vh"} center>
       <Toastifying/>
@@ -140,7 +98,7 @@ function OpportunitieRegister() {
           value={title}
         />
 
-        <input
+        <textarea
           placeholder="Ingrese su Descripción de Servicio"
           type="text"
            onChange={(e) => {
@@ -154,8 +112,9 @@ function OpportunitieRegister() {
 
         <fieldset>
         <Select
-         options={dbJobTypes.map((currentJobType)=>(
-          {label:currentJobType,value:currentJobType}))}
+        //  options={dbJobTypes.map((currentJobType)=>(
+        //   {label:currentJobType,value:currentJobType}))}
+          options={ActivityObject}
           isClearable
           isMulti
           closeMenuOnSelect={false}
@@ -163,10 +122,6 @@ function OpportunitieRegister() {
           placeholder={"¡Seleccione las etiquetas!"}
         />
         </fieldset>
-        <Outline_Button type="success" onClick={handleChangeTags}>Añadir Etiqueta</Outline_Button>
-       
-
-
         <AppButton onClick={handleJobRegister}>Registrar</AppButton>
       </ContentView>
     </Form>
