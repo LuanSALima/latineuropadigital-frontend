@@ -7,6 +7,8 @@
   background-color: var(--color-freela-hover);
   height: 650px !important;
   justify-content: center;
+  position: sticky;
+  top: 0;
 }
 .myImage {
   margin: 0 auto;
