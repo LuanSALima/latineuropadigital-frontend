@@ -44,6 +44,8 @@ function DirectoryEdit(props) {
   const [previewImage,setPreviewImage] = useState();
   const [progress, setProgess] = useState(0);
 
+  const [firstRender,setFirstRender]= useState(true);
+
   const handleValidator =  useMyForm(
     businessName,
     businessAddress,
@@ -160,6 +162,7 @@ function DirectoryEdit(props) {
     }else{
       setButtonText("Tente Novamente");
       toast.error("¡Hubo un error! Verifique que todos los campos estén llenos",TOASTIFY_OPTIONS)
+      setFirstRender(false);
     }
   };
 
@@ -171,6 +174,20 @@ function DirectoryEdit(props) {
     setTags(tags);
   }
 
+  const [directoryTags,setDirectoryTags] = useState();
+
+  const createSelectOptions = () => {
+    let options = []
+    for(const tag of tags){
+        options.push({label:tag,value:tag})
+      }
+     setDirectoryTags(options);
+  }
+  
+  useEffect(()=>{
+    createSelectOptions();
+  },[tags]);
+
   return (
   <Page>
     <Toastifying/>
@@ -180,11 +197,73 @@ function DirectoryEdit(props) {
         <label>Editar Diretorio</label>
 
         <FormBlock>
+          <h4>CONTACT INFORMATION</h4>
+          <FormColumn>
+            <FormGroup>
+              <label>Full Name<Required>*</Required></label>
+              <input
+                style={!useMyForm(contactName) && !firstRender?{backgroundColor: '#f9b3b3'}:{}}             
+                type="text"
+                onChange={(e) => {
+                  setContactName(e.target.value);
+                }}
+                value={contactName}
+              />
+            </FormGroup>
+            <FormGroup>
+              <label>Email<Required>*</Required></label>
+              <input
+                style={!useMyForm(contactEmail) && !firstRender?{backgroundColor: '#f9b3b3'}:{}}             
+                type="text"
+                onChange={(e) => {
+                  setContactEmail(e.target.value);
+                }}
+                value={contactEmail}
+              />
+            </FormGroup>
+          </FormColumn>
+
+          <FormColumn>
+            <FormGroup>
+              <label>Phone Number<Required>*</Required></label>
+              <input
+                style={!useMyForm(contactPhone) && !firstRender?{backgroundColor: '#f9b3b3'}:{}}
+                type="text"
+                onChange={(e) => {
+                  setContactPhone(e.target.value);
+                }}
+                value={contactPhone}
+              />
+            </FormGroup>
+            <FormGroup>
+              <label>Which is your role?<Required>*</Required></label>
+              <fieldset>
+                <Select
+                  style={!useMyForm(contactRole) && !firstRender?{backgroundColor: '#f9b3b3'}:{}}
+                  options={[
+                    {label: 'Business Owner', value: 'Business Owner'},
+                    {label: 'Business Manager', value: 'Business Manager'}
+                  ]}
+                  isClearable
+                  value={{label: contactRole, value: contactRole}}
+                  closeMenuOnSelect={false}
+                  onChange={(e) => {setContactRole(e.value)}}
+                  placeholder={"¡Seleccione!"}
+                />
+              </fieldset>
+            </FormGroup>
+          </FormColumn>
+        </FormBlock>
+
+        <hr />
+
+        <FormBlock>
           <h4>BUSINESS INFORMATION</h4>
           <FormColumn>
             <FormGroup>
               <label>Business Name<Required>*</Required></label>
-              <input               
+              <input      
+                style={!useMyForm(businessName) && !firstRender?{backgroundColor: '#f9b3b3'}:{}}         
                 type="text"
                 onChange={(e) => {
                   setBusinessName(e.target.value);
@@ -194,7 +273,8 @@ function DirectoryEdit(props) {
             </FormGroup>
             <FormGroup>
               <label>City<Required>*</Required></label>
-              <input                
+              <input   
+                style={!useMyForm(businessCity) && !firstRender?{backgroundColor: '#f9b3b3'}:{}}             
                 type="text"
                 onChange={(e) => {
                   setBusinessCity(e.target.value);
@@ -204,7 +284,8 @@ function DirectoryEdit(props) {
             </FormGroup>
             <FormGroup>
               <label>Postal Code<Required>*</Required></label>
-              <input                
+              <input     
+                style={!useMyForm(businessPostalCode) && !firstRender?{backgroundColor: '#f9b3b3'}:{}}           
                 type="text"
                 onChange={(e) => {
                   setBusinessPostalCode(e.target.value);
@@ -227,7 +308,8 @@ function DirectoryEdit(props) {
           <FormColumn>
             <FormGroup>
               <label>Address<Required>*</Required></label>
-              <input               
+              <input       
+                style={!useMyForm(businessAddress) && !firstRender?{backgroundColor: '#f9b3b3'}:{}}        
                 type="text"
                 onChange={(e) => {
                   setBusinessAddress(e.target.value);
@@ -239,6 +321,7 @@ function DirectoryEdit(props) {
               <label>Province<Required>*</Required></label>
               <fieldset>
                 <Select
+                  style={!useMyForm(businessProvince) && !firstRender?{backgroundColor: '#f9b3b3'}:{}}
                   options={[
                     {label: 'Portugal', value: 'Portugal'},
                     {label: 'Espanha', value: 'Espanha'},
@@ -246,6 +329,7 @@ function DirectoryEdit(props) {
 
                   ]}
                   isClearable
+                  value={{label: businessProvince, value: businessProvince}}
                   closeMenuOnSelect={false}
                   onChange={(e) => {setBusinessProvince(e.value)}}
                   placeholder={"¡Seleccione a Provincia!"}
@@ -255,7 +339,7 @@ function DirectoryEdit(props) {
             <FormGroup>
               <label>Phone<Required>*</Required></label>
               <input
-                
+                style={!useMyForm(businessPhone) && !firstRender?{backgroundColor: '#f9b3b3'}:{}}
                 type="text"
                 onChange={(e) => {
                   setBusinessPhone(e.target.value);
@@ -277,7 +361,8 @@ function DirectoryEdit(props) {
           </FormColumn>
           <FormGroup>
             <label>Business Description<Required>*</Required></label>
-            <textarea            
+            <textarea      
+              style={!useMyForm(businessDescription) && !firstRender?{backgroundColor: '#f9b3b3'}:{}}      
               type="text"
               onChange={(e) => {
                 setBusinessDescription(e.target.value);
@@ -288,70 +373,15 @@ function DirectoryEdit(props) {
               <span>400 characters limit. {businessDescription.length < 400 ? 400-businessDescription.length+" characters left": "Limit characters reached"} </span>
             </CharLimit>
           </FormGroup>
-          
-        </FormBlock>
-
-        <hr />
-       
-        <FormBlock>
-          <h4>CONTACT INFORMATION</h4>
-          <FormColumn>
-            <FormGroup>
-              <label>Full Name<Required>*</Required></label>
-              <input              
-                type="text"
-                onChange={(e) => {
-                  setContactName(e.target.value);
-                }}
-                value={contactName}
-              />
-            </FormGroup>
-            <FormGroup>
-              <label>Email<Required>*</Required></label>
-              <input                
-                type="text"
-                onChange={(e) => {
-                  setContactEmail(e.target.value);
-                }}
-                value={contactEmail}
-              />
-            </FormGroup>
-          </FormColumn>
-
-          <FormColumn>
-            <FormGroup>
-              <label>Phone Number<Required>*</Required></label>
-              <input
-                type="text"
-                onChange={(e) => {
-                  setContactPhone(e.target.value);
-                }}
-                value={contactPhone}
-              />
-            </FormGroup>
-            <FormGroup>
-              <label>Which is your role?<Required>*</Required></label>
-              <fieldset>
-                <Select
-                  options={[
-                    {label: 'Business Owner', value: 'Business Owner'},
-                    {label: 'Business Manager', value: 'Business Manager'}
-                  ]}
-                  isClearable
-                  closeMenuOnSelect={false}
-                  onChange={(e) => {setContactRole(e.value)}}
-                  placeholder={"¡Seleccione!"}
-                />
-              </fieldset>
-            </FormGroup>
-          </FormColumn>
           <FormGroup>
             <label>Tags<Required>*</Required></label>
             <fieldset>
               <Select
+                style={!useMyForm(directoryTags) && !firstRender?{backgroundColor: '#f9b3b3'}:{}}
                options={dbTags.map((currentTag)=>(
                 {label:currentTag,value:currentTag}))}
                 isClearable
+                value={directoryTags}
                 isMulti
                 closeMenuOnSelect={false}
                 onChange={onChangeSelectTags}
@@ -362,7 +392,7 @@ function DirectoryEdit(props) {
           <FormGroup>
             <label>Status</label>
             <fieldset>
-              <select value={status} onChange={(e) => {setStatus(e.target.value)}}>
+              <select style={!useMyForm(status) && !firstRender?{backgroundColor: '#f9b3b3'}:{}} value={status} onChange={(e) => {setStatus(e.target.value)}}>
                 <option value="pendent">Pendente</option>
                 <option value="accepted">Aceita</option>
               </select>

@@ -119,9 +119,11 @@ function Routes() {
 
         <PrivateRoute path="/course/cadastrar" component={CourseRegister} />
         <PrivateRoute path="/course/editar/:id" component={CourseEdit} />
-
+        
+        /*
         <PrivateRoute path="/jobtype/cadastrar" component={JobTypeRegister} />
         <PrivateRoute path="/jobtype/editar/:id" component={JobTypeEdit} />
+        */
 
         <PrivateRoute path="/featured/editar/:id" component={FeaturedEdit} />
         <PrivateRoute path="/featured/alterar-posicao" component={FeaturedEditPosition} />

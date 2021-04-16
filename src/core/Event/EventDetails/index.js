@@ -11,6 +11,9 @@ import { toast } from 'react-toastify';
 import history from '../../../services/history/history'
 import Stars from '../../../components/Stars';
 
+import { MyScreenView } from "../EventList/styles";
+import { Content, MyImage } from "./styles";
+
 function EventDetails(props) {
 
   const [removeButtonText, setRemoveButtonText] = useState("Remover");
@@ -100,33 +103,82 @@ function EventDetails(props) {
   return (
       <Page>
         <Header/>
-        <Details width={"90%"}>
-        {isAuthenticated() === true ? <Stars isFeature={featured} onClick={updateFeatured} />: null}
-        <Toastifying/>
-   
-        <label>{event.title}</label>
-        <h3>{event.subtitle}</h3>
-        <img onError={handleImageError} src={process.env.REACT_APP_API_URL+event.imagePath} />
-        <h4> Contenido </h4>
-        <span>{event.content}</span>
+        <MyScreenView>
+        <Content>
+          {isAuthenticated() === true ? (
+            <Stars isFeature={featured} onClick={updateFeatured} />
+          ) : null}
+          <Toastifying />
 
-        {
-          event.link?.length > 1?
-        <div>
-          <AppButton onClick={()=>{window.location.assign(event.link);}}>Accesito</AppButton>
-        </div>
-        :null
-        }
-        
-        {
-        isAuthenticated() &&
-        <div>
-          <Outline_Button type="danger" onClick={handleRemoveEvent}>{"Eliminar"}</Outline_Button>
-          <Outline_Button type="warning" onClick={handleEditeEvent}>{"Editar"}</Outline_Button>
-        </div>
-        }
+          <label>{event.eventName}</label>
 
-        </Details>
+          <br></br>
+          <hr></hr>
+          <MyImage>
+            <img
+              onError={handleImageError}
+              src={process.env.REACT_APP_API_URL + event.imagePath}
+            />
+          </MyImage>
+          <br></br>
+          <hr></hr>
+
+          <h4></h4>
+
+          <p>{event.eventDescription}</p>
+
+          <br />
+
+          <span>Localización:</span>
+          <span>{event.eventAddress}</span>
+          <br />
+
+          <span>Local:</span>
+          <span>{event.eventLocation}</span>
+          <br />
+
+          <span>Fecha:</span>
+          <span>{event.eventDate}</span>
+          <br />
+
+          <span>Cronograma:</span>
+          <span>{event.eventTime}</span>
+          <br />
+
+          <span>Precio de la entrada:</span>
+          <span>{event.eventTicketPrice}</span>
+          <br />
+
+          <span>Mas informaciones:</span>
+          <span>{event.eventMoreInfo}</span>
+          <br />
+
+          <hr/>
+
+          <span>Nombre de contacto:</span>
+          <span>{event.contactName}</span>
+          <br />
+
+          <span>Telefono para contacto:</span>
+          <span>{event.contactPhone}</span>
+          <br />
+
+          <span>Email de contacto:</span>
+          <span>{event.contactEmail}</span>
+          <br />
+
+        </Content>
+        {isAuthenticated() && (
+          <div>
+            <Outline_Button type="danger" onClick={handleRemoveEvent}>
+              {"Eliminar"}
+            </Outline_Button>
+            <Outline_Button type="warning" onClick={handleEditeEvent}>
+              {"Editar"}
+            </Outline_Button>
+          </div>
+        )}
+      </MyScreenView>
         <Footer/>
       </Page>
   );

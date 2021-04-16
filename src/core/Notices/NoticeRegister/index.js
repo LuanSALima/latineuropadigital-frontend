@@ -20,12 +20,11 @@ function NoticeRegister() {
   const [tags, setTags] = useState([]);
   const [dbTags, setDbTags] = useState([]);
   const [link,setLink]= useState('');
-
-  const[modalShow,setModalShow] = useState(false);
+  const [modalShow,setModalShow] = useState(false);
   const [previewImage,setPreviewImage] = useState();
-
-  const handleValidator =  useMyForm(title,subtitle,content,image,tags,link);
   const handleLinkValidator = verifyLink(link);
+
+  const [firstRender,setFirstRender]= useState(true);
 
   async function listTags() {
     try {
@@ -44,16 +43,15 @@ function NoticeRegister() {
     
     }
   }
-
   useEffect(() => {
     listTags();
   }, []);
-  useEffect(()=>{
-    console.log(image);
-  },[image])
+
   const handleNoticeRegister = async (e) => {
     e.preventDefault();
-    if(handleValidator && handleLinkValidator){
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    if(useMyForm(title,subtitle,content,image,tags,link) === true 
+    && handleLinkValidator){
       const formData = new FormData();
       formData.append('title', title);
       formData.append('subtitle', subtitle);
@@ -69,10 +67,11 @@ function NoticeRegister() {
         toast.success("¡Registrado correctamente!",TOASTIFY_OPTIONS)
       } catch (error) {
         console.log(error)
-          toast.error("¡Hubo un error con Server!",TOASTIFY_OPTIONS)
+          toast.error("oi"+error.message,TOASTIFY_OPTIONS)
       }
     }else{
       toast.error("¡Hubo un error! Verifique que todos los campos estén llenos",TOASTIFY_OPTIONS)
+      setFirstRender(false);
     }
   };
 
@@ -102,6 +101,7 @@ function NoticeRegister() {
         <label>¡Cree una Publicación!</label>
 
         <input
+          style={!useMyForm(title) && !firstRender?{backgroundColor: '#f9b3b3'}:{}}
           placeholder="Título"
           type="text"
           onChange={(e) => {
@@ -111,6 +111,7 @@ function NoticeRegister() {
         />
 
         <input
+          style={!useMyForm(subtitle) && !firstRender?{backgroundColor: '#f9b3b3'}:{}}
           placeholder="Subtítulo"
           type="text"
            onChange={(e) => {
@@ -118,8 +119,8 @@ function NoticeRegister() {
           }}
           value={subtitle}
         />
-
         <textarea
+          style={!useMyForm(content) && !firstRender?{backgroundColor: '#f9b3b3'}:{}}
           placeholder="Contenido"
           type="text"
            onChange={(e) => {
@@ -128,12 +129,12 @@ function NoticeRegister() {
           value={content}
         />
         <div>
-        <label for="uploadPhoto" class="btn-cta">
+        <label for="uploadPhoto" className="btn-cta">
           {image?.name?image?.name:"Haga clic aquí para agregar una imagen"}
-        <MdFileUpload/>
+        <MdFileUpload style={!useMyForm(image) && !firstRender?{backgroundColor: '#f9b3b3'}:{}} />
         </label>
-        <input
-           id="uploadPhoto"
+        <input          
+          id="uploadPhoto"
           type="file"
           onChange={(e) => {
             setImage(e.target.files[0]);
@@ -145,10 +146,11 @@ function NoticeRegister() {
        { image && <img src={previewImage}/>}
        </div>
         <span>Por favor, inserte "http: //" o "https: //" antes de su enlace.</span>
-        <input type="text" placeholder="Link" onChange={(e)=>{setLink(e.target.value)}} value={link} />
+        <input style={!verifyLink(link) && !firstRender?{backgroundColor: '#f9b3b3'}:{}} type="text" placeholder="Link" onChange={(e)=>{setLink(e.target.value)}} value={link} />
 
         <fieldset>
        <Select
+        style={!useMyForm(subtitle) && !firstRender?{backgroundColor: '#f9b3b3'}:{}}
          options={dbTags.map((currentTag)=>(
          {label:currentTag,value:currentTag}))}
          isClearable

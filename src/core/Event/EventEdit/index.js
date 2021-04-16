@@ -43,6 +43,8 @@ function EventEdit(props) {
   const [image, setImage] = useState('');
   const [previewImage,setPreviewImage] = useState();
 
+  const [firstRender,setFirstRender]= useState(true);
+
   const handleValidator =  useMyForm(
     eventName,
     eventOrganizedBy,
@@ -161,7 +163,7 @@ function EventEdit(props) {
         console.log(error);
       }
     }else{
-      
+      setFirstRender(false);
       toast.error("¡Hubo un error! Verifique que todos los campos estén llenos",TOASTIFY_OPTIONS)
     }
   };
@@ -173,6 +175,20 @@ function EventEdit(props) {
     }
     setTags(tags);
   }
+
+  const [eventTags,setEventTags] = useState();
+
+  const createSelectOptions = () => {
+    let options = []
+    for(const tag of tags){
+        options.push({label:tag,value:tag})
+      }
+     setEventTags(options);
+  }
+  
+  useEffect(()=>{
+    createSelectOptions();
+  },[tags]);
 
   return (
   <Page>
@@ -188,6 +204,7 @@ function EventEdit(props) {
           <FormGroup>
             <label>Event Name<Required>*</Required></label>
             <input
+              style={!useMyForm(eventName) && !firstRender?{backgroundColor: '#f9b3b3'}:{}}
               type="text"
               onChange={(e) => {
                 setEventName(e.target.value);
@@ -198,6 +215,7 @@ function EventEdit(props) {
           <FormGroup>
             <label>Venue / Location<Required>*</Required></label>
             <input
+              style={!useMyForm(eventLocation) && !firstRender?{backgroundColor: '#f9b3b3'}:{}}
               type="text"
               onChange={(e) => {
                 setEventLocation(e.target.value);
@@ -208,6 +226,7 @@ function EventEdit(props) {
           <FormGroup>
             <label>Date<Required>*</Required></label>
             <input
+              style={!useMyForm(eventDate) && !firstRender?{backgroundColor: '#f9b3b3'}:{}}
               type="text"
               onChange={(e) => {
                 setEventDate(e.target.value);
@@ -218,6 +237,7 @@ function EventEdit(props) {
           <FormGroup>
             <label>Ticket Price<Required>*</Required></label>
             <input
+              style={!useMyForm(eventTicketPrice) && !firstRender?{backgroundColor: '#f9b3b3'}:{}}
               type="text"
               onChange={(e) => {
                 setEventTicketPrice(e.target.value);
@@ -230,6 +250,7 @@ function EventEdit(props) {
           <FormGroup>
             <label>Organized By<Required>*</Required></label>
             <input
+              style={!useMyForm(eventOrganizedBy) && !firstRender?{backgroundColor: '#f9b3b3'}:{}}
               type="text"
               onChange={(e) => {
                 setEventOrganizedBy(e.target.value);
@@ -240,6 +261,7 @@ function EventEdit(props) {
           <FormGroup>
             <label>Address<Required>*</Required></label>
             <input
+              style={!useMyForm(eventAddress) && !firstRender?{backgroundColor: '#f9b3b3'}:{}}
               type="text"
               onChange={(e) => {
                 setEventAddress(e.target.value);
@@ -250,6 +272,7 @@ function EventEdit(props) {
           <FormGroup>
             <label>Time<Required>*</Required></label>
             <input
+              style={!useMyForm(eventTime) && !firstRender?{backgroundColor: '#f9b3b3'}:{}}
               type="text"
               onChange={(e) => {
                 setEventTime(e.target.value);
@@ -261,6 +284,7 @@ function EventEdit(props) {
           <FormGroup>
             <label>More Info<Required>*</Required></label>
             <input
+              style={!useMyForm(eventMoreInfo) && !firstRender?{backgroundColor: '#f9b3b3'}:{}}
               type="text"
               onChange={(e) => {
                 setEventMoreInfo(e.target.value);
@@ -273,6 +297,7 @@ function EventEdit(props) {
         <FormGroup>
             <label>Event Description<Required>*</Required></label>
             <textarea
+              style={!useMyForm(eventDescription) && !firstRender?{backgroundColor: '#f9b3b3'}:{}}
               type="text"
               onChange={(e) => {
                 setEventDescription(e.target.value);
@@ -295,6 +320,7 @@ function EventEdit(props) {
           <FormGroup>
             <label>Full Name<Required>*</Required></label>
             <input
+              style={!useMyForm(contactName) && !firstRender?{backgroundColor: '#f9b3b3'}:{}}
               type="text"
               onChange={(e) => {
                 setContactName(e.target.value);
@@ -305,6 +331,7 @@ function EventEdit(props) {
           <FormGroup>
             <label>Email<Required>*</Required></label>
             <input
+              style={!useMyForm(contactEmail) && !firstRender?{backgroundColor: '#f9b3b3'}:{}}
               type="text"
               onChange={(e) => {
                 setContactEmail(e.target.value);
@@ -318,6 +345,7 @@ function EventEdit(props) {
           <FormGroup>
             <label>Phone Number<Required>*</Required></label>
             <input
+              style={!useMyForm(contactPhone) && !firstRender?{backgroundColor: '#f9b3b3'}:{}}
               type="text"
               onChange={(e) => {
                 setContactPhone(e.target.value);
@@ -329,11 +357,13 @@ function EventEdit(props) {
             <label>Which is your role?<Required>*</Required></label>
             <fieldset>
               <Select
+                style={!useMyForm(contactRole) && !firstRender?{backgroundColor: '#f9b3b3'}:{}}
                 options={[
                   {label: 'Event Owner', value: 'Event Owner'},
                   {label: 'Event Producer', value: 'Event Producer'}
                 ]}
                 isClearable
+                value={{label: contactRole, value: contactRole}}
                 closeMenuOnSelect={false}
                 onChange={(e) => {setContactRole(e.value)}}
                 placeholder={"¡Seleccione!"}
@@ -345,9 +375,11 @@ function EventEdit(props) {
           <label>Tags<Required>*</Required></label>
           <fieldset>
             <Select
+              style={!useMyForm(eventTags) && !firstRender?{backgroundColor: '#f9b3b3'}:{}}
              options={dbTags.map((currentTag)=>(
               {label:currentTag,value:currentTag}))}
               isClearable
+              value={eventTags}
               isMulti
               closeMenuOnSelect={false}
               onChange={onChangeSelectTags}
@@ -368,7 +400,7 @@ function EventEdit(props) {
           <div>
             <label for="uploadPhoto" class="btn-cta">
               {image?.name?image?.name:"Haga clic aquí para agregar una imagen"}
-            <MdFileUpload/>
+            <MdFileUpload />
             </label>
             <input
                id="uploadPhoto"

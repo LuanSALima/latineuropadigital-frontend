@@ -50,7 +50,6 @@ function FeaturedEditPosition() {
 		for(const featured of featureds) {
 			positions.push(featured.position);
 		}
-		console.log(positions);
 		setValidPositions(positions);
 	}
 
@@ -98,6 +97,12 @@ function FeaturedEditPosition() {
 
 				    		let postTitle = "Titulo não encontrado";
 
+				    		if(!featured.post) {
+				    			return (
+				    				<FeaturedCard id={featured._id} imagePath={""} title={featured.postType+" eliminado"} position={featured.position} options={validPositions} prioritized={featured.prioritized} callback={refreshFeatureds}/>
+				    			);
+				    		}
+
 							if (featured.post.title) {
 								postTitle = featured.post.title;
 							} else if (featured.post.businessName) {
@@ -107,7 +112,7 @@ function FeaturedEditPosition() {
 							}
 
 				    		return (
-				    			<FeaturedCard id={featured._id} imagePath={featured.post.imagePath} title={postTitle} position={featured.position} options={validPositions} callback={refreshFeatureds}/>
+				    			<FeaturedCard id={featured._id} imagePath={featured.post.imagePath} title={postTitle} position={featured.position} options={validPositions} prioritized={featured.prioritized} callback={refreshFeatureds}/>
 				    		);
 				    	})}
 				    </List>

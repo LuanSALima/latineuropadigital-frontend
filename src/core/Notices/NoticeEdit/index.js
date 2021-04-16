@@ -37,6 +37,8 @@ function NoticeEdit(props) {
   const handleValidator =  useMyForm(title,subtitle,content,tags,link);
   const handleLinkValidator = verifyLink(link);
 
+  const [firstRender,setFirstRender]= useState(true);
+
   async function listTags() {
     try {
       const response = await api.get("/tags/notice");
@@ -140,6 +142,7 @@ function NoticeEdit(props) {
     }else{
       setButtonText("Tente Novamente");
       toast.error("¡Hubo un error! Verifique que todos los campos estén llenos",TOASTIFY_OPTIONS)
+      setFirstRender(false);
     }
 
   };
@@ -157,21 +160,22 @@ function NoticeEdit(props) {
     setTags(tags);
   }
 
+  const [noticeTags,setNoticeTags] = useState();
 
-  const [myTag,setMyTag] = useState();
+  const createSelectOptions = () => {
+    let options = []
+    for(const tag of tags){
+        options.push({label:tag,value:tag})
+      }
+     setNoticeTags(options);
+  }
   
-
   useEffect(()=>{
-    let myArr = []
-      for(let i = 0 ; i< tags.length; i++){
-          myArr.push({label:tags[i],value:tags[i]})
-        }
-       setMyTag(myArr);
-    },[tags]);
+    createSelectOptions();
+  },[tags]);
 
 
-
-    return (
+  return (
   <Page>
     <Toastifying/>
    {modalShow && <ModalTag
@@ -186,6 +190,7 @@ function NoticeEdit(props) {
         <label style={{color: 'red'}}>{errors.message}</label>
 
         <input
+          style={!useMyForm(title) && !firstRender?{backgroundColor: '#f9b3b3'}:{}}
           placeholder="Título"
           type="text"
           onChange={(e) => {
@@ -196,6 +201,7 @@ function NoticeEdit(props) {
         <span style={{color: 'red'}}>{errors.title}</span>
 
         <input
+        style={!useMyForm(subtitle) && !firstRender?{backgroundColor: '#f9b3b3'}:{}}
           placeholder="Subtítulo"
           type="text"
            onChange={(e) => {
@@ -206,6 +212,7 @@ function NoticeEdit(props) {
         <span style={{color: 'red'}}>{errors.subtitle}</span>
 
         <input
+          style={!useMyForm(content) && !firstRender?{backgroundColor: '#f9b3b3'}:{}}
           placeholder="Contenido"
           type="text"
            onChange={(e) => {
@@ -218,7 +225,7 @@ function NoticeEdit(props) {
         <div>
         <label for="uploadPhoto" class="btn-cta">
           {image?.name?image?.name:"Haga clic aquí para agregar una imagen"}
-        <MdFileUpload/>
+        <MdFileUpload />
         </label>
         <input
            id="uploadPhoto"
@@ -233,14 +240,16 @@ function NoticeEdit(props) {
        { image && <img src={previewImage}/>}
        </div>
           
-        <input type="text" placeholder="Link" onChange={(e)=>{setLink(e.target.value)}} value={link} />
+        <span>Por favor, inserte "http: //" o "https: //" antes de su enlace.</span>
+        <input style={!verifyLink(link) && !firstRender?{backgroundColor: '#f9b3b3'}:{}} type="text" placeholder="Link" onChange={(e)=>{setLink(e.target.value)}} value={link} />
 
         <fieldset>
          <Select
+         style={!useMyForm(tags) && !firstRender?{backgroundColor: '#f9b3b3'}:{}}
          options={dbTags.map((currentTag)=>(
           {label:currentTag,value:currentTag}))}
           isClearable
-          value={myTag}
+          value={noticeTags}
           isMulti
           closeMenuOnSelect={false}
           onChange={onChangeSelectTags}

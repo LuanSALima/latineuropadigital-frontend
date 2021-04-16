@@ -1,7 +1,14 @@
 import React, { useState, useEffect } from "react";
 import Header from "../../../components/Header";
 import NoticesCard from "../../../components/NoticesCard";
-import { MyCardLink, MyFilteredOptions, MySideCardLink, Page, MyCardMap, MySideBarCard } from "../../../styles/default";
+import {
+  MyCardLink,
+  MyFilteredOptions,
+  MySideCardLink,
+  Page,
+  MyCardMap,
+  MySideBarCard,
+} from "../../../styles/default";
 import imgTest from "../../../assets/icon.svg";
 
 import api from "../../../services/api";
@@ -13,10 +20,10 @@ import Select from "react-select";
 import { MdFilterList } from "react-icons/md/index";
 import Stars from "../../../components/Stars";
 
-import Pagination from '../../../components/Pagination';
-import CardCarousel from '../../../components/CardCarousel';
+import Pagination from "../../../components/Pagination";
+import CardCarousel from "../../../components/CardCarousel";
 
-import { MdStar } from 'react-icons/md';
+import { MdStar } from "react-icons/md";
 
 function NoticesList() {
   const [noticesFeatured, setNoticesFeatured] = useState([]);
@@ -43,7 +50,9 @@ function NoticesList() {
 
   const listNotices = async () => {
     try {
-      const response = await api.get("/notice/list?page="+actualPage+"&results="+qntResults);
+      const response = await api.get(
+        "/notice/list?page=" + actualPage + "&results=" + qntResults
+      );
 
       if (response.data.success) {
         if (response.data.notices) {
@@ -57,7 +66,7 @@ function NoticesList() {
               subtitle: notice.content,
               image: `${process.env.REACT_APP_API_URL}` + notice.imagePath,
               icon: imgTest,
-              date: notice.createdAt
+              date: notice.createdAt,
             });
           }
           setNotices(noticesDb);
@@ -71,7 +80,9 @@ function NoticesList() {
 
   const listNoticesMostViewed = async () => {
     try {
-      const response = await api.get("/notice/list?results=5&views=" + mostViewedAt);
+      const response = await api.get(
+        "/notice/list?results=5&views=" + mostViewedAt
+      );
 
       if (response.data.success) {
         if (response.data.notices) {
@@ -135,7 +146,7 @@ function NoticesList() {
 
             let postTitle = "Titulo não encontrado";
 
-            if(featuredPost.title) {
+            if (featuredPost.title) {
               postTitle = featuredPost.title;
             } else if (featuredPost.businessName) {
               postTitle = featuredPost.businessName;
@@ -146,8 +157,9 @@ function NoticesList() {
             postsSideBarDB.push({
               id: featuredPost._id,
               title: postTitle,
-              image: `${process.env.REACT_APP_API_URL}` + featuredPost.imagePath,
-              postType: response.data.featureds[index].postType
+              image:
+                `${process.env.REACT_APP_API_URL}` + featuredPost.imagePath,
+              postType: response.data.featureds[index].postType,
             });
           }
           setPostsSideBar(postsSideBarDB);
@@ -189,51 +201,54 @@ function NoticesList() {
               { label: " Mais Visualizadas do Dia", value: "daily" },
               { label: " Mais Visualizadas da Semana", value: "weekly" },
               { label: " Mais Visualizadas do Mês", value: "monthly" },
-              { label: " Mais Visualizadas de todos os tempos", value: "allTime" },
+              {
+                label: " Mais Visualizadas de todos os tempos",
+                value: "allTime",
+              },
             ]}
-            onChange={(e)=>setMostViewedAt(e.value)}
+            onChange={(e) => setMostViewedAt(e.value)}
           />
         </MyFilteredOptions>
 
-        <CardCarousel items={noticesMostViewed} route={"/noticia"}/>
+        <CardCarousel items={noticesMostViewed} route={"/noticia"} />
 
-        <div style={{display: 'block'}}>
+        <div style={{ display: "block" }}>
           <MyCardMap>
-          <h2 style={{margin:"0 auto" , width:"100%"}}>Reciente</h2>
-          {notices.map((content) => {
-            return (
-              <MyCardLink>
-              <Link to={"/noticia/" + content.id} >
-                <NoticesCard
-                  id={content.id}
-                  tag={content.tag}
-                  icon={content.icon}
-                  image={content.image}
-                  title={content.title}
-                  text={content.subtitle}
-                  date={content.date}
-                />
-              </Link>
-              </MyCardLink>
-            );
-          })}
+            <h2 style={{ margin: "0 auto", width: "100%" }}>Reciente</h2>
+            {notices.map((content) => {
+              return (
+                <MyCardLink>
+                  <Link to={"/noticia/" + content.id}>
+                    <NoticesCard
+                      id={content.id}
+                      tag={content.tag}
+                      icon={content.icon}
+                      image={content.image}
+                      title={content.title}
+                      text={content.subtitle}
+                      date={content.date}
+                    />
+                  </Link>
+                </MyCardLink>
+              );
+            })}
           </MyCardMap>
 
           <MySideCardLink>
             {postsSideBar.map((featured) => {
               let link = "/";
 
-              switch(featured.postType) {
-                case 'Notice':
+              switch (featured.postType) {
+                case "Notice":
                   link = "/noticia/";
                   break;
-                case 'Directory':
+                case "Directory":
                   link = "/diretorio/";
                   break;
-                case 'Event':
+                case "Event":
                   link = "/evento/";
                   break;
-                case 'Course':
+                case "Course":
                   link = "/curso/";
                   break;
                 default:
@@ -241,10 +256,16 @@ function NoticesList() {
               }
 
               return (
-                <Link to={link+featured.id}>
-                  <MySideBarCard >
-                    <img  src={featured.image} onError={(image) => {image.target.src = imgTest}}/>
-                    <span >{featured.title}</span><MdStar size={30} color="yellow"/>
+                <Link to={link + featured.id}>
+                  <MySideBarCard>
+                    <img
+                      src={featured.image}
+                      onError={(image) => {
+                        image.target.src = imgTest;
+                      }}
+                    />
+                    <span>{featured.title}</span>
+                    <MdStar size={30} color="yellow" />
                   </MySideBarCard>
                 </Link>
               );
@@ -252,17 +273,27 @@ function NoticesList() {
             {noticesSideBar.map((notice) => {
               return (
                 <Link to={"/noticia/" + notice.id}>
-                  <MySideBarCard >
-                    <img  src={notice.image} onError={(image) => {image.target.src = imgTest}}/>
-                    <span >{notice.title}</span>
+                  <MySideBarCard>
+                    <img
+                      src={notice.image}
+                      onError={(image) => {
+                        image.target.src = imgTest;
+                      }}
+                    />
+                    <span>{notice.title}</span>
                   </MySideBarCard>
                 </Link>
               );
-            })} 
+            })}
           </MySideCardLink>
         </div>
 
-        <Pagination totalResults={totalNotices} resultsPerPage={qntResults} actualPage={actualPage} changePage={setActualPage}/>
+        <Pagination
+          totalResults={totalNotices}
+          resultsPerPage={qntResults}
+          actualPage={actualPage}
+          changePage={setActualPage}
+        />
       </MyScreenView>
       <Footer />
     </Page>

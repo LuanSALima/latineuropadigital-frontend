@@ -22,11 +22,13 @@ function CourseRegister() {
   const [dbTags, setDbTags] = useState([]);
   const [link,setLink]= useState('');
 
-  const[modalShow,setModalShow] = useState(false);
+  const [modalShow,setModalShow] = useState(false);
   const [previewImage,setPreviewImage] = useState();
 
   const handleValidator =  useMyForm(title,subtitle,content,image,tags,link);
   const handleLinkValidator = verifyLink(link);
+
+  const [firstRender,setFirstRender]= useState(true);
 
   async function listTags() {
     try {
@@ -72,6 +74,7 @@ function CourseRegister() {
       }
     }else{
       toast.error("¡Hubo un error! Verifique que todos los campos estén llenos",TOASTIFY_OPTIONS)
+      setFirstRender(false);
     }
   };
 
@@ -102,6 +105,7 @@ function CourseRegister() {
         <label>¡Crea un curso!</label>
 
         <input
+          style={!useMyForm(title) && !firstRender?{backgroundColor: '#f9b3b3'}:{}}
           placeholder="Título"
           type="text"
           onChange={(e) => {
@@ -111,6 +115,7 @@ function CourseRegister() {
         />
 
         <input
+          style={!useMyForm(subtitle) && !firstRender?{backgroundColor: '#f9b3b3'}:{}}
           placeholder="Subtítulo"
           type="text"
            onChange={(e) => {
@@ -120,6 +125,7 @@ function CourseRegister() {
         />
 
         <textarea
+          style={!useMyForm(content) && !firstRender?{backgroundColor: '#f9b3b3'}:{}}
           placeholder="Contenido"
           type="text"
            onChange={(e) => {
@@ -132,10 +138,10 @@ function CourseRegister() {
         <div>
         <label for="uploadPhoto" class="btn-cta">
           {image?.name?image?.name:"Haga clic aquí para agregar una imagen"}
-        <MdFileUpload/>
+        <MdFileUpload style={!useMyForm(image) && !firstRender?{backgroundColor: '#f9b3b3'}:{}}/>
         </label>
         <input
-           id="uploadPhoto"
+          id="uploadPhoto"
           type="file"
           onChange={(e) => {
             setImage(e.target.files[0]);
@@ -147,11 +153,12 @@ function CourseRegister() {
        { image && <img src={previewImage}/>}
        </div>
           
-       <input type="text" placeholder="Link" onChange={(e)=>{setLink(e.target.value)}} value={link} />
-
+        <span>Por favor, inserte "http: //" o "https: //" antes de su enlace.</span>
+       <input style={!verifyLink(link) && !firstRender?{backgroundColor: '#f9b3b3'}:{}} type="text" placeholder="Link" onChange={(e)=>{setLink(e.target.value)}} value={link} />
 
         <fieldset>
         <Select
+          style={!useMyForm(tags) && !firstRender?{backgroundColor: '#f9b3b3'}:{}}
          options={dbTags.map((currentTag)=>(
           {label:currentTag,value:currentTag}))}
           isClearable
