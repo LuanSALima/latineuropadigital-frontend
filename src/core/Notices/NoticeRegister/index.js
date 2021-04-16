@@ -9,7 +9,7 @@ import {MdFileUpload} from 'react-icons/md/index'
 import Toastifying, {TOASTIFY_OPTIONS} from "../../../components/Toastifying"
 import { toast } from 'react-toastify';
 import ModalTag from '../../../components/ModalTag';
-import useMyForm, { verifyLink } from '../../../hooks/useValidationForm';
+import useMyForm, { verifyLink, validateForm } from '../../../hooks/useValidationForm';
 
 function NoticeRegister() {
 
@@ -51,7 +51,27 @@ function NoticeRegister() {
 
   const handleNoticeRegister = async (e) => {
     e.preventDefault();
-    if(handleValidator && handleLinkValidator){
+
+    const errors = validateForm([
+    {
+      title,
+      validate: {
+        required: true,
+        min: 4,
+        max: 10
+      }
+    }, {
+      name: 'Subtítulo',
+      value: subtitle,
+      validate: {
+        required: true,
+        min: 4,
+        max: 10
+      }
+    }
+    ]);
+
+    if(!errors){
       const formData = new FormData();
       formData.append('title', title);
       formData.append('subtitle', subtitle);
@@ -67,10 +87,16 @@ function NoticeRegister() {
         toast.success("¡Registrado correctamente!",TOASTIFY_OPTIONS)
       } catch (error) {
         console.log(error)
-          toast.error("¡Hubo un error con Server!",TOASTIFY_OPTIONS)
+          toast.error(error.message,TOASTIFY_OPTIONS)
       }
     }else{
-      toast.error("¡Hubo un error! Verifique que todos los campos estén llenos",TOASTIFY_OPTIONS)
+      let mensagem = "";
+
+      Object.keys(errors).map((item)=> {
+        mensagem += errors[item];
+      })
+
+      toast.error(mensagem, TOASTIFY_OPTIONS)
     }
   };
 
