@@ -8,8 +8,10 @@ import api from '../../../services/api';
 import Select from 'react-select';
 import { toast } from 'react-toastify';
 import Toastifying, {TOASTIFY_OPTIONS} from'../../../components/Toastifying';
-function TagRegister() {
 
+import useMyForm from '../../../hooks/useValidationForm';
+
+function TagRegister() {
 
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -33,16 +35,23 @@ function TagRegister() {
     }
   ]);
 
+  const [firstRender,setFirstRender]= useState(true);
 
   const handleTagRegister = async (e) => {
     e.preventDefault();
-
-    try {
-       await api.post("/tag/create", {title, description, types});
-      toast.success("Registrado Correctamente.")
-    } catch (error) {
-      toast.error("Error!.",TOASTIFY_OPTIONS);
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    if(useMyForm(title, description, types) === true){
+      try {
+        await api.post("/tag/create", {title, description, types});
+        toast.success("Registrado Correctamente.")
+      } catch (error) {
+        toast.error("Error!.",TOASTIFY_OPTIONS);
+      }
+    } else {
+      toast.error("¡Hubo un error! Verifique que todos los campos estén llenos",TOASTIFY_OPTIONS)
+      setFirstRender(false);
     }
+   
   };
 
   const onChangeSelectTags = (typesSelected) => {
@@ -62,6 +71,7 @@ function TagRegister() {
         <label>Registrar Etiqueta</label>
 
         <input
+          style={!useMyForm(title) && !firstRender?{backgroundColor: '#f9b3b3'}:{}}
           placeholder="  Título"
           type="text"
           onChange={(e) => {
@@ -71,6 +81,7 @@ function TagRegister() {
         />
 
         <input
+          style={!useMyForm(description) && !firstRender?{backgroundColor: '#f9b3b3'}:{}}
           placeholder=" Descrição"
           type="text"
           onChange={(e) => {

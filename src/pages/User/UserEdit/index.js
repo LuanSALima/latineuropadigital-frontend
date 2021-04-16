@@ -7,6 +7,8 @@ import api from '../../../services/api';
 
 import { getUser, updateUser } from "../../../services/auth";
 
+import useMyForm from '../../../hooks/useValidationForm';
+
 function UserEdit(props) {
 
   const [buttonText, setButtonText] = useState("Editar");
@@ -18,36 +20,44 @@ function UserEdit(props) {
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({});
 
+  const [firstRender,setFirstRender]= useState(true);
+
   const handleuserEdit = async (e) => {
     e.preventDefault();
-    setButtonText("Enviando Dados ...");
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    if(useMyForm(username, email) === true){
+      setButtonText("Enviando Dados ...");
 
-    try {
-      const response = await api.put("/user/"+idUser, {username, email, phone, password});
+      try {
+        const response = await api.put("/user/"+idUser, {username, email, phone, password});
 
-      if(response.data.success) {
-        if(getUser()._id === idUser) {
-          updateUser(username);
+        if(response.data.success) {
+          if(getUser()._id === idUser) {
+            updateUser(username);
+          }
+        }
+
+        console.log(response.data);
+        setButtonText("Editado com Sucesso");
+      } catch (error) {
+        setButtonText("Tente Novamente");
+
+        if(error) {
+          //Dados retornados do backend
+          if(error.errors) {
+            setErrors(error.errors);
+          }
+          if(error.message) {
+            setErrors({message: error.message});
+          }
+        } else {
+          //Não houve dados retornados do backend
+          alert("Erro Inesperado!");
         }
       }
-
-      console.log(response.data);
-      setButtonText("Editado com Sucesso");
-    } catch (error) {
-      setButtonText("Tente Novamente");
-
-      if(error.response.data) {
-        //Dados retornados do backend
-        if(error.response.data.errors) {
-          setErrors(error.response.data.errors);
-        }
-        if(error.response.data.message) {
-          setErrors({message: error.response.data.message});
-        }
-      } else {
-        //Não houve dados retornados do backend
-        alert("Erro Inesperado!");
-      }
+    }else {
+      setErrors({message: "¡Hubo un error! Verifique que todos los campos estén llenos"});
+      setFirstRender(false);
     }
   };
 
@@ -83,6 +93,7 @@ function UserEdit(props) {
         <label style={{color: 'red'}}>{errors.message}</label>
 
         <input
+          style={!useMyForm(username) && !firstRender?{backgroundColor: '#f9b3b3'}:{}}
           placeholder="Insira o Nome do Usuário"
           type="text"
            onChange={(e) => {
@@ -93,6 +104,7 @@ function UserEdit(props) {
         <span style={{color: 'red'}}>{errors.username}</span>
 
         <input
+          style={!useMyForm(email) && !firstRender?{backgroundColor: '#f9b3b3'}:{}}
           placeholder="Insira o E-mail do Usuário"
           type="text"
            onChange={(e) => {

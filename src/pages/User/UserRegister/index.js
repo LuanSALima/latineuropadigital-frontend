@@ -5,6 +5,8 @@ import { AppButton, ContentView, Form, Page } from '../../../styles/default';
 
 import api from '../../../services/api';
 
+import useMyForm from '../../../hooks/useValidationForm';
+
 function UserRegister(props) {
 
   const [buttonText, setButtonText] = useState("Cadastrar");
@@ -15,32 +17,39 @@ function UserRegister(props) {
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({});
 
+  const [firstRender,setFirstRender]= useState(true);
+
   const handleUserRegister = async (e) => {
     e.preventDefault();
-    setButtonText("Enviando Dados ...");
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    if(useMyForm(username, email, password) === true){
+      setButtonText("Enviando Dados ...");
 
-    try {
-      const response = await api.post("/user/create", {username, email, phone, password});
+      try {
+        const response = await api.post("/user/create", {username, email, phone, password});
 
-      if(response.data.success) {
-        console.log(response.data);
-        setButtonText("Cadastrado com Sucesso");
-      }
-    } catch (error) {
-      setButtonText("Tente Novamente");
-
-      if(error.response.data) {
-        //Dados retornados do backend
-        if(error.response.data.errors) {
-          setErrors(error.response.data.errors);
+        if(response.data.success) {
+          setButtonText("Cadastrado com Sucesso");
         }
-        if(error.response.data.message) {
-          setErrors({message: error.response.data.message});
+      } catch (error) {
+        setButtonText("Tente Novamente");
+
+        if(error) {
+          //Dados retornados do backend
+          if(error.errors) {
+            setErrors(error.errors);
+          }
+          if(error.message) {
+            setErrors({message: error.message});
+          }
+        } else {
+          //Não houve dados retornados do backend
+          alert("Erro Inesperado!");
         }
-      } else {
-        //Não houve dados retornados do backend
-        alert("Erro Inesperado!");
       }
+    }else {
+      setErrors({message: "¡Hubo un error! Verifique que todos los campos estén llenos"});
+      setFirstRender(false);
     }
   };
 
@@ -54,6 +63,7 @@ function UserRegister(props) {
         <label style={{color: 'red'}}>{errors.message}</label>
 
         <input
+          style={!useMyForm(username) && !firstRender?{backgroundColor: '#f9b3b3'}:{}}
           placeholder="Insira o Nome do Usuário"
           type="text"
            onChange={(e) => {
@@ -64,6 +74,7 @@ function UserRegister(props) {
         <span style={{color: 'red'}}>{errors.username}</span>
 
         <input
+          style={!useMyForm(email) && !firstRender?{backgroundColor: '#f9b3b3'}:{}}
           placeholder="Insira o E-mail do Usuário"
           type="text"
            onChange={(e) => {
@@ -84,6 +95,7 @@ function UserRegister(props) {
         <span style={{color: 'red'}}>{errors.phone}</span>
 
         <input
+          style={!useMyForm(password) && !firstRender?{backgroundColor: '#f9b3b3'}:{}}
           placeholder="Insira a Senha do Usuário"
           type="text"
            onChange={(e) => {

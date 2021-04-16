@@ -11,6 +11,8 @@ import Select from 'react-select';
 import {Modal,Button} from 'react-bootstrap'
 import { ActivityBrench, ActivityObject } from '../../../mock/mock';
 
+import useMyForm from '../../../hooks/useValidationForm';
+
 function OpportunitieRegister() {
 
   const [professionalName, setProfessionalName] = useState("");
@@ -19,8 +21,9 @@ function OpportunitieRegister() {
   const [description, setDescription] = useState("");
   const [jobTypes, setJobTypes] = useState([]);
   const [dbJobTypes, setDbJobTypes] = useState([]);
-  const [link,setLink]= useState();
 
+  const [firstRender,setFirstRender]= useState(true);
+  /*
   async function listJobTypes() {
     try {
       const response = await api.get("/jobtype/list");
@@ -42,17 +45,24 @@ function OpportunitieRegister() {
   useEffect(() => {
     listJobTypes();
   }, []);
-
+  */
   
   const handleJobRegister = async (e) => {
     e.preventDefault();
-    try {
-     await api.post("/job/create", {professionalName, professionalContact, title, description, jobTypes});
-      toast.success("¡Enviado para validación!",TOASTIFY_OPTIONS)
-    } catch (error) {
-      toast.error("¡Hubo un error! Inténtalo de nuevo.",TOASTIFY_OPTIONS)
-    
-    }
+      // eslint-disable-next-line react-hooks/rules-of-hooks
+     if(useMyForm(professionalName, professionalContact, title, description, jobTypes) === true){
+      try {
+        await api.post("/job/create", {professionalName, professionalContact, title, description, jobTypes});
+        toast.success("¡Enviado para validación!",TOASTIFY_OPTIONS)
+      } catch (error) {
+        toast.error("¡Hubo un error! Inténtalo de nuevo.",TOASTIFY_OPTIONS)
+      
+      }
+     } else {
+      toast.error("¡Hubo un error! Verifique que todos los campos estén llenos",TOASTIFY_OPTIONS)
+      setFirstRender(false);
+     }
+     
   };
 
   const onChangeSelectTags = (typesSelected) => {
@@ -72,6 +82,7 @@ function OpportunitieRegister() {
         <label>¡Anuncie sus servicios!</label>
 
         <input
+          style={!useMyForm(professionalName) && !firstRender?{backgroundColor: '#f9b3b3'}:{}}
           placeholder="Introduzca su Nombre"
           type="text"
           onChange={(e) => {
@@ -81,6 +92,7 @@ function OpportunitieRegister() {
         />
 
         <input
+          style={!useMyForm(professionalContact) && !firstRender?{backgroundColor: '#f9b3b3'}:{}}
           placeholder="Entrar en Contacto Profesional"
           type="text"
           onChange={(e) => {
@@ -90,6 +102,7 @@ function OpportunitieRegister() {
         />
 
         <input
+          style={!useMyForm(title) && !firstRender?{backgroundColor: '#f9b3b3'}:{}}
           placeholder="Ingrese su Título de Servicio"
           type="text"
           onChange={(e) => {
@@ -99,6 +112,7 @@ function OpportunitieRegister() {
         />
 
         <textarea
+          style={!useMyForm(description) && !firstRender?{backgroundColor: '#f9b3b3'}:{}}
           placeholder="Ingrese su Descripción de Servicio"
           type="text"
            onChange={(e) => {
@@ -106,9 +120,6 @@ function OpportunitieRegister() {
           }}
           value={description}
         />
-
-<input type="text" placeholder="Link" onChange={(e)=>{setLink(e.target.value)}} value={link} />
-
 
         <fieldset>
         <Select

@@ -9,7 +9,7 @@ import {MdFileUpload} from 'react-icons/md/index'
 import Toastifying, {TOASTIFY_OPTIONS} from "../../../components/Toastifying"
 import { toast } from 'react-toastify';
 import ModalTag from '../../../components/ModalTag';
-import useMyForm, { verifyLink, validateForm } from '../../../hooks/useValidationForm';
+import useMyForm, { verifyLink } from '../../../hooks/useValidationForm';
 
 function NoticeRegister() {
 
@@ -23,6 +23,7 @@ function NoticeRegister() {
   const [modalShow,setModalShow] = useState(false);
   const [previewImage,setPreviewImage] = useState();
   const handleLinkValidator = verifyLink(link);
+
   const [firstRender,setFirstRender]= useState(true);
 
   async function listTags() {
@@ -71,10 +72,6 @@ function NoticeRegister() {
     }else{
       toast.error("¡Hubo un error! Verifique que todos los campos estén llenos",TOASTIFY_OPTIONS)
       setFirstRender(false);
-      // toast.error(mensagem, TOASTIFY_OPTIONS)
-      // Object.keys(errors).map((item)=> {
-      //   mensagem += errors[item];
-      // })
     }
   };
 
@@ -104,6 +101,7 @@ function NoticeRegister() {
         <label>¡Cree una Publicación!</label>
 
         <input
+          style={!useMyForm(title) && !firstRender?{backgroundColor: '#f9b3b3'}:{}}
           placeholder="Título"
           type="text"
           onChange={(e) => {
@@ -113,7 +111,7 @@ function NoticeRegister() {
         />
 
         <input
-          style={!useMyForm(subtitle) && !firstRender?{borderColor:"red"}:{}}
+          style={!useMyForm(subtitle) && !firstRender?{backgroundColor: '#f9b3b3'}:{}}
           placeholder="Subtítulo"
           type="text"
            onChange={(e) => {
@@ -122,6 +120,7 @@ function NoticeRegister() {
           value={subtitle}
         />
         <textarea
+          style={!useMyForm(content) && !firstRender?{backgroundColor: '#f9b3b3'}:{}}
           placeholder="Contenido"
           type="text"
            onChange={(e) => {
@@ -130,12 +129,12 @@ function NoticeRegister() {
           value={content}
         />
         <div>
-        <label for="uploadPhoto" class="btn-cta">
+        <label for="uploadPhoto" className="btn-cta">
           {image?.name?image?.name:"Haga clic aquí para agregar una imagen"}
-        <MdFileUpload/>
+        <MdFileUpload style={!useMyForm(image) && !firstRender?{backgroundColor: '#f9b3b3'}:{}} />
         </label>
-        <input
-           id="uploadPhoto"
+        <input          
+          id="uploadPhoto"
           type="file"
           onChange={(e) => {
             setImage(e.target.files[0]);
@@ -147,10 +146,11 @@ function NoticeRegister() {
        { image && <img src={previewImage}/>}
        </div>
         <span>Por favor, inserte "http: //" o "https: //" antes de su enlace.</span>
-        <input type="text" placeholder="Link" onChange={(e)=>{setLink(e.target.value)}} value={link} />
+        <input style={!verifyLink(link) && !firstRender?{backgroundColor: '#f9b3b3'}:{}} type="text" placeholder="Link" onChange={(e)=>{setLink(e.target.value)}} value={link} />
 
         <fieldset>
        <Select
+        style={!useMyForm(subtitle) && !firstRender?{backgroundColor: '#f9b3b3'}:{}}
          options={dbTags.map((currentTag)=>(
          {label:currentTag,value:currentTag}))}
          isClearable

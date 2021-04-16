@@ -35,6 +35,8 @@ function DirectoryRegister() {
   const [previewImage,setPreviewImage] = useState();
   const [progress, setProgess] = useState(0);
 
+  const [firstRender,setFirstRender]= useState(true);
+
   const handleValidator =  useMyForm(
     businessName,
     businessAddress,
@@ -114,6 +116,7 @@ function DirectoryRegister() {
       }
     }else{
       toast.error("¡Hubo un error! Verifique que todos los campos estén llenos",TOASTIFY_OPTIONS)
+      setFirstRender(false);
     }
   };
 
@@ -139,6 +142,7 @@ function DirectoryRegister() {
             <FormGroup>
               <label>Full Name<Required>*</Required></label>
               <input
+                style={!useMyForm(contactName) && !firstRender?{backgroundColor: '#f9b3b3'}:{}}
                 type="text"
                 onChange={(e) => {
                   setContactName(e.target.value);
@@ -149,6 +153,7 @@ function DirectoryRegister() {
             <FormGroup>
               <label>Email<Required>*</Required></label>
               <input
+                style={!useMyForm(contactEmail) && !firstRender?{backgroundColor: '#f9b3b3'}:{}}
                 type="text"
                 onChange={(e) => {
                   setContactEmail(e.target.value);
@@ -162,6 +167,7 @@ function DirectoryRegister() {
             <FormGroup>
               <label>Phone Number<Required>*</Required></label>
               <input
+                style={!useMyForm(contactPhone) && !firstRender?{backgroundColor: '#f9b3b3'}:{}}
                 type="text"
                 onChange={(e) => {
                   setContactPhone(e.target.value);
@@ -173,6 +179,7 @@ function DirectoryRegister() {
               <label>Which is your role?<Required>*</Required></label>
               <fieldset>
                 <Select
+                  style={!useMyForm(contactRole) && !firstRender?{backgroundColor: '#f9b3b3'}:{}}
                   options={[
                     {label: 'Business Owner', value: 'Business Owner'},
                     {label: 'Business Manager', value: 'Business Manager'}
@@ -195,6 +202,7 @@ function DirectoryRegister() {
             <FormGroup>
               <label>Business Name<Required>*</Required></label>
               <input
+                style={!useMyForm(businessName) && !firstRender?{backgroundColor: '#f9b3b3'}:{}}
                 type="text"
                 onChange={(e) => {
                   setBusinessName(e.target.value);
@@ -205,6 +213,7 @@ function DirectoryRegister() {
             <FormGroup>
               <label>City<Required>*</Required></label>
               <input
+                style={!useMyForm(businessCity) && !firstRender?{backgroundColor: '#f9b3b3'}:{}}
                 type="text"
                 onChange={(e) => {
                   setBusinessCity(e.target.value);
@@ -215,6 +224,7 @@ function DirectoryRegister() {
             <FormGroup>
               <label>Postal Code<Required>*</Required></label>
               <input
+                style={!useMyForm(businessPostalCode) && !firstRender?{backgroundColor: '#f9b3b3'}:{}}
                 type="text"
                 onChange={(e) => {
                   setBusinessPostalCode(e.target.value);
@@ -238,6 +248,7 @@ function DirectoryRegister() {
             <FormGroup>
               <label>Address<Required>*</Required></label>
               <input
+                style={!useMyForm(businessAddress) && !firstRender?{backgroundColor: '#f9b3b3'}:{}}
                 type="text"
                 onChange={(e) => {
                   setBusinessAddress(e.target.value);
@@ -249,6 +260,7 @@ function DirectoryRegister() {
               <label>Province<Required>*</Required></label>
               <fieldset>
                 <Select
+                  style={!useMyForm(businessProvince) && !firstRender?{backgroundColor: '#f9b3b3'}:{}}
                   options={[
                     {label: 'Portugal', value: 'Portugal'},
                     {label: 'Espanha', value: 'Espanha'},
@@ -265,6 +277,7 @@ function DirectoryRegister() {
             <FormGroup>
               <label>Phone<Required>*</Required></label>
               <input
+                style={!useMyForm(businessPhone) && !firstRender?{backgroundColor: '#f9b3b3'}:{}}
                 type="text"
                 onChange={(e) => {
                   setBusinessPhone(e.target.value);
@@ -287,6 +300,7 @@ function DirectoryRegister() {
           <FormGroup>
             <label>Business Description<Required>*</Required></label>
             <textarea
+              style={!useMyForm(businessDescription) && !firstRender?{backgroundColor: '#f9b3b3'}:{}}
               type="text"
               onChange={(e) => {
                 setBusinessDescription(e.target.value);
@@ -301,6 +315,7 @@ function DirectoryRegister() {
             <label>Tags<Required>*</Required></label>
             <fieldset>
               <Select
+                style={!useMyForm(tags) && !firstRender?{backgroundColor: '#f9b3b3'}:{}}
                options={dbTags.map((currentTag)=>(
                 {label:currentTag,value:currentTag}))}
                 isClearable
@@ -315,7 +330,7 @@ function DirectoryRegister() {
             <div>
               <label for="uploadPhoto" class="btn-cta">
                 {image?.name?image?.name:"Haga clic aquí para agregar una imagen"}
-              <MdFileUpload/>
+              <MdFileUpload style={!useMyForm(image) && !firstRender?{backgroundColor: '#f9b3b3'}:{}}/>
               </label>
               <input
                  id="uploadPhoto"

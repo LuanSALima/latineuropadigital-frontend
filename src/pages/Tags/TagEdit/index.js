@@ -7,6 +7,8 @@ import api from '../../../services/api';
 
 import Select from 'react-select';
 
+import useMyForm from '../../../hooks/useValidationForm';
+
 function TagEdit(props) {
 
   const [buttonText, setButtonText] = useState("Editar");
@@ -35,30 +37,37 @@ function TagEdit(props) {
   ]);
   const [errors, setErrors] = useState({});
 
+  const [firstRender,setFirstRender]= useState(true);
+
   const handleTagEdit = async (e) => {
     e.preventDefault();
     setButtonText("Enviando Dados ...");
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    if(useMyForm(title, description, types) === true){
+      try {
+        const response = await api.put("/tag/"+idTag, {title, description, types});
 
-    try {
-      const response = await api.put("/tag/"+idTag, {title, description, types});
+        console.log(response.data);
+        setButtonText("Editado com Sucesso");
+      } catch (error) {
+        setButtonText("Tente Novamente");
 
-      console.log(response.data);
-      setButtonText("Editado com Sucesso");
-    } catch (error) {
-      setButtonText("Tente Novamente");
-
-      if(error.response.data) {
-        //Dados retornados do backend
-        if(error.response.data.errors) {
-          setErrors(error.response.data.errors);
+        if(error.response.data) {
+          //Dados retornados do backend
+          if(error.response.data.errors) {
+            setErrors(error.response.data.errors);
+          }
+          if(error.response.data.message) {
+            setErrors({message: error.response.data.message});
+          }
+        } else {
+          //Não houve dados retornados do backend
+          alert("Erro Inesperado!");
         }
-        if(error.response.data.message) {
-          setErrors({message: error.response.data.message});
-        }
-      } else {
-        //Não houve dados retornados do backend
-        alert("Erro Inesperado!");
       }
+    } else {
+      setErrors({message: "¡Hubo un error! Verifique que todos los campos estén llenos"});
+      setFirstRender(false);
     }
   };
 
@@ -117,6 +126,7 @@ function TagEdit(props) {
         <label style={{color: 'red'}}>{errors.message}</label>
 
         <input
+          style={!useMyForm(title) && !firstRender?{backgroundColor: '#f9b3b3'}:{}}
           placeholder="  Título"
           type="text"
           onChange={(e) => {
@@ -127,6 +137,7 @@ function TagEdit(props) {
         <span style={{color: 'red'}}>{errors.title}</span>
 
         <input
+          style={!useMyForm(description) && !firstRender?{backgroundColor: '#f9b3b3'}:{}}
           placeholder=" Descrição"
           type="text"
           onChange={(e) => {
