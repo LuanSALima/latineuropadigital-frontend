@@ -18,6 +18,8 @@ function FeaturedCard(props) {
   useEffect(() => {
     if (props.prioritized === "true") {
       setPrioritized(true);
+    } else {
+      setPrioritized(false);
     }
   }, [props.prioritized]);
 

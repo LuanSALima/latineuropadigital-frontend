@@ -50,7 +50,6 @@ function FeaturedEditPosition() {
 		for(const featured of featureds) {
 			positions.push(featured.position);
 		}
-		console.log(positions);
 		setValidPositions(positions);
 	}
 
