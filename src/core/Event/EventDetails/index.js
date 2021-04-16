@@ -168,6 +168,16 @@ function EventDetails(props) {
           <br />
 
         </Content>
+        {isAuthenticated() && (
+          <div>
+            <Outline_Button type="danger" onClick={handleRemoveEvent}>
+              {"Eliminar"}
+            </Outline_Button>
+            <Outline_Button type="warning" onClick={handleEditeEvent}>
+              {"Editar"}
+            </Outline_Button>
+          </div>
+        )}
       </MyScreenView>
         <Footer/>
       </Page>

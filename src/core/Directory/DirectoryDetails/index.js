@@ -163,8 +163,17 @@ function DirectoryDetails(props) {
           <span>Email de contacto:</span>
           <span>{directory.contactEmail}</span>
           <br />
-
         </Content>
+        {isAuthenticated() && (
+          <div>
+            <Outline_Button type="danger" onClick={handleRemoveDirectory}>
+              {"Eliminar"}
+            </Outline_Button>
+            <Outline_Button type="warning" onClick={handleEditeDirectory}>
+              {"Editar"}
+            </Outline_Button>
+          </div>
+        )}
       </MyScreenView>
     <Footer/>
   </Page>
