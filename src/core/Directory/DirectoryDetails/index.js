@@ -124,7 +124,7 @@ function DirectoryDetails(props) {
           :
             <></>
           }
-    <hr></hr>
+    <hr/>
 
           <DetailsBlock>
             <DetailsColumn>

@@ -102,7 +102,6 @@ function CourseDetails(props) {
       toast.error("Não foi Possível Adicionar aos Destaques",TOASTIFY_OPTIONS)
     }
   }
-
   return (
     <Page>
       <Header/>
@@ -115,15 +114,12 @@ function CourseDetails(props) {
 
             <label>{course.title}</label>
             <h4>{course.subtitle}</h4>
-            <br></br>
-            <hr></hr>
-            <MyImage>
+           {course.imagePath? <MyImage>
               <img
                 onError={handleImageError}
                 src={process.env.REACT_APP_API_URL + course.imagePath}
               />
-            </MyImage>
-            <br></br>
+            </MyImage>:<></>}
             <hr></hr>
             <p>{course.content}</p>
           </Content>
