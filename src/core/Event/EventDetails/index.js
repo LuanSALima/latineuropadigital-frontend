@@ -199,11 +199,7 @@ function EventDetails(props) {
           
           {event.eventDescription?
             event.eventDescription.split('\n').map((content) => {
-              if(content === '') {
-                return <br />
-              } else {
-                return <p>{content}</p>
-              }
+              return <p>{content} <br /></p>
             })
             :
             <></>

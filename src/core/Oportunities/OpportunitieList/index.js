@@ -11,17 +11,14 @@ import NoticesCard from "../../../components/NoticesCard";
 
 function Job(props) {
   const description =
-    "Professional Name: " +
-    props.job.professionalName +
-    "Descrição : " +
-    props.job.description +
-    "Contato : " +
-    props.job.professionalContact;
+    "Professional Name: " + props.job.professionalName +
+    "\nDescrição : " + props.job.description +
+    "\nContato : " + props.job.professionalContact;
 
   return (
     <MyCardLink>
       <Link to={" + content.id"}>
-        <NoticesCard date={""} title={props.job.title} text={description} />
+        <NoticesCard date={props.job.createdAt} title={props.job.title} text={description} />
       </Link>
     </MyCardLink>
   );
