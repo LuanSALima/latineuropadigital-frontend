@@ -128,9 +128,9 @@ function NoticesDetails(props) {
               />
             </MyImage>
           :
-            <div></div>
+            <></>
           }
-          
+
           <br></br>
           <hr></hr>
           {notice.content?

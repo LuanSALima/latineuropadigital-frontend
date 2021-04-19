@@ -113,8 +113,6 @@ function EventDetails(props) {
 
           <label>{event.eventName}</label>
 
-          <hr/>
-
           {event.imagePath ?
             <MyImage>
               <img
@@ -123,7 +121,7 @@ function EventDetails(props) {
               />
             </MyImage>
           :
-            <div></div>
+            <></>
           }
 
           <hr />
