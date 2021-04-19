@@ -16,9 +16,13 @@ function Job(props) {
     "\nContato : " + props.job.professionalContact;
 
   return (
-    <MyCardLink>
+    <MyCardLink notAll>
       <Link to={" + content.id"}>
-        <NoticesCard date={props.job.createdAt} title={props.job.title} text={description} />
+        <NoticesCard
+          date={props.job.createdAt}
+          title={props.job.title}
+          text={description} 
+        />
       </Link>
     </MyCardLink>
   );

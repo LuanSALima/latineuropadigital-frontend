@@ -310,12 +310,14 @@ export const MyCardMap = styled.div`
 `;
 //When a englobe all card
 export const MyCardLink = styled.div`
-  width: 95%;
+width:95%;
+  padding-bottom:${props=>props.notAll?"0 !important":""};
   margin-left: 0.65rem;
   margin-bottom: 1rem;
   max-height: 400px;
+  margin:${props=>props.notAll?"0 !important":""};
   @media (min-width: 1600px) {
-    width: 48%;
+    width: ${props=> !props.notAll? "48%":"98%"};
     margin-left: 10px !important;
   }
 
@@ -507,7 +509,6 @@ export const DetailsColumn = styled.div`
 export const DetailsItem = styled.div`
   display: flex;
   width:95%;
-
   p {
     align-items:center !important;
     font-size: 20px;
