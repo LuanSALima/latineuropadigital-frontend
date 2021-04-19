@@ -37,6 +37,9 @@ function EventRegister() {
 
   const [firstRender,setFirstRender]= useState(true);
 
+  const [link,setLink] = useState();
+
+
   const handleValidator =  useMyForm(
     eventName,
     eventOrganizedBy,
@@ -310,6 +313,10 @@ function EventRegister() {
           </FormGroup>
         </FormColumn>
         <FormGroup>
+
+        <span>Por favor, inserte "http: //" o "https: //" antes de su enlace.</span>
+       <input style={!verifyLink(link) && !firstRender?{backgroundColor: '#f9b3b3'}:{}} type="text" placeholder="Link" onChange={(e)=>{setLink(e.target.value)}} value={link} />
+
           <label>Tags<Required>*</Required></label>
           <fieldset>
             <Select
