@@ -68,7 +68,8 @@ function EventDetails(props) {
   }
 
   const handleImageError = (image)=>{
-    image.target.src = imgAux;
+    //image.target.src = imgAux;
+    image.target.style.display='none'
   }
 
   const handleEditeEvent = ()=>{
@@ -112,14 +113,18 @@ function EventDetails(props) {
 
           <label>{event.eventName}</label>
 
-          <br></br>
-          <hr></hr>
-          <MyImage>
-            <img
-              onError={handleImageError}
-              src={process.env.REACT_APP_API_URL + event.imagePath}
-            />
-          </MyImage>
+          <hr/>
+
+          {event.imagePath ?
+            <MyImage>
+              <img
+                onError={handleImageError}
+                src={process.env.REACT_APP_API_URL + event.imagePath}
+              />
+            </MyImage>
+          :
+            <div></div>
+          }
 
           <hr />
 

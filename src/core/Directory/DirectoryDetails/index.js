@@ -71,9 +71,9 @@ function DirectoryDetails(props) {
   const handleEditeDirectory = ()=>{
     history.push("/directory/editar/"+idDirectory);
   }
-  const handleImageError = (e)=>{
-    //e.target.src = imgAux;
-    e.target.style.display='none'
+  const handleImageError = (image)=>{
+    //image.target.src = imgAux;
+    image.target.style.display='none'
   }
 
   const updateFeatured = async (e) => {
@@ -115,12 +115,16 @@ function DirectoryDetails(props) {
 
           <hr/>
 
-          <MyImage>
-            <img
-              onError={handleImageError}
-              src={process.env.REACT_APP_API_URL + directory.imagePath}
-            />
-          </MyImage>
+          {directory.imagePath ?
+            <MyImage>
+              <img
+                onError={handleImageError}
+                src={process.env.REACT_APP_API_URL + directory.imagePath}
+              />
+            </MyImage>
+          :
+            <div></div>
+          }
 
           <hr/>
 
