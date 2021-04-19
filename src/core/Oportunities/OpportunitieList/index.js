@@ -17,7 +17,7 @@ function Job(props) {
 
   return (
     <MyCardLink notAll>
-      <Link to={" + content.id"}>
+      <Link to={"oportunidade/"+props.job._id}>
         <NoticesCard
           date={props.job.createdAt}
           title={props.job.title}

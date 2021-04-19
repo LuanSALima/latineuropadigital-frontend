@@ -9,6 +9,7 @@ import OpportunitieList from '../core/Oportunities/OpportunitieList';
 import OpportunitieRegister from '../core/Oportunities/OpportunitieRegister';
 import OpportunitieEdit from '../core/Oportunities/OpportunitieEdit';
 import OpportunitiePendents from '../core/Oportunities/OpportunitiePendents';
+import OpportunitieDetails from '../core/Oportunities/OpportunitieDetails';
 
 import NoticeRegister from '../core/Notices/NoticeRegister';
 import NoticesList from '../core/Notices/NoticesList';
@@ -99,6 +100,7 @@ function Routes() {
 
         <Route path="/oportunidades"  component={OpportunitieList} />
         <Route path="/job/cadastrar" component={OpportunitieRegister} />
+        <Route path="/oportunidade/:id" component={OpportunitieDetails} />
         
         <PrivateRoute path="/dashboard" component={Dashboard} />
 
