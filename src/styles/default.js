@@ -310,6 +310,7 @@ export const MyCardMap = styled.div`
 `;
 //When a englobe all card
 export const MyCardLink = styled.div`
+width:95%;
   padding-bottom:${props=>props.notAll?"0 !important":""};
   margin-left: 0.65rem;
   margin-bottom: 1rem;
@@ -508,7 +509,6 @@ export const DetailsColumn = styled.div`
 export const DetailsItem = styled.div`
   display: flex;
   width:95%;
-
   p {
     align-items:center !important;
     font-size: 20px;

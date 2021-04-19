@@ -62,7 +62,7 @@ function OpportunitiePendents(props) {
     <Page>
       <Header />
       <MyScreenView>
-        <h1>OPORTUNIDADES PENDIENTES</h1>
+        <h1>Oportunidades Pendientes</h1>
         <h2 style={{ color: "red" }}>{errors.message}</h2>
         {jobs.map((currentjob) => (
           <Job job={currentjob} />
