@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Header from '../../../components/Header';
-import { Details, Page, Outline_Button, AppButton } from '../../../styles/default';
+import { Details, Page, Outline_Button, AppButton, DetailsBlock, DetailsColumn, DetailsItem, RelativeDetailsBlock } from '../../../styles/default';
 import Toastifying, {TOASTIFY_OPTIONS} from '../../../components/Toastifying'
 import api from '../../../services/api';
 import {isAuthenticated} from '../../../services/auth'
@@ -120,52 +120,81 @@ function EventDetails(props) {
               src={process.env.REACT_APP_API_URL + event.imagePath}
             />
           </MyImage>
-          <br></br>
-          <hr></hr>
 
-          <h4></h4>
+          <hr />
+
+          <DetailsBlock>
+            <DetailsColumn>
+
+              <DetailsItem>
+                <p>Localización:</p>
+                <span>{event.eventAddress}</span>
+              </DetailsItem>
+
+              <DetailsItem>
+                <p>Local:</p>
+                <span>{event.eventLocation}</span>
+              </DetailsItem>
+             
+              <DetailsItem>
+                <p>Precio de la entrada:</p>
+                <span>{event.eventTicketPrice}</span>
+              </DetailsItem>
+              
+              <DetailsItem>
+                <p>Mas informaciones:</p>
+                <span>{event.eventMoreInfo}</span>
+              </DetailsItem>
+
+            </DetailsColumn>
+            <DetailsColumn align="end" style={{borderLeft: '1px solid black'}}>
+
+              <DetailsItem>
+                <p>Nombre de contacto:</p>
+                <span>{event.contactName}</span>
+              </DetailsItem>
+             
+              <DetailsItem>
+                <p>Telefono para contacto:</p>
+                <span>{event.contactPhone}</span>
+              </DetailsItem>
+              
+              <DetailsItem>
+                <p>Email de contacto:</p>
+                <span>{event.contactEmail}</span>
+              </DetailsItem>
+              
+            </DetailsColumn>
+            
+          </DetailsBlock>
+
+         
+          <RelativeDetailsBlock>
+            <DetailsItem align="center">
+              <p>Fecha:</p>
+              <span>{event.eventDate}</span>
+            </DetailsItem>
+            <DetailsItem align="center">
+              <p>Cronograma:</p>
+              <span>{event.eventTime}</span>
+            </DetailsItem>
+            {/*
+
+            Não há nenhum campo no BCD que seja um link, por exemplo o directory possui o WebSite
+
+            <AppButton
+              onClick={() => {
+                
+              }}
+            >
+              Acessito
+            </AppButton>
+            */}
+          </RelativeDetailsBlock>
+        
+          <hr />
 
           <p>{event.eventDescription}</p>
-
-          <br />
-
-          <span>Localización:</span>
-          <span>{event.eventAddress}</span>
-          <br />
-
-          <span>Local:</span>
-          <span>{event.eventLocation}</span>
-          <br />
-
-          <span>Fecha:</span>
-          <span>{event.eventDate}</span>
-          <br />
-
-          <span>Cronograma:</span>
-          <span>{event.eventTime}</span>
-          <br />
-
-          <span>Precio de la entrada:</span>
-          <span>{event.eventTicketPrice}</span>
-          <br />
-
-          <span>Mas informaciones:</span>
-          <span>{event.eventMoreInfo}</span>
-          <br />
-
-          <hr/>
-
-          <span>Nombre de contacto:</span>
-          <span>{event.contactName}</span>
-          <br />
-
-          <span>Telefono para contacto:</span>
-          <span>{event.contactPhone}</span>
-          <br />
-
-          <span>Email de contacto:</span>
-          <span>{event.contactEmail}</span>
-          <br />
 
         </Content>
         {isAuthenticated() && (

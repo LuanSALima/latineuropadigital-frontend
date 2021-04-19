@@ -488,3 +488,59 @@ export const CharLimit = styled.div`
   width: 100%;
   text-align: center;
 `;
+
+export const DetailsBlock = styled.div`
+  width: 100%;
+  display: flex;
+  padding: 0px 10px;
+  height: fit-content;
+`;
+
+export const DetailsColumn = styled.div`
+  width: 50%;
+  display: grid;
+  float: left;
+
+  justify-content: ${(props) => (props.align ? props.align : 'start')};
+`;
+
+export const DetailsItem = styled.div`
+  display: flex;
+  width: fit-content;
+
+  ${(props) => (props.align === 'center' ? 
+    'width: fit-content; margin: 0 auto; background-color: white;'
+    :
+    ''
+  )}
+
+  p {
+    font-size: 20px;
+  }
+
+  span {
+    font-size: 18px;
+    margin-left: 1rem;
+  }
+
+`;
+
+export const RelativeDetailsBlock = styled.div`
+  display: inline-grid;
+  width: 50% !important;
+  height: fit-content;
+  position: relative;
+  top: -50px;
+  z-index: 10;
+
+  button {
+    width: 50%;
+    padding: 1rem 2rem;
+    margin: 0 auto;
+    border-radius: 0.3rem;
+    cursor: pointer;
+    font-size: var(--font-size-text);
+    color: black;
+    border: 1px solid black;
+  }
+`;
