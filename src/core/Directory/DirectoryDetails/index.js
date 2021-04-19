@@ -113,7 +113,6 @@ function DirectoryDetails(props) {
 
           <label>{directory.businessName}</label>
 
-
           {directory.imagePath ?
             <MyImage>
               <img
@@ -124,7 +123,8 @@ function DirectoryDetails(props) {
           :
             <></>
           }
-    <hr/>
+
+          <hr/>
 
           <DetailsBlock>
             <DetailsColumn>
@@ -196,7 +196,17 @@ function DirectoryDetails(props) {
 
           <hr/>
 
-          <p>{directory.businessDescription}</p>
+          {directory.businessDescription?
+            directory.businessDescription.split('\n').map((content) => {
+              if(content === '') {
+                return <br />
+              } else {
+                return <p>{content}</p>
+              }
+            })
+            :
+            <></>
+          }
           
         </Content>
         {isAuthenticated() && (

@@ -211,7 +211,7 @@ function NoticeEdit(props) {
         />
         <span style={{color: 'red'}}>{errors.subtitle}</span>
 
-        <input
+        <textarea
           style={!useMyForm(content) && !firstRender?{backgroundColor: '#f9b3b3'}:{}}
           placeholder="Contenido"
           type="text"

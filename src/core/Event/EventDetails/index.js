@@ -113,7 +113,6 @@ function EventDetails(props) {
 
           <label>{event.eventName}</label>
 
-
           {event.imagePath ?
             <MyImage>
               <img
@@ -197,8 +196,18 @@ function EventDetails(props) {
           </RelativeDetailsBlock>
         
           <hr />
-
-          <p>{event.eventDescription}</p>
+          
+          {event.eventDescription?
+            event.eventDescription.split('\n').map((content) => {
+              if(content === '') {
+                return <br />
+              } else {
+                return <p>{content}</p>
+              }
+            })
+            :
+            <></>
+          }
 
         </Content>
         {isAuthenticated() && (
