@@ -498,49 +498,44 @@ export const DetailsBlock = styled.div`
 
 export const DetailsColumn = styled.div`
   width: 50%;
-  display: grid;
+  display: flex;
+  flex-direction:column;
   float: left;
-
-  justify-content: ${(props) => (props.align ? props.align : 'start')};
+  justify-items:start;
 `;
 
 export const DetailsItem = styled.div`
   display: flex;
-  width: fit-content;
-
-  ${(props) => (props.align === 'center' ? 
-    'width: fit-content; margin: 0 auto; background-color: white;'
-    :
-    ''
-  )}
+  width:95%;
 
   p {
+    align-items:center !important;
     font-size: 20px;
+    margin-left:1.3rem;
+    color:var(--color-freela-pink);
   }
 
   span {
     font-size: 18px;
-    margin-left: 1rem;
+    margin-inline-start:auto;
+    margin-right:1rem;
   }
 
 `;
 
 export const RelativeDetailsBlock = styled.div`
   display: inline-grid;
-  width: 50% !important;
+  width: 49% !important;
   height: fit-content;
   position: relative;
-  top: -50px;
   z-index: 10;
 
   button {
     width: 50%;
-    padding: 1rem 2rem;
+    padding: 0.8rem 1.5rem;
     margin: 0 auto;
     border-radius: 0.3rem;
     cursor: pointer;
     font-size: var(--font-size-text);
-    color: black;
-    border: 1px solid black;
   }
 `;

@@ -113,7 +113,6 @@ function DirectoryDetails(props) {
 
           <label>{directory.businessName}</label>
 
-          <hr/>
 
           {directory.imagePath ?
             <MyImage>
@@ -123,10 +122,9 @@ function DirectoryDetails(props) {
               />
             </MyImage>
           :
-            <div></div>
+            <></>
           }
-
-          <hr/>
+    <hr></hr>
 
           <DetailsBlock>
             <DetailsColumn>
@@ -158,7 +156,8 @@ function DirectoryDetails(props) {
               </DetailsItem>
               
             </DetailsColumn>
-            <DetailsColumn align="end" style={{borderLeft: '1px solid black'}}>
+            {/* Final Part */}
+            <DetailsColumn align="end" style={{borderLeft: '1px solid var(--color-freela-hover)'}}>
 
               <DetailsItem>
                 <p>Nombre de contacto:</p>
@@ -190,7 +189,7 @@ function DirectoryDetails(props) {
                 Acessito
               </AppButton>
               :
-              <div></div>
+              <></>
             }
             
           </RelativeDetailsBlock>
