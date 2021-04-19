@@ -67,9 +67,25 @@ function OpportunitieDetails(props) {
     <Page>
     <Header/>
       <MyScreenView>
+      <Content>
 
-        <p>{job.title}</p>
+      <label>{job.title}</label>
+      <h4>{job.professionalName}</h4>
+      <h4>{job.professionalContact}</h4>
+      <h4>{job.description}</h4>
+      <p>{job.jobTypes}</p>
+      <hr/>
         
+      {job.content?
+            job.content.split('\n').map((content) => {
+              return <p>{content} <br /></p>
+            })
+            :
+            <></>
+          }
+
+       
+        </Content>
         {isAuthenticated() && (
           <div>
             <Outline_Button type="danger" onClick={handleRemoveJob}>

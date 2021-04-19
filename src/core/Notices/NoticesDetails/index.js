@@ -117,8 +117,7 @@ function NoticesDetails(props) {
 
           <label>{notice.title}</label>
           <h4>{notice.subtitle}</h4>
-          <br></br>
-          <hr></hr>
+          <hr/>
 
           {notice.imagePath ?
             <MyImage>
@@ -131,8 +130,7 @@ function NoticesDetails(props) {
             <></>
           }
 
-          <br></br>
-          <hr></hr>
+          <hr/>
           {notice.content?
             notice.content.split('\n').map((content) => {
               return <p>{content} <br /></p>
