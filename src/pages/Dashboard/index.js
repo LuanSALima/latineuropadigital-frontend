@@ -434,6 +434,11 @@ function Dashboard() {
               )}
             </div>
           )}
+          {dataType === "featured" ? (
+            <span>Las publicaciones pendientes no se mostrarán en los listados. Edite la publicación para su aceptación para que aparezca en los listados</span>
+          ) : (
+            <></>
+          )}
           <HorizonScrollView>
             {(error && !dbData.length) || error ? (
               <h3>No hay contenido disponible!</h3>

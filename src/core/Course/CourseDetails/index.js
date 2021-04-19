@@ -72,7 +72,8 @@ function CourseDetails(props) {
   }
 
   const handleImageError = (image)=>{
-    image.target.src = imgAux;
+    //image.target.src = imgAux;
+    image.target.style.display='none'
   }
   const handleEditeCourse = ()=>{
     history.push("/course/editar/"+idCourse);
@@ -117,15 +118,33 @@ function CourseDetails(props) {
             <h4>{course.subtitle}</h4>
             <br></br>
             <hr></hr>
-            <MyImage>
-              <img
-                onError={handleImageError}
-                src={process.env.REACT_APP_API_URL + course.imagePath}
-              />
-            </MyImage>
+            
+            {course.imagePath ?
+              <MyImage>
+                <img
+                  onError={handleImageError}
+                  src={process.env.REACT_APP_API_URL + course.imagePath}
+                />
+              </MyImage>
+            :
+              <div></div>
+            }
+            
             <br></br>
             <hr></hr>
-            <p>{course.content}</p>
+
+            {course.content?
+              course.content.split('\n').map((content) => {
+                if(content === '') {
+                  return <br />
+                } else {
+                  return <p>{content}</p>
+                }
+              })
+              :
+              <></>
+            }
+            
           </Content>
 
           {course.link?.length > 1 ? (

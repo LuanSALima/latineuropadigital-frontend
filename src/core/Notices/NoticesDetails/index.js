@@ -67,7 +67,8 @@ function NoticesDetails(props) {
   };
 
   const handleImageError = (image) => {
-    image.target.src = imgAux;
+    //image.target.src = imgAux;
+    image.target.style.display='none'
   };
   const handleEditeNotice = () => {
     history.push("/notice/editar/" + idNotice);
@@ -118,15 +119,31 @@ function NoticesDetails(props) {
           <h4>{notice.subtitle}</h4>
           <br></br>
           <hr></hr>
-          <MyImage>
-            <img
-              onError={handleImageError}
-              src={process.env.REACT_APP_API_URL + notice.imagePath}
-            />
-          </MyImage>
+
+          {notice.imagePath ?
+            <MyImage>
+              <img
+                onError={handleImageError}
+                src={process.env.REACT_APP_API_URL + notice.imagePath}
+              />
+            </MyImage>
+          :
+            <div></div>
+          }
+          
           <br></br>
           <hr></hr>
-          <p>{notice.content}</p>
+          {notice.content?
+            notice.content.split('\n').map((content) => {
+              if(content === '') {
+                return <br />
+              } else {
+                return <p>{content}</p>
+              }
+            })
+            :
+            <></>
+          }
         </Content>
 
         {notice.link?.length > 1 ? (

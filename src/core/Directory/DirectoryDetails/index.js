@@ -197,7 +197,17 @@ function DirectoryDetails(props) {
 
           <hr/>
 
-          <p>{directory.businessDescription}</p>
+          {directory.businessDescription?
+            directory.businessDescription.split('\n').map((content) => {
+              if(content === '') {
+                return <br />
+              } else {
+                return <p>{content}</p>
+              }
+            })
+            :
+            <></>
+          }
           
         </Content>
         {isAuthenticated() && (
