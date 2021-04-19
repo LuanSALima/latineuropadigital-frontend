@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Header from '../../../components/Header';
-import { Details, Outline_Button, Page, AppButton } from '../../../styles/default';
+import { Details, Outline_Button, Page, AppButton, DetailsBlock, DetailsColumn, DetailsItem, RelativeDetailsBlock } from '../../../styles/default';
 import imgAux from '../../../assets/icon.svg';
 import Toastifying, {TOASTIFY_OPTIONS} from '../../../components/Toastifying'
 
@@ -72,7 +72,8 @@ function DirectoryDetails(props) {
     history.push("/directory/editar/"+idDirectory);
   }
   const handleImageError = (image)=>{
-    image.target.src = imgAux;
+    //image.target.src = imgAux;
+    image.target.style.display='none'
   }
 
   const updateFeatured = async (e) => {
@@ -112,57 +113,92 @@ function DirectoryDetails(props) {
 
           <label>{directory.businessName}</label>
 
-          <br></br>
-          <hr></hr>
-          <MyImage>
-            <img
-              onError={handleImageError}
-              src={process.env.REACT_APP_API_URL + directory.imagePath}
-            />
-          </MyImage>
-          <br></br>
-          <hr></hr>
+          <hr/>
 
-          <h4></h4>
-
-          <p>{directory.businessDescription}</p>
-
-          <br />
-
-          <span>Localización:</span>
-          <span>{directory.businessAddress}</span>
-          <br />
-
-          <span>Ciudad:</span>
-          <span>{directory.businessCity}</span>
-          <br />
-
-          <span>Provincia:</span>
-          <span>{directory.businessProvince}</span>
-          <br />
-
-          <span>Código postal:</span>
-          <span>{directory.businessPostalCode}</span>
-          <br />
-
-          <span>Teléfono:</span>
-          <span>{directory.businessPhone}</span>
-          <span>{directory.businessSecondPhone}</span>
-          <br />
+          {directory.imagePath ?
+            <MyImage>
+              <img
+                onError={handleImageError}
+                src={process.env.REACT_APP_API_URL + directory.imagePath}
+              />
+            </MyImage>
+          :
+            <div></div>
+          }
 
           <hr/>
 
-          <span>Nombre de contacto:</span>
-          <span>{directory.contactName}</span>
-          <br />
+          <DetailsBlock>
+            <DetailsColumn>
 
-          <span>Telefono para contacto:</span>
-          <span>{directory.contactPhone}</span>
-          <br />
+              <DetailsItem>
+                <p>Localización:</p>
+                <span>{directory.businessAddress}</span>
+              </DetailsItem>
 
-          <span>Email de contacto:</span>
-          <span>{directory.contactEmail}</span>
-          <br />
+              <DetailsItem>
+                <p>Ciudad:</p>
+                <span>{directory.businessCity}</span>
+              </DetailsItem>
+              
+              <DetailsItem>
+                <p>Provincia:</p>
+                <span>{directory.businessProvince}</span>
+              </DetailsItem>
+              
+              <DetailsItem>
+                <p>Código postal:</p>
+                <span>{directory.businessPostalCode}</span>
+              </DetailsItem>
+             
+              <DetailsItem>
+                <p>Teléfono:</p>
+                <span>{directory.businessPhone}</span>
+                <span>{directory.businessSecondPhone ? directory.businessSecondPhone : ""}</span>
+              </DetailsItem>
+              
+            </DetailsColumn>
+            <DetailsColumn align="end" style={{borderLeft: '1px solid black'}}>
+
+              <DetailsItem>
+                <p>Nombre de contacto:</p>
+                <span>{directory.contactName}</span>
+              </DetailsItem>
+             
+              <DetailsItem>
+                <p>Telefono para contacto:</p>
+                <span>{directory.contactPhone}</span>
+              </DetailsItem>
+              
+              <DetailsItem>
+                <p>Email de contacto:</p>
+                <span>{directory.contactEmail}</span>
+              </DetailsItem>
+              
+            </DetailsColumn>
+            
+          </DetailsBlock>
+
+          <RelativeDetailsBlock>
+            {
+              directory.businessWebsite ?
+              <AppButton
+                onClick={() => {
+                  window.location.assign(directory.businessWebsite);
+                }}
+              >
+                Acessito
+              </AppButton>
+              :
+              <div></div>
+            }
+            
+          </RelativeDetailsBlock>
+
+          <hr/>
+
+          <p>{directory.businessDescription}</p>
+          
         </Content>
         {isAuthenticated() && (
           <div>
