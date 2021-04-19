@@ -43,6 +43,8 @@ function EventEdit(props) {
   const [image, setImage] = useState('');
   const [previewImage,setPreviewImage] = useState();
 
+  const [link,setLink]= useState('');
+
   const [firstRender,setFirstRender]= useState(true);
 
   const handleValidator =  useMyForm(
@@ -100,6 +102,7 @@ function EventEdit(props) {
           setContactRole(response.data.event.contactRole);
           setTags(response.data.event.tags);
           setStatus(response.data.event.status);
+          setLink(response.data.event.link);
         }
       }
     } catch (error) {
@@ -137,6 +140,7 @@ function EventEdit(props) {
         formData.append('contactEmail', contactEmail);
         formData.append('contactRole', contactRole);
         formData.append('status', status);
+        formData.append('link', link);
         formData.append('image', image);
         tags.map((tag) => {
           formData.append('tags', tag);
@@ -395,6 +399,10 @@ function EventEdit(props) {
               <option value="accepted">Aceita</option>
             </select>
           </fieldset>
+        </FormGroup>
+        <FormGroup>
+          <label>Por favor, inserte "http: //" o "https: //" antes de su enlace.</label>
+          <input style={!verifyLink(link) && !firstRender?{backgroundColor: '#f9b3b3'}:{}} type="text" placeholder="Link" onChange={(e)=>{setLink(e.target.value)}} value={link} />
         </FormGroup>
         <ContentView>
           <div>

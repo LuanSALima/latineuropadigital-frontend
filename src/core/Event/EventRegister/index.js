@@ -35,6 +35,8 @@ function EventRegister() {
   const [previewImage,setPreviewImage] = useState();
   const [progress, setProgess] = useState(0);
 
+  const [link,setLink]= useState('');
+
   const [firstRender,setFirstRender]= useState(true);
 
   const handleValidator =  useMyForm(
@@ -95,6 +97,7 @@ function EventRegister() {
         formData.append('contactPhone', contactPhone);
         formData.append('contactEmail', contactEmail);
         formData.append('contactRole', contactRole);
+        formData.append('link', link);
         formData.append('image', image);
         tags.map((tag) => {
           formData.append('tags', tag);
@@ -323,6 +326,10 @@ function EventRegister() {
               placeholder={"¡Seleccione las etiquetas!"}
             />
           </fieldset>
+        </FormGroup>
+        <FormGroup>
+          <label>Por favor, inserte "http: //" o "https: //" antes de su enlace.</label>
+          <input style={!verifyLink(link) && !firstRender?{backgroundColor: '#f9b3b3'}:{}} type="text" placeholder="Link" onChange={(e)=>{setLink(e.target.value)}} value={link} />
         </FormGroup>
         <ContentView>
           <div>

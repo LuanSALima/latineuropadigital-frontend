@@ -181,18 +181,18 @@ function EventDetails(props) {
               <p>Cronograma:</p>
               <span>{event.eventTime}</span>
             </DetailsItem>
-            {/*
-
-            Não há nenhum campo no BCD que seja um link, por exemplo o directory possui o WebSite
-
-            <AppButton
-              onClick={() => {
-                
-              }}
-            >
-              Acessito
-            </AppButton>
-            */}
+            {
+              event.link ?
+              <AppButton
+                onClick={() => {
+                  window.location.assign(event.link);
+                }}
+              >
+                Acessito
+              </AppButton>
+              :
+              <></>
+            }
           </RelativeDetailsBlock>
         
           <hr />

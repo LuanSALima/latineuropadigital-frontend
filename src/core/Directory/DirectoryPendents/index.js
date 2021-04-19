@@ -39,7 +39,15 @@ function DirectoryPendents() {
           let directoriesDb = [];
           for(let index in response.data.directories) {
             const directory = response.data.directories[index];
-            directoriesDb.push({ tag : directory.tags,id: directory._id, title: directory.businessName, subtitle: directory.businessAdress, image: `${process.env.REACT_APP_API_URL}`+directory.imagePath, icon: imgTest});
+            directoriesDb.push({
+              tag : directory.tags,
+              id: directory._id,
+              title: directory.businessName,
+              subtitle: directory.businessDescription,
+              image: `${process.env.REACT_APP_API_URL}`+directory.imagePath,
+              icon: imgTest,
+              date: directory.createdAt
+            });
           }
           setDirectories(directoriesDb);
         }
@@ -78,10 +86,12 @@ function DirectoryPendents() {
             <Link to={"/diretorio/" + content.id}>
               <NoticesCard
                 id={content.id}
+                tag={content.tag}
                 icon={content.icon}
                 image={content.image}
                 title={content.title}
                 text={content.subtitle}
+                date={content.date}
               />
             </Link>
             </MyCardLink>

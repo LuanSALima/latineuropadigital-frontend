@@ -20,11 +20,13 @@ function Job(props) {
 
   return (
     <MyCardLink notAll>
-      <Link to={""}>
+      <Link to={"oportunidade/"+props.job._id}>
         <NoticesCard 
-        date={props.createdAt} 
-        title={props.job.title} 
-        text={description} />
+          tag={props.job.jobTypes}
+          date={props.job.createdAt} 
+          title={props.job.title} 
+          text={description} 
+        />
       </Link>
     </MyCardLink>
   );

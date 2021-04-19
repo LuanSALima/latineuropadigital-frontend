@@ -67,24 +67,58 @@ function OpportunitieDetails(props) {
     <Page>
     <Header/>
       <MyScreenView>
-      <Content>
+        <Content>
 
-      <label>{job.title}</label>
-      <h4>{job.professionalName}</h4>
-      <h4>{job.professionalContact}</h4>
-      <h4>{job.description}</h4>
-      <p>{job.jobTypes}</p>
-      <hr/>
-        
-      {job.content?
-            job.content.split('\n').map((content) => {
+          <label>{job.title}</label>
+
+          <hr/>
+
+          <DetailsBlock>
+            <DetailsColumn>
+
+              <DetailsItem>
+                <p>Professional Name:</p>
+                <span>{job.professionalName}</span>
+              </DetailsItem>
+
+            </DetailsColumn>
+
+            <DetailsColumn align="end" style={{borderLeft: '1px solid var(--color-freela-hover)'}}>
+
+              <DetailsItem>
+                <p>Professional Contact:</p>
+                <span>{job.professionalContact}</span>
+              </DetailsItem>
+
+            </DetailsColumn>
+            
+          </DetailsBlock>
+
+          <RelativeDetailsBlock>
+            {
+              job.link ?
+              <AppButton
+                onClick={() => {
+                  window.location.assign(job.link);
+                }}
+              >
+                Acessito
+              </AppButton>
+              :
+              <></>
+            }
+          </RelativeDetailsBlock>
+
+          <hr />
+
+          {job.description?
+            job.description.split('\n').map((content) => {
               return <p>{content} <br /></p>
             })
             :
             <></>
           }
 
-       
         </Content>
         {isAuthenticated() && (
           <div>

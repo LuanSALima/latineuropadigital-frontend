@@ -191,7 +191,6 @@ function DirectoryDetails(props) {
               :
               <></>
             }
-            
           </RelativeDetailsBlock>
 
           <hr/>

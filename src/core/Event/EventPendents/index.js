@@ -38,7 +38,15 @@ function EventPendents() {
           let eventsDb = [];
           for(let index in response.data.events) {
             const event = response.data.events[index];
-            eventsDb.push({ tag : event.tags,id: event._id, title: event.eventName, subtitle: event.eventDescription, image: `${process.env.REACT_APP_API_URL}`+event.imagePath, icon: imgTest});
+            eventsDb.push({
+              tag : event.tags,
+              id: event._id,
+              title: event.eventName,
+              subtitle: event.eventDescription,
+              image: `${process.env.REACT_APP_API_URL}`+event.imagePath,
+              icon: imgTest,
+              date: event.createdAt
+            });
           }
           setEvents(eventsDb);
         }
@@ -73,10 +81,12 @@ function EventPendents() {
             <Link to={"/evento/" + content.id}>
               <NoticesCard
                 id={content.id}
+                tag={content.tag}
                 icon={content.icon}
                 image={content.image}
                 title={content.title}
                 text={content.subtitle}
+                date={content.date}
               />
             </Link>
             </MyCardLink>

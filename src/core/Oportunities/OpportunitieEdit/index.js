@@ -11,7 +11,7 @@ import Select from 'react-select';
 import {Modal,Button} from 'react-bootstrap'
 
 import { ActivityBrench, ActivityObject } from '../../../mock/mock';
-import useMyForm from '../../../hooks/useValidationForm';
+import useMyForm, { verifyLink } from '../../../hooks/useValidationForm';
 
 function OpportunitieEdit(props) {
 
@@ -27,6 +27,8 @@ function OpportunitieEdit(props) {
   const [status, setStatus] = useState("");
   const [errors, setErrors] = useState({});
   const [modalShow,setModalShow] = useState(false);
+
+  const [link,setLink]= useState('');
 
   const [firstRender,setFirstRender]= useState(true);
 
@@ -59,7 +61,7 @@ function OpportunitieEdit(props) {
      if(useMyForm(professionalName, professionalContact, title, description, jobTypes) === true){
       setButtonText("Enviando Dados ...");
       try {
-        const response = await api.put("/job/"+idJob, {professionalName, professionalContact, title, description, jobTypes, status});
+        const response = await api.put("/job/"+idJob, {professionalName, professionalContact, title, description, jobTypes, status, link});
 
         console.log(response.data);
         setButtonText("Editado com Sucesso");
@@ -99,6 +101,7 @@ function OpportunitieEdit(props) {
             setDescription(response.data.job.description);
             setStatus(response.data.job.status);
             setJobTypes(response.data.job.jobTypes);
+            setLink(response.data.job.link);
           }
         }
       } catch (error) {
@@ -107,6 +110,7 @@ function OpportunitieEdit(props) {
         setProfessionalContact("Problema ao carregar o Contato do Profissional");
         setTitle("Problema ao carregar o título");
         setDescription("Problema ao carregar a descrição");
+        setLink("Problema ao carregar o link");
       }
     }
     getJob();
@@ -191,6 +195,9 @@ function OpportunitieEdit(props) {
           value={description}
         />
         <span style={{color: 'red'}}>{errors.description}</span>
+
+        <span>Por favor, inserte "http: //" o "https: //" antes de su enlace.</span>
+        <input style={!verifyLink(link) && !firstRender?{backgroundColor: '#f9b3b3'}:{}} type="text" placeholder="Link" onChange={(e)=>{setLink(e.target.value)}} value={link} />
 
         <fieldset>
         <Select
