@@ -39,9 +39,6 @@ function EventRegister() {
 
   const [firstRender,setFirstRender]= useState(true);
 
-  const [link,setLink] = useState();
-
-
   const handleValidator =  useMyForm(
     eventName,
     eventOrganizedBy,
