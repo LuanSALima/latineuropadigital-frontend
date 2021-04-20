@@ -31,7 +31,7 @@ function OpportunitieEdit(props) {
   const [link,setLink]= useState('');
 
   const [firstRender,setFirstRender]= useState(true);
-
+  /*
   async function listJobTypes() {
     try {
       const response = await api.get("/jobtype/list");
@@ -53,6 +53,7 @@ function OpportunitieEdit(props) {
   useEffect(() => {
     listJobTypes();
   }, []);
+  */
 
   const handleJobEdit = async (e) => {
     e.preventDefault();
@@ -63,7 +64,6 @@ function OpportunitieEdit(props) {
       try {
         const response = await api.put("/job/"+idJob, {professionalName, professionalContact, title, description, jobTypes, status, link});
 
-        console.log(response.data);
         setButtonText("Editado com Sucesso");
       } catch (error) {
         setButtonText("Tente Novamente");

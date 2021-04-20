@@ -9,6 +9,8 @@ import { MyScreenView, OportunityCard } from "../OpportunitieList/styles";
 import { Link } from "react-router-dom";
 import NoticesCard from "../../../components/NoticesCard";
 
+import Pagination from "../../../components/Pagination";
+
 function Job(props) {
   const description =
     "Professional Name: " +
@@ -36,29 +38,33 @@ function OpportunitiePendents(props) {
   const [jobs, setJobs] = useState([]);
   const [errors, setErrors] = useState({});
 
-  useEffect(() => {
-    async function listJobs() {
-      try {
-        const response = await api.get("/jobs/pendent");
+  const [actualPage, setActualPage] = useState(1);
+  const [qntResults] = useState(10);
+  const [totalJobs, setTotalJobs] = useState(0);
 
-        if (response.data.success) {
-          if (response.data.jobs) {
-            setJobs(response.data.jobs);
-          }
+  async function listJobs() {
+    try {
+      const response = await api.get("/jobs/pendent?page=" + actualPage + "&results=" + qntResults);
+
+      if (response.data.success) {
+        if (response.data.jobs) {
+          setJobs(response.data.jobs);
         }
-      } catch (error) {
-        setErrors({ message: "Não foi possível carregar as Oportunidades" });
-        if (error.response) {
-          if (error.response.data) {
-            if (error.response.data.message) {
-              setErrors({ message: error.response.data.message });
-            }
-          }
+        if (response.data.totalJobs) {
+          setTotalJobs(response.data.totalJobs);
         }
       }
+    } catch (error) {
+      setErrors({ message: "Não foi possível carregar as Oportunidades" });
+      if (error.message) {
+        setErrors({ message: error.message });
+      }
     }
+  }
+
+  useEffect(() => {
     listJobs();
-  }, []);
+  }, [actualPage]);
 
   return (
     <Page>
@@ -69,8 +75,15 @@ function OpportunitiePendents(props) {
         {jobs.map((currentjob) => (
           <Job job={currentjob} />
         ))}
-      </MyScreenView>
 
+        <Pagination
+          totalResults={totalJobs}
+          resultsPerPage={qntResults}
+          actualPage={actualPage}
+          changePage={setActualPage}
+        />
+      </MyScreenView>
+      
       <Footer />
     </Page>
   );
