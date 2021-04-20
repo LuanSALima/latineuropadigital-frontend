@@ -25,6 +25,7 @@ function OpportunitieRegister() {
   const [link,setLink]= useState('');
 
   const [firstRender,setFirstRender]= useState(true);
+  const [link,setLink] = useState();
   /*
   async function listJobTypes() {
     try {
