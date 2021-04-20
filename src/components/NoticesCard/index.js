@@ -73,6 +73,14 @@ function NoticesCard(props) {
     }
   }
 
+  const formatText = (text) => {
+    if(text.length > 75) {
+      return text.substr(0,100)+"..";
+    } else {
+      return text;
+    }
+  }
+
   return (
     
     <Container>      
@@ -105,12 +113,9 @@ function NoticesCard(props) {
               }
             </Title>
             {props.text?
-              <span>
-              {props.text.length > 75?
-                    props.text.substr(0,100)+".."
-                    :
-                    props.text}
-              </span>
+              formatText(props.text).split('\n').map((text) => {
+                  return <span>{text} <br/></span>
+              })
             :
             <span>
               No text provided

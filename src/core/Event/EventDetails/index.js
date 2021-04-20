@@ -113,8 +113,6 @@ function EventDetails(props) {
 
           <label>{event.eventName}</label>
 
-          <hr/>
-
           {event.imagePath ?
             <MyImage>
               <img
@@ -123,7 +121,7 @@ function EventDetails(props) {
               />
             </MyImage>
           :
-            <div></div>
+            <></>
           }
 
           <hr />
@@ -183,23 +181,29 @@ function EventDetails(props) {
               <p>Cronograma:</p>
               <span>{event.eventTime}</span>
             </DetailsItem>
-            {/*
-
-            Não há nenhum campo no BCD que seja um link, por exemplo o directory possui o WebSite
-
-            <AppButton
-              onClick={() => {
-                
-              }}
-            >
-              Acessito
-            </AppButton>
-            */}
+            {
+              event.link ?
+              <AppButton
+                onClick={() => {
+                  window.location.assign(event.link);
+                }}
+              >
+                Acessito
+              </AppButton>
+              :
+              <></>
+            }
           </RelativeDetailsBlock>
         
           <hr />
-
-          <p>{event.eventDescription}</p>
+          
+          {event.eventDescription?
+            event.eventDescription.split('\n').map((content) => {
+              return <p>{content} <br /></p>
+            })
+            :
+            <></>
+          }
 
         </Content>
         {isAuthenticated() && (

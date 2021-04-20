@@ -11,7 +11,7 @@ import Select from 'react-select';
 import {Modal,Button} from 'react-bootstrap'
 import { ActivityBrench, ActivityObject } from '../../../mock/mock';
 
-import useMyForm from '../../../hooks/useValidationForm';
+import useMyForm, { verifyLink } from '../../../hooks/useValidationForm';
 
 function OpportunitieRegister() {
 
@@ -21,6 +21,8 @@ function OpportunitieRegister() {
   const [description, setDescription] = useState("");
   const [jobTypes, setJobTypes] = useState([]);
   const [dbJobTypes, setDbJobTypes] = useState([]);
+
+  const [link,setLink]= useState('');
 
   const [firstRender,setFirstRender]= useState(true);
   /*
@@ -52,7 +54,7 @@ function OpportunitieRegister() {
       // eslint-disable-next-line react-hooks/rules-of-hooks
      if(useMyForm(professionalName, professionalContact, title, description, jobTypes) === true){
       try {
-        await api.post("/job/create", {professionalName, professionalContact, title, description, jobTypes});
+        await api.post("/job/create", {professionalName, professionalContact, title, description, jobTypes, link});
         toast.success("¡Enviado para validación!",TOASTIFY_OPTIONS)
       } catch (error) {
         toast.error("¡Hubo un error! Inténtalo de nuevo.",TOASTIFY_OPTIONS)
@@ -120,6 +122,9 @@ function OpportunitieRegister() {
           }}
           value={description}
         />
+
+        <span>Por favor, inserte "http: //" o "https: //" antes de su enlace.</span>
+        <input style={!verifyLink(link) && !firstRender?{backgroundColor: '#f9b3b3'}:{}} type="text" placeholder="Link" onChange={(e)=>{setLink(e.target.value)}} value={link} />
 
         <fieldset>
         <Select

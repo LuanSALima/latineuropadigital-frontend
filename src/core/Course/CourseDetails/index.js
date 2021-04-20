@@ -72,7 +72,8 @@ function CourseDetails(props) {
   }
 
   const handleImageError = (image)=>{
-    image.target.src = imgAux;
+    //image.target.src = imgAux;
+    image.target.style.display='none'
   }
   const handleEditeCourse = ()=>{
     history.push("/course/editar/"+idCourse);
@@ -102,7 +103,6 @@ function CourseDetails(props) {
       toast.error("Não foi Possível Adicionar aos Destaques",TOASTIFY_OPTIONS)
     }
   }
-
   return (
     <Page>
       <Header/>
@@ -115,17 +115,28 @@ function CourseDetails(props) {
 
             <label>{course.title}</label>
             <h4>{course.subtitle}</h4>
-            <br></br>
-            <hr></hr>
+
+           {course.imagePath? 
             <MyImage>
               <img
                 onError={handleImageError}
                 src={process.env.REACT_APP_API_URL + course.imagePath}
               />
             </MyImage>
-            <br></br>
+            :
+            <></>
+          }
+
             <hr></hr>
-            <p>{course.content}</p>
+
+            {course.content?
+              course.content.split('\n').map((content) => {
+                return <p>{content} <br/></p>
+              })
+              :
+              <></>
+            }
+            
           </Content>
 
           {course.link?.length > 1 ? (
