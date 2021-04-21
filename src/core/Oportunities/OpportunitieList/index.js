@@ -64,14 +64,9 @@ function OpportunitieList(props) {
         let query = "/job/list?page=" + actualPage + "&results=" + qntResults;
 
         if(jobTypesSearched.length > 0) {
-
-          const jobTypes = [];
-
           for(const jobType of jobTypesSearched) {
-            jobTypes.push(encodeURIComponent(jobType));
+            query += '&types='+encodeURIComponent(jobType);
           }
-
-          query += '&types='+jobTypes.join(',');
         }
 
         const response = await api.get(query);
