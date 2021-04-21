@@ -104,7 +104,7 @@ function Routes() {
         
         <PrivateRoute path="/dashboard" component={Dashboard} />
 
-        <PrivateRoute path="/oportunidades-pendentes" component={OpportunitiePendents} />
+        <PrivateRoute path="/oportunidades-Pendiente" component={OpportunitiePendents} />
         <PrivateRoute path="/job/editar/:id" component={OpportunitieEdit} />
         
         <PrivateRoute path="/tag/cadastrar" component={TagRegister} />
@@ -114,10 +114,10 @@ function Routes() {
         <PrivateRoute path="/notice/editar/:id" component={NoticeEdit} />
         
         <PrivateRoute path="/directory/editar/:id" component={DirectoryEdit} />
-        <PrivateRoute path="/diretorios-pendentes" component={DirectoryPendents} />
+        <PrivateRoute path="/diretorios-Pendiente" component={DirectoryPendents} />
         
         <PrivateRoute path="/event/editar/:id" component={EventEdit} />
-        <PrivateRoute path="/eventos-pendentes" component={EventPendents} />
+        <PrivateRoute path="/eventos-Pendiente" component={EventPendents} />
 
         <PrivateRoute path="/course/cadastrar" component={CourseRegister} />
         <PrivateRoute path="/course/editar/:id" component={CourseEdit} />
