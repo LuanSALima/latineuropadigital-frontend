@@ -72,7 +72,7 @@ function DirectoryPendents() {
 
         <div style={{display: 'block'}}>
         <MyCardMap>
-        <h2>Directorios Pendentes</h2>
+        <h2>Directorios Pendiente</h2>
 
         {directories.map((content, index) => {
           return (

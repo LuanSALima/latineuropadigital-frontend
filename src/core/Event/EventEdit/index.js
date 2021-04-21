@@ -402,8 +402,8 @@ function EventEdit(props) {
           <label>Status</label>
           <fieldset>
             <select value={status} onChange={(e) => {setStatus(e.target.value)}}>
-              <option value="pendent">Pendente</option>
-              <option value="accepted">Aceita</option>
+              <option value="pendent">Pendiente</option>
+              <option value="accepted">Aceptado</option>
             </select>
           </fieldset>
         </FormGroup>

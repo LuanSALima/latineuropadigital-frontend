@@ -212,8 +212,8 @@ function OpportunitieEdit(props) {
 
         <p>Selecione o status da Oportunidade</p>
         <select value={status} onChange={(e) => {setStatus(e.target.value)}}>
-          <option value="pendent">Pendente</option>
-          <option value="accepted">Aceita</option>
+          <option value="pendent">Pendiente</option>
+          <option value="accepted">Aceptado</option>
         </select>
         <br></br>
         <AppButton onClick={handleJobEdit}>{buttonText}</AppButton>

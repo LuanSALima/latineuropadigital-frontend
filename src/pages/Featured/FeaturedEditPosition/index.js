@@ -95,7 +95,7 @@ function FeaturedEditPosition() {
 				    <List>
 				    	{featureds.map((featured, index) => {
 
-				    		let postTitle = "Titulo não encontrado";
+				    		let postTitle = "Titulo no encontrado";
 
 				    		if(!featured.post) {
 				    			return (

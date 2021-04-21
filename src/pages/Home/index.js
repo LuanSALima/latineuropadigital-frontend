@@ -54,7 +54,7 @@ useEffect(() => {
             if (response.data.featureds[index].post) {
               const featured = response.data.featureds[index].post;
 
-              let postTitle = "Titulo não encontrado";
+              let postTitle = "Titulo no encontrado";
 
               if (featured.title) {
                 postTitle = featured.title;
@@ -64,7 +64,7 @@ useEffect(() => {
                 postTitle = featured.eventName;
               }
 
-              let postSubtitle = "Subtítulo não encontrado";
+              let postSubtitle = "Subtítulo no encontrado";
 
               if (featured.subtitle) {
                 postSubtitle = featured.subtitle;
@@ -102,7 +102,7 @@ useEffect(() => {
           for (let index in response.data.featureds) {
             const featuredPost = response.data.featureds[index].post;
 
-            let postTitle = "Titulo não encontrado";
+            let postTitle = "Titulo no encontrado";
 
             if(featuredPost.title) {
               postTitle = featuredPost.title;

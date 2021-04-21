@@ -109,7 +109,7 @@ function CourseList() {
           for (let index in response.data.featureds) {
             const featuredPost = response.data.featureds[index].post;
 
-            let postTitle = "Titulo não encontrado";
+            let postTitle = "título no encontrado";
 
             if(featuredPost.title) {
               postTitle = featuredPost.title;

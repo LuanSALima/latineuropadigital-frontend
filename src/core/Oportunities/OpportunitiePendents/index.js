@@ -57,7 +57,7 @@ function OpportunitiePendents(props) {
           }
         }
       } catch (error) {
-        setErrors({ message: "Não foi possível carregar as Oportunidades" });
+        setErrors({ message: "No puede cargar as Oportunidades" });
         if (error.message) {
           setErrors({ message: error.message });
         }

@@ -78,7 +78,7 @@ function CourseEdit(props) {
           }
         }
       } catch (error) {
-        setErrors({message: "Não foi possível carregar o Courseo"});
+        setErrors({message: "No puede cargar o Courseo"});
         if(error.response) {
           if(error.response.data) {
             if(error.response.data.message) {

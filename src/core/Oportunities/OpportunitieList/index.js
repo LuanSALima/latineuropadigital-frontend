@@ -81,7 +81,7 @@ function OpportunitieList(props) {
         }
       } catch (error) {
         setJobs([]);
-        setErrors({ jobs: "Não foi possível carregar as Oportunidades" });
+        setErrors({ jobs: "No puede cargar as Oportunidades" });
         if (error.message) {
           setErrors({ jobs: error.message });
         }
