@@ -5,7 +5,7 @@ import { MyCardLink, Page, MyCardMap, MySideCardLink } from "../../../styles/def
 
 import api from "../../../services/api";
 import Footer from "../../../components/Footer";
-import { MyScreenView } from "./styles";
+import { MyCheckBoxList, MyScreenView } from "./styles";
 import { Link } from "react-router-dom";
 import NoticesCard from "../../../components/NoticesCard";
 
@@ -110,18 +110,20 @@ function OpportunitieList(props) {
             <h2 style={{ margin: "0 auto", width: "100%" }}>Oportunidades</h2>
 
             <h2 style={{ margin: "0 auto", width: "100%", color: 'red' }}>{errors.jobs}</h2>
-
+           
             {jobs.map((currentjob, index) => (
-              <Job job={currentjob} key={index}/>
+               <MyCardLink key={index} >
+              <Job job={currentjob}/>
+              </MyCardLink>
+
             ))}
           </MyCardMap>
-
-          <MySideCardLink>
+          
+          <MySideCardLink style={{marginTop:"6.7rem"}}>
           {jobTypes.map((type, index) => {
             return (
-              <div style={{clear: 'left'}} key={index}>
+               <MyCheckBoxList key={index}>
                 <input
-                  style={{float: 'left', marginTop: '7px', width: '40px'}}
                   type='checkbox'
                   onChange={(e) => {
                     const index = jobTypesSearched.indexOf(type);
@@ -134,11 +136,13 @@ function OpportunitieList(props) {
                     }
                   }}
                 />
-                <label style={{float: 'left', fontSize: '18px'}}>{type}</label>
-              </div>
+                <label>{type}</label>
+               </MyCheckBoxList>
+
             )
           })}
           </MySideCardLink>
+
         </div>
 
         <Pagination
