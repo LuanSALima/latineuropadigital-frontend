@@ -20,7 +20,7 @@ export const Li = styled.li`
   cursor:pointer;
 
 `;
-export const Ul = styled.li`
+export const Ul = styled.ul`
   cursor:pointer;
   justify-content:center !important;
   justify-items:center !important;

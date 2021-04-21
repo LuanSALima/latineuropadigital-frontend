@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from 'react';
 
 import Header from '../../../components/Header';
-import { AppButton, ContentView, Form, Outline_Button, Page, ProgressBar, FormBlock, FormColumn, FormGroup, Required, CharLimit } from '../../../styles/default';
+import { ContentView, Form, Page, ProgressBar, FormBlock, FormColumn, FormGroup, Required, CharLimit } from '../../../styles/default';
 import Footer from '../../../components/Footer';
 import api from '../../../services/api';
 import Select from 'react-select';
 import {MdFileUpload} from 'react-icons/md/index'
 import Toastifying, {TOASTIFY_OPTIONS} from "../../../components/Toastifying"
 import { toast } from 'react-toastify';
-import ModalTag from '../../../components/ModalTag';
 
 import useMyForm, { verifyLink } from '../../../hooks/useValidationForm';
 
@@ -76,9 +75,15 @@ function DirectoryRegister() {
 
   const handleDirectoryRegister = async (e) => {
     e.preventDefault();
+    setFirstRender(false);
     
     if(handleValidator){
       try {
+        if(businessWebsite) {
+          if(!handleLinkValidator) {
+            throw new Error("¡Hubo un error! Verifique que todos los campos estén llenos");
+          }
+        }
         const formData = new FormData();
         formData.append('businessName', businessName);
         formData.append('businessAddress', businessAddress);
@@ -94,9 +99,9 @@ function DirectoryRegister() {
         formData.append('contactEmail', contactEmail);
         formData.append('contactRole', contactRole);
         formData.append('image', image);
-        tags.map((tag) => {
+        for(const tag of tags) {
           formData.append('tags', tag);
-        });
+        }
 
         await api.post("/directory/create", formData, {
           onUploadProgress: (ProgressCourse) => {
@@ -116,7 +121,6 @@ function DirectoryRegister() {
       }
     }else{
       toast.error("¡Hubo un error! Verifique que todos los campos estén llenos",TOASTIFY_OPTIONS)
-      setFirstRender(false);
     }
   };
 
@@ -288,6 +292,7 @@ function DirectoryRegister() {
             <FormGroup>
               <label>Website</label>
               <input
+                style={(businessWebsite && !verifyLink(businessWebsite)) && !firstRender?{backgroundColor: '#f9b3b3'}:{}} 
                 type="text"
                 onChange={(e) => {
                   setBusinessWebsite(e.target.value);
@@ -328,7 +333,7 @@ function DirectoryRegister() {
           </FormGroup>
           <ContentView>
             <div>
-              <label for="uploadPhoto" class="btn-cta">
+              <label htmlFor="uploadPhoto" className="btn-cta">
                 {image?.name?image?.name:"Haga clic aquí para agregar una imagen"}
               <MdFileUpload style={!useMyForm(image) && !firstRender?{backgroundColor: '#f9b3b3'}:{}}/>
               </label>
@@ -342,7 +347,7 @@ function DirectoryRegister() {
                   }
                 }}
               />
-             { image && <img src={previewImage}/>}
+             { image && <img src={previewImage} alt="Imagen para previsualizar la imagen que se registrará"/>}
             </div>
           </ContentView>
           <ProgressBar width={progress}>

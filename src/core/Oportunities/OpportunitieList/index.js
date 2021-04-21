@@ -42,41 +42,6 @@ function OpportunitieList(props) {
   const [qntResults] = useState(10);
   const [totalJobs, setTotalJobs] = useState(0);
 
-  async function listJobs() {
-    setErrors({ jobs: "" });
-    try {
-      let query = "/job/list?page=" + actualPage + "&results=" + qntResults;
-
-      if(jobTypesSearched.length > 0) {
-
-        const jobTypes = [];
-
-        for(const jobType of jobTypesSearched) {
-          jobTypes.push(encodeURIComponent(jobType));
-        }
-
-        query += '&types='+jobTypes.join(',');
-      }
-
-      const response = await api.get(query);
-
-      if (response.data.success) {
-        if (response.data.jobs) {
-          setJobs(response.data.jobs);
-        }
-        if (response.data.totalJobs) {
-          setTotalJobs(response.data.totalJobs);
-        }
-      }
-    } catch (error) {
-      setJobs([]);
-      setErrors({ jobs: "Não foi possível carregar as Oportunidades" });
-      if (error.message) {
-        setErrors({ jobs: error.message });
-      }
-    }
-  }
-
   async function listJobTypes() {
     try {
       const response = await api.get("/jobs/types");
@@ -92,8 +57,44 @@ function OpportunitieList(props) {
   }
 
   useEffect(() => {
+
+    async function listJobs() {
+      setErrors({ jobs: "" });
+      try {
+        let query = "/job/list?page=" + actualPage + "&results=" + qntResults;
+
+        if(jobTypesSearched.length > 0) {
+
+          const jobTypes = [];
+
+          for(const jobType of jobTypesSearched) {
+            jobTypes.push(encodeURIComponent(jobType));
+          }
+
+          query += '&types='+jobTypes.join(',');
+        }
+
+        const response = await api.get(query);
+
+        if (response.data.success) {
+          if (response.data.jobs) {
+            setJobs(response.data.jobs);
+          }
+          if (response.data.totalJobs) {
+            setTotalJobs(response.data.totalJobs);
+          }
+        }
+      } catch (error) {
+        setJobs([]);
+        setErrors({ jobs: "Não foi possível carregar as Oportunidades" });
+        if (error.message) {
+          setErrors({ jobs: error.message });
+        }
+      }
+    }
+
     listJobs();
-  }, [actualPage, jobTypesSearched]);
+  }, [actualPage, qntResults, jobTypesSearched]);
 
   useEffect(() => {
     listJobTypes();
@@ -110,15 +111,15 @@ function OpportunitieList(props) {
 
             <h2 style={{ margin: "0 auto", width: "100%", color: 'red' }}>{errors.jobs}</h2>
 
-            {jobs.map((currentjob) => (
-              <Job job={currentjob} />
+            {jobs.map((currentjob, index) => (
+              <Job job={currentjob} key={index}/>
             ))}
           </MyCardMap>
 
           <MySideCardLink>
-          {jobTypes.map((type) => {
+          {jobTypes.map((type, index) => {
             return (
-              <div style={{clear: 'left'}}>
+              <div style={{clear: 'left'}} key={index}>
                 <input
                   style={{float: 'left', marginTop: '7px', width: '40px'}}
                   type='checkbox'

@@ -10,7 +10,7 @@ function Header() {
   return (
     <Navbar collapseOnSelect className="headerStyles" expand="lg">
       <Link to="/">
-      <Navbar.Brand className="headerTitle "><img src={icon}/></Navbar.Brand>
+      <Navbar.Brand className="headerTitle "><img src={icon} alt="Logotipo de Latin Europa Digital"/></Navbar.Brand>
       </Link>
       <Navbar.Toggle aria-controls="responsive-navbar-nav" />
       <Navbar.Collapse id="responsive-navbar-nav">

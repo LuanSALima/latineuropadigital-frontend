@@ -1,32 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import Header from '../../../components/Header';
 import NoticesCard from '../../../components/NoticesCard';
-import {  MyCardLink, MyCardMap, MyFilteredOptions, MySideBarCard, MySideCardLink, Page, ScreenView } from '../../../styles/default';
+import {  MyCardLink, MyCardMap, Page } from '../../../styles/default';
 import imgTest from '../../../assets/icon.svg';
-import Select from 'react-select';
 
 import api from '../../../services/api';
-import HorizonScrollView from '../../../components/HorizonScrollView';
 import Footer from '../../../components/Footer';
 
 import { Link } from 'react-router-dom';
-import { MdFilterList, MdStar } from 'react-icons/md';
 
 import Pagination from '../../../components/Pagination';
 import { MyScreenView } from '../EventList/styles';
 
 function EventPendents() {
 
-  const [eventsFeatured, setEventsFeatured] = useState([]);
-
   const [events, setEvents] = useState([]);
-  const [tags, setTags] = useState([]);
 
   const [actualPage, setActualPage] = useState(1);
   const [totalEvents, setTotalEvents] = useState(0);
- 
-  const [postsSideBar, setPostsSideBar] = useState([]);
-  const [eventSideBar, setEventSideBar] = useState([]);
 
   const listEvents = async () => {
     try {
@@ -75,20 +66,20 @@ function EventPendents() {
           <div style={{display: 'block'}}>
         <MyCardMap>
         <h2>Eventos Pendentes</h2>
-        {events.map((content) => {
+        {events.map((content, index) => {
           return (
-            <MyCardLink>
-            <Link to={"/evento/" + content.id}>
-              <NoticesCard
-                id={content.id}
-                tag={content.tag}
-                icon={content.icon}
-                image={content.image}
-                title={content.title}
-                text={content.subtitle}
-                date={content.date}
-              />
-            </Link>
+            <MyCardLink key={index}>
+              <Link to={"/evento/" + content.id}>
+                <NoticesCard
+                  id={content.id}
+                  tag={content.tag}
+                  icon={content.icon}
+                  image={content.image}
+                  title={content.title}
+                  text={content.subtitle}
+                  date={content.date}
+                />
+              </Link>
             </MyCardLink>
 
           );
@@ -96,8 +87,8 @@ function EventPendents() {
         </MyCardMap>
 
 
-{/* Will enter the sidebar */}
-<MySideCardLink>
+          {/* Will enter the sidebar 
+          <MySideCardLink>
             {postsSideBar?.map((featured) => {
               let link = "/";
 
@@ -138,7 +129,7 @@ function EventPendents() {
               );
             })} 
           </MySideCardLink>
-
+          */}
         </div>
         <Pagination totalResults={totalEvents} resultsPerPage={30} actualPage={actualPage} changePage={setActualPage}/>
 

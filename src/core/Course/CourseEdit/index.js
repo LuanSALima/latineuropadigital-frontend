@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
 import Header from '../../../components/Header';
-import { AppButton, ContentView, Form, Outline_Button, Page } from '../../../styles/default';
+import { AppButton, ContentView, Form, OutlineButton, Page, ProgressBar } from '../../../styles/default';
 import Footer from '../../../components/Footer';
 import api from '../../../services/api';
 
@@ -9,7 +9,6 @@ import {MdFileUpload} from 'react-icons/md/index';
 import Toastifying, {TOASTIFY_OPTIONS} from "../../../components/Toastifying";
 import { toast } from 'react-toastify';
 import ModalTag from '../../../components/ModalTag';
-import MyModal from '../../../components/MyModal';
 
 import Select from 'react-select';
 
@@ -31,7 +30,7 @@ function CourseEdit(props) {
   const [errors, setErrors] = useState({});
   const [progress, setProgess] = useState(0); // progess bar
 
-  const[modalShow,setModalShow] = useState(false);
+  const [modalShow,setModalShow] = useState(false);
   const [previewImage,setPreviewImage] = useState();
 
   const handleValidator =  useMyForm(title,subtitle,content,tags,link);
@@ -63,37 +62,36 @@ function CourseEdit(props) {
     }
   }
 
-  async function getCourse() {
-    try {
-      const response = await api.get("/course/"+idCourse);
+  useEffect(() => {
 
-      if(response.data.success) {
-        if(response.data.course) {
-          setTitle(response.data.course.title);
-          setSubtitle(response.data.course.subtitle);
-          setContent(response.data.course.content);
-          setTags(response.data.course.tags);
-          setLink(response.data.course.link);
+    async function getCourse() {
+      try {
+        const response = await api.get("/course/"+idCourse);
+
+        if(response.data.success) {
+          if(response.data.course) {
+            setTitle(response.data.course.title);
+            setSubtitle(response.data.course.subtitle);
+            setContent(response.data.course.content);
+            setTags(response.data.course.tags);
+            setLink(response.data.course.link);
+          }
         }
-      }
-    } catch (error) {
-      setErrors({message: "Não foi possível carregar o Courseo"});
-      if(error.response) {
-        if(error.response.data) {
-          if(error.response.data.message) {
-            setErrors({message: error.response.data.message});
+      } catch (error) {
+        setErrors({message: "Não foi possível carregar o Courseo"});
+        if(error.response) {
+          if(error.response.data) {
+            if(error.response.data.message) {
+              setErrors({message: error.response.data.message});
+            }
           }
         }
       }
     }
-  }
-
-  useEffect(() => {
 
     getCourse();
     listTags();
-
-  }, []);
+  }, [idCourse]);
 
   const handleCourseEdit = async (e) => {
     e.preventDefault();
@@ -106,9 +104,9 @@ function CourseEdit(props) {
       formData.append('content', content);
       formData.append('image', image);
       formData.append('link', link);
-      tags.map((tag) => {
+      for(const tag of tags) {
         formData.append('tags', tag);
-      })
+      }
       
       try {
         
@@ -119,7 +117,9 @@ function CourseEdit(props) {
           }
         });
 
-        setButtonText("Editado com Sucesso");
+        if(response.data.success) {
+          setButtonText("Editado com Sucesso");
+        }
       } catch (error) {
         setButtonText("Tente Novamente");
         if(error.response) {
@@ -159,16 +159,15 @@ function CourseEdit(props) {
   }
 
   const [courseTags,setCourseTags] = useState();
-
-  const createSelectOptions = () => {
-    let options = []
-    for(const tag of tags){
-        options.push({label:tag,value:tag})
-      }
-     setCourseTags(options);
-  }
   
   useEffect(()=>{
+    const createSelectOptions = () => {
+      let options = []
+      for(const tag of tags){
+          options.push({label:tag,value:tag})
+        }
+       setCourseTags(options);
+    }
     createSelectOptions();
   },[tags]);
 
@@ -221,12 +220,12 @@ function CourseEdit(props) {
         <span style={{color: 'red'}}>{errors.content}</span>
 
         <div>
-        <label for="uploadPhoto" class="btn-cta">
+        <label htmlFor="uploadPhoto" className="btn-cta">
           {image?.name?image?.name:"Haga clic aquí para agregar una imagen"}
         <MdFileUpload />
         </label>
         <input
-           id="uploadPhoto"
+          id="uploadPhoto"
           type="file"
           onChange={(e) => {
             setImage(e.target.files[0]);
@@ -235,7 +234,7 @@ function CourseEdit(props) {
             }
           }}
         />
-       { image && <img src={previewImage}/>}
+       { image && <img src={previewImage} alt="Imagen para previsualizar la imagen que se registrará"/>}
        </div>
           
         <span>Por favor, inserte "http: //" o "https: //" antes de su enlace.</span>
@@ -257,7 +256,12 @@ function CourseEdit(props) {
         <span style={{color: 'red'}}>{errors.dbTags}</span>
 
         </fieldset>
-        <Outline_Button type="success" onClick={handleChangeTags}>Añadir Etiqueta</Outline_Button>
+        <OutlineButton type="success" onClick={handleChangeTags}>Añadir Etiqueta</OutlineButton>
+        <div style={{width: '100%'}}>
+          <ProgressBar width={progress}>
+            {progress}
+          </ProgressBar>
+        </div>
         <AppButton onClick={handleCourseEdit}>{buttonText}</AppButton>
       </ContentView>
     </Form>

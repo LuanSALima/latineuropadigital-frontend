@@ -12,13 +12,11 @@ import {
 import imgTest from "../../../assets/icon.svg";
 
 import api from "../../../services/api";
-import HorizonScrollView from "../../../components/HorizonScrollView";
 import Footer from "../../../components/Footer";
 import { MyScreenView } from "./styles";
 import { Link } from "react-router-dom";
 import Select from "react-select";
 import { MdFilterList } from "react-icons/md/index";
-import Stars from "../../../components/Stars";
 
 import Pagination from "../../../components/Pagination";
 import CardCarousel from "../../../components/CardCarousel";
@@ -26,13 +24,12 @@ import CardCarousel from "../../../components/CardCarousel";
 import { MdStar } from "react-icons/md";
 
 function NoticesList() {
-  const [noticesFeatured, setNoticesFeatured] = useState([]);
 
   const [mostViewedAt, setMostViewedAt] = useState("daily");
   const [noticesMostViewed, setNoticesMostViewed] = useState([]);
 
   const [notices, setNotices] = useState([]);
-  const [tags, setTags] = useState([]);
+  //const [tags, setTags] = useState([]);
 
   const [postsSideBar, setPostsSideBar] = useState([]);
   const [noticesSideBar, setNoticesSideBar] = useState([]);
@@ -40,73 +37,15 @@ function NoticesList() {
   const [actualPage, setActualPage] = useState(1);
   const [qntResults] = useState(10);
   const [totalNotices, setTotalNotices] = useState(0);
-
+  /*
   const listTags = async () => {
     try {
       const response = await api.get("notices/tags");
       setTags(response.data.tags);
     } catch (error) {}
   };
-
-  const listNotices = async () => {
-    try {
-      const response = await api.get(
-        "/notice/list?page=" + actualPage + "&results=" + qntResults
-      );
-
-      if (response.data.success) {
-        if (response.data.notices) {
-          let noticesDb = [];
-          for (let index in response.data.notices) {
-            const notice = response.data.notices[index];
-            noticesDb.push({
-              tag: notice.tags,
-              id: notice._id,
-              title: notice.title,
-              subtitle: notice.content,
-              image: `${process.env.REACT_APP_API_URL}` + notice.imagePath,
-              icon: imgTest,
-              date: notice.createdAt,
-            });
-          }
-          setNotices(noticesDb);
-        }
-        if (response.data.totalNotices) {
-          setTotalNotices(response.data.totalNotices);
-        }
-      }
-    } catch (error) {}
-  };
-
-  const listNoticesMostViewed = async () => {
-    try {
-      const response = await api.get(
-        "/notice/list?results=5&views=" + mostViewedAt
-      );
-
-      if (response.data.success) {
-        if (response.data.notices) {
-          let noticesMostViewedDb = [];
-          for (let index in response.data.notices) {
-            const notice = response.data.notices[index];
-            noticesMostViewedDb.push({
-              tag: notice.tags,
-              id: notice._id,
-              title: notice.title,
-              subtitle: notice.content,
-              image: `${process.env.REACT_APP_API_URL}` + notice.imagePath,
-              icon: imgTest,
-              views: notice.views,
-            });
-          }
-          setNoticesMostViewed(noticesMostViewedDb);
-        }
-      }
-    } catch (error) {
-      setNoticesMostViewed([]);
-    }
-  };
-
+  */
+  
   const listNoticesSideBar = async () => {
     try {
       const response = await api.get("/notice/list?results=2&views=weekly");
@@ -171,13 +110,76 @@ function NoticesList() {
   };
 
   useEffect(() => {
+
+    const listNoticesMostViewed = async () => {
+      try {
+        const response = await api.get(
+          "/notice/list?results=5&views=" + mostViewedAt
+        );
+
+        if (response.data.success) {
+          if (response.data.notices) {
+            let noticesMostViewedDb = [];
+            for (let index in response.data.notices) {
+              const notice = response.data.notices[index];
+              noticesMostViewedDb.push({
+                tag: notice.tags,
+                id: notice._id,
+                title: notice.title,
+                subtitle: notice.content,
+                image: `${process.env.REACT_APP_API_URL}` + notice.imagePath,
+                icon: imgTest,
+                views: notice.views,
+              });
+            }
+            setNoticesMostViewed(noticesMostViewedDb);
+          }
+        }
+      } catch (error) {
+        setNoticesMostViewed([]);
+      }
+    }
+
     listNoticesMostViewed();
   }, [mostViewedAt]);
+
   useEffect(() => {
+
+    const listNotices = async () => {
+      try {
+        const response = await api.get(
+          "/notice/list?page=" + actualPage + "&results=" + qntResults
+        );
+
+        if (response.data.success) {
+          if (response.data.notices) {
+            let noticesDb = [];
+            for (let index in response.data.notices) {
+              const notice = response.data.notices[index];
+              noticesDb.push({
+                tag: notice.tags,
+                id: notice._id,
+                title: notice.title,
+                subtitle: notice.content,
+                image: `${process.env.REACT_APP_API_URL}` + notice.imagePath,
+                icon: imgTest,
+                date: notice.createdAt,
+              });
+            }
+            setNotices(noticesDb);
+          }
+          if (response.data.totalNotices) {
+            setTotalNotices(response.data.totalNotices);
+          }
+        }
+      } catch (error) {}
+    }
+
     listNotices();
-  }, [actualPage]);
+  }, [actualPage, qntResults]);
+
   useEffect(() => {
-    listTags();
+    //listTags();
     listSideBar();
     listNoticesSideBar();
   }, []);
@@ -215,9 +217,9 @@ function NoticesList() {
         <div style={{ display: "block" }}>
           <MyCardMap>
             <h2 style={{ margin: "0 auto", width: "100%" }}>Reciente</h2>
-            {notices.map((content) => {
+            {notices.map((content, index) => {
               return (
-                <MyCardLink>
+                <MyCardLink key={index}>
                   <Link to={"/noticia/" + content.id}>
                     <NoticesCard
                       id={content.id}
@@ -235,7 +237,7 @@ function NoticesList() {
           </MyCardMap>
 
           <MySideCardLink>
-            {postsSideBar.map((featured) => {
+            {postsSideBar.map((featured, index) => {
               let link = "/";
 
               switch (featured.postType) {
@@ -256,13 +258,14 @@ function NoticesList() {
               }
 
               return (
-                <Link to={link + featured.id}>
+                <Link to={link + featured.id} key={index}>
                   <MySideBarCard>
                     <img
                       src={featured.image}
                       onError={(image) => {
                         image.target.src = imgTest;
                       }}
+                      alt={"Imagen del destacado "+featured.title}
                     />
                     <span>{featured.title}</span>
                     <MdStar size={30} color="yellow" />
@@ -270,15 +273,16 @@ function NoticesList() {
                 </Link>
               );
             })}
-            {noticesSideBar.map((notice) => {
+            {noticesSideBar.map((notice, index) => {
               return (
-                <Link to={"/noticia/" + notice.id}>
+                <Link to={"/noticia/" + notice.id} key={index}>
                   <MySideBarCard>
                     <img
                       src={notice.image}
                       onError={(image) => {
                         image.target.src = imgTest;
                       }}
+                      alt={"Imagen del actualidad "+notice.title}
                     />
                     <span>{notice.title}</span>
                   </MySideBarCard>

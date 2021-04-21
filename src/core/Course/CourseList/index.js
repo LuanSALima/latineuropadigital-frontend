@@ -5,13 +5,11 @@ import { MyCardLink, MyFilteredOptions, MySideCardLink, Page, MyCardMap, MySideB
 import imgTest from "../../../assets/icon.svg";
 
 import api from "../../../services/api";
-import HorizonScrollView from "../../../components/HorizonScrollView";
 import Footer from "../../../components/Footer";
 import { MyScreenView } from "./styles";
 import { Link } from "react-router-dom";
 import Select from "react-select";
 import { MdFilterList } from "react-icons/md/index";
-import Stars from "../../../components/Stars";
 
 import Pagination from '../../../components/Pagination';
 import CardCarousel from '../../../components/CardCarousel';
@@ -20,13 +18,11 @@ import { MdStar } from 'react-icons/md';
 
 function CourseList() {
 
-  const [coursesFeatured, setCoursesFeatured] = useState([]);
-
   const [mostViewedAt, setMostViewedAt] = useState("daily");
   const [coursesMostViewed, setCoursesMostViewed] = useState([]);
 
   const [courses, setCourses] = useState([]);
-  const [tags, setTags] = useState([]);
+  //const [tags, setTags] = useState([]);
 
   const [actualPage, setActualPage] = useState(1);
   const [qntResults] = useState(10);
@@ -35,6 +31,7 @@ function CourseList() {
   const [postsSideBar, setPostsSideBar] = useState([]);
   const [courseSideBar, setCourseSideBar] = useState([]);
 
+  /*
   const listTags = async () => {
     try {
       const response = await api.get("courses/tags");
@@ -42,7 +39,8 @@ function CourseList() {
     } catch (error) {
     }
   }
-   const listCourses = async () => {
+  */
+  const listCourses = async () => {
     try {
 
       const response = await api.get("/course/list");
@@ -70,37 +68,9 @@ function CourseList() {
       }
 
     } catch (error) {
-      
-          
+      setCourses([]);
     }
   }
-
-  const listCoursesCarousel = async () => {
-    try {
-      const response = await api.get("/course/list?results=5&views=" + mostViewedAt);
-
-      if (response.data.success) {
-        if (response.data.courses) {
-          let coursesMostViewedDb = [];
-          for (let index in response.data.courses) {
-            const course = response.data.courses[index];
-            coursesMostViewedDb.push({
-              tag: course.tags,
-              id: course._id,
-              title: course.title,
-              subtitle: course.content,
-              image: `${process.env.REACT_APP_API_URL}` + course.imagePath,
-              icon: imgTest,
-              views: course.views,
-            });
-          }
-          setCoursesMostViewed(coursesMostViewedDb);
-        }
-      }
-    } catch (error) {
-      setCoursesMostViewed([]);
-    }
-  };
 
   const listCoursesSideBar = async () => {
     try {
@@ -165,6 +135,32 @@ function CourseList() {
   };
 
   useEffect(() => {
+    const listCoursesCarousel = async () => {
+      try {
+        const response = await api.get("/course/list?results=5&views=" + mostViewedAt);
+
+        if (response.data.success) {
+          if (response.data.courses) {
+            let coursesMostViewedDb = [];
+            for (let index in response.data.courses) {
+              const course = response.data.courses[index];
+              coursesMostViewedDb.push({
+                tag: course.tags,
+                id: course._id,
+                title: course.title,
+                subtitle: course.content,
+                image: `${process.env.REACT_APP_API_URL}` + course.imagePath,
+                icon: imgTest,
+                views: course.views,
+              });
+            }
+            setCoursesMostViewed(coursesMostViewedDb);
+          }
+        }
+      } catch (error) {
+        setCoursesMostViewed([]);
+      }
+    }
     listCoursesCarousel();
   }, [mostViewedAt]);
 
@@ -172,7 +168,7 @@ function CourseList() {
     listCourses();
   }, [actualPage]);
   useEffect(() => {
-    listTags();
+    //listTags();
     listSideBar();
     listCoursesSideBar();
   }, []);
@@ -211,23 +207,21 @@ function CourseList() {
          <div style={{display: 'block'}}>
         <MyCardMap>
         
-        {courses.map((content) => {
+        {courses.map((content, index) => {
           return (
-            <MyCardLink>
-
-            <Link to={"/curso/" + content.id}>
-              <NoticesCard
-                id={content.id}
-                tag={content.tag}
-                icon={content.icon}
-                image={content.image}
-                title={content.title}
-                text={content.subtitle}
-                date={content.date}
-              />
-            </Link>
+            <MyCardLink key={index}>
+              <Link to={"/curso/" + content.id}>
+                <NoticesCard
+                  id={content.id}
+                  tag={content.tag}
+                  icon={content.icon}
+                  image={content.image}
+                  title={content.title}
+                  text={content.subtitle}
+                  date={content.date}
+                />
+              </Link>
             </MyCardLink>
-
           );
         })}
         </MyCardMap>
@@ -235,7 +229,7 @@ function CourseList() {
 
           {/* Will enter the sidebar */}
           <MySideCardLink>
-            {postsSideBar?.map((featured) => {
+            {postsSideBar.map((featured, index) => {
               let link = "/";
 
               switch(featured.postType) {
@@ -256,20 +250,20 @@ function CourseList() {
               }
 
               return (
-                <Link to={link+featured.id}>
-                  <MySideBarCard >
-                    <img  src={featured.image} onError={(image) => {image.target.src = imgTest}}/>
+                <Link to={link+featured.id} key={index}>
+                  <MySideBarCard>
+                    <img src={featured.image} onError={(image) => {image.target.src = imgTest}} alt={"Imagen del destacado "+featured.title}/>
                     <span >{featured.title}</span><MdStar size={30} color="yellow"/>
                   </MySideBarCard>
                 </Link>
               );
             })}
-            {courseSideBar.map((notice) => {
+            {courseSideBar.map((course, index) => {
               return (
-                <Link to={"/noticia/" + notice.id}>
-                  <MySideBarCard >
-                    <img  src={notice.image} onError={(image) => {image.target.src = imgTest}}/>
-                    <span >{notice.title.length > 20?notice.title.substr(0,20)+"...":notice.title}</span>
+                <Link to={"/curso/" + course.id} key={index}>
+                  <MySideBarCard>
+                    <img src={course.image} onError={(image) => {image.target.src = imgTest}} alt={"Imagen del curso "+course.title}/>
+                    <span >{course.title.length > 20?course.title.substr(0,20)+"...":course.title}</span>
                   </MySideBarCard>
                 </Link>
               );
@@ -278,7 +272,13 @@ function CourseList() {
 
 
         </div>
-        <Pagination totalResults={totalCourses} resultsPerPage={30} actualPage={actualPage} changePage={setActualPage}/>
+
+        <Pagination
+          totalResults={totalCourses}
+          resultsPerPage={qntResults}
+          actualPage={actualPage}
+          changePage={setActualPage}
+        />
 
         </MyScreenView>
         <Footer/>

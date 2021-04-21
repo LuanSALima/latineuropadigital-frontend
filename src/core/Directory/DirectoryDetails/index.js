@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Header from '../../../components/Header';
-import { Details, Outline_Button, Page, AppButton, DetailsBlock, DetailsColumn, DetailsItem, RelativeDetailsBlock } from '../../../styles/default';
-import imgAux from '../../../assets/icon.svg';
+import { OutlineButton, Page, AppButton, DetailsBlock, DetailsColumn, DetailsItem, RelativeDetailsBlock } from '../../../styles/default';
 import Toastifying, {TOASTIFY_OPTIONS} from '../../../components/Toastifying'
 
 import api from '../../../services/api';
@@ -18,54 +17,53 @@ import { Content, MyImage } from "./styles";
 
 function DirectoryDetails(props) {
 
-  const [removeButtonText, setRemoveButtonText] = useState("Remover");
+  const [removeButtonText, setRemoveButtonText] = useState("Eliminar");
 
   const [idDirectory] = useState(props.match.params.id);
   const [directory, setDirectory] = useState([]);
   const [featured, setFeatured] = useState(false);
   const [errors, setErrors] = useState({});
 
-  async function findDirectory() {
-    try {
-      const response = await api.get("/directory/"+idDirectory);
+  useEffect(() => {
 
-      if(response.data.success) {
-        if(response.data.directory) {
-          setDirectory(response.data.directory);
-        }
-        if(response.data.featured) {
-          setFeatured(response.data.featured);
-        }
-      }
-    } catch (error) {
-      setErrors({message: "Não foi possível encontrar este Directory"});
-      if(error.response) {
-        if(error.response.data) {
-          if(error.response.data.message) {
-            setErrors({message: error.response.data.message});
+    async function findDirectory() {
+      try {
+        const response = await api.get("/directory/"+idDirectory);
+
+        if(response.data.success) {
+          if(response.data.directory) {
+            setDirectory(response.data.directory);
           }
+          if(response.data.featured) {
+            setFeatured(response.data.featured);
+          }
+        }
+      } catch (error) {
+        setErrors({message: "No se pudo encontrar este directorio"});
+        if(error.message) {
+          setErrors({message: error.message});
         }
       }
     }
-  }
-
-  useEffect(() => {
     findDirectory();
-  }, []);
+  }, [idDirectory]);
 
   const handleRemoveDirectory = async (e) => {
     e.preventDefault();
+    setRemoveButtonText("Eliminando ...");
 
     try {
       await api.delete("/directory/"+idDirectory);
-      toast.success("Removido com Sucesso!",TOASTIFY_OPTIONS)
+
+      setRemoveButtonText("Eliminado con éxito");
+      toast.success("Eliminado con éxito!",TOASTIFY_OPTIONS)
       setTimeout(() => {
         history.push('/dashboard')
       }, 1500);
     
     } catch (error) {
-        toast.error("Não foi possível remover" , TOASTIFY_OPTIONS)
-     
+      setRemoveButtonText("No se pudo eliminar");
+      toast.error("No se pudo eliminar" , TOASTIFY_OPTIONS);
     }
   }
   const handleEditeDirectory = ()=>{
@@ -106,6 +104,8 @@ function DirectoryDetails(props) {
     <Header/>
       <MyScreenView>
         <Content>
+          <h2 style={{color: 'red'}}>{errors.message}</h2>
+
           {isAuthenticated() === true ? (
             <Stars isFeature={featured} onClick={updateFeatured} />
           ) : null}
@@ -118,6 +118,7 @@ function DirectoryDetails(props) {
               <img
                 onError={handleImageError}
                 src={process.env.REACT_APP_API_URL + directory.imagePath}
+                alt={"Imagen de "+directory.businessName}
               />
             </MyImage>
           :
@@ -196,8 +197,8 @@ function DirectoryDetails(props) {
           <hr/>
 
           {directory.businessDescription?
-            directory.businessDescription.split('\n').map((content) => {
-              return <p>{content} <br /></p>
+            directory.businessDescription.split('\n').map((content, index) => {
+              return <p key={index}>{content} <br /></p>
             })
             :
             <></>
@@ -206,12 +207,12 @@ function DirectoryDetails(props) {
         </Content>
         {isAuthenticated() && (
           <div>
-            <Outline_Button type="danger" onClick={handleRemoveDirectory}>
-              {"Eliminar"}
-            </Outline_Button>
-            <Outline_Button type="warning" onClick={handleEditeDirectory}>
+            <OutlineButton type="danger" onClick={handleRemoveDirectory}>
+              {removeButtonText}
+            </OutlineButton>
+            <OutlineButton type="warning" onClick={handleEditeDirectory}>
               {"Editar"}
-            </Outline_Button>
+            </OutlineButton>
           </div>
         )}
       </MyScreenView>

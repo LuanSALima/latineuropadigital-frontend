@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
 import Header from '../../../components/Header';
-import { AppButton, ContentView, Form, Outline_Button, Page } from '../../../styles/default';
+import { AppButton, ContentView, Form, OutlineButton, Page, ProgressBar } from '../../../styles/default';
 import Footer from '../../../components/Footer';
 import api from '../../../services/api';
 
@@ -9,7 +9,6 @@ import {MdFileUpload} from 'react-icons/md/index';
 import Toastifying, {TOASTIFY_OPTIONS} from "../../../components/Toastifying";
 import { toast } from 'react-toastify';
 import ModalTag from '../../../components/ModalTag';
-import MyModal from '../../../components/MyModal';
 
 import Select from 'react-select';
 
@@ -63,39 +62,37 @@ function NoticeEdit(props) {
     }
   }
 
- 
+  useEffect(() => {
 
-  async function getNotice() {
-    try {
-      const response = await api.get("/notice/"+idNotice);
+    async function getNotice() {
+      try {
+        const response = await api.get("/notice/"+idNotice);
 
-      if(response.data.success) {
-        if(response.data.notice) {
-          setTitle(response.data.notice.title);
-          setSubtitle(response.data.notice.subtitle);
-          setContent(response.data.notice.content);
-          setTags(response.data.notice.tags);
-          setLink(response.data.notice.link);
+        if(response.data.success) {
+          if(response.data.notice) {
+            setTitle(response.data.notice.title);
+            setSubtitle(response.data.notice.subtitle);
+            setContent(response.data.notice.content);
+            setTags(response.data.notice.tags);
+            setLink(response.data.notice.link);
+          }
         }
-      }
-    } catch (error) {
-      setErrors({message: "Não foi possível carregar as Notícia"});
-      if(error.response) {
-        if(error.response.data) {
-          if(error.response.data.message) {
-            setErrors({message: error.response.data.message});
+      } catch (error) {
+        setErrors({message: "Não foi possível carregar as Notícia"});
+        if(error.response) {
+          if(error.response.data) {
+            if(error.response.data.message) {
+              setErrors({message: error.response.data.message});
+            }
           }
         }
       }
     }
-  }
-
-  useEffect(() => {
 
     getNotice();
     listTags();
 
-  }, []);
+  }, [idNotice]);
 
   const handleNoticeEdit = async (e) => {
     e.preventDefault();
@@ -108,9 +105,9 @@ function NoticeEdit(props) {
       formData.append('content', content);
       formData.append('image', image);
       formData.append('link', link);
-      tags.map((tag) => {
+      for(const tag of tags) {
         formData.append('tags', tag);
-      })
+      }
       
       try {
         const response = await api.put("/notice/"+idNotice, formData, {
@@ -120,7 +117,9 @@ function NoticeEdit(props) {
           }
         });
 
-        setButtonText("Editado com Sucesso");
+        if(response.data.success) {
+          setButtonText("Editado com Sucesso");
+        }
       } catch (error) {
         setButtonText("Tente Novamente");
         if(error.response) {
@@ -161,16 +160,17 @@ function NoticeEdit(props) {
   }
 
   const [noticeTags,setNoticeTags] = useState();
-
-  const createSelectOptions = () => {
-    let options = []
-    for(const tag of tags){
-        options.push({label:tag,value:tag})
-      }
-     setNoticeTags(options);
-  }
   
   useEffect(()=>{
+
+    const createSelectOptions = () => {
+      let options = []
+      for(const tag of tags){
+          options.push({label:tag,value:tag})
+        }
+       setNoticeTags(options);
+    }
+    
     createSelectOptions();
   },[tags]);
 
@@ -223,7 +223,7 @@ function NoticeEdit(props) {
         <span style={{color: 'red'}}>{errors.content}</span>
 
         <div>
-        <label for="uploadPhoto" class="btn-cta">
+        <label htmlFor="uploadPhoto" className="btn-cta">
           {image?.name?image?.name:"Haga clic aquí para agregar una imagen"}
         <MdFileUpload />
         </label>
@@ -237,7 +237,7 @@ function NoticeEdit(props) {
             }
           }}
         />
-       { image && <img src={previewImage}/>}
+       { image && <img src={previewImage} alt="Imagen para previsualizar la imagen que se registrará"/>}
        </div>
           
         <span>Por favor, inserte "http: //" o "https: //" antes de su enlace.</span>
@@ -245,9 +245,9 @@ function NoticeEdit(props) {
 
         <fieldset>
          <Select
-         style={!useMyForm(tags) && !firstRender?{backgroundColor: '#f9b3b3'}:{}}
-         options={dbTags.map((currentTag)=>(
-          {label:currentTag,value:currentTag}))}
+          options={dbTags.map((currentTag)=>(
+            {label:currentTag,value:currentTag}
+          ))}
           isClearable
           value={noticeTags}
           isMulti
@@ -259,8 +259,12 @@ function NoticeEdit(props) {
         <span style={{color: 'red'}}>{errors.dbTags}</span>
 
         </fieldset>
-        <Outline_Button type="success" onClick={handleChangeTags}>Añadir Etiqueta</Outline_Button>
-
+        <OutlineButton type="success" onClick={handleChangeTags}>Añadir Etiqueta</OutlineButton>
+        <div style={{width: '100%'}}>
+          <ProgressBar width={progress}>
+            {progress}
+          </ProgressBar>
+        </div>
         <AppButton onClick={handleNoticeEdit}>{buttonText}</AppButton>
       </ContentView>
     </Form>

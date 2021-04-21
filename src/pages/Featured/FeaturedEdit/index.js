@@ -17,28 +17,29 @@ function FeaturedEdit(props) {
 	const [prioritized, setPrioritized] = useState(false);
 	const [errors, setErrors] = useState({});
 
-	async function getFeatured() {
-	    try {
-	      const response = await api.get("/featured/"+idFeatured);
-
-	      if(response.data.success) {
-	        if(response.data.featured) {
-	        	setPost(response.data.featured.post);
-	        	setPostType(response.data.featured.postType);
-				setPosition(response.data.featured.position);
-				if(response.data.featured.prioritized === 'true') {
-					setPrioritized(true);	
-				} else {
-					setPrioritized(false);
-				}
-	        }
-	      }
-	    } catch (error) {
-	      setErrors({message: "Não foi possível encontrar esta Tag"});
-	    }
-	}
-
 	useEffect(() => {
+
+		async function getFeatured() {
+		    try {
+		      const response = await api.get("/featured/"+idFeatured);
+
+		      if(response.data.success) {
+		        if(response.data.featured) {
+		        	setPost(response.data.featured.post);
+		        	setPostType(response.data.featured.postType);
+					setPosition(response.data.featured.position);
+					if(response.data.featured.prioritized === 'true') {
+						setPrioritized(true);	
+					} else {
+						setPrioritized(false);
+					}
+		        }
+		      }
+		    } catch (error) {
+		      setErrors({message: "Não foi possível encontrar esta Tag"});
+		    }
+		}
+		
 		getFeatured();
 	}, [idFeatured]);
 
@@ -46,9 +47,11 @@ function FeaturedEdit(props) {
 		e.preventDefault();
 
 	    try {
-	      const response = await api.put("/featured/"+idFeatured, {post, postType, position, prioritized: prioritized.toString()});
-
-	      toast.success("Alterado com Sucesso!",TOASTIFY_OPTIONS)
+	      	const response = await api.put("/featured/"+idFeatured, {post, postType, position, prioritized: prioritized.toString()});
+	       	
+	       	if(response.data.success) {
+	      		toast.success("Alterado com Sucesso!",TOASTIFY_OPTIONS)
+	  		}
 	    } catch (error) {
 	    	//Dados retornados do backend
 			if(error.errors) {

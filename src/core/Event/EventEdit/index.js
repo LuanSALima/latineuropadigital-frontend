@@ -1,15 +1,13 @@
 import React, { useState, useEffect } from 'react';
 
 import Header from '../../../components/Header';
-import { AppButton, ContentView, Form, Outline_Button, Page,  ProgressBar, FormBlock, FormColumn, FormGroup, Required, CharLimit } from '../../../styles/default';
+import { ContentView, Form, Page, ProgressBar, FormBlock, FormColumn, FormGroup, Required, CharLimit } from '../../../styles/default';
 import Footer from '../../../components/Footer';
 import api from '../../../services/api';
 
 import {MdFileUpload} from 'react-icons/md/index';
 import Toastifying, {TOASTIFY_OPTIONS} from "../../../components/Toastifying";
 import { toast } from 'react-toastify';
-import ModalTag from '../../../components/ModalTag';
-import MyModal from '../../../components/MyModal';
 
 import Select from 'react-select';
 
@@ -34,14 +32,15 @@ function EventEdit(props) {
   const [contactPhone, setContactPhone] = useState("");
   const [contactEmail, setContactEmail] = useState("");
   const [contactRole, setContactRole] = useState("");
+
   const [status, setStatus] = useState("");
 
   const [tags, setTags] = useState([]);
   const [dbTags, setDbTags] = useState([]);
 
-  const [progress, setProgess] = useState(0); // progess bar
   const [image, setImage] = useState('');
   const [previewImage,setPreviewImage] = useState();
+  const [progress, setProgess] = useState(0); // progess bar
 
   const [link,setLink]= useState('');
 
@@ -62,6 +61,7 @@ function EventEdit(props) {
     contactEmail,
     contactRole
   );
+  const handleLinkValidator = verifyLink(link);
 
   async function listTags() {
     try {
@@ -81,51 +81,56 @@ function EventEdit(props) {
     }
   }
 
-  async function getEvent() {
-    try {
-      const response = await api.get("/event/"+idEvent);
-
-      if(response.data.success) {
-        if(response.data.event) {
-          setEventName(response.data.event.eventName);
-          setEventOrganizedBy(response.data.event.eventOrganizedBy);
-          setEventLocation(response.data.event.eventLocation);
-          setEventAddress(response.data.event.eventAddress);
-          setEventDate(response.data.event.eventName);
-          setEventTime(response.data.event.eventTime);
-          setEventTicketPrice(response.data.event.eventTicketPrice);
-          setEventMoreInfo(response.data.event.eventMoreInfo);
-          setEventDescription(response.data.event.eventDescription);
-          setContactName(response.data.event.contactName);
-          setContactPhone(response.data.event.contactPhone);
-          setContactEmail(response.data.event.contactEmail);
-          setContactRole(response.data.event.contactRole);
-          setTags(response.data.event.tags);
-          setStatus(response.data.event.status);
-          setLink(response.data.event.link);
-        }
-      }
-    } catch (error) {
-      toast.error("Error al buscar el evento",TOASTIFY_OPTIONS)
-    }
-  }
-
   useEffect(() => {
+
+    async function getEvent() {
+      try {
+        const response = await api.get("/event/"+idEvent);
+
+        if(response.data.success) {
+          if(response.data.event) {
+            setEventName(response.data.event.eventName);
+            setEventOrganizedBy(response.data.event.eventOrganizedBy);
+            setEventLocation(response.data.event.eventLocation);
+            setEventAddress(response.data.event.eventAddress);
+            setEventDate(response.data.event.eventName);
+            setEventTime(response.data.event.eventTime);
+            setEventTicketPrice(response.data.event.eventTicketPrice);
+            setEventMoreInfo(response.data.event.eventMoreInfo);
+            setEventDescription(response.data.event.eventDescription);
+            setContactName(response.data.event.contactName);
+            setContactPhone(response.data.event.contactPhone);
+            setContactEmail(response.data.event.contactEmail);
+            setContactRole(response.data.event.contactRole);
+            setTags(response.data.event.tags);
+            setStatus(response.data.event.status);
+            setLink(response.data.event.link);
+          }
+        }
+      } catch (error) {
+        toast.error("Error al buscar el evento",TOASTIFY_OPTIONS)
+      }
+    }
 
     getEvent();
     listTags();
 
-  }, []);
+  }, [idEvent]);
 
   const handleEventEdit = async (e) => {
     e.preventDefault();
-    setButtonText("Enviando Dados ...");
+    setButtonText("Enviando datos ...");
+    setFirstRender(false);
     
     if(handleValidator){
       try {
+        if(link) {
+          if(!handleLinkValidator) {
+            throw new Error("¡Hubo un error! Verifique que todos los campos estén llenos");
+          }
+        }
 
         const formData = new FormData();
-
         formData.append('eventName', eventName);
         formData.append('eventOrganizedBy', eventOrganizedBy);
         formData.append('eventLocation', eventLocation);
@@ -142,9 +147,9 @@ function EventEdit(props) {
         formData.append('status', status);
         formData.append('link', link);
         formData.append('image', image);
-        tags.map((tag) => {
+        for(const tag of tags) {
           formData.append('tags', tag);
-        });
+        }
         
         const response = await api.put("/event/"+idEvent, formData, {
           onUploadProgress: (ProgressEvent) => {
@@ -153,21 +158,21 @@ function EventEdit(props) {
           }
         });
 
-        setButtonText("editado exitosamente");
-        toast.success("editado exitosamente",TOASTIFY_OPTIONS)
+        if(response.data.success) {
+          setButtonText("Editado con éxito");
+          toast.success("Editado con éxito",TOASTIFY_OPTIONS)
+        }
       } catch (error) {
-        setButtonText("Tente Novamente");
+        setButtonText("Inténtalo de nuevo");
 
         if(error.message) {
           toast.error(error.message, TOASTIFY_OPTIONS)
         } else {
           toast.error("Hubo un error no Servidor! Verifique que todos los campos estén llenos", TOASTIFY_OPTIONS)
         }
-        
-        console.log(error);
       }
     }else{
-      setFirstRender(false);
+      setButtonText("Inténtalo de nuevo");
       toast.error("¡Hubo un error! Verifique que todos los campos estén llenos",TOASTIFY_OPTIONS)
     }
   };
@@ -181,16 +186,17 @@ function EventEdit(props) {
   }
 
   const [eventTags,setEventTags] = useState();
-
-  const createSelectOptions = () => {
-    let options = []
-    for(const tag of tags){
-        options.push({label:tag,value:tag})
-      }
-     setEventTags(options);
-  }
   
   useEffect(()=>{
+
+    const createSelectOptions = () => {
+      let options = []
+      for(const tag of tags){
+          options.push({label:tag,value:tag})
+        }
+       setEventTags(options);
+    }
+
     createSelectOptions();
   },[tags]);
 
@@ -380,8 +386,9 @@ function EventEdit(props) {
           <fieldset>
             <Select
               style={!useMyForm(eventTags) && !firstRender?{backgroundColor: '#f9b3b3'}:{}}
-             options={dbTags.map((currentTag)=>(
-              {label:currentTag,value:currentTag}))}
+              options={dbTags.map((currentTag, index)=>(
+                {label:currentTag,value:currentTag}
+              ))}
               isClearable
               value={eventTags}
               isMulti
@@ -402,16 +409,24 @@ function EventEdit(props) {
         </FormGroup>
         <FormGroup>
           <label>Por favor, inserte "http: //" o "https: //" antes de su enlace.</label>
-          <input style={!verifyLink(link) && !firstRender?{backgroundColor: '#f9b3b3'}:{}} type="text" placeholder="Link" onChange={(e)=>{setLink(e.target.value)}} value={link} />
+          <input 
+            style={(link && !verifyLink(link)) && !firstRender?{backgroundColor: '#f9b3b3'}:{}}
+            type="text"
+            placeholder="Link"
+            onChange={(e)=>{
+              setLink(e.target.value)
+            }}
+            value={link}
+          />
         </FormGroup>
         <ContentView>
           <div>
-            <label for="uploadPhoto" class="btn-cta">
+            <label htmlFor="uploadPhoto" className="btn-cta">
               {image?.name?image?.name:"Haga clic aquí para agregar una imagen"}
             <MdFileUpload />
             </label>
             <input
-               id="uploadPhoto"
+              id="uploadPhoto"
               type="file"
               onChange={(e) => {
                 setImage(e.target.files[0]);
@@ -420,7 +435,7 @@ function EventEdit(props) {
                 }
               }}
             />
-           { image && <img src={previewImage}/>}
+           { image && <img src={previewImage} alt="Imagen para previsualizar la imagen que se registrará"/>}
           </div>
         </ContentView>
         <ProgressBar width={progress}>
@@ -428,7 +443,7 @@ function EventEdit(props) {
         </ProgressBar>
       </FormBlock>
       
-      <button className="btn btn-primary btn-lg btn-block" onClick={handleEventEdit}>Editar</button>
+      <button className="btn btn-primary btn-lg btn-block" onClick={handleEventEdit}>{buttonText}</button>
     
     </Form>
     <Footer/>

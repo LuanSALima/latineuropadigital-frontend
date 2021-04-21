@@ -5,7 +5,7 @@ import { MyCardLink, Page } from "../../../styles/default";
 
 import api from "../../../services/api";
 import Footer from "../../../components/Footer";
-import { MyScreenView, OportunityCard } from "../OpportunitieList/styles";
+import { MyScreenView } from "../OpportunitieList/styles";
 import { Link } from "react-router-dom";
 import NoticesCard from "../../../components/NoticesCard";
 
@@ -42,29 +42,30 @@ function OpportunitiePendents(props) {
   const [qntResults] = useState(10);
   const [totalJobs, setTotalJobs] = useState(0);
 
-  async function listJobs() {
-    try {
-      const response = await api.get("/jobs/pendent?page=" + actualPage + "&results=" + qntResults);
+  useEffect(() => {
 
-      if (response.data.success) {
-        if (response.data.jobs) {
-          setJobs(response.data.jobs);
+    async function listJobs() {
+      try {
+        const response = await api.get("/jobs/pendent?page=" + actualPage + "&results=" + qntResults);
+
+        if (response.data.success) {
+          if (response.data.jobs) {
+            setJobs(response.data.jobs);
+          }
+          if (response.data.totalJobs) {
+            setTotalJobs(response.data.totalJobs);
+          }
         }
-        if (response.data.totalJobs) {
-          setTotalJobs(response.data.totalJobs);
+      } catch (error) {
+        setErrors({ message: "Não foi possível carregar as Oportunidades" });
+        if (error.message) {
+          setErrors({ message: error.message });
         }
-      }
-    } catch (error) {
-      setErrors({ message: "Não foi possível carregar as Oportunidades" });
-      if (error.message) {
-        setErrors({ message: error.message });
       }
     }
-  }
 
-  useEffect(() => {
     listJobs();
-  }, [actualPage]);
+  }, [actualPage, qntResults]);
 
   return (
     <Page>
@@ -72,8 +73,8 @@ function OpportunitiePendents(props) {
       <MyScreenView>
         <h1>Oportunidades Pendientes</h1>
         <h2 style={{ color: "red" }}>{errors.message}</h2>
-        {jobs.map((currentjob) => (
-          <Job job={currentjob} />
+        {jobs.map((currentjob, index) => (
+          <Job job={currentjob} key={index}/>
         ))}
 
         <Pagination

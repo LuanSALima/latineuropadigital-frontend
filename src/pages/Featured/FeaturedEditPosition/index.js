@@ -4,7 +4,6 @@ import Header from '../../../components/Header';
 import Footer from '../../../components/Footer';
 import { Page, MyFilteredOptions } from '../../../styles/default';
 import { ListView, List } from './styles';
-import imgTest from "../../../assets/icon.svg";
 import Toastifying, {TOASTIFY_OPTIONS} from '../../../components/Toastifying';
 import { toast } from 'react-toastify';
 
@@ -45,19 +44,20 @@ function FeaturedEditPosition() {
 		}
 	}
 
-	function setPositions() {
-		let positions = [];
-		for(const featured of featureds) {
-			positions.push(featured.position);
-		}
-		setValidPositions(positions);
-	}
-
 	useEffect(() => {
 		listFeatureds();
 	}, [postType]);
 
 	useEffect(() => {
+
+		function setPositions() {
+			let positions = [];
+			for(const featured of featureds) {
+				positions.push(featured.position);
+			}
+			setValidPositions(positions);
+		}
+		
 		setPositions();
 	}, [featureds]);
 
@@ -93,13 +93,13 @@ function FeaturedEditPosition() {
 						/>
 					</MyFilteredOptions>
 				    <List>
-				    	{featureds.map((featured) => {
+				    	{featureds.map((featured, index) => {
 
 				    		let postTitle = "Titulo não encontrado";
 
 				    		if(!featured.post) {
 				    			return (
-				    				<FeaturedCard id={featured._id} imagePath={""} title={featured.postType+" eliminado"} position={featured.position} options={validPositions} prioritized={featured.prioritized} callback={refreshFeatureds}/>
+				    				<FeaturedCard id={featured._id} imagePath={""} title={featured.postType+" eliminado"} position={featured.position} options={validPositions} prioritized={featured.prioritized} callback={refreshFeatureds} key={index}/>
 				    			);
 				    		}
 
@@ -112,7 +112,7 @@ function FeaturedEditPosition() {
 							}
 
 				    		return (
-				    			<FeaturedCard id={featured._id} imagePath={featured.post.imagePath} title={postTitle} position={featured.position} options={validPositions} prioritized={featured.prioritized} callback={refreshFeatureds}/>
+				    			<FeaturedCard id={featured._id} imagePath={featured.post.imagePath} title={postTitle} position={featured.position} options={validPositions} prioritized={featured.prioritized} callback={refreshFeatureds} key={index}/>
 				    		);
 				    	})}
 				    </List>

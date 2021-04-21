@@ -35,10 +35,10 @@ import CourseEdit from '../core/Course/CourseEdit';
 
 import TagRegister from '../pages/Tags/TagRegister';
 import TagEdit from '../pages/Tags/TagEdit';
-
+/*
 import JobTypeRegister from '../pages/JobType/JobTypeRegister';
 import JobTypeEdit from '../pages/JobType/JobTypeEdit';
-
+*/
 import UserRegister from '../pages/User/UserRegister';
 import UserEdit from '../pages/User/UserEdit';
 
@@ -122,10 +122,10 @@ function Routes() {
         <PrivateRoute path="/course/cadastrar" component={CourseRegister} />
         <PrivateRoute path="/course/editar/:id" component={CourseEdit} />
         
-        /*
+        {/*
         <PrivateRoute path="/jobtype/cadastrar" component={JobTypeRegister} />
         <PrivateRoute path="/jobtype/editar/:id" component={JobTypeEdit} />
-        */
+        */}
 
         <PrivateRoute path="/featured/editar/:id" component={FeaturedEdit} />
         <PrivateRoute path="/featured/alterar-posicao" component={FeaturedEditPosition} />
