@@ -129,7 +129,7 @@ function NoticesCard(props) {
               {props.date?
                 <span>{date(props.date)}</span>
                 :
-                <span>data não passada</span>
+                <span>fecha no pasada</span>
               }
             </Time>
         </Description>
