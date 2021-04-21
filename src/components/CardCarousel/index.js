@@ -13,7 +13,7 @@ function CardCarousel(props) {
 
 	if(props.items.length)return (
 		<Carousel className="navbar  myCarrousel">
-			{props.items.map((content) => {
+			{props.items.map((content, index) => {
 
 				let link = props.route;
 
@@ -36,8 +36,7 @@ function CardCarousel(props) {
 		            }
 	        	}
 				return (
-					<Carousel.Item interval={20000}>
-								
+					<Carousel.Item interval={20000} key={index}>
 						<Link to={link+"/"+content.id} >
 							<img
 							  className="d-block myImage"

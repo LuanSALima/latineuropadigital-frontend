@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import Header from '../../../components/Header';
-import { Details, Page, Outline_Button, AppButton, DetailsBlock, DetailsColumn, DetailsItem, RelativeDetailsBlock } from '../../../styles/default';
+import { Page, OutlineButton, AppButton, DetailsBlock, DetailsColumn, DetailsItem, RelativeDetailsBlock } from '../../../styles/default';
 import Toastifying, {TOASTIFY_OPTIONS} from '../../../components/Toastifying'
 import api from '../../../services/api';
 import {isAuthenticated} from '../../../services/auth'
 
 import Footer from '../../../components/Footer';
-import imgAux from '../../../assets/icon.svg';
 import { toast } from 'react-toastify';
 import history from '../../../services/history/history'
 import Stars from '../../../components/Stars';
@@ -16,54 +15,54 @@ import { Content, MyImage } from "./styles";
 
 function EventDetails(props) {
 
-  const [removeButtonText, setRemoveButtonText] = useState("Remover");
+  const [removeButtonText, setRemoveButtonText] = useState("Eliminar");
 
   const [idEvent] = useState(props.match.params.id);
   const [event, setEvent] = useState([]);
   const [featured, setFeatured] = useState(false);
   const [errors, setErrors] = useState({});
 
-  async function findEvent() {
-    try {
-      const response = await api.get("/event/"+idEvent);
+  useEffect(() => {
 
-      if(response.data.success) {
-        if(response.data.event) {
-          setEvent(response.data.event);
-        }
-        if(response.data.featured) {
-          setFeatured(response.data.featured);
-        }
-      }
-    } catch (error) {
-      setErrors({message: "Não foi possível encontrar este Evento"});
-      if(error.response) {
-        if(error.response.data) {
-          if(error.response.data.message) {
-            setErrors({message: error.response.data.message});
+    async function findEvent() {
+      try {
+        const response = await api.get("/event/"+idEvent);
+
+        if(response.data.success) {
+          if(response.data.event) {
+            setEvent(response.data.event);
           }
+          if(response.data.featured) {
+            setFeatured(response.data.featured);
+          }
+        }
+      } catch (error) {
+        setErrors({message: "No se pudo encontrar esta agenda"});
+        if(error.message) {
+          setErrors({message: error.message});
         }
       }
     }
-  }
 
-  useEffect(() => {
     findEvent();
-  }, []);
+  }, [idEvent]);
 
   const handleRemoveEvent = async (e) => {
     e.preventDefault();
-    setRemoveButtonText("Removendo ...");
+    setRemoveButtonText("Eliminando ...");
 
     try {
     await api.delete("/event/"+idEvent);
-    toast.success("Removido com Sucesso!",TOASTIFY_OPTIONS)
+
+    setRemoveButtonText("Eliminado con éxito!");
+    toast.success("Eliminado con éxito!",TOASTIFY_OPTIONS)
       
     setTimeout(() => {
         history.push('/dashboard')
       }, 1500);
     } catch (error) {
-      toast.error("Não foi Possível Remover",TOASTIFY_OPTIONS)
+      setRemoveButtonText("No se pudo eliminar");
+      toast.error("No se pudo eliminar",TOASTIFY_OPTIONS)
     }
   }
 
@@ -106,6 +105,8 @@ function EventDetails(props) {
         <Header/>
         <MyScreenView>
         <Content>
+          <h2 style={{color: 'red'}}>{errors.message}</h2>
+
           {isAuthenticated() === true ? (
             <Stars isFeature={featured} onClick={updateFeatured} />
           ) : null}
@@ -118,6 +119,7 @@ function EventDetails(props) {
               <img
                 onError={handleImageError}
                 src={process.env.REACT_APP_API_URL + event.imagePath}
+                alt={"Imagen de "+event.eventName}
               />
             </MyImage>
           :
@@ -198,8 +200,8 @@ function EventDetails(props) {
           <hr />
           
           {event.eventDescription?
-            event.eventDescription.split('\n').map((content) => {
-              return <p>{content} <br /></p>
+            event.eventDescription.split('\n').map((content, index) => {
+              return <p key={index}>{content} <br /></p>
             })
             :
             <></>
@@ -208,12 +210,12 @@ function EventDetails(props) {
         </Content>
         {isAuthenticated() && (
           <div>
-            <Outline_Button type="danger" onClick={handleRemoveEvent}>
-              {"Eliminar"}
-            </Outline_Button>
-            <Outline_Button type="warning" onClick={handleEditeEvent}>
+            <OutlineButton type="danger" onClick={handleRemoveEvent}>
+              {removeButtonText}
+            </OutlineButton>
+            <OutlineButton type="warning" onClick={handleEditeEvent}>
               {"Editar"}
-            </Outline_Button>
+            </OutlineButton>
           </div>
         )}
       </MyScreenView>

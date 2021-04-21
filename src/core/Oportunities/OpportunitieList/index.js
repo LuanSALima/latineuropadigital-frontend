@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from "react";
 
 import Header from "../../../components/Header";
-import { MyCardLink, Page } from "../../../styles/default";
+import { MyCardLink, Page, MyCardMap, MySideCardLink } from "../../../styles/default";
 
 import api from "../../../services/api";
 import Footer from "../../../components/Footer";
 import { MyScreenView } from "./styles";
 import { Link } from "react-router-dom";
 import NoticesCard from "../../../components/NoticesCard";
+
+import Pagination from "../../../components/Pagination";
 
 function Job(props) {
   const description =
@@ -33,40 +35,119 @@ function OpportunitieList(props) {
   const [jobs, setJobs] = useState([]);
   const [errors, setErrors] = useState({});
 
-  async function listJobs() {
-    try {
-      const response = await api.get("/job/list");
+  const [jobTypes, setJobTypes] = useState([]);
+  const [jobTypesSearched, setJobTypesSearched] = useState([]);
 
-      if (response.data.success) {
-        if (response.data.jobs) {
-          setJobs(response.data.jobs);
+  const [actualPage, setActualPage] = useState(1);
+  const [qntResults] = useState(10);
+  const [totalJobs, setTotalJobs] = useState(0);
+
+  async function listJobTypes() {
+    try {
+      const response = await api.get("/jobs/types");
+
+      if(response.data.success) {
+        if(response.data.jobTypes) {
+          setJobTypes(response.data.jobTypes);
         }
       }
     } catch (error) {
-      setErrors({ message: "Não foi possível carregar as Oportunidades" });
-      if (error.response) {
-        if (error.response.data) {
-          if (error.response.data.message) {
-            setErrors({ message: error.response.data.message });
-          }
-        }
-      }
+     
     }
   }
 
   useEffect(() => {
+
+    async function listJobs() {
+      setErrors({ jobs: "" });
+      try {
+        let query = "/job/list?page=" + actualPage + "&results=" + qntResults;
+
+        if(jobTypesSearched.length > 0) {
+
+          const jobTypes = [];
+
+          for(const jobType of jobTypesSearched) {
+            jobTypes.push(encodeURIComponent(jobType));
+          }
+
+          query += '&types='+jobTypes.join(',');
+        }
+
+        const response = await api.get(query);
+
+        if (response.data.success) {
+          if (response.data.jobs) {
+            setJobs(response.data.jobs);
+          }
+          if (response.data.totalJobs) {
+            setTotalJobs(response.data.totalJobs);
+          }
+        }
+      } catch (error) {
+        setJobs([]);
+        setErrors({ jobs: "Não foi possível carregar as Oportunidades" });
+        if (error.message) {
+          setErrors({ jobs: error.message });
+        }
+      }
+    }
+
     listJobs();
+  }, [actualPage, qntResults, jobTypesSearched]);
+
+  useEffect(() => {
+    listJobTypes();
   }, []);
 
   return (
     <Page>
       <Header />
       <MyScreenView>
-        <h1>Oportunidades</h1>
 
-        {jobs.map((currentjob) => (
-          <Job job={currentjob} />
-        ))}
+        <div style={{ display: "block" }}>
+          <MyCardMap>
+            <h2 style={{ margin: "0 auto", width: "100%" }}>Oportunidades</h2>
+
+            <h2 style={{ margin: "0 auto", width: "100%", color: 'red' }}>{errors.jobs}</h2>
+
+            {jobs.map((currentjob, index) => (
+              <Job job={currentjob} key={index}/>
+            ))}
+          </MyCardMap>
+
+          <MySideCardLink>
+          {jobTypes.map((type, index) => {
+            return (
+              <div style={{clear: 'left'}} key={index}>
+                <input
+                  style={{float: 'left', marginTop: '7px', width: '40px'}}
+                  type='checkbox'
+                  onChange={(e) => {
+                    const index = jobTypesSearched.indexOf(type);
+                    if(index === -1) {
+                      setJobTypesSearched([...jobTypesSearched, type]);
+                    } else {
+                      const array = [...jobTypesSearched];
+                      array.splice(index, 1);
+                      setJobTypesSearched(array);
+                    }
+                  }}
+                />
+                <label style={{float: 'left', fontSize: '18px'}}>{type}</label>
+              </div>
+            )
+          })}
+          </MySideCardLink>
+        </div>
+
+        <Pagination
+          totalResults={totalJobs}
+          resultsPerPage={qntResults}
+          actualPage={actualPage}
+          changePage={setActualPage}
+        />
+
       </MyScreenView>
       <Footer />
     </Page>

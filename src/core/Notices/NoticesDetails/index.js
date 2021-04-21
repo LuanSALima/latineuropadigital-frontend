@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from "react";
 import Header from "../../../components/Header";
 import {
-  Details,
   Page,
-  Outline_Button,
+  OutlineButton,
   AppButton,
 } from "../../../styles/default";
 import Toastifying, { TOASTIFY_OPTIONS } from "../../../components/Toastifying";
@@ -11,7 +10,6 @@ import { isAuthenticated } from "../../../services/auth";
 import api from "../../../services/api";
 
 import Footer from "../../../components/Footer";
-import imgAux from "../../../assets/icon.svg";
 import { toast } from "react-toastify";
 import history from "../../../services/history/history";
 import Stars from "../../../components/Stars";
@@ -24,33 +22,30 @@ function NoticesDetails(props) {
   const [featured, setFeatured] = useState(false);
   const [errors, setErrors] = useState({});
 
-  async function findNotice() {
-    try {
-      const response = await api.get("/notice/" + idNotice);
+  useEffect(() => {
 
-      if (response.data.success) {
-        if (response.data.notice) {
-          setNotice(response.data.notice);
-        }
-        if (response.data.featured) {
-          setFeatured(response.data.featured);
-        }
-      }
-    } catch (error) {
-      setErrors({ message: "Não foi possível encontrar este Notice" });
-      if (error.response) {
-        if (error.response.data) {
-          if (error.response.data.message) {
-            setErrors({ message: error.response.data.message });
+    async function findNotice() {
+      try {
+        const response = await api.get("/notice/" + idNotice);
+
+        if (response.data.success) {
+          if (response.data.notice) {
+            setNotice(response.data.notice);
           }
+          if (response.data.featured) {
+            setFeatured(response.data.featured);
+          }
+        }
+      } catch (error) {
+        setErrors({ message: "Não foi possível encontrar este Notice" });
+        if(error.message) {
+          setErrors({message: error.message});
         }
       }
     }
-  }
 
-  useEffect(() => {
     findNotice();
-  }, []);
+  }, [idNotice]);
 
   const handleRemoveNotice = async (e) => {
     e.preventDefault();
@@ -110,6 +105,8 @@ function NoticesDetails(props) {
       <Header />
       <MyScreenView>
         <Content>
+          <h2 style={{color: 'red'}}>{errors.message}</h2>
+
           {isAuthenticated() === true ? (
             <Stars isFeature={featured} onClick={updateFeatured} />
           ) : null}
@@ -124,6 +121,7 @@ function NoticesDetails(props) {
               <img
                 onError={handleImageError}
                 src={process.env.REACT_APP_API_URL + notice.imagePath}
+                alt={"Imagen de "+notice.title}
               />
             </MyImage>
           :
@@ -132,8 +130,8 @@ function NoticesDetails(props) {
 
           <hr/>
           {notice.content?
-            notice.content.split('\n').map((content) => {
-              return <p>{content} <br /></p>
+            notice.content.split('\n').map((content, index) => {
+              return <p key={index}>{content} <br /></p>
             })
             :
             <></>
@@ -154,12 +152,12 @@ function NoticesDetails(props) {
 
         {isAuthenticated() && (
           <div>
-            <Outline_Button type="danger" onClick={handleRemoveNotice}>
+            <OutlineButton type="danger" onClick={handleRemoveNotice}>
               {"Eliminar"}
-            </Outline_Button>
-            <Outline_Button type="warning" onClick={handleEditeNotice}>
+            </OutlineButton>
+            <OutlineButton type="warning" onClick={handleEditeNotice}>
               {"Editar"}
-            </Outline_Button>
+            </OutlineButton>
           </div>
         )}
       </MyScreenView>

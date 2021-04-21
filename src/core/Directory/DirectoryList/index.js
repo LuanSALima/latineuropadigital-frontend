@@ -5,13 +5,11 @@ import { MyCardLink, MyFilteredOptions, MySideCardLink, Page, MyCardMap, MySideB
 import imgTest from "../../../assets/icon.svg";
 
 import api from "../../../services/api";
-import HorizonScrollView from "../../../components/HorizonScrollView";
 import Footer from "../../../components/Footer";
 import { MyScreenView } from "./styles";
 import { Link } from "react-router-dom";
 import Select from "react-select";
 import { MdFilterList } from "react-icons/md/index";
-import Stars from "../../../components/Stars";
 
 import Pagination from '../../../components/Pagination';
 import CardCarousel from '../../../components/CardCarousel';
@@ -20,13 +18,11 @@ import { MdStar } from 'react-icons/md';
 
 function DirectoryList() {
 
-  const [directoriesFeatured, setDirectoriesFeatured] = useState([]);
-
   const [mostViewedAt, setMostViewedAt] = useState("daily");
   const [directoriesMostViewed, setDirectoriesMostViewed] = useState([]);
 
   const [directories, setDirectories] = useState([]);
-  const [tags, setTags] = useState([]);
+  //const [tags, setTags] = useState([]);
 
   const [actualPage, setActualPage] = useState(1);
   const [qntResults] = useState(10);
@@ -34,7 +30,7 @@ function DirectoryList() {
  
   const [postsSideBar, setPostsSideBar] = useState([]);
   const [directorySideBar, setDirectorySideBar] = useState([]);
-
+  /*
   const listTags = async () => {
     try {
       const response = await api.get("directories/tags");
@@ -42,65 +38,7 @@ function DirectoryList() {
     } catch (error) {
     }
   }
-
-  const listDirectories = async () => {
-    try {
-
-      const response = await api.get("/directory/list?page="+actualPage+"&results="+qntResults);
-
-      if(response.data.success) {
-        if(response.data.directories) {
-          let directoriesDb = [];
-          for(let index in response.data.directories) {
-            const directory = response.data.directories[index];
-            directoriesDb.push({ 
-              tag : directory.tags,
-              id: directory._id,
-              title: directory.businessName,
-              subtitle: directory.businessDescription,
-              image: `${process.env.REACT_APP_API_URL}`+directory.imagePath,
-              icon: imgTest,
-              date: directory.createdAt
-            });
-          }
-          setDirectories(directoriesDb);
-        }
-        if (response.data.totalDirectories) {
-          setTotalDirectories(response.data.totalDirectories);
-        }
-      }
-
-    } catch (error) {
-     
-    }
-  }
-
-  const listDirectoriesCarousel = async () => {
-    try {
-      const response = await api.get("/directory/list?results=5&views=" + mostViewedAt);
-
-      if (response.data.success) {
-        if (response.data.directories) {
-          let directoriesMostViewedDb = [];
-          for (let index in response.data.directories) {
-            const directory = response.data.directories[index];
-            directoriesMostViewedDb.push({
-              tag: directory.tags,
-              id: directory._id,
-              title: directory.businessName,
-              subtitle: directory.businessDescription,
-              image: `${process.env.REACT_APP_API_URL}` + directory.imagePath,
-              icon: imgTest,
-              views: directory.views,
-            });
-          }
-          setDirectoriesMostViewed(directoriesMostViewedDb);
-        }
-      }
-    } catch (error) {
-      setDirectoriesMostViewed([]);
-    }
-  };
+  */
 
   const listDirectoriesSideBar = async () => {
     try {
@@ -165,14 +103,76 @@ function DirectoryList() {
   };
 
   useEffect(() => {
+
+    const listDirectoriesCarousel = async () => {
+      try {
+        const response = await api.get("/directory/list?results=5&views=" + mostViewedAt);
+
+        if (response.data.success) {
+          if (response.data.directories) {
+            let directoriesMostViewedDb = [];
+            for (let index in response.data.directories) {
+              const directory = response.data.directories[index];
+              directoriesMostViewedDb.push({
+                tag: directory.tags,
+                id: directory._id,
+                title: directory.businessName,
+                subtitle: directory.businessDescription,
+                image: `${process.env.REACT_APP_API_URL}` + directory.imagePath,
+                icon: imgTest,
+                views: directory.views,
+              });
+            }
+            setDirectoriesMostViewed(directoriesMostViewedDb);
+          }
+        }
+      } catch (error) {
+        setDirectoriesMostViewed([]);
+      }
+    }
+
     listDirectoriesCarousel();
   }, [mostViewedAt]);
 
   useEffect(() => {
+
+    const listDirectories = async () => {
+      try {
+
+        const response = await api.get("/directory/list?page="+actualPage+"&results="+qntResults);
+
+        if(response.data.success) {
+          if(response.data.directories) {
+            let directoriesDb = [];
+            for(let index in response.data.directories) {
+              const directory = response.data.directories[index];
+              directoriesDb.push({ 
+                tag : directory.tags,
+                id: directory._id,
+                title: directory.businessName,
+                subtitle: directory.businessDescription,
+                image: `${process.env.REACT_APP_API_URL}`+directory.imagePath,
+                icon: imgTest,
+                date: directory.createdAt
+              });
+            }
+            setDirectories(directoriesDb);
+          }
+          if (response.data.totalDirectories) {
+            setTotalDirectories(response.data.totalDirectories);
+          }
+        }
+
+      } catch (error) {
+       
+      }
+    }
+
     listDirectories();
-  }, [actualPage]);
+  }, [actualPage, qntResults]);
+
   useEffect(() => {
-    listTags();
+    //listTags();
     listSideBar();
     listDirectoriesSideBar();
   }, []);
@@ -204,30 +204,30 @@ function DirectoryList() {
 
           <CardCarousel items={directoriesMostViewed} route={"/diretorio"}/>
           <div style={{display: 'block'}}>
-          <MyCardMap>
           
-          {directories.map((content) => {
-            return (
-              <MyCardLink>
-              <Link to={"/diretorio/" + content.id}>
-                <NoticesCard
-                  id={content.id}
-                  tag={content.tag}
-                  icon={content.icon}
-                  image={content.image}
-                  title={content.title}
-                  text={content.subtitle}
-                  date={content.date}
-                />
-              </Link>
-              </MyCardLink>
-            );
-          })}
-          </MyCardMap>
+            <MyCardMap>
+            {directories.map((content, index) => {
+              return (
+                <MyCardLink key={index}>
+                  <Link to={"/diretorio/" + content.id}>
+                    <NoticesCard
+                      id={content.id}
+                      tag={content.tag}
+                      icon={content.icon}
+                      image={content.image}
+                      title={content.title}
+                      text={content.subtitle}
+                      date={content.date}
+                    />
+                  </Link>
+                </MyCardLink>
+              );
+            })}
+            </MyCardMap>
 
             {/* Will enter the sidebar */}
             <MySideCardLink>
-              {postsSideBar?.map((featured) => {
+              {postsSideBar?.map((featured, index) => {
                 let link = "/";
 
                 switch(featured.postType) {
@@ -248,20 +248,21 @@ function DirectoryList() {
                 }
 
                 return (
-                  <Link to={link+featured.id}>
+                  <Link to={link+featured.id} key={index}>
                     <MySideBarCard >
-                      <img  src={featured.image} onError={(image) => {image.target.src = imgTest}}/>
+                      <img src={featured.image} onError={(image) => {image.target.src = imgTest}} alt={"Imagen del destacado "+featured.title}/>
                       <span >{featured.title}</span><MdStar size={30} color="yellow"/>
                     </MySideBarCard>
                   </Link>
                 );
               })}
-              {directorySideBar.map((directory) => {
+
+              {directorySideBar.map((directory, index) => {
                 return (
-                  <Link to={"/diretorio/" + directory.id}>
+                  <Link to={"/diretorio/" + directory.id} key={index}>
                     <MySideBarCard >
-                      <img  src={directory.image} onError={(image) => {image.target.src = imgTest}}/>
-                      <span >{directory.title.length > 20?directory.title.substr(0,20)+"...":directory.title}</span>
+                      <img src={directory.image} onError={(image) => {image.target.src = imgTest}} alt={"Imagen de "+directory.title}/>
+                      <span>{directory.title.length > 20?directory.title.substr(0,20)+"...":directory.title}</span>
                     </MySideBarCard>
                   </Link>
                 );

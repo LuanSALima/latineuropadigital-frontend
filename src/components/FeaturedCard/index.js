@@ -7,10 +7,9 @@ import imgTest from "../../assets/icon.svg";
 import api from "../../services/api";
 
 function FeaturedCard(props) {
-  const [position, setPosition] = useState(props.position);
   const [prioritized, setPrioritized] = useState(false);
   const [options, setOptions] = useState([]);
-  const [firstReq, setFirstReq] = useState(true);
+
   useEffect(() => {
     setOptions(props.options);
   }, [props.options]);
@@ -24,22 +23,14 @@ function FeaturedCard(props) {
   }, [props.prioritized]);
 
   const generateOptions = () => {
-    return options.map((option) => {
-      if (option === props.position) {
-        return (
-          <option selected value={option}>
-            {option}
-          </option>
-        );
-      } else {
-        return <option value={option}>{option}</option>;
-      }
+    return options.map((option, index) => {
+      return <option key={index} value={option}>{option}</option>;
     });
   };
 
-  const changeFeaturedPosition = async (e) => {
+  const changeFeaturedPosition = async (positionSelected) => {
     try {
-      await api.put("featured/" + props.id + "/position", { position });
+      await api.put("featured/" + props.id + "/position", { position: positionSelected });
 
       props.callback();
     } catch (error) {
@@ -57,12 +48,6 @@ function FeaturedCard(props) {
     }
   };
 
-  useEffect(() => {
-    if (!firstReq) {
-      changeFeaturedPosition();
-    }
-  }, [position]);
-
   return (
     <Card>
       <img
@@ -70,6 +55,7 @@ function FeaturedCard(props) {
         onError={(image) => {
           image.target.src = imgTest;
         }}
+        alt={"Imagen de "+props.title}
       />
       <p>{props.title}</p>
       <form>
@@ -87,9 +73,9 @@ function FeaturedCard(props) {
         <br></br>
         <select
           onChange={(e) => {
-            setPosition(e.target.value);
-            setFirstReq(false);
+            changeFeaturedPosition(e.target.value);
           }}
+          value={props.position}
         >
           {generateOptions()}
         </select>

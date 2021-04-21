@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Header from '../../../components/Header';
-import { Details, Outline_Button, Page, AppButton, DetailsBlock, DetailsColumn, DetailsItem, RelativeDetailsBlock } from '../../../styles/default';
-import imgAux from '../../../assets/icon.svg';
+import { OutlineButton, Page, AppButton, DetailsBlock, DetailsColumn, DetailsItem, RelativeDetailsBlock } from '../../../styles/default';
 import Toastifying, {TOASTIFY_OPTIONS} from '../../../components/Toastifying'
 
 import api from '../../../services/api';
@@ -9,34 +8,34 @@ import api from '../../../services/api';
 import Footer from '../../../components/Footer';
 import history from '../../../services/history/history'
 import { toast } from 'react-toastify';
-import Stars from '../../../components/Stars';
 
 import {isAuthenticated} from '../../../services/auth';
 
 import { MyScreenView } from "../OpportunitieList/styles";
-import { Content, MyImage } from "./styles";
+import { Content } from "./styles";
 
 function OpportunitieDetails(props) {
 
   const [idJob] = useState(props.match.params.id);
   const [job, setJob] = useState([]);
 
-  async function findJob() {
-    try {
-      const response = await api.get("/job/"+idJob);
-      if(response.data.success) {
-        if(response.data.job) {
-          setJob(response.data.job);
-        }
-      }
-    } catch (error) {
-
-    }
-  }
-
   useEffect(() => {
+
+    async function findJob() {
+      try {
+        const response = await api.get("/job/"+idJob);
+        if(response.data.success) {
+          if(response.data.job) {
+            setJob(response.data.job);
+          }
+        }
+      } catch (error) {
+
+      }
+    }
+
     findJob();
-  }, []);
+  }, [idJob]);
 
   const handleRemoveJob = async (e) => {
     e.preventDefault();
@@ -58,13 +57,9 @@ function OpportunitieDetails(props) {
     history.push("/job/editar/"+idJob);
   }
 
-  const handleImageError = (image)=>{
-    //image.target.src = imgAux;
-    image.target.style.display='none'
-  }
-
   return (
     <Page>
+    <Toastifying/>
     <Header/>
       <MyScreenView>
         <Content>
@@ -112,8 +107,8 @@ function OpportunitieDetails(props) {
           <hr />
 
           {job.description?
-            job.description.split('\n').map((content) => {
-              return <p>{content} <br /></p>
+            job.description.split('\n').map((content, index) => {
+              return <p key={index}>{content} <br /></p>
             })
             :
             <></>
@@ -122,12 +117,12 @@ function OpportunitieDetails(props) {
         </Content>
         {isAuthenticated() && (
           <div>
-            <Outline_Button type="danger" onClick={handleRemoveJob}>
+            <OutlineButton type="danger" onClick={handleRemoveJob}>
               {"Eliminar"}
-            </Outline_Button>
-            <Outline_Button type="warning" onClick={handleEditJob}>
+            </OutlineButton>
+            <OutlineButton type="warning" onClick={handleEditJob}>
               {"Editar"}
-            </Outline_Button>
+            </OutlineButton>
           </div>
         )}
       </MyScreenView>

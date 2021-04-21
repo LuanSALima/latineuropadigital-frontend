@@ -1,15 +1,13 @@
 import React, { useState, useEffect } from 'react';
 
 import Header from '../../../components/Header';
-import { AppButton, ContentView, Form, Outline_Button, Page, ProgressBar, FormBlock, FormColumn, FormGroup, Required, CharLimit } from '../../../styles/default';
+import { ContentView, Form, Page, ProgressBar, FormBlock, FormColumn, FormGroup, Required, CharLimit } from '../../../styles/default';
 import Footer from '../../../components/Footer';
 import api from '../../../services/api';
 
 import {MdFileUpload} from 'react-icons/md/index';
 import Toastifying, {TOASTIFY_OPTIONS} from "../../../components/Toastifying";
 import { toast } from 'react-toastify';
-import ModalTag from '../../../components/ModalTag';
-import MyModal from '../../../components/MyModal';
 
 import Select from 'react-select';
 
@@ -75,51 +73,56 @@ function DirectoryEdit(props) {
         }
       }
     } catch (error) {
-      console.log(error);
-    }
-  }
-
-  async function getDirectory() {
-    try {
-      const response = await api.get("/directory/"+idDirectory);
-
-      if(response.data.success) {
-        if(response.data.directory) {
-          setBusinessName(response.data.directory.businessName);
-          setBusinessAddress(response.data.directory.businessAddress);
-          setBusinessCity(response.data.directory.businessCity);
-          setBusinessProvince(response.data.directory.businessProvince);
-          setBusinessPostalCode(response.data.directory.businessPostalCode);
-          setBusinessPhone(response.data.directory.businessPhone);
-          setBusinessSecondPhone(response.data.directory.businessSecondPhone);
-          setBusinessWebsite(response.data.directory.businessWebsite);
-          setBusinessDescription(response.data.directory.businessDescription);
-          setContactName(response.data.directory.contactName);
-          setContactPhone(response.data.directory.contactPhone);
-          setContactEmail(response.data.directory.contactEmail);
-          setContactRole(response.data.directory.contactRole);
-          setTags(response.data.directory.tags);
-          setStatus(response.data.directory.status);
-        }
-      }
-    } catch (error) {
-      console.log(error);
+      toast.error("Error al enumerar etiquetas",TOASTIFY_OPTIONS)
     }
   }
 
   useEffect(() => {
+    async function getDirectory() {
+      try {
+        const response = await api.get("/directory/"+idDirectory);
 
+        if(response.data.success) {
+          if(response.data.directory) {
+            setBusinessName(response.data.directory.businessName);
+            setBusinessAddress(response.data.directory.businessAddress);
+            setBusinessCity(response.data.directory.businessCity);
+            setBusinessProvince(response.data.directory.businessProvince);
+            setBusinessPostalCode(response.data.directory.businessPostalCode);
+            setBusinessPhone(response.data.directory.businessPhone);
+            setBusinessSecondPhone(response.data.directory.businessSecondPhone);
+            setBusinessWebsite(response.data.directory.businessWebsite);
+            setBusinessDescription(response.data.directory.businessDescription);
+            setContactName(response.data.directory.contactName);
+            setContactPhone(response.data.directory.contactPhone);
+            setContactEmail(response.data.directory.contactEmail);
+            setContactRole(response.data.directory.contactRole);
+            setTags(response.data.directory.tags);
+            setStatus(response.data.directory.status);
+          }
+        }
+      } catch (error) {
+        toast.error("Error al buscar el directorio",TOASTIFY_OPTIONS)
+      }
+    }
+    
     getDirectory();
     listTags();
 
-  }, []);
+  }, [idDirectory]);
 
   const handleDirectoryEdit = async (e) => {
     e.preventDefault();
-    setButtonText("Enviando Dados ...");
-    
+    setButtonText("Enviando datos ...");
+    setFirstRender(false);
+
     if(handleValidator){
       try {
+        if(businessWebsite) {
+          if(!handleLinkValidator) {
+            throw new Error("¡Hubo un error! Verifique que todos los campos estén llenos");
+          }
+        }
         const formData = new FormData();
         formData.append('businessName', businessName);
         formData.append('businessAddress', businessAddress);
@@ -136,9 +139,9 @@ function DirectoryEdit(props) {
         formData.append('contactRole', contactRole);
         formData.append('status', status);
         formData.append('image', image);
-        tags.map((tag) => {
+        for(const tag of tags) {
           formData.append('tags', tag);
-        });
+        }
         
         const response = await api.put("/directory/"+idDirectory, formData, {
           onUploadProgress: (ProgressCourse) => {
@@ -147,22 +150,22 @@ function DirectoryEdit(props) {
           }
         });
 
-        setButtonText("Editado com Sucesso");
-        toast.success("¡Directorio editado com Sucesso",TOASTIFY_OPTIONS)
+        if(response.data.success) {
+          setButtonText("Editado con éxito");
+          toast.success("¡Directorio editado con éxito",TOASTIFY_OPTIONS)
+        }
       } catch (error) {
-        setButtonText("Tente Novamente");
+        setButtonText("Inténtalo de nuevo");
 
         if(error.message) {
           toast.error(error.message, TOASTIFY_OPTIONS)
         } else {
           toast.error("Hubo un error no Servidor! Verifique que todos los campos estén llenos", TOASTIFY_OPTIONS)
         }
-        console.log(error);
       }
     }else{
-      setButtonText("Tente Novamente");
+      setButtonText("Inténtalo de nuevo");
       toast.error("¡Hubo un error! Verifique que todos los campos estén llenos",TOASTIFY_OPTIONS)
-      setFirstRender(false);
     }
   };
 
@@ -175,16 +178,17 @@ function DirectoryEdit(props) {
   }
 
   const [directoryTags,setDirectoryTags] = useState();
-
-  const createSelectOptions = () => {
-    let options = []
-    for(const tag of tags){
-        options.push({label:tag,value:tag})
-      }
-     setDirectoryTags(options);
-  }
   
   useEffect(()=>{
+
+    const createSelectOptions = () => {
+      let options = []
+      for(const tag of tags){
+          options.push({label:tag,value:tag})
+        }
+       setDirectoryTags(options);
+    }
+
     createSelectOptions();
   },[tags]);
 
@@ -349,7 +353,8 @@ function DirectoryEdit(props) {
             </FormGroup>
             <FormGroup>
               <label>Website</label>
-              <input               
+              <input
+                style={(businessWebsite && !verifyLink(businessWebsite)) && !firstRender?{backgroundColor: '#f9b3b3'}:{}}              
                 type="text"
                 onChange={(e) => {
                   setBusinessWebsite(e.target.value);
@@ -378,8 +383,9 @@ function DirectoryEdit(props) {
             <fieldset>
               <Select
                 style={!useMyForm(directoryTags) && !firstRender?{backgroundColor: '#f9b3b3'}:{}}
-               options={dbTags.map((currentTag)=>(
-                {label:currentTag,value:currentTag}))}
+                options={dbTags.map((currentTag, index)=>(
+                  {label:currentTag,value:currentTag}
+                ))}
                 isClearable
                 value={directoryTags}
                 isMulti
@@ -400,7 +406,7 @@ function DirectoryEdit(props) {
           </FormGroup>
           <ContentView>
             <div>
-              <label for="uploadPhoto" class="btn-cta">
+              <label htmlFor="uploadPhoto" className="btn-cta">
                 {image?.name?image?.name:"Haga clic aquí para agregar una imagen"}
               <MdFileUpload/>
               </label>
@@ -414,7 +420,7 @@ function DirectoryEdit(props) {
                   }
                 }}
               />
-             { image && <img src={previewImage}/>}
+             { image && <img src={previewImage} alt="Imagen para previsualizar la imagen que se registrará"/>}
             </div>
           </ContentView>
           <ProgressBar width={progress}>

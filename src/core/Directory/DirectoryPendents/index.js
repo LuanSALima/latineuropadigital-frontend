@@ -1,33 +1,28 @@
 import React, { useState, useEffect } from 'react';
 import Header from '../../../components/Header';
 import NoticesCard from '../../../components/NoticesCard';
-import {  MyCardLink, MyCardMap, MyFilteredOptions, MySideBarCard, MySideCardLink, Page, ScreenView } from '../../../styles/default';
+import { MyCardLink, MyCardMap, Page } from '../../../styles/default';
 import imgTest from '../../../assets/icon.svg';
-import Select from 'react-select';
 
 import api from '../../../services/api';
-import HorizonScrollView from '../../../components/HorizonScrollView';
 import Footer from '../../../components/Footer';
 
 import { Link } from 'react-router-dom';
-import { MdFilterList, MdStar } from 'react-icons/md';
 
 import Pagination from '../../../components/Pagination';
 import { MyScreenView } from '../DirectoryList/styles';
 
 function DirectoryPendents() {
 
-  const [directoriesFeatured, setDirectoriesFeatured] = useState([]);
-
   const [directories, setDirectories] = useState([]);
-  const [tags, setTags] = useState([]);
 
   const [actualPage, setActualPage] = useState(1);
   const [totalDirectories, setTotalDirectories] = useState(0);
  
-
+  /*
   const [postsSideBar, setPostsSideBar] = useState([]);
   const [directorySideBar, setDirectorySideBar] = useState([]);
+  */
 
   const listDirectories = async () => {
     try {
@@ -79,21 +74,20 @@ function DirectoryPendents() {
         <MyCardMap>
         <h2>Directorios Pendentes</h2>
 
-        {directories.map((content) => {
+        {directories.map((content, index) => {
           return (
-            <MyCardLink>
-
-            <Link to={"/diretorio/" + content.id}>
-              <NoticesCard
-                id={content.id}
-                tag={content.tag}
-                icon={content.icon}
-                image={content.image}
-                title={content.title}
-                text={content.subtitle}
-                date={content.date}
-              />
-            </Link>
+            <MyCardLink key={index}>
+              <Link to={"/diretorio/" + content.id}>
+                <NoticesCard
+                  id={content.id}
+                  tag={content.tag}
+                  icon={content.icon}
+                  image={content.image}
+                  title={content.title}
+                  text={content.subtitle}
+                  date={content.date}
+                />
+              </Link>
             </MyCardLink>
 
           );
@@ -101,8 +95,8 @@ function DirectoryPendents() {
         </MyCardMap>
 
 
-  {/* Will enter the sidebar */}
-  <MySideCardLink>
+          {/* Will enter the sidebar 
+          <MySideCardLink>
             {postsSideBar?.map((featured) => {
               let link = "/";
 
@@ -143,7 +137,7 @@ function DirectoryPendents() {
               );
             })} 
           </MySideCardLink>
-
+          */}
 
         </div>
         <Pagination totalResults={totalDirectories} resultsPerPage={30} actualPage={actualPage} changePage={setActualPage}/>

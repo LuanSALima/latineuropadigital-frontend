@@ -1,16 +1,15 @@
 import React, { useState, useEffect } from 'react';
 
 import Header from '../../../components/Header';
-import { AppButton, ContentView, Form, Outline_Button, Page } from '../../../styles/default';
+import { AppButton, ContentView, Form, Page } from '../../../styles/default';
 import Footer from '../../../components/Footer';
 import Toastifying, { TOASTIFY_OPTIONS } from '../../../components/Toastifying';
 import api from '../../../services/api';
 import { toast } from "react-toastify";
 
 import Select from 'react-select';
-import {Modal,Button} from 'react-bootstrap'
 
-import { ActivityBrench, ActivityObject } from '../../../mock/mock';
+import { ActivityObject } from '../../../mock/mock';
 import useMyForm, { verifyLink } from '../../../hooks/useValidationForm';
 
 function OpportunitieEdit(props) {
@@ -23,15 +22,14 @@ function OpportunitieEdit(props) {
   const [title, setTitle] = useState("Carregando Título...");
   const [description, setDescription] = useState("Carregando Descrição...");
   const [jobTypes, setJobTypes] = useState([]);
-  const [dbJobTypes, setDbJobTypes] = useState([]);
+  //const [dbJobTypes, setDbJobTypes] = useState([]);
   const [status, setStatus] = useState("");
   const [errors, setErrors] = useState({});
-  const [modalShow,setModalShow] = useState(false);
 
   const [link,setLink]= useState('');
 
   const [firstRender,setFirstRender]= useState(true);
-
+  /*
   async function listJobTypes() {
     try {
       const response = await api.get("/jobtype/list");
@@ -53,6 +51,7 @@ function OpportunitieEdit(props) {
   useEffect(() => {
     listJobTypes();
   }, []);
+  */
 
   const handleJobEdit = async (e) => {
     e.preventDefault();
@@ -63,8 +62,9 @@ function OpportunitieEdit(props) {
       try {
         const response = await api.put("/job/"+idJob, {professionalName, professionalContact, title, description, jobTypes, status, link});
 
-        console.log(response.data);
-        setButtonText("Editado com Sucesso");
+        if(response.data.success) {
+          setButtonText("Editado com Sucesso");
+        }
       } catch (error) {
         setButtonText("Tente Novamente");
 
@@ -124,27 +124,24 @@ function OpportunitieEdit(props) {
     setJobTypes(types);
   }
 
-  const handleChangeTags = (e)=>{
-    e.preventDefault();
-    setModalShow(true);
-  }
-
   const [opportunitieTags,setOpportunitieTags] = useState();
-
-  const createSelectOptions = () => {
-    let options = []
-    for(const jobType of jobTypes){
-        options.push({label:jobType,value:jobType})
-      }
-     setOpportunitieTags(options);
-  }
   
   useEffect(()=>{
+
+    const createSelectOptions = () => {
+      let options = []
+      for(const jobType of jobTypes){
+        options.push({label:jobType,value:jobType})
+      }
+      setOpportunitieTags(options);
+    }
+
     createSelectOptions();
   },[jobTypes]);
 
   return (
   <Page>
+    <Toastifying/>
     <Header/>
     <Form width={"45%"} center>
       <ContentView>
@@ -212,7 +209,6 @@ function OpportunitieEdit(props) {
           placeholder={"Selecione as tags"}
         />
         </fieldset>
-        <Outline_Button type="success" onClick={handleChangeTags}>Añadir Etiqueta</Outline_Button>
 
         <p>Selecione o status da Oportunidade</p>
         <select value={status} onChange={(e) => {setStatus(e.target.value)}}>
@@ -223,6 +219,7 @@ function OpportunitieEdit(props) {
         <AppButton onClick={handleJobEdit}>{buttonText}</AppButton>
       </ContentView>
     </Form>
+    <Footer/>
   </Page>);
 }
 

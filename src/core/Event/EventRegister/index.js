@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from 'react';
 
 import Header from '../../../components/Header';
-import { AppButton, ContentView, Form, Outline_Button, Page, ProgressBar, FormBlock, FormColumn, FormGroup, Required, CharLimit } from '../../../styles/default';
+import { ContentView, Form, Page, ProgressBar, FormBlock, FormColumn, FormGroup, Required, CharLimit } from '../../../styles/default';
 import Footer from '../../../components/Footer';
 import api from '../../../services/api';
 import Select from 'react-select';
 import {MdFileUpload} from 'react-icons/md/index'
 import Toastifying, {TOASTIFY_OPTIONS} from "../../../components/Toastifying"
 import { toast } from 'react-toastify';
-import ModalTag from '../../../components/ModalTag';
 
 import useMyForm, { verifyLink } from '../../../hooks/useValidationForm';
 
@@ -54,6 +53,7 @@ function EventRegister() {
     contactEmail,
     contactRole
   );
+  const handleLinkValidator = verifyLink(link);
 
   async function listTags() {
     try {
@@ -79,11 +79,16 @@ function EventRegister() {
 
   const handleEventRegister = async (e) => {
     e.preventDefault();
+    setFirstRender(false);
 
     if(handleValidator){
       try {
+        if(link) {
+          if(!handleLinkValidator) {
+            throw new Error("¡Hubo un error! Verifique que todos los campos estén llenos");
+          }
+        }
         const formData = new FormData();
-
         formData.append('eventName', eventName);
         formData.append('eventOrganizedBy', eventOrganizedBy);
         formData.append('eventLocation', eventLocation);
@@ -99,9 +104,9 @@ function EventRegister() {
         formData.append('contactRole', contactRole);
         formData.append('link', link);
         formData.append('image', image);
-        tags.map((tag) => {
+        for(const tag of tags) {
           formData.append('tags', tag);
-        });
+        }
         
         await api.post("/event/create", formData, {
           onUploadProgress: (ProgressCourse) => {
@@ -120,7 +125,6 @@ function EventRegister() {
       }
     }else{
       toast.error("¡Hubo un error! Verifique que todos los campos estén llenos",TOASTIFY_OPTIONS)
-      setFirstRender(false);
     }
   };
 
@@ -329,11 +333,11 @@ function EventRegister() {
         </FormGroup>
         <FormGroup>
           <label>Por favor, inserte "http: //" o "https: //" antes de su enlace.</label>
-          <input style={!verifyLink(link) && !firstRender?{backgroundColor: '#f9b3b3'}:{}} type="text" placeholder="Link" onChange={(e)=>{setLink(e.target.value)}} value={link} />
+          <input style={(link && !verifyLink(link)) && !firstRender?{backgroundColor: '#f9b3b3'}:{}} type="text" placeholder="Link" onChange={(e)=>{setLink(e.target.value)}} value={link} />
         </FormGroup>
         <ContentView>
           <div>
-            <label for="uploadPhoto" class="btn-cta">
+            <label htmlFor="uploadPhoto" className="btn-cta">
               {image?.name?image?.name:"Haga clic aquí para agregar una imagen"}
             <MdFileUpload style={!useMyForm(image) && !firstRender?{backgroundColor: '#f9b3b3'}:{}}/>
             </label>
@@ -347,7 +351,7 @@ function EventRegister() {
                 }
               }}
             />
-           { image && <img src={previewImage}/>}
+           { image && <img src={previewImage} alt="Imagen para previsualizar la imagen que se registrará"/>}
           </div>
         </ContentView>
         <ProgressBar width={progress}>

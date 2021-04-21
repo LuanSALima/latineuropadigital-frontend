@@ -1,15 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 
 import Header from '../../../components/Header';
-import { AppButton, ContentView, Form, Outline_Button, Page } from '../../../styles/default';
+import { AppButton, ContentView, Form, Page } from '../../../styles/default';
 import Footer from '../../../components/Footer';
 import Toastifying, { TOASTIFY_OPTIONS } from '../../../components/Toastifying';
 import api from '../../../services/api';
 import { toast } from "react-toastify";
 
 import Select from 'react-select';
-import {Modal,Button} from 'react-bootstrap'
-import { ActivityBrench, ActivityObject } from '../../../mock/mock';
+import { ActivityObject } from '../../../mock/mock';
 
 import useMyForm, { verifyLink } from '../../../hooks/useValidationForm';
 
@@ -20,7 +19,7 @@ function OpportunitieRegister() {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [jobTypes, setJobTypes] = useState([]);
-  const [dbJobTypes, setDbJobTypes] = useState([]);
+  //const [dbJobTypes, setDbJobTypes] = useState([]);
 
   const [link,setLink]= useState('');
 

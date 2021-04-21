@@ -25,6 +25,8 @@ const useMyForm = (...props)=>{
     if(!item || item === undefined || item === null){
       return false;
     }
+
+    return true;
   })
   const totalAux = total.filter((filtered)=>filtered === false);
   

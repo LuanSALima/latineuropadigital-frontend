@@ -71,26 +71,28 @@ function TagEdit(props) {
     }
   };
 
-  async function getTag() {
-    try {
-      const response = await api.get("/tag/"+idTag);
-
-      if(response.data.success) {
-        setTitle("");
-        setDescription("");
-        if(response.data.tag) {
-          setTitle(response.data.tag.title);
-          setDescription(response.data.tag.description);
-          setTypes(response.data.tag.types);
-        }
-      }
-    } catch (error) {
-      setErrors({message: "Não foi possível encontrar esta Tag"});
-      setTitle("Problema ao carregar o título");
-      setDescription("Problema ao carregar a descrição");
-    }
-  }
   useEffect(() => {
+
+    async function getTag() {
+      try {
+        const response = await api.get("/tag/"+idTag);
+
+        if(response.data.success) {
+          setTitle("");
+          setDescription("");
+          if(response.data.tag) {
+            setTitle(response.data.tag.title);
+            setDescription(response.data.tag.description);
+            setTypes(response.data.tag.types);
+          }
+        }
+      } catch (error) {
+        setErrors({message: "Não foi possível encontrar esta Tag"});
+        setTitle("Problema ao carregar o título");
+        setDescription("Problema ao carregar a descrição");
+      }
+    }
+
     getTag();
   }, [idTag]);
 
@@ -103,16 +105,17 @@ function TagEdit(props) {
   }
 
   const [tagTypes,setTagTypes] = useState();
-
-  const createSelectOptions = () => {
-    let options = []
-    for(const type of types){
-        options.push({label:type,value:type})
-      }
-     setTagTypes(options);
-  }
   
   useEffect(()=>{
+
+    const createSelectOptions = () => {
+      let options = []
+      for(const type of types){
+        options.push({label:type,value:type})
+      }
+      setTagTypes(options);
+    }
+
     createSelectOptions();
   },[types]);
 

@@ -5,16 +5,14 @@ import {
   FeatureContent,
   LittleFeatureContent,
   Page,
-  ScreenView,
   MyCardMap,
   MyCardLink,
   MySideBarCard,
   MySideCardLink,
 } from "../../styles/default";
 import imgTest from "../../assets/icon.svg";
-import { Banner, MyView, GetContent } from "./styles";
+import { Banner, MyView } from "./styles";
 import Footer from "../../components/Footer";
-import HorizonScrollView from "../../components/HorizonScrollView";
 
 import api from "../../services/api";
 
@@ -162,7 +160,7 @@ useEffect(() => {
 
         <div style={{ display: "block" }}>
           <MyCardMap>
-            {featureds.map((featured) => {
+            {featureds.map((featured, index) => {
               let link = "/";
 
               switch (featured.postType) {
@@ -183,7 +181,7 @@ useEffect(() => {
               }
 
               return (
-                <MyCardLink>
+                <MyCardLink key={index}>
                   <Link to={link + featured.id}>
                     <NoticesCard
                       tag={featured.tag}
@@ -200,7 +198,7 @@ useEffect(() => {
           </MyCardMap>
 
           <MySideCardLink>
-          {postsSideBar.map((featured) => {
+          {postsSideBar.map((featured, index) => {
             let link = "/";
 
             switch (featured.postType) {
@@ -221,13 +219,14 @@ useEffect(() => {
             }
 
             return (
-              <Link to={link + featured.id}>
+              <Link to={link + featured.id} key={index}>
                 <MySideBarCard>
                   <img
                     src={featured.image}
                     onError={(image) => {
                       image.target.src = imgTest;
                     }}
+                    alt={"Imagen del destacado "+featured.title}
                   />
                   <span>{featured.title}</span>
                   <MdStar size={30} color="yellow" />

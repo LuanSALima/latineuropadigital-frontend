@@ -388,7 +388,7 @@ export const AppButton = styled.button`
         : "var(--color-freela-highPink)"};
   }
 `;
-export const Outline_Button = styled.button`
+export const OutlineButton = styled.button`
   background-color: transparent !important;
   border-color: ${(props) =>
     props.type === "success"

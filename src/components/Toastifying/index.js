@@ -1,5 +1,5 @@
 import React from "react";
-import Toast ,{ toast, ToastContainer } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 
 export const TOASTIFY_OPTIONS = {
   position: "top-right",

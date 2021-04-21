@@ -5,13 +5,11 @@ import { MyCardLink, MyFilteredOptions, MySideCardLink, Page, MyCardMap, MySideB
 import imgTest from "../../../assets/icon.svg";
 
 import api from "../../../services/api";
-import HorizonScrollView from "../../../components/HorizonScrollView";
 import Footer from "../../../components/Footer";
 import { MyScreenView } from "./styles";
 import { Link } from "react-router-dom";
 import Select from "react-select";
 import { MdFilterList } from "react-icons/md/index";
-import Stars from "../../../components/Stars";
 
 import Pagination from '../../../components/Pagination';
 import CardCarousel from '../../../components/CardCarousel';
@@ -20,13 +18,11 @@ import { MdStar } from 'react-icons/md';
 
 function EventList() {
 
-  const [eventsFeatured, setEventsFeatured] = useState([]);
-
   const [mostViewedAt, setMostViewedAt] = useState("daily");
   const [eventsMostViewed, setEventsMostViewed] = useState([]);
 
   const [events, setEvents] = useState([]);
-  const [tags, setTags] = useState([]);
+  //const [tags, setTags] = useState([]);
 
   const [actualPage, setActualPage] = useState(1);
   const [qntResults] = useState(10);
@@ -34,7 +30,7 @@ function EventList() {
  
   const [postsSideBar, setPostsSideBar] = useState([]);
   const [eventSideBar, setEventSideBar] = useState([]);
-
+  /*
   const listTags = async () => {
     try {
       const response = await api.get("events/tags");
@@ -42,6 +38,7 @@ function EventList() {
     } catch (error) {
     }
   }
+  */
    const listEvents = async () => {
     try {
 
@@ -74,33 +71,6 @@ function EventList() {
           
     }
   }
-
-  const listEventsCarousel = async () => {
-    try {
-      const response = await api.get("/event/list?results=5&views=" + mostViewedAt);
-
-      if (response.data.success) {
-        if (response.data.events) {
-          let eventsMostViewedDb = [];
-          for (let index in response.data.events) {
-            const event = response.data.events[index];
-            eventsMostViewedDb.push({
-              tag: event.tags,
-              id: event._id,
-              title: event.eventName,
-              subtitle: event.eventDescription,
-              image: `${process.env.REACT_APP_API_URL}` + event.imagePath,
-              icon: imgTest,
-              views: event.views,
-            });
-          }
-          setEventsMostViewed(eventsMostViewedDb);
-        }
-      }
-    } catch (error) {
-      setEventsMostViewed([]);
-    }
-  };
 
   const listEventsSideBar = async () => {
     try {
@@ -165,6 +135,34 @@ function EventList() {
   };
 
   useEffect(() => {
+
+    const listEventsCarousel = async () => {
+      try {
+        const response = await api.get("/event/list?results=5&views=" + mostViewedAt);
+
+        if (response.data.success) {
+          if (response.data.events) {
+            let eventsMostViewedDb = [];
+            for (let index in response.data.events) {
+              const event = response.data.events[index];
+              eventsMostViewedDb.push({
+                tag: event.tags,
+                id: event._id,
+                title: event.eventName,
+                subtitle: event.eventDescription,
+                image: `${process.env.REACT_APP_API_URL}` + event.imagePath,
+                icon: imgTest,
+                views: event.views,
+              });
+            }
+            setEventsMostViewed(eventsMostViewedDb);
+          }
+        }
+      } catch (error) {
+        setEventsMostViewed([]);
+      }
+    }
+
     listEventsCarousel();
   }, [mostViewedAt]);
 
@@ -172,7 +170,7 @@ function EventList() {
     listEvents();
   }, [actualPage]);
   useEffect(() => {
-    listTags();
+    //listTags();
     listSideBar();
     listEventsSideBar();
   }, []);
@@ -206,32 +204,31 @@ function EventList() {
 
 
         <div style={{display: 'block'}}>
-        <MyCardMap>
-        
-        {events.map((content) => {
-          return (
-            <MyCardLink>
-            <Link to={"/evento/" + content.id}>
-              <NoticesCard
-                id={content.id}
-                tag={content.tag}
-                icon={content.icon}
-                image={content.image}
-                title={content.title}
-                text={content.subtitle}
-                date={content.date}
-              />
-            </Link>
-            </MyCardLink>
 
-          );
-        })}
-        </MyCardMap>
+          <MyCardMap>
+            {events.map((content, index) => {
+              return (
+                <MyCardLink key={index}>
+                  <Link to={"/evento/" + content.id}>
+                    <NoticesCard
+                      id={content.id}
+                      tag={content.tag}
+                      icon={content.icon}
+                      image={content.image}
+                      title={content.title}
+                      text={content.subtitle}
+                      date={content.date}
+                    />
+                  </Link>
+                </MyCardLink>
 
+              );
+            })}
+          </MyCardMap>
 
-{/* Will enter the sidebar */}
+          {/* Will enter the sidebar */}
           <MySideCardLink>
-            {postsSideBar?.map((featured) => {
+            {postsSideBar.map((featured, index) => {
               let link = "/";
 
               switch(featured.postType) {
@@ -252,19 +249,20 @@ function EventList() {
               }
 
               return (
-                <Link to={link+featured.id}>
-                  <MySideBarCard >
-                    <img  src={featured.image} onError={(image) => {image.target.src = imgTest}}/>
+                <Link to={link+featured.id} key={index}>
+                  <MySideBarCard>
+                    <img src={featured.image} onError={(image) => {image.target.src = imgTest}} alt={"Imagen del destacado "+featured.title}/>
                     <span >{featured.title}</span><MdStar size={30} color="yellow"/>
                   </MySideBarCard>
                 </Link>
               );
             })}
-            {eventSideBar.map((event) => {
+
+            {eventSideBar.map((event, index) => {
               return (
-                <Link to={"/evento/" + event.id}>
-                  <MySideBarCard >
-                    <img  src={event.image} onError={(image) => {image.target.src = imgTest}}/>
+                <Link to={"/evento/" + event.id} key={index}>
+                  <MySideBarCard>
+                    <img src={event.image} onError={(image) => {image.target.src = imgTest}} alt={"Imagen del evento "+event.title}/>
                     <span>{event.title.length > 20?event.title.substr(0,20)+"...":event.title}</span>
                   </MySideBarCard>
                 </Link>
@@ -273,7 +271,12 @@ function EventList() {
           </MySideCardLink>
 
         </div>
-        <Pagination totalResults={totalEvents} resultsPerPage={30} actualPage={actualPage} changePage={setActualPage}/>
+        <Pagination 
+          totalResults={totalEvents}
+          resultsPerPage={qntResults}
+          actualPage={actualPage}
+          changePage={setActualPage}
+        />
 
         </MyScreenView>
         <Footer/>

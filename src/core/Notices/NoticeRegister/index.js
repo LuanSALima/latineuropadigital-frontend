@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
 import Header from '../../../components/Header';
-import { AppButton, ContentView, Form, Outline_Button, Page } from '../../../styles/default';
+import { AppButton, ContentView, Form, OutlineButton, Page } from '../../../styles/default';
 import Footer from '../../../components/Footer';
 import api from '../../../services/api';
 import Select from 'react-select';
@@ -58,9 +58,9 @@ function NoticeRegister() {
       formData.append('content', content);
       formData.append('link',link)
       formData.append('image', image);
-      tags.map((tag) => {
+      for(const tag of tags) {
         formData.append('tags', tag);
-      })
+      }
       
       try {
         await api.post("/notice/create", formData);
@@ -129,7 +129,7 @@ function NoticeRegister() {
           value={content}
         />
         <div>
-        <label for="uploadPhoto" className="btn-cta">
+        <label htmlFor="uploadPhoto" className="btn-cta">
           {image?.name?image?.name:"Haga clic aquí para agregar una imagen"}
         <MdFileUpload style={!useMyForm(image) && !firstRender?{backgroundColor: '#f9b3b3'}:{}} />
         </label>
@@ -143,7 +143,7 @@ function NoticeRegister() {
             }
           }}
         />
-       { image && <img src={previewImage}/>}
+       { image && <img src={previewImage} alt="Imagen para previsualizar la imagen que se registrará"/>}
        </div>
         <span>Por favor, inserte "http: //" o "https: //" antes de su enlace.</span>
         <input style={!verifyLink(link) && !firstRender?{backgroundColor: '#f9b3b3'}:{}} type="text" placeholder="Link" onChange={(e)=>{setLink(e.target.value)}} value={link} />
@@ -160,7 +160,7 @@ function NoticeRegister() {
          placeholder={"Seleccionar Etiquetas"}
         />
         </fieldset>
-        <Outline_Button type="success" onClick={handleChangeTags}>Añadir Etiqueta</Outline_Button>
+        <OutlineButton type="success" onClick={handleChangeTags}>Añadir Etiqueta</OutlineButton>
 
         <AppButton onClick={handleNoticeRegister}>Registrar</AppButton>
       </ContentView>

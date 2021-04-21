@@ -85,15 +85,15 @@ function NoticesCard(props) {
     
     <Container>      
         {props.image?<Image>
-        <img onError={handleImageError} src={props.image}/>
+        <img onError={handleImageError} src={props.image} alt={"Imagen de "+props.title}/>
         </Image>:null}
         <Description>
             <Title>
-                {/* {props.icon?<img src={props.icon}/>:null} */}
+                {/* {props.icon?<img src={props.icon} alt={"Icone de "+props.title}/>:null} */}
                 <div>
                 {props.tag?
-                props.tag.map((tag) => {
-                  return   <Tag><span >{tag}</span> </Tag>
+                props.tag.map((tag, index) => {
+                  return <Tag key={index}><span>{tag}</span> </Tag>
                 })
                 :
                 null
@@ -113,8 +113,8 @@ function NoticesCard(props) {
               }
             </Title>
             {props.text?
-              formatText(props.text).split('\n').map((text) => {
-                  return <span>{text} <br/></span>
+              formatText(props.text).split('\n').map((text, index) => {
+                  return <span key={index}>{text} <br/></span>
               })
             :
             <span>
