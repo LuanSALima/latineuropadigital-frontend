@@ -36,7 +36,7 @@ function CourseDetails(props) {
           }
         }
       } catch (error) {
-        setErrors({message: "Não foi possível encontrar este Courseo"});
+        setErrors({message: "Este curso no se pudo encontrar"});
         if(error.message) {
           setErrors({message: error.message});
         }
@@ -84,21 +84,21 @@ function CourseDetails(props) {
       if(featured) {
         const response = await api.delete("/featured/"+featured._id);
         if(response.data.success) {
-          toast.success("Removido dos destaques com sucesso", TOASTIFY_OPTIONS);
+          toast.success("Eliminado con éxito de lo más destacado", TOASTIFY_OPTIONS);
           
           setFeatured(null);
         }
       } else {
         const response = await api.post("/featured/create", {post: course._id, postType: 'Course'});
         if(response.data.success) {
-          toast.success("Adicionado aos destaques com sucesso", TOASTIFY_OPTIONS);
+          toast.success("Agregado con éxito a los aspectos más destacados", TOASTIFY_OPTIONS);
           if(response.data.featured) {
             setFeatured(response.data.featured);
           }
         }
       }
     } catch (error) {
-      toast.error("Não foi Possível Adicionar aos Destaques",TOASTIFY_OPTIONS)
+      toast.error("No se pudo agregar a lo más destacado",TOASTIFY_OPTIONS)
     }
   }
   return (
