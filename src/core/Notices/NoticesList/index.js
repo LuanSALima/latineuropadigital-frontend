@@ -23,6 +23,8 @@ import CardCarousel from "../../../components/CardCarousel";
 
 import { MdStar } from "react-icons/md";
 
+import SideBar from "../../../components/SideBar";
+
 function NoticesList() {
 
   const [mostViewedAt, setMostViewedAt] = useState("daily");
@@ -237,7 +239,7 @@ function NoticesList() {
           </MyCardMap>
 
           <MySideCardLink>
-            {postsSideBar.map((featured, index) => {
+            {/*postsSideBar.map((featured, index) => {
               let link = "/";
 
               switch (featured.postType) {
@@ -272,7 +274,9 @@ function NoticesList() {
                   </MySideBarCard>
                 </Link>
               );
-            })}
+            })*/}
+            <SideBar items={postsSideBar}/>
+
             {noticesSideBar.map((notice, index) => {
               return (
                 <Link to={"/noticia/" + notice.id} key={index}>
