@@ -125,6 +125,8 @@ function OpportunitieList(props) {
                <MyCheckBoxList key={index}>
                 <input
                   type='checkbox'
+                  id={index}
+                  name={index}
                   onChange={(e) => {
                     const index = jobTypesSearched.indexOf(type);
                     if(index === -1) {
