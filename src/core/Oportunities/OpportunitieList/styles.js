@@ -12,8 +12,8 @@ export const MyCheckBoxList = styled.div`
   > input {
     float: left;
     cursor: pointer;
-    width: auto;
-    min-height:15px;
+    width: 16px !important;
+    min-height:18px;
     margin: 0 !important ;
     :focus{
     box-shadow: 0px 0px 0px 0px white !important; 
@@ -21,7 +21,8 @@ export const MyCheckBoxList = styled.div`
     }
   }
   > label {
-    margin: 0;
+    margin: 0 !important;
+    margin-left:1rem !important;
     float: left;
     cursor: pointer;
     font-size: 18px;

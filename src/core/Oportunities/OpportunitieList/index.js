@@ -122,7 +122,7 @@ function OpportunitieList(props) {
           <MySideCardLink style={{marginTop:"6.7rem"}}>
           {jobTypes.map((type, index) => {
             return (
-               <MyCheckBoxList key={index}>
+               <MyCheckBoxList key={index} htmlFor={index}>
                 <input
                   type='checkbox'
                   id={index}
@@ -138,7 +138,7 @@ function OpportunitieList(props) {
                     }
                   }}
                 />
-                <label>{type}</label>
+                <label htmlFor={index}>{type}</label>
                </MyCheckBoxList>
 
             )
