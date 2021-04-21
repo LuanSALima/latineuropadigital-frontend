@@ -93,7 +93,9 @@ function NoticesCard(props) {
                 <div>
                 {props.tag?
                 props.tag.map((tag, index) => {
-                  return <Tag key={index}><span>{tag}</span> </Tag>
+                  if(index <4){
+                    return <Tag key={index}><span>{tag}</span> </Tag>
+                  }
                 })
                 :
                 null
@@ -127,7 +129,7 @@ function NoticesCard(props) {
               {props.date?
                 <span>{date(props.date)}</span>
                 :
-                <span>data não passada</span>
+                <span>fecha no pasada</span>
               }
             </Time>
         </Description>

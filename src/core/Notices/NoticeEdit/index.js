@@ -78,7 +78,7 @@ function NoticeEdit(props) {
           }
         }
       } catch (error) {
-        setErrors({message: "Não foi possível carregar as Notícia"});
+        setErrors({message: "No puede cargar as Notícia"});
         if(error.response) {
           if(error.response.data) {
             if(error.response.data.message) {

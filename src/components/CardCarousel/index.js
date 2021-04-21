@@ -36,7 +36,7 @@ function CardCarousel(props) {
 		            }
 	        	}
 				return (
-					<Carousel.Item interval={20000} key={index}>
+					<Carousel.Item interval={3500} key={index}>
 						<Link to={link+"/"+content.id} >
 							<img
 							  className="d-block myImage"

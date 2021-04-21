@@ -57,7 +57,7 @@ function NoticesDetails(props) {
         history.push("/dashboard");
       }, 1500);
     } catch (error) {
-      toast.error("Não foi Possível Remover", TOASTIFY_OPTIONS);
+      toast.error("No se pudo eliminar", TOASTIFY_OPTIONS);
     }
   };
 
@@ -76,7 +76,7 @@ function NoticesDetails(props) {
       if (featured) {
         const response = await api.delete("/featured/" + featured._id);
         if (response.data.success) {
-          toast.success("Removido dos destaques com sucesso", TOASTIFY_OPTIONS);
+          toast.success("Eliminado con éxito de lo más destacado", TOASTIFY_OPTIONS);
 
           setFeatured(null);
         }
@@ -87,7 +87,7 @@ function NoticesDetails(props) {
         });
         if (response.data.success) {
           toast.success(
-            "Adicionado aos destaques com sucesso",
+            "Agregado con éxito a los aspectos más destacados",
             TOASTIFY_OPTIONS
           );
           if (response.data.featured) {
@@ -96,7 +96,7 @@ function NoticesDetails(props) {
         }
       }
     } catch (error) {
-      toast.error("Não foi Possível Adicionar aos Destaques", TOASTIFY_OPTIONS);
+      toast.error("No se pudo agregar a lo más destacado", TOASTIFY_OPTIONS);
     }
   };
 

@@ -48,7 +48,7 @@ function OpportunitieDetails(props) {
       }, 1500);
     
     } catch (error) {
-        toast.error("Não foi possível remover" , TOASTIFY_OPTIONS)
+        toast.error("No se pudo eliminar" , TOASTIFY_OPTIONS)
      
     }
   }

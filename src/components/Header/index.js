@@ -68,14 +68,14 @@ function Header() {
           </NavDropdown>
       
           <NavDropdown className="headerLinks texts" title="DIRECTORIO">
-            <Link to="/diretorios" className="dropdown-item">Lista de Directorios Aceitos</Link>
-            <Link to="/diretorios-pendentes" className="dropdown-item">Lista de Directorios Pendentes</Link>
+            <Link to="/diretorios" className="dropdown-item">Lista de Directorios Aceptado</Link>
+            <Link to="/diretorios-Pendiente" className="dropdown-item">Lista de Directorios Pendiente</Link>
             <Link to="/diretorio/anunciar" className="dropdown-item">Anunciar Directorio</Link>
           </NavDropdown>
 
           <NavDropdown className="headerLinks texts" title="AGENDA">
-            <Link to="/eventos" className="dropdown-item">Lista de Eventos Aceitos</Link>
-            <Link to="/eventos-pendentes" className="dropdown-item">Lista de Eventos Pendentes</Link>
+            <Link to="/eventos" className="dropdown-item">Lista de Eventos Aceptado</Link>
+            <Link to="/eventos-Pendiente" className="dropdown-item">Lista de Eventos Pendiente</Link>
             <Link to="/evento/anunciar" className="dropdown-item">Anunciar Eventos</Link>
           </NavDropdown>
 
@@ -85,7 +85,7 @@ function Header() {
           </NavDropdown>
           <NavDropdown className="headerLinks texts" title="OPORTUNIDADES">
             <Link to="/oportunidades" className="dropdown-item">Lista de Aceitas</Link>
-            <Link to="/oportunidades-pendentes" className="dropdown-item">Lista de Pendentes</Link>
+            <Link to="/oportunidades-Pendiente" className="dropdown-item">Lista de Pendiente</Link>
             <Link to="/job/cadastrar" className="dropdown-item">Anunciar</Link>
           </NavDropdown>
           </Nav>

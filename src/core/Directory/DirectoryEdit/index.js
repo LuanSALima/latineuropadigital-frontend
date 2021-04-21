@@ -399,8 +399,8 @@ function DirectoryEdit(props) {
             <label>Status</label>
             <fieldset>
               <select style={!useMyForm(status) && !firstRender?{backgroundColor: '#f9b3b3'}:{}} value={status} onChange={(e) => {setStatus(e.target.value)}}>
-                <option value="pendent">Pendente</option>
-                <option value="accepted">Aceita</option>
+                <option value="pendent">Pendiente</option>
+                <option value="accepted">Aceptado</option>
               </select>
             </fieldset>
           </FormGroup>
