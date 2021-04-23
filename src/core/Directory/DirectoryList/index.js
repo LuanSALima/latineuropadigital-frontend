@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Header from "../../../components/Header";
 import NoticesCard from "../../../components/NoticesCard";
-import { MyCardLink, MyFilteredOptions, MySideCardLink, Page, MyCardMap, MySideBarCard } from "../../../styles/default";
+import { MyCardLink, MyFilteredOptions, MySideCardLink, Page, MyCardMap } from "../../../styles/default";
 import imgTest from "../../../assets/icon.svg";
 
 import api from "../../../services/api";
@@ -14,7 +14,7 @@ import { MdFilterList } from "react-icons/md/index";
 import Pagination from '../../../components/Pagination';
 import CardCarousel from '../../../components/CardCarousel';
 
-import { MdStar } from 'react-icons/md';
+import SideBar from "../../../components/SideBar";
 
 function DirectoryList() {
 
@@ -42,7 +42,7 @@ function DirectoryList() {
 
   const listDirectoriesSideBar = async () => {
     try {
-      const response = await api.get("/directory/list?results=2&views=weekly");
+      const response = await api.get("/directory/list?results=100&views=weekly");
 
       if (response.data.success) {
         if (response.data.directories) {
@@ -69,7 +69,7 @@ function DirectoryList() {
 
   const listSideBar = async () => {
     try {
-      const response = await api.get("/featured/list?type=directory&results=3");
+      const response = await api.get("/featured/list?type=directory&results=100");
 
       if (response.data.success) {
         if (response.data.featureds) {
@@ -91,7 +91,8 @@ function DirectoryList() {
               id: featuredPost._id,
               title: postTitle,
               image: `${process.env.REACT_APP_API_URL}` + featuredPost.imagePath,
-              postType: response.data.featureds[index].postType
+              postType: response.data.featureds[index].postType,
+              prioritized: response.data.featureds[index].prioritized
             });
           }
           setPostsSideBar(postsSideBarDB);
@@ -227,49 +228,19 @@ function DirectoryList() {
 
             {/* Will enter the sidebar */}
             <MySideCardLink>
-              {postsSideBar?.map((featured, index) => {
-                let link = "/";
 
-                switch(featured.postType) {
-                  case 'Notice':
-                    link = "/diretorio/";
-                    break;
-                  case 'Directory':
-                    link = "/diretorio/";
-                    break;
-                  case 'Event':
-                    link = "/evento/";
-                    break;
-                  case 'Course':
-                    link = "/curso/";
-                    break;
-                  default:
-                    break;
-                }
+              <SideBar items={postsSideBar} qntPosts={4} interval={5000} />
+            
+              <SideBar items={directorySideBar} link={'/diretorio/'} qntPosts={4} interval={5000} />
 
-                return (
-                  <Link to={link+featured.id} key={index}>
-                    <MySideBarCard >
-                      <img src={featured.image} onError={(image) => {image.target.src = imgTest}} alt={"Imagen del destacado "+featured.title}/>
-                      <span >{featured.title}</span><MdStar size={30} color="yellow"/>
-                    </MySideBarCard>
-                  </Link>
-                );
-              })}
-
-              {directorySideBar.map((directory, index) => {
-                return (
-                  <Link to={"/diretorio/" + directory.id} key={index}>
-                    <MySideBarCard >
-                      <img src={directory.image} onError={(image) => {image.target.src = imgTest}} alt={"Imagen de "+directory.title}/>
-                      <span>{directory.title.length > 20?directory.title.substr(0,20)+"...":directory.title}</span>
-                    </MySideBarCard>
-                  </Link>
-                );
-              })} 
             </MySideCardLink>
           </div> 
-          <Pagination totalResults={totalDirectories} resultsPerPage={30} actualPage={actualPage} changePage={setActualPage}/>
+          <Pagination 
+            totalResults={totalDirectories}
+            resultsPerPage={30}
+            actualPage={actualPage}
+            changePage={setActualPage}
+          />
 
         </MyScreenView>
         <Footer/>

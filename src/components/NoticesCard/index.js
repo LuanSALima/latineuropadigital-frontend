@@ -93,8 +93,10 @@ function NoticesCard(props) {
                 <div>
                 {props.tag?
                 props.tag.map((tag, index) => {
-                  if(index <4){
-                    return <Tag key={index}><span>{tag}</span> </Tag>
+                  if(index < 4){
+                    return <Tag key={index}><span>{tag}</span></Tag>
+                  } else {
+                    return <></>
                   }
                 })
                 :

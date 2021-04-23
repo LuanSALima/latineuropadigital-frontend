@@ -7,7 +7,6 @@ import {
   MySideCardLink,
   Page,
   MyCardMap,
-  MySideBarCard,
 } from "../../../styles/default";
 import imgTest from "../../../assets/icon.svg";
 
@@ -20,8 +19,6 @@ import { MdFilterList } from "react-icons/md/index";
 
 import Pagination from "../../../components/Pagination";
 import CardCarousel from "../../../components/CardCarousel";
-
-import { MdStar } from "react-icons/md";
 
 import SideBar from "../../../components/SideBar";
 
@@ -50,7 +47,7 @@ function NoticesList() {
   
   const listNoticesSideBar = async () => {
     try {
-      const response = await api.get("/notice/list?results=2&views=weekly");
+      const response = await api.get("/notice/list?results=100&views=weekly");
 
       if (response.data.success) {
         if (response.data.notices) {
@@ -77,7 +74,7 @@ function NoticesList() {
 
   const listSideBar = async () => {
     try {
-      const response = await api.get("/featured/list?type=notice&results=10");
+      const response = await api.get("/featured/list?type=notice&results=100");
 
       if (response.data.success) {
         if (response.data.featureds) {
@@ -101,6 +98,7 @@ function NoticesList() {
               image:
                 `${process.env.REACT_APP_API_URL}` + featuredPost.imagePath,
               postType: response.data.featureds[index].postType,
+              prioritized: response.data.featureds[index].prioritized
             });
           }
           setPostsSideBar(postsSideBarDB);
@@ -239,63 +237,11 @@ function NoticesList() {
           </MyCardMap>
 
           <MySideCardLink>
-            {/*postsSideBar.map((featured, index) => {
-              let link = "/";
-
-              switch (featured.postType) {
-                case "Notice":
-                  link = "/noticia/";
-                  break;
-                case "Directory":
-                  link = "/diretorio/";
-                  break;
-                case "Event":
-                  link = "/evento/";
-                  break;
-                case "Course":
-                  link = "/curso/";
-                  break;
-                default:
-                  break;
-              }
-
-              return (
-                <Link to={link + featured.id} key={index}>
-                  <MySideBarCard>
-                    <img
-                      src={featured.image}
-                      onError={(image) => {
-                        image.target.src = imgTest;
-                      }}
-                      alt={"Imagen del destacado "+featured.title}
-                    />
-                    <span>{featured.title}</span>
-                    <MdStar size={30} color="yellow" />
-                  </MySideBarCard>
-                </Link>
-              );
-            })*/}
+          
             <SideBar items={postsSideBar} qntPosts={4} interval={5000} />
             
             <SideBar items={noticesSideBar} link={'/noticia/'} qntPosts={4} interval={5000} />
-            {/*
-            {noticesSideBar.map((notice, index) => {
-              return (
-                <Link to={"/noticia/" + notice.id} key={index}>
-                  <MySideBarCard>
-                    <img
-                      src={notice.image}
-                      onError={(image) => {
-                        image.target.src = imgTest;
-                      }}
-                      alt={"Imagen del actualidad "+notice.title}
-                    />
-                    <span>{notice.title}</span>
-                  </MySideBarCard>
-                </Link>
-              );
-            })}
-            */}
+            
           </MySideCardLink>
         </div>
 

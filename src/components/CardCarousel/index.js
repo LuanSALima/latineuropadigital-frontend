@@ -12,7 +12,7 @@ function CardCarousel(props) {
 	};
 
 	if(props.items.length)return (
-		<Carousel className="navbar  myCarrousel">
+		<Carousel className="navbar myCarrousel" slide={true} fade={false}>
 			{props.items.map((content, index) => {
 
 				let link = props.route;
@@ -45,6 +45,7 @@ function CardCarousel(props) {
 							  alt="First slide"
 							 
 							/>
+
 							{/* Alexandre does not wanna get caption here */}
 							{/* <Carousel.Caption>
 							  <div style={{ padding:"1.4rem 0.7rem",backgroundColor:"rgba(0, 0, 0, 0.35)",overflowWrap: "break-word",maxWidth:"250px !important",margin:"0 auto",borderRadius:"0.5rem"}}>

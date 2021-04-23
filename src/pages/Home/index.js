@@ -7,7 +7,6 @@ import {
   Page,
   MyCardMap,
   MyCardLink,
-  MySideBarCard,
   MySideCardLink,
 } from "../../styles/default";
 import imgTest from "../../assets/icon.svg";
@@ -19,8 +18,9 @@ import api from "../../services/api";
 import { Link } from "react-router-dom";
 import { MyScreenView } from "../../core/Notices/NoticesList/styles";
 import CardCarousel from "../../components/CardCarousel";
-import { MdStar } from "react-icons/md";
 import { getToken } from "../../services/auth";
+
+import SideBar from "../../components/SideBar";
 
 function Notices() {
   const [featureds, setFeatureds] = useState([]);
@@ -94,7 +94,7 @@ useEffect(() => {
 
   const listSideBar = async () => {
     try {
-      const response = await api.get("/featured/list?results=5");
+      const response = await api.get("/featured/list?results=100");
 
       if (response.data.success) {
         if (response.data.featureds) {
@@ -116,7 +116,8 @@ useEffect(() => {
               id: featuredPost._id,
               title: postTitle,
               image: `${process.env.REACT_APP_API_URL}` + featuredPost.imagePath,
-              postType: response.data.featureds[index].postType
+              postType: response.data.featureds[index].postType,
+              prioritized: response.data.featureds[index].prioritized
             });
           }
           setPostsSideBar(postsSideBarDB);
@@ -198,43 +199,10 @@ useEffect(() => {
           </MyCardMap>
 
           <MySideCardLink>
-          {postsSideBar.map((featured, index) => {
-            let link = "/";
-
-            switch (featured.postType) {
-              case "Notice":
-                link = "/noticia/";
-                break;
-              case "Directory":
-                link = "/diretorio/";
-                break;
-              case "Event":
-                link = "/evento/";
-                break;
-              case "Course":
-                link = "/curso/";
-                break;
-              default:
-                break;
-            }
-
-            return (
-              <Link to={link + featured.id} key={index}>
-                <MySideBarCard>
-                  <img
-                    src={featured.image}
-                    onError={(image) => {
-                      image.target.src = imgTest;
-                    }}
-                    alt={"Imagen del destacado "+featured.title}
-                  />
-                  <span>{featured.title}</span>
-                  <MdStar size={30} color="yellow" />
-                </MySideBarCard>
-              </Link>
-            );
-          })}
-        </MySideCardLink>
+          
+            <SideBar items={postsSideBar} qntPosts={4} interval={5000} />
+            
+          </MySideCardLink>
         </div>
       </MyScreenView>
       <Footer />

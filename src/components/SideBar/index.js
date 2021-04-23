@@ -4,6 +4,8 @@ import { MySideBarCard } from "../../styles/default";
 import { Link } from "react-router-dom";
 import imgTest from "../../assets/icon.svg";
 
+import { MdStar } from 'react-icons/md';
+
 function SideBar(props) {
 
 	const [allPosts, setAllPosts] = useState([]);
@@ -59,7 +61,7 @@ function SideBar(props) {
 				}
 			}
 		}
-	}, [allPosts]);
+	}, [allPosts, props.interval, props.qntPosts]);
 
 	return (
 		postsShowing.map((post, index) => {
@@ -93,6 +95,14 @@ function SideBar(props) {
                       alt={"Imagen del post "+post.title}
                     />
                     <span>{post.title}</span>
+                    {post.postType?
+                    	post.prioritized === 'true'?
+                    	<MdStar size={30} color="#e03b07" />
+                    	:
+						<MdStar size={30} color="yellow" />
+                    :
+                    null
+                    }
                   </MySideBarCard>
                 </Link>
             );
