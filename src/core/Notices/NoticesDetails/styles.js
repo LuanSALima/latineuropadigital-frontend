@@ -27,7 +27,6 @@ import styled from "styled-components";
     padding-left: 0;
     line-height: 1.75rem;
     overflow-wrap:break-word;
-    line-break:anywhere !important;
     }
     //content of file
     >p{

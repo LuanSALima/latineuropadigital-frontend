@@ -158,7 +158,7 @@ function DirectoryDetails(props) {
               
             </DetailsColumn>
             {/* Final Part */}
-            <DetailsColumn align="end" style={{borderLeft: '1px solid var(--color-freela-hover)'}}>
+            <DetailsColumn align="end">
 
               <DetailsItem>
                 <p>Nombre de contacto:</p>
