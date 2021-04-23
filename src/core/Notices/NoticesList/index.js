@@ -77,7 +77,7 @@ function NoticesList() {
 
   const listSideBar = async () => {
     try {
-      const response = await api.get("/featured/list?type=notice&results=3");
+      const response = await api.get("/featured/list?type=notice&results=10");
 
       if (response.data.success) {
         if (response.data.featureds) {
@@ -275,8 +275,10 @@ function NoticesList() {
                 </Link>
               );
             })*/}
-            <SideBar items={postsSideBar}/>
-
+            <SideBar items={postsSideBar} qntPosts={4} interval={5000} />
+            
+            <SideBar items={noticesSideBar} link={'/noticia/'} qntPosts={4} interval={5000} />
+            {/*
             {noticesSideBar.map((notice, index) => {
               return (
                 <Link to={"/noticia/" + notice.id} key={index}>
@@ -293,6 +295,7 @@ function NoticesList() {
                 </Link>
               );
             })}
+            */}
           </MySideCardLink>
         </div>
 
