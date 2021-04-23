@@ -421,6 +421,10 @@ export const OutlineButton = styled.button`
 
     color: white !important;
   }
+
+  @media (max-width: 1000px) {
+    width: 80%;
+  }
 `;
 
 export const ProgressBar = styled.div`
@@ -496,6 +500,10 @@ export const DetailsBlock = styled.div`
   display: flex;
   padding: 0px 10px;
   height: fit-content;
+
+  @media (max-width: 1000px) {
+    display: unset;
+  }
 `;
 
 export const DetailsColumn = styled.div`
@@ -504,6 +512,25 @@ export const DetailsColumn = styled.div`
   flex-direction:column;
   float: left;
   justify-items:start;
+
+  ${(props) => 
+    props.align === 'end' ?
+    "border-left: 1px solid var(--color-freela-hover);"
+    :
+    ""
+  }
+
+  @media (max-width: 1000px) {
+    width: 100%;
+    float: none;
+
+    ${(props) => 
+      props.align === 'end' ?
+      "border-left: none;"
+      :
+      ""
+    }
+  }
 `;
 
 export const DetailsItem = styled.div`
@@ -525,11 +552,11 @@ export const DetailsItem = styled.div`
 `;
 
 export const RelativeDetailsBlock = styled.div`
-  display: inline-grid;
-  width: 49% !important;
+  width:auto !important;
   height: fit-content;
   position: relative;
   z-index: 10;
+  margin:0 auto;
 
   button {
     width: 50%;
@@ -538,5 +565,9 @@ export const RelativeDetailsBlock = styled.div`
     border-radius: 0.3rem;
     cursor: pointer;
     font-size: var(--font-size-text);
+
+    @media (max-width: 1000px) {
+      width: 70%;
+    }
   }
 `;

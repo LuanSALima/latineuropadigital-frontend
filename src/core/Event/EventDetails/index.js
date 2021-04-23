@@ -152,7 +152,7 @@ function EventDetails(props) {
               </DetailsItem>
 
             </DetailsColumn>
-            <DetailsColumn align="end" style={{borderLeft: '1px solid black'}}>
+            <DetailsColumn align="end">
 
               <DetailsItem>
                 <p>Nombre de contacto:</p>

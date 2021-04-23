@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Header from "../../../components/Header";
 import NoticesCard from "../../../components/NoticesCard";
-import { MyCardLink, MyFilteredOptions, MySideCardLink, Page, MyCardMap, MySideBarCard } from "../../../styles/default";
+import { MyCardLink, MyFilteredOptions, MySideCardLink, Page, MyCardMap } from "../../../styles/default";
 import imgTest from "../../../assets/icon.svg";
 
 import api from "../../../services/api";
@@ -14,7 +14,7 @@ import { MdFilterList } from "react-icons/md/index";
 import Pagination from '../../../components/Pagination';
 import CardCarousel from '../../../components/CardCarousel';
 
-import { MdStar } from 'react-icons/md';
+import SideBar from "../../../components/SideBar";
 
 function CourseList() {
 
@@ -74,7 +74,7 @@ function CourseList() {
 
   const listCoursesSideBar = async () => {
     try {
-      const response = await api.get("/course/list?results=2&views=weekly");
+      const response = await api.get("/course/list?results=100&views=weekly");
 
       if (response.data.success) {
         if (response.data.courses) {
@@ -101,7 +101,7 @@ function CourseList() {
 
   const listSideBar = async () => {
     try {
-      const response = await api.get("/featured/list?type=course&results=3");
+      const response = await api.get("/featured/list?type=course&results=100");
 
       if (response.data.success) {
         if (response.data.featureds) {
@@ -123,7 +123,8 @@ function CourseList() {
               id: featuredPost._id,
               title: postTitle,
               image: `${process.env.REACT_APP_API_URL}` + featuredPost.imagePath,
-              postType: response.data.featureds[index].postType
+              postType: response.data.featureds[index].postType,
+              prioritized: response.data.featureds[index].prioritized
             });
           }
           setPostsSideBar(postsSideBarDB);
@@ -229,45 +230,11 @@ function CourseList() {
 
           {/* Will enter the sidebar */}
           <MySideCardLink>
-            {postsSideBar.map((featured, index) => {
-              let link = "/";
 
-              switch(featured.postType) {
-                case 'Notice':
-                  link = "/noticia/";
-                  break;
-                case 'Directory':
-                  link = "/diretorio/";
-                  break;
-                case 'Event':
-                  link = "/courseo/";
-                  break;
-                case 'Course':
-                  link = "/curso/";
-                  break;
-                default:
-                  break;
-              }
+            <SideBar items={postsSideBar} qntPosts={4} interval={5000} />
+            
+            <SideBar items={courseSideBar} link={'/curso/'} qntPosts={4} interval={5000} />
 
-              return (
-                <Link to={link+featured.id} key={index}>
-                  <MySideBarCard>
-                    <img src={featured.image} onError={(image) => {image.target.src = imgTest}} alt={"Imagen del destacado "+featured.title}/>
-                    <span >{featured.title}</span><MdStar size={30} color="yellow"/>
-                  </MySideBarCard>
-                </Link>
-              );
-            })}
-            {courseSideBar.map((course, index) => {
-              return (
-                <Link to={"/curso/" + course.id} key={index}>
-                  <MySideBarCard>
-                    <img src={course.image} onError={(image) => {image.target.src = imgTest}} alt={"Imagen del curso "+course.title}/>
-                    <span >{course.title.length > 20?course.title.substr(0,20)+"...":course.title}</span>
-                  </MySideBarCard>
-                </Link>
-              );
-            })} 
           </MySideCardLink>
 
 
