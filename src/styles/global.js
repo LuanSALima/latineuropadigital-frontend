@@ -33,6 +33,21 @@ width: 100%;
 /* overflow-x:hidden; */
 }
 
+label,span,h1,h2,h3,h4,h5,h6{
+  line-break: normal !important;
+}
+
+@media(max-width:1000px){
+  h1{
+    font-size:45px !important;
+  }
+}
+@media(max-width:600px){
+  h1{
+    font-size:38px !important;
+  }
+}
+
 *, button, input,textarea {
 border: 0;
 background: none;
