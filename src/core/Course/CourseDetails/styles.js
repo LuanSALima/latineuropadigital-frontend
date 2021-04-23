@@ -20,7 +20,6 @@ import styled from "styled-components";
         margin:0 auto;
         padding:1rem;
         overflow-wrap:break-word;
-    line-break:anywhere;
     }
     //subtitle / content title of the item
     >h4{
@@ -28,7 +27,7 @@ import styled from "styled-components";
     padding-left: 0;
     line-height: 1.75rem;
     overflow-wrap:break-word;
-    line-break:anywhere;
+    line-break:anywhere !important;
     }
     //content of file
     >p{
@@ -42,7 +41,7 @@ import styled from "styled-components";
     font-size: 22px !important;
     font: inherit;
     overflow-wrap:break-word;
-    line-break:anywhere;
+    line-break:anywhere !important;
 }
     }
   >div{

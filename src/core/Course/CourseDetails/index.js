@@ -107,7 +107,6 @@ function CourseDetails(props) {
       <MyScreenView>
         <Content>
             <h2 style={{color: 'red'}}>{errors.message}</h2>
-            
             {isAuthenticated() === true ? (
               <Stars isFeature={featured} onClick={updateFeatured} />
             ) : null}
@@ -127,7 +126,6 @@ function CourseDetails(props) {
             :
             <></>
           }
-
             <hr></hr>
 
             {course.content?

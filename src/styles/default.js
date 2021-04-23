@@ -525,11 +525,11 @@ export const DetailsItem = styled.div`
 `;
 
 export const RelativeDetailsBlock = styled.div`
-  display: inline-grid;
-  width: 49% !important;
+  width:auto !important;
   height: fit-content;
   position: relative;
   z-index: 10;
+  margin:0 auto;
 
   button {
     width: 50%;
