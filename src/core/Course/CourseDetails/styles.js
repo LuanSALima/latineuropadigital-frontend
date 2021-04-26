@@ -40,7 +40,7 @@ import styled from "styled-components";
     font-size: 22px !important;
     font: inherit;
     overflow-wrap:break-word;
-    line-break:anywhere !important;
+    
 }
     }
   >div{
