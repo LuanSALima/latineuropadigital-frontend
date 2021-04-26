@@ -31,7 +31,7 @@ export const Content = styled.main`
     padding-left: 0;
     line-height: 1.75rem;
     overflow-wrap:break-word;
-    line-break:anywhere !important;
+    
     }
     //content of file
     >p{
@@ -45,7 +45,7 @@ export const Content = styled.main`
     font-size: 22px !important;
     font: inherit;
     overflow-wrap:break-word;
-    line-break:anywhere !important;
+    
 }
     }
   >div{

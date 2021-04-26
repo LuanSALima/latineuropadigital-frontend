@@ -60,7 +60,7 @@ export const Description = styled.div`
     padding:0.2rem;
     overflow-wrap:break-word;
     color: var(--color-freela-text);
-    line-break:anywhere !important;
+    
     overflow-wrap:break-word;
     }
 
@@ -93,7 +93,7 @@ flex-direction:column;
     font-weight:630;
     padding:0.2rem;
     color: var(--color-freela-pink);
-    line-break:anywhere !important;
+    
     overflow-wrap:break-word;
 }
 @media(max-width:650px){
