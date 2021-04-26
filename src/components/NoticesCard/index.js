@@ -92,12 +92,8 @@ function NoticesCard(props) {
                 {/* {props.icon?<img src={props.icon} alt={"Icone de "+props.title}/>:null} */}
                 <div>
                 {props.tag?
-                props.tag.map((tag, index) => {
-                  if(index < 4){
-                    return <Tag key={index}><span>{tag}</span></Tag>
-                  } else {
-                    return <></>
-                  }
+                props.tag.slice(0, 4).map((tag, index) => {
+                  return <Tag key={index}><span>{tag}</span></Tag>
                 })
                 :
                 null

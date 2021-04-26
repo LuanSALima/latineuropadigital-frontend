@@ -520,9 +520,20 @@ export const DetailsColumn = styled.div`
     ""
   }
 
-  @media (max-width: 1000px) {
+  @media (max-width: 1225px) {
     width: 100%;
     float: none;
+    
+    >p{
+      margin-left:0 !important;
+      text-align:center;
+      width:100%;
+    }
+    >span{
+      margin-left:0 !important;
+      text-align:center;
+      width:100%;
+    }
 
     ${(props) => 
       props.align === 'end' ?
@@ -535,7 +546,7 @@ export const DetailsColumn = styled.div`
 
 export const DetailsItem = styled.div`
   display: flex;
-  width:95%;
+  width:100%;
   p {
     align-items:center !important;
     font-size: 20px;
@@ -547,6 +558,19 @@ export const DetailsItem = styled.div`
     font-size: 18px;
     margin-inline-start:auto;
     margin-right:1rem;
+  }
+  @media(max-width:1225px){
+    padding:1rem;
+  flex-direction:column;
+
+    >p{
+      margin-left:0 !important;
+      width:100%;
+    }
+    >span{
+      margin-left:0 !important;
+      width:100%;
+    }
   }
 
 `;

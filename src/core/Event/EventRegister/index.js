@@ -189,6 +189,7 @@ function EventRegister() {
                 setEventTicketPrice(e.target.value);
               }}
               value={eventTicketPrice}
+              placeholder={"e.g. Free or $25.00"}
             />
           </FormGroup>
         </FormColumn>
@@ -249,7 +250,6 @@ function EventRegister() {
                 setEventDescription(e.target.value);
               }}
               value={eventDescription}
-              placeholder={"e.g. Free or $25.00"}
             />
             <CharLimit>
               <span>215 characters limit. {eventDescription.length < 215 ? 215-eventDescription.length+" characters left": "Limit characters reached"} </span>

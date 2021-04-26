@@ -33,7 +33,7 @@ async function getTag() {
     if(getToken()){
       await api.get("/auth/check");
     }else{
-      console.log("no token provided");
+      //console.log("no token provided");
       return;
     }
   } catch (error) {
