@@ -34,17 +34,18 @@
 }
 
 .headerLinks {
-  height: 86px !important;
+  min-height: 86px !important;
   padding: 0rem 0.5rem !important;
   display: flex;
+  flex-direction: column;
   text-align: center;
-  align-items: center;
   justify-content: center;
   cursor: pointer;
   position: sticky;
   top: 0;
   transition: background-color 0.2s ease-in-out;
   border-radius: 0.3rem;
+  line-height: 30px;
 }
 
 .headerLinks a[role="button"] {
@@ -54,11 +55,11 @@
   background-color: var(--color-freela-hover);
 }
 .headerSuperLink {
-  height: 86px !important;
+  min-height: 86px !important;
   padding: 0rem 0.5rem !important;
   display: flex;
+  flex-direction: column;
   text-align: center;
-  align-items: center;
   background-color: var(--color-freela-pink);
   justify-content: center;
   cursor: pointer;
@@ -67,6 +68,7 @@
   color: white !important;
   transition: background-color 0.2s ease-in-out;
   border-radius: 0.2rem;
+  line-height: 30px;
 }
 .headerSuperLink span,
 a[role="button"] {
@@ -80,7 +82,6 @@ a[role="button"] {
     height: auto;
   }
   .headerLinks {
-    height: 60px !important;
     padding: 0.5rem !important;
   }
   .headerTitle img {
