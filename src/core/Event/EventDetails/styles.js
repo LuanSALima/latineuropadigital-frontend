@@ -14,13 +14,18 @@ import styled from "styled-components";
     //label is the title
     >label{
         font-size: 3.5rem;
-    line-height: 4rem;
-    letter-spacing: -0.15625rem;
+        line-height: 4rem;
+        letter-spacing: -0.15625rem;
         width:100%;
         margin:0 auto;
         padding:1rem;
         overflow-wrap:break-word;
+        @media(max-width:1000px){
+            font-size:2.23rem !important;
+        }
     }
+
+
     //subtitle / content title of the item
     >h4{
     font-size: 1.25rem;

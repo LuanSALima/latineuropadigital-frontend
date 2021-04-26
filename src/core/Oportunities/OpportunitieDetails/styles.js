@@ -20,6 +20,10 @@ export const Content = styled.main`
         margin:0 auto;
         padding:1rem;
         overflow-wrap:break-word;
+        @media(max-width:1000px){
+            font-size:2.23rem !important;
+        }
+
     }
     //subtitle / content title of the item
     >h4{
