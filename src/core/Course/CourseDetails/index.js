@@ -129,8 +129,8 @@ function CourseDetails(props) {
             <hr></hr>
 
             {course.content?
-              course.content.split('\n').map((content) => {
-                return <p>{content} <br/></p>
+              course.content.split('\n').map((content, index) => {
+                return <p key={index}>{content} <br/></p>
               })
               :
               <></>

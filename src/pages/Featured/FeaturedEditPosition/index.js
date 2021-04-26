@@ -20,7 +20,7 @@ function FeaturedEditPosition() {
 	const [validPositions, setValidPositions] = useState([]);
 	const [postType, setPostType] = useState('all');
 
-	async function listFeatureds() {
+	async function listFeatureds(postType) {
 		try {
 			
 			let request = "/featured/list";
@@ -45,7 +45,7 @@ function FeaturedEditPosition() {
 	}
 
 	useEffect(() => {
-		listFeatureds();
+		listFeatureds(postType);
 	}, [postType]);
 
 	useEffect(() => {
@@ -63,7 +63,7 @@ function FeaturedEditPosition() {
 
 	const refreshFeatureds = () => {
 		setFeatureds([]);
-		listFeatureds();
+		listFeatureds(postType);
 	}
 
 	return (
